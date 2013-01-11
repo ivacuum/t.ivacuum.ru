@@ -1,0 +1,3664 @@
+<style type="text/css">
+td.rel-inputs { padding-left: 6px; }
+.rel-el      { margin: 2px 6px 2px 0; }
+.rel-title   { font-weight: bold; }
+.rel-input   { }
+.rel-free-el { font-size: 11px; line-height: 12px; }
+
+textarea.rel-input { width: 98%; }
+#rel-create textarea, #tpl-row-src { font-size: 13px; font-family: "Lucida Console","Courier New",Courier,monospace; }
+
+.tpl-err-hl-input { border: 1px solid #8C0000; background: #FFF9F2; }
+.tpl-err-hl-tr    { background: #FFEAD5; }
+.tpl-err-hint     { color: #8C0000; margin-right: 6px; }
+.tpl-adm-block    { padding: 6px 20px; margin: 8px 0; border: 4px ridge #808080; }
+.tpl-adm-block div.label { padding: 2px 0; }
+.attr-list    { color: #0000BB; }
+.tpl-help-msg { padding: 8px; border: 2px solid #A5AFB4; background: #DEE3E7; font-size: 11px; }
+.hlp-1        { color: blue; }
+.hlp-2        { color: red; }
+
+#rel-preview .rel-input { background: #DEE3E7; border: 1px solid #9BA8AE; }
+#rel-preview td { padding: 5px 10px 6px; }
+#tpl-row-src    { border: 1px dashed #CFD6D8; background: #F8F8F8; color: #0000D5; font-size: 14px; }
+
+#row-preview-win { height: 45px; overflow: auto; }
+#tpl-row-preview textarea.rel-input { height: 20px; border: 2px inset; }
+.hid-el > * { color: red !important; border-color: red !important; }
+</style>
+
+<script type="text/javascript">
+
+$(function(){
+	// инициализация значений #tpl-src
+	$('#tpl-src-form').val( $('#tpl-src-form-val').val() );
+	$('#tpl-src-title').val( $('#tpl-src-title-val').val() );
+	$('#tpl-src-msg').val( $('#tpl-src-msg-val').val() );
+	$('#tpl-src-sel').val( $('#tpl-src-sel-val').val() );
+});
+
+var TPL = {
+	match_rows: function(s) {
+		return $.trim(s).split(/\->/g) || [];
+	},
+	match_cols: function(s) {
+		return $.trim(s).match(/<\-\s*(\w+|\{.+?\})([\s\S]+)/) || [];
+	},
+	match_els: function(s) {
+		var re = /`(\S[^`]+)\[/g;
+		while (s.match(re))
+		{
+			s = s.replace(re, '`$1&#91;');
+		}
+		s = s.replace(/(\w+\[.+?\])/g, '`$1`');
+		return $.trim(s).match(/`([\s\S]+?)`/g) || [];
+	},
+	match_el_attrs: function(s) {
+		return s.match(/(\w+|\{.+\})\[(.+)\]/) || [];
+	},
+	trim_brackets: function(s) {
+		return $.trim( s.substring(1, s.length-1) ) || '';
+	},
+
+	rows: {},
+	el_titles: {},
+
+	build_tpl_form: function(str, res_id)
+	{
+		$('#'+res_id+' tr').remove();
+		TPL.rows = {};
+		TPL.el_titles = {};
+		TPL.parse_sel_from_src( $('#tpl-src-sel').val() );
+
+		$.each(TPL.match_rows(str), function(i,row){
+			if (row == null || row == '') return true; // continue
+			TPL.rows[i] = $.trim(row);
+		});
+		$.each(TPL.rows, function(i,row){
+			var mr = TPL.match_cols(row);
+			if (mr[2] == null) return true; // continue
+			var title_id = mr[1];    // id элемента для подстановки его названия или {произвольное название}
+			var input_els = mr[2];
+			var row_title = (TPL.el_attr[title_id] != null) ? TPL.el_attr[title_id][1] : TPL.trim_brackets(title_id);
+			var $tr = $('<tr><td class="rel-title">'+ row_title +':</td><td class="rel-inputs"></td></tr>');
+			var $td = $('td.rel-inputs', $tr);
+
+			$.each(TPL.match_els(input_els), function(j,el){
+				if (!(el = TPL.trim_brackets(el))) return true; // continue
+				var el_html = '';
+				var me = TPL.match_el_attrs(el);
+				// вставка шаблонного элемента типа TYPE[attr]
+				if (me[2] != null) {
+					var at = me[2].split(',');
+					var nm = at[0];
+
+					switch (me[1])
+					{
+					case 'E':
+						if ( $('#'+ nm +'-hid').length ) {
+							if (res_id == 'tpl-row-preview') {
+								el_html = '<span class="rel-el hid-el">'+ $('#'+ nm +'-hid').html() +'</span>'; // скрытый элемент
+							}
+						}
+						else {
+							el_html = '<span class="rel-el">'+ $('#'+ nm).html() +'</span>';
+						}
+						break;
+					case 'T':
+						el_html = '<span class="rel-el rel-title">'+ TPL.el_attr[nm][1] +'</span>';
+						break;
+					case 'INP':
+						var id = TPL.build_el_id_title(nm);
+						var def = (TPL.el_attr[id] != null) ? TPL.el_attr[id][2].split(',') : [200,80];
+						var mlem = at[1] || def[0];
+						var size = at[2] || def[1];
+						el_html = '<input class="rel-el rel-input" type="text" id="'+ id +'" maxlength="'+ mlem +'" size="'+ size +'" />';
+						break;
+					case 'TXT':
+						var id = TPL.build_el_id_title(nm);
+						var def = (TPL.el_attr[id] != null) ? TPL.el_attr[id][2].split(',') : [3];
+						var rows = at[1] || def[0];
+						var cols = 100;
+						el_html = '<textarea class="rel-el rel-input" id="'+ id +'" rows="'+ rows +'" cols="'+ cols +'" />';
+						break;
+					case 'SEL':
+						var id = TPL.build_el_id_title(nm);
+						el_html = TPL.build_select_el(nm);
+						break;
+					}
+				}
+				// вставка нешаблонного элемента
+				else {
+					if (el == 'BR') {
+						el_html = '<br />';
+					}
+					else {
+						el_html = '<span class="rel-el rel-free-el">'+ escHTML(el) +'</span>';
+					}
+				}
+				// добавление элемента в td.rel-inputs
+				if (el_html != '') {
+					$td.append(el_html);
+				}
+			});
+			// добавление tr в форму
+			$('#'+res_id).append($tr);
+		});
+
+		TPL.build_msg_src();
+		$('#rel-form').show();
+
+		$('select.rel-input').bind('change', function(){
+			var $sel = $(this);
+			if ( $sel.val().toLowerCase().match(/^друг(ой|ая|ое|ие)$/) ) {
+				var $input = $('<input class="rel-el rel-input" type="text" id="'+ $sel.attr('id') +'" style="width: '+ $sel.width() +'px;" />');
+				$sel.after($input);
+				$sel.remove();
+				$input.focus();
+			}
+		});
+	},
+
+	build_el_id_title: function(nm) {
+		if (TPL.el_attr[nm] != null) {
+			var id = nm;
+			TPL.el_titles[id] = TPL.el_attr[id][1];
+		}
+		else {
+			var id = $P.md5(nm);
+			TPL.el_titles[id] = TPL.trim_brackets(nm);
+		}
+		return id;
+	},
+	get_el_id: function(el) {
+		return (TPL.el_attr[el] != null || TPL.el_id[el] != null) ? el : $P.md5(el);
+	},
+
+	build_select_el: function(name) {
+		var sel_id = TPL.get_el_id(name);
+		if (TPL.selects[sel_id] == null) return '';
+		var s = '<select class="rel-el rel-input" id="'+sel_id+'">';
+		var q = /"/g;  //"
+		$.each(TPL.selects[sel_id], function(i,v){
+			s += '<option value="'+(i==0 ? '' : v.replace(q, '&quot;'))+'">'+(v=='' ? '&raquo; Выбрать' : v)+'</option>';
+		});
+		s += '</select>';
+		return s;
+	},
+
+	// возвращает все элементы формата el[atr1,atr2] в виде
+	// { el: 'el[attr]' }  для parse_attr == false
+	// { el: [atr1,atr2] } для parse_attr == true
+	get_msg_els: function(str, parse_attr) {
+		var res = {};
+		$.each(str.split('\n'), function(i,v){
+			if (!(v = $.trim(v))) return true; // continue
+			var m = v.match(/^(\w+|\{.+\})\[(.*)\]$/);
+			if (m == null) return true; // continue
+			if (parse_attr) {
+				res[ m[1] ] = m[2].split(',');
+			}
+			else {
+				res[ m[1] ] = m[0];
+			}
+		});
+		return res;
+	},
+
+	sel_ids: [],
+	parse_sel_from_src: function(str) {
+		$.each(TPL.sel_ids, function(i,id){
+			TPL.selects[id] = null;   // удаление ранее созданых селектов
+			TPL.el_titles[id] = null;
+		});
+		TPL.sel_ids = [];
+
+		$.each(str.split('\n'), function(i,v){
+			if (!(v = $.trim(v))) return true; // continue
+			var m = v.match(/^(\{.+\})\s*\[(.+)\]$/);
+			if (m == null) return true; // continue
+			var id   = $P.md5(m[1]);
+			var name = TPL.trim_brackets(m[1]);
+			var vals = m[2].split(',');
+			TPL.sel_ids.push(id);
+			TPL.selects[id] = ['&raquo; '+ name].concat(vals);
+			TPL.el_titles[id] = name;
+		});
+	},
+
+	// создает-обновляет скрипт создания сообщения (#tpl-src-msg)
+	build_msg_src: function() {
+		var r_old = TPL.get_msg_els( $('#tpl-src-msg').val(), false );   // старые правила для создания сообщения
+		var r_gen = [];                                                  // новые, сгенерированные из всех доступных в форме
+		var r_new = [];                                                  // новые, с учетом изменений в форме
+		// получение всех инпутов из формы
+		var m;
+		var t = $('#tpl-src-form').val();
+		var r = /(?:INP|TXT|SEL)(?:\[)(\w+|\{.+?\})/g;
+		while((m = r.exec(t)) != null) {
+			r_gen.push(m[1]);
+		}
+		// создание нового (старые значения сохраняются без именений, новые добавляются, отсутствующие в форме удаляются)
+		$.each(r_gen, function(i,v){
+			if (r_old[v] != null) {
+				r_new.push( r_old[v] );
+			}
+			else {
+				var def_attr = (TPL.el_attr[v] != null) ? TPL.el_attr[v][3] : '';
+				r_new.push( v +'['+ def_attr +']' );
+			}
+		});
+		var new_txt = r_new.join('\n');
+		$('#tpl-src-msg').val(new_txt);
+	},
+
+	// количество найденных ошибок при заполнении формы
+	f_errors_cnt: 0,
+	// удаление подсветки ошибок, сброс счетчика
+	reset_f_errors: function() {
+		TPL.f_errors_cnt = 0;
+		$('tr.tpl-err-hl-tr').removeClass('tpl-err-hl-tr');
+		$('.tpl-err-hl-input').removeClass('tpl-err-hl-input');
+		$('div.tpl-err-hint').remove();
+	},
+	// подсветка ошибок
+	hl_form_err: function(el, hint_id) {
+		if (TPL.el_attr[el] != null) {
+			var el_id = el;
+			var el_title = TPL.el_attr[el][1];
+		}
+		else {
+			var el_id = $P.md5(el);
+			var el_title = TPL.el_titles[el_id];
+		}
+		var hint = TPL.err_msg[hint_id].replace(/%s/, el_title);
+		$('#'+el_id)
+			.addClass('tpl-err-hl-input')
+			.parent('td').append('<div class="tpl-err-hint">'+hint+'</asd>')
+			.parent('tr').addClass('tpl-err-hl-tr')
+		;
+		if (TPL.f_errors_cnt == 0) $('#'+el_id).focus();
+		TPL.f_errors_cnt++;
+	},
+	// сообщения об ошибках при валидации заполнения формы
+	err_msg: {
+		empty_INP : 'Вы должны заполнить поле <b>%s</b>',
+		empty_TXT : 'Вы должны заполнить поле <b>%s</b>',
+		empty_SEL : 'Вы должны выбрать <b>%s</b>',
+		not_num   : '<b>%s</b> - должно быть число',
+		not_url   : '<b>%s</b> - должна быть http:// ссылка',
+		not_img   : '<b>%s</b> - должна быть http:// ссылка на картинку'
+	},
+
+	msg_attr: {
+		HEAD     : 'поместить в заголовок',
+		POSTER   : 'постер',
+		req      : 'требует заполнения',
+		spoiler  : 'спойлер',
+		BR       : 'новая строка',
+		br2      : 'новая строка после названия',
+		num      : 'число',
+		URL      : 'ссылка',
+		img      : 'картинка',
+		pre      : 'pre',
+		inline   : 'на той же строке',
+		headonly : 'только в заголовке',
+		brackets : 'в скобках без описания',
+		flag     : 'флаг'
+	},
+	reg: {
+		num     : /^\d+$/,
+		URL     : /^https?:\/\/[\w\#$%&~/.\-;:=?@\[\]+]+$/i,
+		img     : /^https?:\/\/[^\s\?&;:=\#\"<>]+\.(jpg|jpeg|gif|png)$/i,
+		img_tag : /(https?:\/\/[^\s\?&;:=\#\"<>]+\.(jpg|jpeg|gif|png)(?!\[|\.))/ig
+	},
+
+	// построение сообщения на основе данных из формы
+	build_msg_all: function(msg_res_id, title_res_id) {
+		$.each(TPL.submit_fn, function(el,fn){
+			fn();
+		});
+		$('#tpl-row-preview tr').remove();
+
+		TPL.reset_f_errors();
+		var msg_header = [];
+		var msg_poster = '';
+		var msg_body = []
+		var msg_els = TPL.get_msg_els( $('#tpl-src-msg').val(), true );
+
+		$.each(msg_els, function(el,at){
+			var el_id = TPL.get_el_id(el);
+			var el_val = $('#'+el_id).val() || '';
+
+			// требуемые поля
+			if (el_val == '') {
+				if ($.inArray('req', at) != -1) {
+					var el_type = (TPL.el_attr[el] != null) ? TPL.el_attr[el][0] : 'INP';
+					TPL.hl_form_err(el, 'empty_'+ el_type);
+				}
+				return true; // continue
+			}
+
+			// валидация значений
+			if ($.inArray('num', at) != -1 && !TPL.reg['num'].test(el_val)) {
+				TPL.hl_form_err(el, 'not_num');
+				return true; // continue
+			}
+			if ($.inArray('URL', at) != -1 && !TPL.reg['URL'].test(el_val)) {
+				TPL.hl_form_err(el, 'not_url');
+				return true; // continue
+			}
+			if ($.inArray('img', at) != -1 && !TPL.reg['img'].test(el_val)) {
+				TPL.hl_form_err(el, 'not_img');
+				return true; // continue
+			}
+
+			// post-submit обработка значений
+			el_val = TPL.normalize_val(el, el_val);
+
+			// заголовок
+			if ($.inArray('HEAD', at) != -1) {
+				msg_header.push( el_val );
+				return true; // continue
+			}
+			// постер
+			if ($.inArray('POSTER', at) != -1) {
+				msg_poster = el_val;
+				return true; // continue
+			}
+
+			// новая строка после названия
+			if ($.inArray('br2', at) != -1) {
+				el_val = '\n'+ el_val;
+			}
+			// спойлер
+			if ($.inArray('spoiler', at) != -1) {
+				msg_body.push( TPL.build_spoiler(el_id, el_val) );
+				return true; // continue
+			}
+			// pre
+			if ($.inArray('pre', at) != -1) {
+				msg_body.push( TPL.build_pre(el_id, el_val) );
+				return true; // continue
+			}
+			// inline
+			if ($.inArray('inline', at) != -1) {
+				msg_body.push( TPL.build_inline(el_id, el_val) );
+				return true; // continue
+			}
+			// brackets
+			if ($.inArray('brackets', at) != -1) {
+				msg_body.push( TPL.build_brackets(el_id, el_val) );
+				return true; // continue
+			}
+			if ($.inArray('flag', at) != -1) {
+				msg_body.push( TPL.build_flag(el_id, el_val, true) );
+				return true; // continue
+			}
+			if ($.inArray('inlineflag', at) != -1 ) {
+				msg_body.push( TPL.build_flag(el_id, el_val, false) );
+				return true; // continue
+			}
+			// только в заголовке
+			if ($.inArray('headonly', at) != -1) {
+				return true; // continue
+			}
+			// обычный элемент
+			msg_body.push( TPL.build_msg_el(el_id, el_val) );
+
+			// новая строка после элемента
+			if ($.inArray('BR', at) != -1) {
+				msg_body.push('\n');
+			}
+		});
+		if (TPL.f_errors_cnt) {
+			return false;
+		}
+		msg_header = TPL.build_msg_header(msg_header);
+		msg_poster = TPL.build_msg_poster(msg_poster);
+		msg_body = msg_body.join('');
+		// теги для картинок
+		msg_body = msg_body.replace(TPL.reg['img_tag'], '[img]$1[/img]');
+		$('#'+msg_res_id).val( msg_header + msg_poster + msg_body );
+
+		TPL.build_title(title_res_id);
+
+		return true;
+	},
+
+	normalize_val: function(el, val) {
+		switch (el) {
+			// 2000 г.
+			case 'year':
+				val += ' г.';
+				break;
+
+			// "Имя / Name /" -> "Имя / Name"
+			case 'director':
+			case 'studio':
+				val = val.replace(/[\s\/]+$/, '');
+				break;
+		}
+		return val;
+	},
+
+	build_msg_header: function(a) {
+		return '[size=24]'+ a.join(' / ') +'[/size]\n';
+	},
+	build_msg_poster: function(s) {
+		return TPL.reg['img'].test(s) ? '\n[img=right]'+ s +'[/img]\n' : s;
+	},
+	build_spoiler: function(el_id, el_val) {
+		return '\n[spoiler="'+ TPL.el_titles[el_id] +'"]\n'+ el_val +'\n[/spoiler]\n';
+	},
+	build_pre: function(el_id, el_val) {
+		return '\n[spoiler="'+ TPL.el_titles[el_id] +'"][pre]\n'+ el_val +'\n[/pre][/spoiler]\n';
+	},
+	build_inline: function(el_id, el_val) {
+		return ' '+ TPL.el_titles[el_id] +' '+ el_val;
+	},
+	build_brackets: function(el_id, el_val) {
+		return ' ('+ el_val +')';
+	},
+	build_flag: function(el_id, el_val, title) {
+		var flag;
+		switch( el_val ) {
+			case 'Английский':
+				flag = 'gb';
+			break;
+			case 'Японский':
+				flag = 'jp';
+			break;
+			case 'Русский (внешним файлом)':
+			case 'Русский (в составе контейнера)':
+				flag = 'ru';
+			break;
+		}
+
+		if( flag.length == 2 ) {
+			return (title == true) ? '\n[b]'+ TPL.el_titles[el_id] +'[/b]: [img]http://static.ivacuum.ru/i/flags/24/'+ flag +'.png[/img]' : ' [img]http://static.ivacuum.ru/i/flags/24/'+ flag +'.png[/img]';
+		} else {
+			return (title == true) ? '\n[b]'+ TPL.el_titles[el_id] +'[/b]: '+ el_val : ' '+ TPL.el_titles[el_id] +' '+ el_val;
+		}
+	},
+	build_msg_el: function(el_id, el_val) {
+		return '\n[b]'+ TPL.el_titles[el_id] +'[/b]: '+ el_val;
+	},
+
+	build_title: function(res_id) {
+		var title = [];
+		var trim_after_chars = {};
+		var trim_before_chars = {};
+		var g;                                                   // группа элементов <-el1 el2->[,]
+		var t = $('#tpl-src-title').val().replace(/\n/g, ' ');   // формат
+		var r = /<-([^>]+)->(\S*)/g;
+		while((g = r.exec(t)) != null) {
+			var g_els = g[1].match(/(\w+|\{.+?\})/g);
+			if (g_els == null) return true; // continue
+
+			var g_start_char = ' ';
+			var g_delim_char = ' ';
+			var g_end_char   = ' ';
+
+			if (g[2].length == 1) {
+				g_delim_char = ' '+ g[2];
+			}
+			else if (g[2].length == 3) {
+				g_start_char = g[2].charAt(0);
+				trim_after_chars[ g_start_char ] = true;
+
+				g_delim_char = g[2].charAt(1);
+
+				g_end_char = g[2].charAt(2);
+				trim_before_chars[ g_end_char ] = true;
+			}
+
+			var g_vals = [];
+			$.each(g_els, function(i,el){
+				var el_id = TPL.get_el_id(el);
+				var v = $('#'+el_id).val();
+				if (v == undefined || $.trim(v) == '') return true; // continue
+				v = TPL.normalize_val(el_id, v);
+				g_vals.push(' '+ v +' ');
+			});
+			if (g_vals.length != 0) {
+				title.push(' '+ g_start_char +' ');
+				title.push( g_vals.join(' '+g_delim_char+' ') );
+				title.push(' '+ g_end_char);
+			}
+		}
+		var t = $.trim( title.join('').replace(/\s+,/g, ',').replace(/\s+/g, ' ') );
+		$.each(trim_before_chars, function(ch,v){
+			var r = new RegExp( '\\s*'+ preg_quote(ch), 'g' );
+			t = t.replace(r, ch);
+		});
+		$.each(trim_after_chars, function(ch,v){
+			var r = new RegExp( preg_quote(ch) +'\\s*', 'g' );
+			t = t.replace(r, ch);
+		});
+
+		$('#'+res_id).val( t );
+	},
+
+	submit_fn : {}
+};
+
+
+/*
+  -------------------------------------------------------------------------------------------------
+  -- el_attr --------------------------------------------------------------------------------------
+  -------------------------------------------------------------------------------------------------
+*/
+TPL.el_attr = {
+  /*
+    код_элемента = ID элемента в форме
+    все элементы имеют class "rel-input"
+    формат el_attr
+      код_элемента: [
+        [0] - тип
+        [1] - название
+        [2] - атрибуты элемента типа size,rows.. по умолчанию (в том же порядке как и опциональные для элемента)
+        [3] - атрибуты типа HEAD,req.. по умолчанию для формата сообщения
+      ]
+    формат элементов в #tpl-src-form (включая все опциональные атрибуты типа maxlength..)
+      INP - input[name,maxlength,size]
+      TXT - textarea[name,rows]
+      SEL - select[name]               -- значения для селектов находятся в TPL.selects
+  */
+
+ 
+  poster_size     : [ 'INP',  'максимальный 500х500 пикселей',   '200,80',  ''           ],
+  audio_codec     : [ 'SEL',  'Аудио кодек',                 '',        ''           ],
+  audio           : [ 'INP',  'Аудио',                       '200,80',  ''           ],
+  audio_bitrate   : [ 'SEL',  'Битрейт аудио',               '',        ''           ],
+  casting         : [ 'TXT',  'В ролях',                     '3',       'BR'         ],
+  game_version    : [ 'SEL',  'Версия игры',                 '',        ''           ],
+  video_codec     : [ 'SEL',  'Видео кодек',                 '',        ''           ],
+  video           : [ 'INP',  'Видео',                       '200,80',  ''           ],
+  game_age        : [ 'SEL',  'Возраст',                     '',        ''           ],
+  year            : [ 'INP',  'Год выпуска',                 '4,5',     'num'        ],
+  moreinfo        : [ 'TXT',  'Доп. информация',             '3',       'BR'         ],
+  genre           : [ 'INP',  'Жанр',                        '200,40',  ''           ],
+  video_quality   : [ 'SEL',  'Качество видео',              '',        ''           ],
+  video_quality_new  : [ 'SEL',  'Качество видео',              '',        ''           ],
+  book_quality    : [ 'SEL',  'Качество',              '',        ''           ],
+  game_multiplay  : [ 'SEL',  'Мультиплейер игры',           '',        ''           ],
+  title_rus       : [ 'INP',  'Название',                    '90,80',   'HEAD,req'   ],
+  description     : [ 'TXT',  'Описание',                    '6',       'BR'         ],
+  title_eng       : [ 'INP',  'Оригинальное название',       '90,80',   'HEAD'       ],
+  translation     : [ 'SEL',  'Перевод',                     '',        ''           ],
+  translation2    : [ 'SEL',  'Перевод (2)',                 '',        ''           ],
+  translation3    : [ 'SEL',  'Перевод (3)',                 '',        ''           ],
+  translation4    : [ 'SEL',  'Перевод (4)',                 '',        ''           ],
+  mac_os_platform : [ 'SEL',  'Платформа Mac OS',            '',        ''           ],
+
+  game_plat_wii   : [ 'SEL',  'Платформа Wii',               '',        ''           ],
+ 
+  game_platform   : [ 'SEL',  'Платформа игры',              '',        ''           ],
+  poster          : [ 'INP',  'Постер',                      '200,80',  'img,POSTER' ],
+ 
+  playtime        : [ 'INP',  'Продолжительность',           '200,30',  ''           ],
+  game_firmware   : [ 'SEL',  'Прошивка',                    '',        ''           ],
+  game_region     : [ 'SEL',  'Регион игры',                 '',        ''           ],
+  game_region_def : [ 'SEL',  'Регион игры',                 '',        ''           ],
+  director        : [ 'INP',  'Режиссер',                    '200,50',  ''           ],
+  rus_sub         : [ 'SEL',  'Русские субтитры',            '',        ''           ],
+  sub_all         : [ 'SEL',  'Cубтитры',                  '',        ''           ],
+  sub_all_new     : [ 'SEL',  'Cубтитры',                  '',        ''           ],
+  screenshots     : [ 'TXT',  'Скриншоты',                   '3',       'spoiler'    ],
+  screenshots_about     : [ 'TXT',  'Скриншоты окна About',                   '3',       'spoiler'    ],
+  vista_compat    : [ 'SEL',  'Совместимость с Vista',       '',        ''           ],
+  vista_compat_new    : [ 'SEL',  'Совместимость с Vista',       '',        ''           ],
+  windows7_compat    : [ 'SEL',  'Совместимость с Windows 7',       '',        ''           ],
+  country         : [ 'INP',  'Страна',                      '200,50',  ''           ],
+  studio          : [ 'INP',  'Студия',                      '200,50',  ''           ],
+  crack_exists    : [ 'SEL',  'Таблэтка',                    '',        ''           ],
+  
+  //в аудиокнигах, огрызке
+  abook_type      : [ 'SEL',  'Тип аудиокниги',              '',        ''           ],
+  
+  publishing_type : [ 'SEL',  'Тип издания',                 '',        ''           ],
+
+  game_trans_type : [ 'SEL',  'Тип перевода игры',           '',        ''           ],
+  audio_rip_type  : [ 'SEL',  'Тип рипа',                    '',        ''           ],
+  video_format    : [ 'SEL',  'Формат видео',                '',        ''           ],
+  video_format_new    : [ 'SEL',  'Формат видео',                '',        ''           ],
+  book_format     : [ 'SEL',  'Формат',                '',        ''           ],
+  game_lang_psp       : [ 'SEL',  'Язык интерфейса игры',        '',        ''           ],
+  gui_lang        : [ 'SEL',  'Язык интерфейса',             '',        ''           ],
+  book_lang       : [ 'SEL',  'Язык',                  '',        ''           ],
+  maps_lang       : [ 'SEL',  'Язык интерфейса',             '',        ''           ],
+  gui_lang_new    : [ 'SEL',  'Язык интерфейса',             '',        ''           ],
+  tabletka_new    : [ 'SEL',  'Таблэтка',                    '',        ''           ],
+
+  cpu_bits   : [ 'SEL',  'Разрядность',               '',        ''           ],
+  prog_build      : [ 'INP',  'Билд',                    '20,30',  ''           ],
+  maps_format   : [ 'SEL',  'Формат ',         '',        ''           ],
+  atlas_type   : [ 'SEL',  'Тип атласа ',         '',        ''           ],
+  lang_book_avto   : [ 'SEL',  'Язык авто-книги ',         '',        ''           ],
+  lang_book_med   : [ 'SEL',  'Язык мед-книги ',         '',        ''           ],
+  product_milestone: [ 'SEL',  'Стадия разработки ',         '',        ''           ],
+  
+  //авто мультимедийки
+  avto_mm_type: [ 'SEL',  'Тип мультимедиа ',         '',        ''           ],
+  
+  manga_type          : [ 'SEL',  'Тип',    '',        ''           ],
+  manga_completeness  : [ 'SEL',  'Завершённость релиза',    '',        ''           ],
+  manga_completeness_with_header  : [ 'SEL',  'Завершённость релиза',    '',        ''           ],
+  sub_format : [ 'SEL',  'Формат субтитров',                      '',        ''           ],
+  orig_audio : [ 'SEL',  'Оригинальная аудиодорожка',                      '',        ''           ],
+  flang_lang       : [ 'SEL',  'Язык книги',                  '',        ''           ],
+  anime_release_type   : [ 'SEL',  'Хардсаб',                  '',        ''           ],
+  
+  //для dorama и Live-action
+  transl_dorama      : [ 'SEL',  'Перевод',                    '',           ''           ],
+  sub_dorama      : [ 'SEL',  'Неотключаемые субтитры',                    '',           ''           ],
+  lang_dorama : [ 'SEL',  'Язык',                    '',           ''           ],
+  lang_dorama_2 : [ 'SEL',  'Язык',                    '',           ''           ],
+  video_codec_2 : [ 'SEL',  'Видео кодек',                    '',           ''           ],
+  audio_codec_2 : [ 'SEL',  'Аудио кодек',                    '',           ''           ],
+  video_format_dorama:  [ 'SEL',  'Формат',                '',        ''           ],
+  
+  game_type_edition : [ 'SEL',  'Тип издания',                    '',           ''           ],
+  game_lang: [ 'SEL',  'Язык интерфейса',                    '',           ''           ],
+  game_lang_sound: [ 'SEL',  'Язык озвучки',                    '',           ''           ],
+  game_tabletka    : [ 'SEL',  'Таблэтка',                    '',        ''           ],
+  lang_psp: [ 'SEL',  'Язык интерфейса',                    '',           ''           ],
+  lang_sound_psp: [ 'SEL',  'Язык озвучки',                    '',           ''           ],
+  sub_psp: [ 'SEL',  'Cубтитры',                  '',        ''           ],
+  funct_psp: [ 'SEL',  'Работоспособность проверена',                  '',        ''           ],
+  multiplayer_psp: [ 'SEL',  'Мультиплеер',                  '',        ''           ],
+  popsloader_psp: [ 'SEL',  'Необходимый POP"s',                  '',        ''           ],
+  lang_mob: [ 'SEL',  'Язык интерфейса',                    '',           ''           ],
+  format_clipart: [ 'SEL',  'Формат изображений',                      '',        ''           ],
+  format_photostocks: [ 'SEL',  'Формат изображений',                      '',        ''           ],
+  format_photo: [ 'SEL',  'Формат изображений',                      '',        ''           ],
+  suit_type: [ 'SEL',  'Тип костюмов',                      '',        ''           ],
+  format_vector_clipart: [ 'SEL',  'Формат изображений',                      '',        ''           ],
+  format_3d_model: [ 'SEL',  'Формат моделей',                      '',        ''           ],
+  format_3d: [ 'SEL',  'Формат файлов',                      '',        ''           ],
+  material:[ 'SEL',  'Материалы',                      '',        ''           ],
+  texture:[ 'SEL',  'Текстуры',                      '',        ''           ],
+  light_source:[ 'SEL',  'Источники света',                      '',        ''           ],
+  folder_pdf:[ 'SEL',  'Каталог PDF',                      '',        ''           ],
+  video_footage:[ 'SEL',  'Видеоформат',                      '',        ''           ],
+  frame_rate:[ 'SEL',  'Частота кадров FPS',                      '',        ''           ],
+  def_footage:[ 'SEL',  'Разрешение',                      '',        ''           ],
+  video_format_footage:[ 'SEL',  'Формат видеофайла',                      '',        ''           ],
+  lang_anime:[ 'SEL',  'Язык',                      '',        ''           ],
+  lang_anime_2:[ 'SEL',  'Язык',                      '',        ''           ],
+  lang_anime_3:[ 'SEL',  'Язык',                      '',        ''           ],
+  disk_number_psn:[ 'SEL',  'Количество дисков',                      '',        ''           ],
+  change_disk_psn:[ 'SEL',  'Переход с диска на диск во время игры',                      '',        ''           ],
+  age_psn:[ 'SEL',  'Возрастной рейтинг PEGI',                      '',        ''           ],
+  genre_game_dvd:[ 'SEL',  'Жанр',                      '',        ''           ],
+  region_game_dvd:[ 'SEL',  'Регион',                      '',        ''           ],
+  platform_game_dvd:[ 'SEL',  'Платформа',                      '',        ''           ],
+  lang_game_dvd:[ 'SEL',  'Язык интерфейса',                      '',        ''           ],
+  
+  tabletka_game_dvd:[ 'SEL',  'Таблэтка',                      '',        ''           ],
+  format_disk_game_dvd:[ 'SEL',  'Формат игрового диска',                      '',        ''           ],
+  format_video_game_dvd:[ 'SEL',  'Формат видео',                      '',        ''           ],
+  sub_game_video:[ 'SEL',  'Субтитры',                      '',        ''           ],
+  lang_game_video:[ 'SEL',  'Язык озвучки ',                      '',        ''           ],
+  format_game_video:[ 'SEL',  'Формат',                      '',        ''           ],
+  platform_mfs:[ 'SEL',  'Платформа',                      '',        ''           ],
+  
+  //трейлеры
+  material_trailer:[ 'SEL',  'Тип раздаваемого материала',                      '',        ''           ],
+  transl_trailer:[ 'SEL',  'Перевод',                      '',        ''           ],
+  video_quality_trailer:[ 'SEL',  'Качество',                      '',        ''           ],
+  video_format_trailer: [ 'SEL',  'Формат видео',                '',        ''           ],
+  video_codec_trailer: [ 'SEL',  'Видео кодек',                '',        ''           ],
+  audio_codec_trailer: [ 'SEL',  'Аудио кодек',                '',        ''           ],
+  
+  lang_old_game: [ 'SEL',  'Язык',                '',        ''           ],
+
+  audio_bitrate_iphone_los:  [ 'SEL',  'Битрейт',                '',        ''           ],
+  rip_prog_iphone:  [ 'SEL',  'Программа-риповщик ',                '',        ''           ],
+  rip_type_iphone:  [ 'SEL',  'Тип рипа ',                '',        ''           ],
+  codec_iphone:  [ 'SEL',  'Кодек',                '',        ''           ],
+  words_iphone:  [ 'SEL',  'Тексты',                '',        ''           ],
+  edition_type_iphone:  [ 'SEL',  'Тип издания',                '',        ''           ],
+  transl_iphone:  [ 'SEL',  'Перевод ',                '',        ''           ],
+  video_format_iphone:  [ 'SEL',  'Формат',                '',        ''           ],
+  video_codec_iphone:  [ 'SEL',  'Видео кодек',                '',        ''           ],
+  cover_iphone:  [ 'SEL',  'Вшитая обложка',                '',        ''           ],
+  tag_iphone:  [ 'SEL',  'Доп. теги (режиссёр, актёры и т.д.)',                '',        ''           ],
+  show_iphone:  [ 'SEL',  'Телешоу/видеоклип ',                '',        ''           ],
+  chapter_iphone:  [ 'SEL',  'Главы',                '',        ''           ],
+  series_iphone:  [ 'SEL',  'Серия/сезон',                '',        ''           ],
+  audio_codec_iphone:  [ 'SEL',  'аудио кодек',                '',        ''           ],
+  audio_bitrate_iphone:  [ 'SEL',  'битрейт',                '',        ''           ],
+  audio_chapters_iphone:  [ 'SEL',  'Разбитие на главы',                '',        ''           ],
+  platform_mob:  [ 'SEL',  'Платформа',                '',        ''           ],
+  
+  
+  //спорт
+  video_quality_sport:  [ 'SEL',  'Качество',                '',        ''           ],
+  
+  //Музыкальные библиотеки и Звуковые эффекты
+  audio_codec_music_lib:  [ 'SEL',  'Аудио кодек',                '',        ''           ],
+  bit_music_lib:  [ 'SEL',  'Качество',                '',        ''           ],
+  bitrate_music_lib:  [ 'SEL',  'Битрейт',                '',        ''           ],
+  rate_music_lib:  [ 'SEL',  'Частота',                '',        ''           ],
+  canales_music_lib:  [ 'SEL',  'Каналы',                '',        ''           ],
+  
+  //мульты и сериалы?
+  transl_cartoons_0:  [ 'SEL',  'Перевод',                '',        ''           ],
+  transl_cartoons_1:  [ 'SEL',  'Перевод 2',                '',        ''           ],
+  transl_cartoons_2:  [ 'SEL',  'Перевод 3',                '',        ''           ],
+  format_cartoons_dvd:  [ 'SEL',  'Формат',                '',        ''           ],
+  type_cartoons:  [ 'SEL',  'Качество',                '',        ''           ],
+  screen_cartoons:  [ 'SEL',  'Формат экрана',                '',        ''           ],
+  def_cartoons:  [ 'SEL',  'Система / Разрешение',                '',        ''           ],
+  video_quality_cartoons:  [ 'SEL',  'Качество',                '',        ''           ],
+  format_cartoons:  [ 'SEL',  'Формат',                '',        ''           ],
+  video_quality_cartoons_hd:  [ 'SEL',  'Качество',                '',        ''           ],
+  format_cartoons_hd:  [ 'SEL',  'Формат',                '',        ''           ],
+  video_quality_cart_serial:  [ 'SEL',  'Качество',                '',        ''           ],
+  format_cart_serial: [ 'SEL',  'Формат',                '',        ''           ],
+  video_codec_serials: [ 'SEL',  'Видео кодек',                '',        ''           ],
+  audio_codec_serials: [ 'SEL',  'Аудио кодек',                '',        ''           ],
+  
+  //разное - аватарки
+  type_avatar: [ 'SEL',  'Тип раздаваемого материала',                '',        ''           ],
+
+  //темы кпк
+  type_theme_kpk: [ 'SEL',  'Тип раздаваемого материала',                '',        ''           ],
+  
+  type_3d_model: [ 'SEL',  'Количество',                '',        ''           ],
+ 
+  video_quality_vlesson:  [ 'SEL',  'Качество ',                '',        ''           ],
+  format_vlesson:  [ 'SEL',  'Формат',                '',        ''           ],
+  video_codec_vlesson: [ 'SEL',  'Видео кодек',                '',        ''           ],
+  audio_codec_vlesson: [ 'SEL',  'Аудио кодек',                '',        ''           ],
+  transl_doc_film: [ 'SEL',  'Перевод',                '',        ''           ],
+  chapters_music_dvd: [ 'SEL',  'Разбивка на главы по трекам',                '',        ''           ],
+  video_quality_music_dvd:  [ 'SEL',  'Качество ',                '',        ''           ],
+  format_music_dvd:  [ 'SEL',  'Формат',                '',        ''           ],
+  video_codec_music_dvd: [ 'SEL',  'Видео кодек',                '',        ''           ],
+  audio_codec_music_dvd: [ 'SEL',  'Аудио кодек',                '',        ''           ],
+  audio_codec_mus_loss: [ 'SEL',  'Аудио кодек',                '',        ''           ],
+  rip_type_mus_loss: [ 'SEL',  'Тип рипа',                '',        ''           ],
+  scan_mus_loss: [ 'SEL',  'Наличие сканов в содержимом раздачи',                '',        ''           ],
+  source_mus_loss: [ 'SEL',  'Источник',                '',        ''           ],
+  genre_soundtrack_mus: [ 'SEL',  'Жанр',                '',        ''           ],
+  audio_codec_digit_mus: [ 'SEL',  'Аудио кодек',                '',        ''           ],
+  source_digit_mus: [ 'SEL',  'Источник оцифровки',                '',        ''           ],
+  vinyl_digit_mus: [ 'SEL',  'Код класса состояния винила',                '',        ''           ],
+  perfotmer_mus_lossy: [ 'SEL',  'Исполнитель',                '',        ''           ],
+  audio_codec_mus_lossy: [ 'SEL',  'Аудиокодек',                '',        ''           ],
+  rip_type_mus_lossy: [ 'SEL',  'Тип рипа',                '',        ''           ],
+  bitrate_mus_lossy: [ 'SEL',  'Битрейт аудио',                '',        ''           ],
+ 
+ 
+  tag_mus_lossy: [ 'SEL',  'ID3-теги',                '',        ''           ],
+  
+  //тестовые диски
+  rip_type_test: [ 'SEL',  'Тип рипа',                '',        ''           ],
+  audio_codec_test: [ 'SEL',  'Аудио кодек',                '',        ''           ],
+  video_codec_test: [ 'SEL',  'Видео кодек',                '',        ''           ], 
+  
+  //linux - ось и программы.
+  arch_linux: [ 'SEL',  'Архитектура',                '',        ''           ], 
+  channel_sound: [ 'SEL',  'Каналы',                '',        ''           ], 
+  
+  lang_game_dvd_pleer: [ 'SEL',  'Язык интерфейса',                '',        ''           ], 
+  audio_codec_film: [ 'SEL',  'Аудио кодек',                '',        ''           ], 
+  video_quality_serials: [ 'SEL',  'Качество',                '',        ''           ], 
+  video_quality_serial: [ 'SEL',  'Качество',                '',        ''           ], 
+  loss_bit: [ 'SEL',  'Битрейт аудио',                '',        ''           ],
+  type_homebrewe: [ 'SEL',  'Тип',                '',        ''           ],
+  console_type: [ 'SEL',  'Консоль',                '',        ''           ],
+  anime_type: [ 'SEL',  'Тип',                '',        ''           ],
+  hd_format: [ 'SEL',  'Дополнительная информация',                '',        ''           ],
+  sub_all_anime: [ 'SEL',  'Язык:',                      '',        ''           ],
+  sub_all_anime_2: [ 'SEL',  'Язык:',                      '',        ''           ],
+  sub_all_anime_3: [ 'SEL',  'Язык:',                      '',        ''           ],
+  transl_lat_setial: [ 'SEL',  'Перевод',                      '',        ''           ],
+  transl_lat_setial_1: [ 'SEL',  'Перевод',                      '',        ''           ],
+  transl_lat_setial_2: [ 'SEL',  'Перевод',                      '',        ''           ],
+  format_lat_serial: [ 'SEL',  'Формат',                '',        ''           ],
+  game_lang_nds: [ 'SEL',  'Язык:',                      '',        ''           ],
+  lang_comp_vlesson: [ 'SEL',  'Язык',                      '',        ''           ],
+  type_comp_vlesson: [ 'SEL',  'Тип раздаваемого материала',                      '',        ''           ],
+  source_mus_lossy: ['SEL', 'Источник',                      '',        ''           ],
+  lang_notes: ['SEL', 'Язык',                      '',        ''           ],
+  licence_old_game: ['SEL', 'Лицензия?',                      '',        ''           ],
+  lang_video_les: ['SEL', 'Язык',                      '',        ''           ],
+  type_vlesson: ['SEL', 'Тип раздаваемого материала',                      '',        ''           ],
+  type_game: ['SEL', 'Тип раздачи',                      '',        ''           ],
+  lang_other_game: ['SEL', 'Требуемый язык игры',                      '',        ''           ],
+// dummy
+  dummy : ['','']
+};
+
+/*
+  -------------------------------------------------------------------------------------------------
+  -- el_id ----------------------------------------------------------------------------------------
+  -------------------------------------------------------------------------------------------------
+*/
+TPL.el_id = {
+  // ID контейнеров содержащих html элементов
+
+  load_pic_btn    : 'Кнопка "Загрузить картинку"',
+  load_pic_faq_url    : 'Ссылка на FAQ "Как залить картинку на бесплатный хост"',
+  manga_type_faq_url  : 'Ссылка на FAQ "Подробнее о типах манги"',
+  manga_chapters_prefix : 'Префикс "главы" для заголовка',
+  test_dash : 'Статический элемент "_" для заголовка',
+  make_screenlist_faq_url : 'Как сделать скриншот / скринлист',
+  translation_rules_faq_url : 'Правила обозначения переводов',
+  make_sample_faq_url : 'Как сделать сэмпл видео',
+  dvd_reqs_faq_url : 'Требования и примеры для DVD', 
+  hd_reqs_faq_url : 'Требования и примеры для HD',
+  videofile_info_faq_url : 'Как получить информацию о видео файле' ,
+  bdinfo_faq_url : 'BDInfo',
+  dvdinfo_faq_url : 'DVDInfo', 
+  make_poster_faq_url : 'Инструкция по изготовлению постера',
+  pred_alt1_faq_url : 'О ссылках на предыдущие и альтернативные раздачи',
+  quality_decl_faq_url : 'о обозначениях качества',
+  pred_alt2_faq_url : 'О ссылках на предыдущие и альтернативные раздачи',
+  pred_alt3_faq_url : 'О ссылках на предыдущие и альтернативные раздачи',
+  pred_alt4_faq_url : 'О ссылках на предыдущие и альтернативные раздачи',
+  dvdinfo_faq_url : 'Как получить информацию о DVD-Video',
+  tyt_faq_url : 'тут',
+  wtf_faq_url : 'Что это значит?',
+  DVD_PG : 'DVD-PG',
+  faq_catalog : 'инструкция',
+  psp_psx : 'PSP-PSX',
+  faq_pops : 'Что такое Popsloader?',
+  faq_code : 'Как узнать код диcка?',
+  faq_pegi : 'PEGI',
+  faq_screen_psp : 'Как сделать скриншоты с PSP',
+  series : 'Серии:',
+  season : 'Сезон:',
+  series_of : 'из',
+  point : ',',
+  genre_faq_url : 'Как определить жанр?',
+  quality_faq: 'Обозначение качества видео',
+  file_list:'Как создать список файлов?',
+  comparison_anime:'Сравнения с другими раздачами.',
+  faq_game:'Превью(игры)',
+  // ID элементов, для которых нужно создать скрытые элементы, содержащие аббревиатуры для подстановки в название
+  // Каждый элемент el_abr должен точно соответствовать el (translation_abr -> translation)
+
+  translation_abr : '[ABR] Перевод',
+  translation2_abr : '[ABR] Перевод',
+  translation3_abr : '[ABR] Перевод',
+  translation4_abr : '[ABR] Перевод',
+  maps_lang_abr : '[ABR] Язык интерфейса (карты)',
+  gui_lang_new_abr : '[ABR] Язык интерфейса (новый список)',
+
+  cpu_bits_abr:'[ABR]Разрядность',
+  maps_format_abr:'[ABR]Формат',
+  lang_book_avto_abr:'[ABR]Язык авто-книги',
+  lang_book_med_abr:'[ABR]Язык мед-книги',
+  book_lang_abr:'[ABR]Язык книги',
+  orig_audio_abr:'[ABR]Язык дорожки',
+  translation_abr:'[ABR]Перевод',
+  flang_lang_abr:'[ABR]Язык книги',
+  sub_all_new_abr:'[ABR]Cубтитры',
+  anime_release_type_abr:'[ABR]Хардсаб',
+  lang_dorama_abr:'[ABR]Язык',
+  game_lang_abr:'[ABR] Язык интерфейса',
+  game_lang_sound_abr:'[ABR] Язык озвучки',
+  lang_psp_abr: '[ABR] Язык интерфейса',
+  lang_mob_abr:'[ABR] Язык интерфейса',
+  game_type_edition_abr:'[ABR] Тип издания',
+  lang_anime_abr:'[ABR] Язык',
+  lang_anime_2_abr:'[ABR] Язык',
+  lang_anime_3_abr:'[ABR] Язык',
+  publishing_type_abr:'[ABR] Тип издания',
+  lang_old_game_abr:'[ABR] Язык',
+ 
+  perfotmer_mus_lossy_abr:'[ABR] Исполнитель',
+  lang_game_dvd_pleer_abr:'[ABR] Язык',
+  video_format_new_abr: '[ABR] Формат видео',
+  audio_codec_mus_loss_abr: '[ABR] Аудио кодек',
+  lang_dorama_2_abr: '[ABR] Язык',
+  type_homebrewe_abr: '[ABR] Тип',
+  console_type_abr: '[ABR] Консоль',
+  sub_all_anime_abr: '[ABR] Язык',
+  sub_all_anime_2_abr: '[ABR] Язык',
+  sub_all_anime_3_abr: '[ABR] Язык',
+  lang_game_video_abr: '[ABR] Язык',
+  sub_game_video_abr: '[ABR] Язык',
+  publishing_type_old_abr: '[ABR] Тип издания',
+  lang_comp_vlesson_abr: '[ABR] Язык',
+  type_comp_vlesson_abr: '[ABR] Тип раздаваемого материала',
+  lang_notes_abr: '[ABR] Язык',
+  rus_sub_abr:'[ABR] Русские субтитры',
+  licence_old_game_abr: '[ABR] Лицензия?',
+  lang_video_les_abr: '[ABR] Язык',
+  type_vlesson_abr: '[ABR] Тип раздаваемого материала',
+  // dummy
+  dummy : ''
+};
+
+/*
+  -------------------------------------------------------------------------------------------------
+  -- selects --------------------------------------------------------------------------------------
+  -------------------------------------------------------------------------------------------------
+*/
+TPL.selects = {
+  // [0] всегда имеет value='' и если задан как '' (пустая строка) заменяется на "&raquo; Выбрать"
+  
+//фильмы зарубежка, наше и т.д. авто, медицина.
+  translation : [
+	'',
+	'Профессиональный (дублированный)',
+	'Профессиональный (многоголосый закадровый)',
+	'Профессиональный (двухголосый закадровый)',
+	'Профессиональный (одноголосый закадровый)',
+	'Авторский (одноголосый закадровый)',
+	'Любительский (многоголосый закадровый)',
+	'Любительский (двухголосый закадровый)',
+	'Любительский (одноголосый закадровый)',
+	'Субтитры',
+	'Не требуется'
+  ],
+  
+	translation_abr : [
+		'',
+		'DUB',
+		'MVO',
+		'DVO',
+		'VO',
+		'AVO',
+		'MVO',
+		'DVO',
+		'VO',
+		'',
+		''
+	],
+
+
+  translation2 : [
+	'',
+	'Профессиональный (дублированный)',
+	'Профессиональный (многоголосый закадровый)',
+	'Профессиональный (двухголосый закадровый)',
+	'Профессиональный (одноголосый закадровый)',
+	'Авторский (одноголосый закадровый)',
+	'Любительский (многоголосый закадровый)',
+	'Любительский (двухголосый закадровый)',
+	'Любительский (одноголосый закадровый)',
+	'Субтитры',
+	'Не требуется'
+  ],
+
+  translation2_abr : [
+  		'',
+		'DUB',
+		'MVO',
+		'DVO',
+		'VO',
+		'AVO',
+		'MVO',
+		'DVO',
+		'VO',
+		'',
+		''					 
+  ],
+  translation3 : [
+	'',
+	'Профессиональный (дублированный)',
+	'Профессиональный (многоголосый закадровый)',
+	'Профессиональный (двухголосый закадровый)',
+	'Профессиональный (одноголосый закадровый)',
+	'Авторский (одноголосый закадровый)',
+	'Любительский (многоголосый закадровый)',
+	'Любительский (двухголосый закадровый)',
+	'Любительский (одноголосый закадровый)',
+	'Субтитры',
+	'Не требуется'
+  ],
+  translation3_abr : [
+  		'',
+		'DUB',
+		'MVO',
+		'DVO',
+		'VO',
+		'AVO',
+		'MVO',
+		'DVO',
+		'VO',
+		'',
+		''					 
+  ],
+  translation4 : [
+	'',
+	'Профессиональный (дублированный)',
+	'Профессиональный (многоголосый закадровый)',
+	'Профессиональный (двухголосый закадровый)',
+	'Профессиональный (одноголосый закадровый)',
+	'Авторский (одноголосый закадровый)',
+	'Любительский (многоголосый закадровый)',
+	'Любительский (двухголосый закадровый)',
+	'Любительский (одноголосый закадровый)',
+	'Субтитры',
+	'Не требуется'
+  ],
+  translation4_abr : [
+  		'',
+		'DUB',
+		'MVO',
+		'DVO',
+		'VO',
+		'AVO',
+		'MVO',
+		'DVO',
+		'VO',
+		'',
+		''					 
+  ],
+
+  book_lang : [
+    '',
+    'Русский',
+    'Русский (дореформенный)',
+    'Украинский',
+    'Белорусский',
+    'Польский',
+    'Английский',
+    'Немецкий',
+    'Французский',
+    'Итальянский',
+    'Испанский',
+    'Португальский',
+    'Китайский',
+    'Японский',
+	'Другой'
+  ],
+
+  book_lang_abr:[
+	'',
+	'RUS',
+	'RUS',
+	'UKR',
+	'BLR',
+	'POL',
+	'ENG',
+	'DEU',
+	'FRA',
+	'ITA',
+	'ESP',
+	'PRT',
+	'CHN',
+	'JPN',
+	''
+],
+
+flang_lang: [
+    '',
+    'Русский',
+    'Украинский',
+    'Белорусский',
+    'Польский',
+    'Английский',
+    'Немецкий',
+    'Французский',
+    'Итальянский',
+    'Испанский',
+    'Португальский',
+    'Китайский',
+    'Японский',
+    'Арабский',
+	'Другой'
+  ],
+
+flang_lang_abr:[
+	'',
+	'RUS',
+	'UKR',
+	'BLR',
+	'POL',
+	'ENG',
+	'DEU',
+	'FRA',
+	'ITA',
+	'ESP',
+	'PRT',
+	'CHN',
+	'JPN',
+	'ARA',
+	''
+],
+
+sub_format : [
+	'',
+	'softsub (SRT)',
+	'softsub (SSA/ASS)',
+	'prerendered (IDX+SUB)',
+	'hardsub (неотключаемые)'
+],
+//видео iphone
+rus_sub : ['', 'есть', 'нет'],
+
+rus_sub_abr : ['', 'rus sub', ''], 
+
+sub_all : ['', 'русские', 'английские'],
+
+//фильмы зарубежка, наше и т.д.
+orig_audio :[
+	'нет',
+	'русский',
+	'английский',
+	'немецкий',
+	'французский',
+	'испанский',
+	'итальянский',
+	'польский',
+	'чешский',
+	'словацкий',
+	'украинский',
+	'белорусский',
+	'литовский',
+	'латышский',
+	'датский',
+	'норвежский',
+	'шведский',
+	'нидерландский',
+	'финский',
+	'иврит',
+	'румынский',
+	'молдавский',
+	'португальский',
+	'Другой'
+],
+
+orig_audio_abr : [ 
+		'',
+		'original rus',
+		'original eng',
+		'original ger',
+		'original fre',
+		'original spa',
+		'original ita',
+		'original pol',
+		'original cze',
+		'original slo',
+		'original ukr',
+		'original bel',
+		'original lit',
+		'original lav',
+		'original dan',
+		'original nor',
+		'original swe',
+		'original dut',
+		'original fin',
+		'original heb',
+		'original rum',
+		'original mol',
+		'original por',
+		''
+],
+
+  video_quality : [
+    '&raquo; Качество видео',
+    'DVDRip',
+    'DVD5',
+    'DVD5 (сжатый)',
+    'DVD9',
+    'HDTV',
+    'HDTVRip',
+    'TVRip',
+    'TeleCine',
+    'TeleSynch',
+    'CamRip',
+    'SATRip',
+    'VHSRip',
+    'HDDVDRip',
+    'BDRip',
+    'HDRip',
+    'DtheaterRip',
+    'DVDScreener'
+  ],
+//фильмы зарубежка, наше и т.д.
+  video_quality_new : [
+   '» Выберите качество',
+     'DVDRip',
+     'HDRip',
+     'HDTVRip',
+     'BDRip',
+     'HDDVDRip',
+     'DTheaterRip',
+     'SATRip',
+     'TVRip',
+     'VHSRip',
+     'DVDScreener',
+     'TeleCine',
+     'TeleSynch',
+     'CamRip',
+     'DVD5',
+     'DVD9'
+ ],
+  
+  video_format : [
+    '&raquo; Формат видео',
+    'AVI',
+    'DVD Video',
+    'OGM',
+    'MKV',
+    'WMV',
+    'MPEG',
+    'MPEG-2',
+    'MP4',
+    'TS',
+    'M2TS',
+    'VOB'
+  ],
+
+  video_codec : [
+    '&raquo; Видео кодек',
+    'DivX',
+    'XviD',
+    "Другой MPEG4",
+    'VPx',
+    'MPEG1',
+    'MPEG2',
+    'Windows Media',
+    'QuickTime',
+    'H.264',
+    'Flash'
+  ],
+
+  video_codec_2 : [
+    '&raquo; Видео кодек',
+    'DivX',
+    'XviD',
+    "Другой MPEG4",
+    'VPx',
+    'MPEG1',
+    'MPEG2',
+    'Windows Media',
+    'QuickTime',
+    'H.264',
+    'Flash'
+  ],
+
+
+  audio_codec : [
+    '&raquo; Аудио кодек',
+    'MP3',
+    'APE',
+    'FLAC',
+    'WAVPack',
+    'WMA',
+    'OGG Vorbis',
+    'DTS',
+    'DVD-AUDIO',
+    'TTA',
+    'AAC',
+    'AC3',
+    'M4A',
+    'M4B'
+  ],
+
+  audio_codec_2 : [
+    '&raquo; Аудио кодек',
+    'MP3',
+    'APE',
+    'FLAC',
+    'WAVPack',
+    'WMA',
+    'OGG Vorbis',
+    'DTS',
+    'DVD-AUDIO',
+    'TTA',
+    'AAC',
+    'AC3',
+    'M4A',
+    'M4B'
+  ],
+
+  audio_bitrate : [
+    '&raquo; Битрейт аудио',
+    'lossless',
+    '64 kbps',
+    '128 kbps',
+    '160 kbps',
+    '192 kbps',
+    '224 kbps',
+    '256 kbps',
+    '320 kbps',
+    'VBR 128-192 kbps',
+    'VBR 192-320 kbps'
+  ],
+
+  abook_type : [
+    '&raquo; Тип',
+    'аудиокнига',
+    'аудиоспектакль',
+    'модель для сборки'
+  ],
+
+  publishing_type : [
+    '',
+    'лицензия',
+    'пиратка'
+  ],
+
+  publishing_type_abr : [
+    '',
+    'L',
+    'P'
+  ],
+
+  crack_exists : [
+    '',
+    'не требуется',
+    'присутствует',
+    'отсутствует'
+  ],
+
+  gui_lang : [
+    '',
+    'английский + русский',
+    'только английский',
+    'только русский',
+    'немецкий',
+	'Другой'
+  ],
+
+  game_platform : [
+    '',
+    'PS',
+    'PS2'
+  ],
+
+ 
+  game_region_def : [
+    '',
+    'PAL',
+    'NTSC'
+  ],
+
+  game_region : [
+    '',
+    'Europe',
+    'US',
+    'Japan'
+  ],
+  //psp-psx
+  game_version : [
+    '',
+    'FULL',
+    'RIP'
+  ],
+
+ 
+  game_firmware : [
+    '',
+    'iXtreme Compatible',
+    'Xtreme'
+  ],
+
+  game_age : [
+    '',
+    'EC - Для детей младшего возраста',
+    'E - Для всех',
+    'E10+ - Для всех старше 10 лет',
+    'T - Подросткам 13-19 лет',
+    'M - От 17 лет',
+    'AO - Только для взрослых',
+    'RP - Рейтинг ожидается'
+  ],
+
+  game_multiplay : [
+    '',
+    'нет',
+    '2х',
+    '4х',
+    'более'
+  ],
+
+  game_lang_psp : [
+    '',
+    'JAP',
+    'ENG',
+    'RUS',
+    'Multi5'
+  ],
+
+  game_trans_type : [
+    '',
+    'текст',
+    'текст +  звук',
+    'нет'
+  ],
+
+  book_format : [
+    '',
+    'PDF',
+    'DjVu',
+    'DOC',
+    'RTF',
+    'TXT',
+    'FB2',
+    'CBR/CBZ',
+    'HTML',
+    'CHM',
+    'EXE',
+    'JPEG',
+    'TIF',
+    'LIT',
+    'PDB',
+    'RB',
+    'Другой'
+  ],
+
+  book_quality : [
+    '',
+    'Отсканированные страницы',
+    'Отсканированные страницы + слой распознанного текста',
+    'Распознанный текст с ошибками (OCR)',
+    'Распознанный текст без ошибок (OCR)',
+    'Изначально компьютерное (eBook)'
+  ],
+
+  audio_rip_type : [
+    '&raquo; Тип рипа',
+    'tracks',
+    'image + .cue',
+    'tracks + .cue',
+    'image/mix'
+  ],
+
+  vista_compat : [
+    '&raquo; Совместимость с Vista',
+    'полная',
+    'да',
+    'нет',
+    'неизвестно'
+  ],
+
+
+  game_plat_wii: [
+    '',
+    'Nintendo Wii',
+    'GameCube'
+  ],
+
+
+  mac_os_platform: [
+    '',
+    'PPC only',
+    'PPC/Intel universal',
+    'Intel only',
+    'PC'
+  ],
+
+  maps_lang : [
+    '',
+    'Английский + Русский',
+    'Английский',
+    'Русский',
+    'Немецкий',
+    'Мультиязычный (русский присутствует)',
+    'Мультиязычный (русский отсутствует)',
+	'Другой'
+  ],
+  maps_lang_abr : [
+    '',
+    'ENG + RUS',      // Английский + Русский
+    'ENG',            // Английский
+    'RUS',            // Русский
+    'GER',            // Немецкий
+    'MULTILANG +RUS', // Мультиязычный (русский присутствует)
+    'MULTILANG -RUS', // Мультиязычный (русский отсутствует)
+	''
+  ],
+
+  gui_lang_new : [
+    '',
+    'Английский + Русский',
+    'Английский',
+    'Русский',
+    'Многоязычный (русский присутствует)',
+    'Многоязычный (русский отсутствует)',
+    'Немецкий',
+    'Японский',
+	'Другой'
+  ],
+
+  gui_lang_new_abr : [
+    '',
+    'Eng + Rus',
+    'Eng',
+    'Rus',
+    'Multi + RUS)',
+    'Multi, NO RUS',
+    'Deu',
+    'Jap',
+	''
+  ],
+
+  tabletka_new : [
+    '',
+    'Присутствует',
+    'Отсутствует',
+    'Вылечено',
+    'Не требуется'
+  ],
+
+  cpu_bits : [
+    '',
+    '32bit',
+    '64bit',
+    '32bit+64bit'
+  ],
+
+  cpu_bits_abr : [
+    '',
+    'x86',
+    'x64',
+    'x86+x64'
+  ],
+
+  vista_compat_new : [
+    '&raquo; Совместимость с Vista',
+    'полная',
+    'только с х86 (32-бит)',
+    'только с х64 (64-бит)',
+    'нет',
+    'неизвестно'
+  ],
+
+  windows7_compat : [
+    '&raquo; Совместимость с Windows 7',
+    'полная',
+    'только с х86 (32-бит)',
+    'только с х64 (64-бит)',
+    'нет',
+    'неизвестно'
+  ],
+
+
+maps_format: [
+    '',
+    'jpg, jpeg',
+    'png',
+    'bmp',
+    'tiff',
+    'gif',
+    'psd',
+    'pdf',
+    'djvu',
+    'eps',
+    'ai',
+    'map',
+    'img'
+  ],
+
+maps_format_abr: [
+    '',
+    'JPEG',
+    'PNG',
+    'BMP',
+    'TIFF',
+    'GIF',
+    'PSD',
+    'PDF',
+    'DJVU',
+    'EPS',
+    'AI',
+    'MAP',
+    'IMG'
+  ],
+
+atlas_type: [
+    '',
+    'Атлас',
+    'Топографические карты',
+    'Карты'
+  ],
+
+lang_book_avto: [
+'',
+'Русский',
+'Английский',
+'Немецкий',
+'Японский',
+'Другой'
+],
+
+lang_book_avto_abr: [
+  '',
+  'RUS',
+  'ENG',
+  'Deu',
+  'Jap',
+  ''
+],
+
+lang_book_med: [
+    '',
+    'Русский',
+    'Украинский',
+    'Английский',
+    'Немецкий',
+    'Французский',
+    'Другой'
+],
+lang_book_med_abr: [
+  '',
+  'RUS',
+  'UKR',
+  'ENG',
+  'DEU',
+  'FRA'
+],
+
+product_milestone: [
+'',
+'Release',
+'Pre-Beta',
+'Beta',
+'RC'
+],
+
+avto_mm_type: [
+'',
+'ММ',
+'EWD'
+],
+
+manga_type: [
+'',
+'manga',
+'doujinshi',
+'ranobe',
+'one-shot',
+'manhwa',
+'manhua'
+],
+
+
+manga_completeness: [
+'',
+'complete',
+'incomplete'
+],
+
+manga_completeness_with_header: [
+'&raquo; Завершённость',
+'complete',
+'incomplete'
+],
+
+video_format_new: [
+   '» Выберите формат видео',
+   'AVI',
+   'MKV',
+   'MP4',
+   'DVD Video'
+],
+
+video_format_new_abr: [
+		'',
+		'',
+	    'AVC',
+	    'AVC',
+	    ''
+],
+
+sub_all_new: [
+	'',
+   'нет',
+   'русские',
+   'английские',
+   'немецкие',
+   'французские',
+   'испанские',
+   'итальянские',
+   'польские',
+   'чешские',
+   'словацкие',
+   'украинские',
+   'белорусские',
+   'литовские',
+   'латышские',
+   'датские',
+   'норвежские',
+   'шведские',
+   'нидерландские',
+   'финские',
+   'иврит',
+   'румынские',
+   'молдавские',
+   'португальские',
+   'Другие'
+ ],
+
+sub_all_new_abr: [ // Перевод языков для субтитров и оригинальной дорожки в тэги для заголовка
+		'',
+   		'',
+		'Sub rus',
+		'Sub eng',
+		'Sub ger',
+		'Sub fre',
+		'Sub spa',
+		'Sub ita',
+		'Sub pol',
+		'Sub cze',
+		'Sub slo',
+		'Sub ukr',
+		'Sub bel',
+		'Sub lit',
+		'Sub lav',
+		'Sub dan',
+		'Sub nor',
+		'Sub swe',
+		'Sub dut',
+		'Sub fin',
+		'Sub heb',
+		'Sub rum',
+		'Sub mol',
+		'Sub por',
+	    ''
+],
+
+anime_release_type: [
+   '&raquo; Хардсаб',
+   'есть',
+   'отсутствует',
+   'полухардсаб'
+],
+
+anime_release_type_abr: [
+	'',
+	'хардсаб',
+	'без хардсаба',
+	'полухардсаб'
+],
+
+transl_dorama: [
+	'',
+	'Русские субтитры',
+	'Одноголосая озвучка',
+	'Двухголосая озвучка',
+	'Многоголосая озвучка',
+	'Дубляж',
+	'Отсутствует'
+],
+
+sub_dorama: [
+	'',
+	'Хардсаб',
+	'Полухардсаб',
+	'Без хардсаба'
+],
+
+lang_dorama: [
+    '&raquo; Язык',
+	'Русский (внешним файлом)',
+	'Русский (в составе контейнера)',
+	'Японский',
+	'Китайский',
+	'Корейский',
+	'Тайваньский',
+	'Английский'
+],
+
+lang_dorama_2: [
+    '&raquo; Язык',
+	'Русский (внешним файлом)',
+	'Русский (в составе контейнера)',
+	'Японский',
+	'Китайский',
+	'Корейский',
+	'Тайваньский',
+	'Английский'
+],
+
+
+lang_dorama_abr: [
+	'',
+	'RUS(ext)',
+	'RUS(int)',
+	'JAP',
+	'CHI',
+	'KOR',
+	'TW',
+	'ENG'
+],
+
+lang_dorama_2_abr: [
+	'',
+	'RUS(ext)',
+	'RUS(int)',
+	'JAP',
+	'CHI',
+	'KOR',
+	'TW',
+	'ENG'
+],
+game_type_edition: [
+	'',
+	'Лицензия',
+	'Неофициальный',
+	'RePack',
+	'RiP',
+	'Демо-версия',
+	'Trial'
+],
+
+game_type_edition_abr: [
+	'',
+	'L',
+	'P',
+	'RePack',
+	'RiP',
+	'Demo',
+	'Trial'
+],
+
+game_lang: [
+	'',
+	'русский',
+	'английский',
+	'русский + английский',
+	'немецкий',
+	'многоязычный',
+	'отсутствует / не требуется',
+	'Другой'
+],
+
+game_lang_abr: [
+	'',
+	'RUS',
+	'ENG',
+	'RUS/ENG',
+	'DEU',
+	'Multi',
+	'',
+	''
+],
+
+game_lang_sound: [
+	'',
+	'русский',
+	'английский',
+	'русский + английский',
+	'немецкий',
+	'отсутствует/не требуется',
+	'Другая'
+],
+
+game_lang_sound_abr: [
+	'',
+	'RUS',
+	'ENG',
+	'RUS/ENG',
+	'DEU',
+	'',
+	''
+],
+
+game_tabletka: [
+    '',
+    'Присутствует',
+    'Отсутствует',
+    'Не требуется'
+  ],
+
+lang_psp: [
+	'',
+	'Японский',
+	'Английский',
+	'Русский',
+	'Multi2',
+	'Multi3',
+	'Multi4',
+	'Multi5',
+	'Другой'
+],
+
+lang_psp_abr: [
+	'',
+	'JAP',
+	'ENG',
+	'RUS',
+	'Multi2',
+	'Multi3',
+	'Multi4',
+	'Multi5',
+	''
+],
+
+lang_sound_psp: [
+	'',
+	'Отсутствует',
+	'Японская',
+	'Английская',
+	'Русская',
+	'Другая'
+],
+
+sub_psp: [
+	'',
+	'Отсутствуют',
+	'Японские',
+	'Английские',
+	'Русские',
+	'Другие'
+],
+
+funct_psp: [
+	'',
+	'Да',
+	'Нет'
+],
+
+multiplayer_psp: [
+	'',
+	'2x',
+	'4x',
+	'Нет'
+],
+
+popsloader_psp: [
+	'',
+	'3.00',
+	'3.01',
+	'3.02',
+	'3.03',
+	'3.10',
+	'3.11',
+	'3.30',
+	'3.40',
+	'3.51',
+	'3.52',
+	'3.71',
+	'3.72',
+	'3.80',
+	'3.90',
+	'4.01',
+	'PSN',
+	'Другой'
+],
+
+//для кпк, мобильных и т.п.
+lang_mob:[
+	'',
+	'Английский',
+	'Русский',
+	'Русский + Английский ',
+	'Многоязычный'
+],
+
+lang_mob_abr:[
+	'',
+	'ENG',
+	'RUS',
+	'RUS + ENG',
+	'Multi'
+],
+
+//формат файлов для клипартов, футажей и иже с ними.
+format_clipart: [
+	'',
+	'JPEG',
+	'PSD',
+	'PNG',
+	'TIFF'
+],
+
+//photostocks
+format_photostocks: [
+	'',
+	'JPEG',
+	'TIFF',
+	'PSD',
+	'EPS',
+	'PCD'
+],
+//Костюмы для фотомонтажа
+format_photo: [
+	'',
+	'PSD',
+	'PNG',
+	'TIFF'
+],
+//Костюмы для фотомонтажа
+suit_type: [
+	'',
+	'Женские костюмы',
+	'Мужские костюмы',
+	'Детские костюмы',
+	'Групповые костюмы'
+],
+
+//векторные клипарты
+format_vector_clipart: [
+	'',
+	'AI',
+	'EPS',
+	'CDR'
+],
+
+format_3d_model: [
+	'',
+	'3D Studio Max',
+	'Cinema4D',
+	'Poser',
+	'Другое'
+
+],
+
+format_3d: [
+	'',
+	'max',
+	'3ds',
+	'c4d',
+	'pos',
+	'obj',
+	'Другое'
+],
+
+
+material: [
+	'',
+	'Да',
+	'Нет'
+],
+
+texture: [
+	'',
+	'Да',
+	'Нет'
+],
+light_source: [
+	'',
+	'Да',
+	'Нет'
+],
+folder_pdf: [
+	'',
+	'Да',
+	'Нет'
+],
+//футажи
+video_footage: [
+	'',
+	'PAL',
+	'NTSC',
+	'HD',
+	'Другой'
+],
+
+def_footage: [
+	'',
+	'720x480',
+	'720x576',
+	'1280x720',
+	'Другой'
+],
+
+frame_rate: [
+	'',
+	'25',
+	'30',
+	'60',
+	'Другой'
+],
+
+video_format_footage: [
+	'',
+	'MOV',
+	'AVI',
+	'Другой'
+],
+
+lang_anime: [
+	'&raquo; Язык',
+	'Русский (внешним файлом)',
+	'Русский (в составе контейнера)',
+	'Японский',
+	'Английский',
+	'Корейский',
+	'Китайский',
+	'Испанский',
+	'Итальянский',
+	'Немецкий',
+	'Другой'
+],
+
+lang_anime_abr: [
+	'',
+	'RUS(ext)',
+	'RUS(int)',
+	'JAP',
+	'ENG',
+	'KOR',
+	'CHI',
+	'ESP',
+	'ITA',
+	'GER',
+	''
+],
+
+lang_anime_2: [
+	'&raquo; Язык',
+	'Русский (внешним файлом)',
+	'Русский (в составе контейнера)',
+	'Японский',
+	'Английский',
+	'Корейский',
+	'Китайский',
+	'Испанский',
+	'Итальянский',
+	'Немецкий',
+	'Другой'
+],
+
+lang_anime_2_abr: [
+	'&raquo; Язык',
+	'RUS(ext)',
+	'RUS(int)',
+	'JAP',
+	'ENG',
+	'KOR',
+	'CHI',
+	'ESP',
+	'ITA',
+	'GER',
+	''
+],
+
+lang_anime_3: [
+	'&raquo; Язык',
+	'Русский (внешним файлом)',
+	'Русский (в составе контейнера)',
+	'Японский',
+	'Английский',
+	'Корейский',
+	'Китайский',
+	'Испанский',
+	'Итальянский',
+	'Немецкий',
+	'Другой'
+],
+
+lang_anime_3_abr: [
+	'',
+	'RUS(ext)',
+	'RUS(int)',
+	'JAP',
+	'ENG',
+	'KOR',
+	'CHI',
+	'ESP',
+	'ITA',
+	'GER',
+	''
+],
+
+//psp-psx
+disk_number_psn: [
+	'',
+	'1',
+	'2',
+	'3',
+	'4'
+],
+//psp=psx
+change_disk_psn: [
+	'&raquo; Выбрать/ Диск всего один',
+	'Есть',
+	'Нет'
+],
+
+age_psn: [
+	'',
+	'3',
+	'7',
+	'12',
+	'16',
+	'18'
+
+],
+
+genre_game_dvd: [
+	'',
+	'Interactive Movie ',
+	'Adventure'
+],
+
+region_game_dvd: [
+	'',
+	'NTSC',
+	'PAL'
+],
+
+platform_game_dvd: [
+	'',
+	'DVD players',
+	'PC',
+	'Microsoft X-Box',
+	'XBOX-360',
+	'PS2',
+	'PS3',
+	'Другой'
+
+],
+
+lang_game_dvd:[
+	'',
+	'английский',
+	'русский',
+	'Другой'
+],
+
+
+tabletka_game_dvd:[
+	'Не требуется'
+],
+
+format_disk_game_dvd:[
+	'',
+	'HD DVD',
+	'DVD9',
+	'DVD5',
+	'CD'
+],
+
+
+format_video_game_dvd:[
+	'',
+	'HD Video',
+	'DVD Video',
+	'MPEG 2'
+],
+
+
+sub_game_video:[
+	'',
+	'русские',
+	'английские',
+	'немецкие',
+	'нет',
+	'Другие'
+],
+
+sub_game_video_abr:[
+	'',
+	'Sub-RUS',
+	'Sub-ENG',
+	'Sub-DEU',
+	'',
+	''
+],
+
+lang_game_video:[
+	'',
+	'русский',
+	'английский',
+	'немецкий',
+	'нет',
+	'Другой'
+],
+
+lang_game_video_abr:[
+	'',
+	'RUS',
+	'ENG',
+	'DEU',
+	'',
+	''
+],
+format_game_video:[
+	'',
+	'AVI',
+	'MKV',
+	'MP4',
+	'FLV',
+	'WMV',
+	'MOV',
+	'MPEG',
+	'3GP',
+	'TS',
+	'Другой'
+],
+
+platform_mfs: [
+	'',
+	'FS2004',
+	'FSX',
+	'FS2004, FSX'
+],
+
+material_trailer: [
+	'',
+	'трейлер',
+	'тизер',
+	'фильм о фильме',
+	'дополнительные материалы',
+	'интервью с актерами',
+	'сюжет из фильма',
+	'удаленные сцены'
+],
+
+//для трейлеров, видео (разное) и спорта!!!
+transl_trailer: [
+	'',
+	'Профессиональный (одноголосый закадровый)',
+	'Любительский (одноголосый закадровый)',
+	'Двухголосый закадровый',
+	'Многоголосый закадровый',
+	'Полное дублированние',
+	'Субтитры',
+	'Не требуется'
+],
+
+//для трейлеров, видео (разное) и спорта!!!
+video_quality_trailer: [
+    '&raquo; Качество видео',
+    'DVDRip',
+    'HDRip',
+    'HDTVRip',
+    'BDRip',
+    'TVRip',
+    'DVDScreener',
+    'TeleSynch',
+    'CamRip',
+    'DVD5',
+    'DVD9',
+    'BluRay'
+],
+
+//для трейлеров, видео (разное) и спорта!!!
+video_format_trailer: [
+	'',
+	'AVI',
+	'FLV',
+	'MOV',
+	'MKV',
+	'MP4',
+	'DVD Video'
+],
+
+//для трейлеров, видео (разное) и спорта!!!
+video_codec_trailer: [
+	'',
+	'DivX',
+	'XviD',
+	'H264',
+	'MPEG2'
+],
+
+//для трейлеров, видео (разное) и спорта!!!
+audio_codec_trailer: [
+	'',
+	'MP3',
+	'AC3',
+	'AAC',
+	'WMA',
+	'DTS'
+],
+
+lang_old_game: [
+    '&raquo; Язык интерфейса',
+	'только английский',
+	'только русский',
+	'английский и русский',
+	'английский + русский',
+	'многоязычный',
+	'Другой'
+],
+
+lang_old_game_abr: [
+	'',
+	'[RUS]',
+	'[ENG]',
+	'[ENG] [RUS]',
+	'[ENG + RUS]',
+	'[Multi]',
+	''
+],
+
+
+//iphone
+edition_type_iphone:[
+	'',
+	'оригинал (первопресс)',
+	'переиздание',
+	'ремастер',
+	'ремикс',
+	'сборник'
+],
+
+words_iphone: [
+	'',
+	'вшиты',
+	'частично',
+	'отсутствуют'
+],
+
+codec_iphone: [
+	'',
+	'AAC',
+	'ALAC'
+],
+
+rip_type_iphone: [
+	'',
+	'tracks',
+	'tracks + .cue'
+],
+
+rip_prog_iphone: [
+	'',
+	'iTunes (диск)',
+	'EAC/XLD (диск)',
+	'foobar2000 + iTunes (lossless)',
+	'Сторонняя программа (lossless)'
+],
+
+
+audio_bitrate_iphone_los: [
+    '&raquo; Битрейт аудио',
+    'lossless',
+    'lossless CBR (1411)'
+],
+
+
+transl_iphone:  [
+	'',
+	'Любительский одноголосый',
+	'Любительский многоголосый',
+	'Любительский Гоблина',
+	'Профессиональный (одноголосый)',
+	'Профессиональный (двухголосый)',
+	'Профессиональный (дублированный)',
+	'Профессиональный (многоголосый закадровый)',
+	'Профессиональный (многоголосый, полное дублирование)',
+	'Субтитры',
+	'Отсутствует',
+	'Не требуется'
+
+],
+
+video_format_iphone:  [
+	'',
+	'*.mp4',
+	'*.m4v',
+	'*.mov'
+],
+
+video_codec_iphone:  [
+	'&raquo; Видео кодек',
+	'h.264',
+	'XviD',
+	'Другой MPEG4'
+],
+
+audio_codec_iphone:  [
+	'&raquo; Аудио кодек',
+	'ААС',
+	'ALAC',
+	'AC3',
+	'AAC + AC3'
+],
+
+cover_iphone:  [
+	'',
+	'есть',
+	'нет'
+],
+
+tag_iphone:  [
+	'',
+	'прописаны',
+	'нет',
+	'частично'
+],
+
+show_iphone:  [
+	'',
+	'прописан',
+	'нет',
+	'не требуется'
+],
+
+chapter_iphone:  [
+	'',
+	'прописаны',
+	'нет'
+],
+
+series_iphone: [
+	'',
+	'прописан',
+	'нет',
+	'не требуется'
+],
+
+audio_bitrate_iphone:  [
+	'&raquo; битрейт',
+	'40',
+	'64',
+	'92',
+	'128',
+	'160',
+	'192',
+	'224',
+	'256',
+	'320',
+	'VBR 40-128',
+	'VBR 128-192',
+	'VBR 192-320'
+],
+
+audio_chapters_iphone:  [
+	'',
+	'есть',
+	'нет'
+],
+
+platform_mob: [
+	'',
+	'Symbian 6-8',
+	'Symbian 9.x',
+	'Symbian 9.4',
+	'Symbian 6-9.3',
+	'Symbian 6.0-9.4',
+	'Symbian UIQ',
+	'Symbian all',
+	'Java',
+	'Symbian UIQ 2',
+	'Symbian UIQ 3',
+	'N-Gage2'
+
+],
+
+video_format_dorama : [
+    '&raquo; Формат видео',
+    'AVI',
+    'DVD Video',
+    'OGM',
+    'MKV',
+    'WMV',
+    'MPEG',
+    'MPEG-2',
+    'MP4',
+    'TS',
+    'M2TS',
+    'VOB',
+	'RM/RMVB'
+ ],
+
+video_quality_sport : [
+    '&raquo; Качество видео',
+    'DVDRip',
+    'DVD5',
+    'DVD5 (сжатый)',
+    'DVD9',
+    'HDTV',
+    'HDTVRip',
+    'TVRip',
+    'TeleCine',
+    'TeleSynch',
+    'CamRip',
+    'SATRip',
+    'VHSRip',
+    'HDDVDRip',
+    'BDRip',
+    'HDRip',
+    'DtheaterRip',
+    'DVDScreener',
+	'Stream'
+],
+
+audio_codec_music_lib: [
+	'&raquo; аудио кодек',
+	'WAV',
+	'MP3',
+	'AIFF',
+	'APE',
+	'FLAC',
+	'WMA',
+	'OGG Vorbis'
+],
+
+//Библиотеки сэмплов
+bit_music_lib:  [
+	'&raquo; битность',
+	'8 bit',
+	'16 bit',
+	'24 bit',
+	'Другой'
+],
+//Библиотеки сэмплов
+bitrate_music_lib:  [
+	'&raquo; Битрейт',
+	'64 kbps',
+	'96 kbps',
+	'128 kbps',
+	'160 kbps',
+	'192 kbps',
+	'224 kbps',
+	'256 kbps',
+	'320 kbps',
+	'VBR 128-192 kbps',
+	'VBR 192-320 kbps',
+	'705 kbps',
+	'1411 kbps',
+	'Другой'
+],
+//Библиотеки сэмплов
+rate_music_lib:  [
+	'&raquo; Частота',
+	'22 kHz',
+	'44.1 kHz',
+	'48 kHz',
+	'96 kHz'
+],
+
+canales_music_lib:  [
+	'&raquo; Каналы',
+	'mono',
+	'stereo',
+	'5.1'
+],
+
+channel_sound: [
+	'&raquo; Каналы',
+	'mono',
+	'stereo'				
+],
+
+transl_cartoons_0:  [
+	'&raquo; Перевод',
+	'полное дублирование',
+	'профессиональный многоголосый закадровый',
+	'профессиональный двухголосый закадровый',
+	'профессиональный одноголосый закадровый',
+	'любительский двухголосый закадровый',
+	'любительский одноголосый закадровый (автор)',
+	'авторский одноголосый закадровый (автор)',
+	'оригинал',
+	'не требуется',
+	'отсутствует'
+],
+
+transl_cartoons_1:  [
+	'&raquo; Перевод 2',
+	'полное дублирование',
+	'профессиональный многоголосый закадровый',
+	'профессиональный двухголосый закадровый',
+	'профессиональный одноголосый закадровый',
+	'любительский двухголосый закадровый',
+	'любительский одноголосый закадровый (автор)',
+	'авторский одноголосый закадровый (автор)',
+	'оригинал',
+	'не требуется'
+],
+
+transl_cartoons_2:  [	
+	'&raquo; Перевод 3',
+	'полное дублирование',
+	'профессиональный многоголосый закадровый',
+	'профессиональный двухголосый закадровый',
+	'профессиональный одноголосый закадровый',
+	'любительский двухголосый закадровый',
+	'любительский одноголосый закадровый (автор)',
+	'авторский одноголосый закадровый (автор)',
+	'оригинал',
+	'не требуется'
+],
+
+format_cartoons_dvd:  [
+	'&raquo; Формат',
+	'DVD-video'
+],
+type_cartoons: [
+	'&raquo; Качество',
+	'DVD5',
+	'DVD9',
+	'DVD5 (Custom)',
+	'DVD5 (сжатый)',
+	'DVD9 (Custom)',
+	'DVD9 (Сжатый)'
+],
+screen_cartoons:  [
+	'&raquo; Формат экрана',
+	'16:9',
+	'4:3',
+	],
+
+def_cartoons:  [
+	'&raquo; Система / Разрешение',
+	'PAL (720х576)',
+	'NTSC (720x480)',
+	'PAL (704x576)',
+	'NTSC (704x480)',
+	'PAL (352x576)',
+	'NTSC (352x480)',
+	'PAL (352x288)',
+	'NTSC (352x288)'
+],
+
+video_quality_cartoons:  [ 
+	'&raquo; Качество',
+	'DVDRip',
+	'HDRip',
+	'HDTVRip',
+	'BDRip',
+	'HDDVDRip',
+	'DTheaterRip',
+	'WEBRip',
+	'SATRip',
+	'TVRip',
+	'VHSRip',
+	'DVDScreener',
+	'TeleCine',
+	'TeleSynch',
+	'CamRip',
+	'DVD5',
+	'DVD9',
+	'DVD5 (Custom)',
+	'DVD5 (Сжатый)',
+	'DVD9 (Custom)',
+	'DVD9 (Сжатый)'
+
+],
+  format_cartoons:  [
+	'&raquo; Формат',
+	'AVI',
+	'MKV',
+	'MP4',
+	'DVD-Video'
+],
+
+video_quality_cartoons_hd: [
+	'&raquo; Качество',							
+	'BDRip 720p',
+	'BDRip 1080p',
+	'BDRemux',
+	'Blu-ray disc',
+	'Blu-ray disc (custom)',
+	'HDTVRip 720p',
+	'HDTVRip 1080p',
+	'HDTV 1080i'
+],
+
+format_cartoons_hd:  [
+	'&raquo; Формат',
+	'MKV',
+	'TS',
+	'M2TS',
+	'BDAV',
+	'BDMV'
+],
+
+video_quality_cart_serial:  [ 
+	'&raquo; Качество',
+	'DVDRip',
+	'HDRip',
+	'HDTVRip',
+	'BDRip',
+	'HDDVDRip',
+	'DTheaterRip',
+	'WEB-DLRip',
+	'WEBRip',
+	'SATRip',
+	'TVRip',
+	'VHSRip',
+	' ',
+	'DVD5',
+	'DVD9',
+	'DVD5 (Custom)',
+	'DVD5 (Сжатый)',
+	'DVD9 (Custom)',
+	'DVD9 (Сжатый)',
+	' ',
+	'BDRip 720p',
+	'BDRip 1080p',
+	'WEB-DL 720p',
+	'WEB-DL 1080p',
+	'BDRemux',
+	'Blu-ray disc',
+	'Blu-ray disc (custom)',
+	'HDTVRip 720p',
+	'HDTVRip 1080p',
+	'HDTV 1080i'
+],
+video_quality_serial:  [ 
+	'&raquo; Качество',
+	'DVDRip',
+	'HDRip',
+	'HDTVRip',
+	'BDRip',
+	'HDDVDRip',
+	'DTheaterRip',
+	'WEB-DLRip',
+	'SATRip',
+	'SATRemux',
+	'TVRip',
+	'VHSRip',
+	'DVD5',
+	'DVD5 (Custom)',
+	'DVD9 (Custom)',
+	'DVD9',
+	'HDTV',
+	'HDDVD',
+	'DTheater',
+	'BDRemux',
+	'Blu-Ray',
+	'Другое'
+],
+format_cart_serial: [
+	'&raquo; Формат',
+	'AVI',
+	'MKV',
+	'MP4',
+	'MPEG',
+	'DVD-Video',
+	'TS',
+	'MPEG-PS',
+	'M2TS',
+	'BDMV',
+	'BDAV'
+],
+//фильмы, сериалы.
+video_codec_serials: [
+	'&raquo; Видео кодек',
+	'DivX',
+	'XviD',
+	'H.264',
+	'Другой'
+],
+
+audio_codec_serials: [
+	'&raquo; Аудио кодек',
+	'MP3',
+	'AC3',
+	'Другой'
+],
+
+type_avatar: [
+	'',
+	'Avatars',
+	'Icons',
+	'Smiles',
+	'Userbars'
+],
+
+type_theme_kpk: [
+	'',
+	'Wall',
+	'Themes'
+],
+
+//3D модели, сцены и материалы
+type_3d_model: [
+	'&raquo; Количество',
+	'моделей',
+	'сцен',
+	'текстур',
+	'HDRI',
+	'материалов',
+	'Другое'
+],
+
+
+
+video_quality_vlesson:  [
+	'&raquo; Качество',
+	'DVDRip',
+	'DVD5',
+	'DVD9',
+	'DVD5 (сжатый)',
+	'HDTVRip',
+	'HDRip',
+	'BDRip',
+	'SATRip',
+	'IPTVRip',
+	'TVRip',
+	'VHSRip',
+	'CAMRip',
+	'WEBRip',
+	'VCD'
+],
+
+format_vlesson: [
+	'&raquo; Формат',
+	'AVI',
+	'MPG',
+	'VOB',
+	'DVD video',
+	'MKV',
+	'MP4',
+	'WMV',
+	'TS/M2TS',
+	'FLV',
+	'MOV'
+],
+
+video_codec_vlesson: [
+	'&raquo; Видео кодек',
+	'XviD',
+	'DivX',
+	'MPEG1',
+	'MPEG2',
+	'WMVx',
+	'VC-1',
+	'H.264',
+	'VPx',
+	'FLVx'
+],
+
+audio_codec_vlesson: [
+	'&raquo; Аудио кодек',
+	'MP3',
+	'AC3',
+	'AAC',
+	'WMA',
+	'PCM',
+	'DTS',
+	'MP2',
+	'FLAC',
+	'ogg'
+],
+
+transl_doc_film: [
+        '',
+        'Любителький (одноголосый)',
+        'Любительский (двухголосый)',
+        'Авторский (одноголосый)',
+        'Профессиональный (одноголосый)',
+        'Профессиональный (двухголосый)',
+        'Профессиональный (многоголосый, закадровый)',
+        'Профессиональный (полное дублирование)',
+        'Субтитры',
+        'Не требуется',
+        'Отсутствует'
+],
+
+chapters_music_dvd: [
+	'&raquo; Главы (разбивка по трекам)',
+	'есть',
+	'нет'
+],
+
+video_quality_music_dvd:  [
+	'&raquo; Качество',
+	'DVD5',
+	'DVD9',
+	'DVD5 (сжатый)',
+	'HDTVRip',
+	'HDRip',
+	'BDRip',
+	'SATRip',
+	'LDRip',
+	'TVRip',
+	'DTVRip',
+	'VHSRip',
+	'CAMRip',
+	'Screener'
+],
+
+format_music_dvd:  [
+	'&raquo; Формат',
+	'DVD video'
+],
+
+video_codec_music_dvd: [
+	'&raquo; Видео кодек',
+	'MPEG2'
+],
+
+audio_codec_music_dvd: [
+	'&raquo; Аудио кодек',
+	'AC3',
+	'PCM',
+	'DTS',
+	'MP2'
+],
+
+
+audio_codec_mus_loss: [
+	'&raquo; Аудио кодек',
+	'FLAC (*.flac) ',
+	'APE (*.ape)',
+	'WavPack (*.wv)'
+],
+
+audio_codec_mus_loss_abr: [
+	'',
+	'FLAC',
+	'APE',
+	'WavPack'
+],
+
+rip_type_mus_loss: [
+	'',
+	'image+.cue',
+	'tracks+.cue',
+	'tracks',
+	'iso.wv'
+],
+
+scan_mus_loss: [
+	'',
+	'да',
+	'нет'
+],
+
+source_mus_loss: [
+	'',
+	'собственный рип',
+	'скачано с',
+	'релизер',
+	'Другое'
+],
+
+genre_soundtrack_mus: [
+	'',
+	'Score',
+	'Soundtrack'
+],
+
+audio_codec_digit_mus: [
+	'',
+	'APE',
+	'FLAC',
+	'WavPack ',
+	'Другое'
+],
+
+source_digit_mus: [
+	'',
+	'автором раздачи ',
+	'третьим лицом',
+	'Другое'
+],
+
+vinyl_digit_mus: [
+	'',
+	'Mint',
+	'NM',
+	'Ex',
+	'VG+',
+	'VG',
+	'G',
+	'F',
+	'P'
+],
+
+perfotmer_mus_lossy: [
+	'',
+	'Исполнитель (группа)',
+	'сборник композиций разных исполнителей'
+],
+
+perfotmer_mus_lossy_abr: [
+	'',
+	'',
+	'VA'
+],
+
+audio_codec_mus_lossy: [
+	'',
+	'MP3',
+	'OGG',
+	'WMA',
+	'MPC',
+	'MP+',
+	'M4A',
+	'AAC'
+],
+
+rip_type_mus_lossy: [
+	'&raquo; Тип рипа',
+	'tracks',
+	'image+.cue',
+	'image'
+],
+
+bitrate_mus_lossy: [
+	'&raquo; Битрейт аудио',
+	'64 kbps',
+	'128 kbps',
+	'192 kbps',
+	'224 kbps',
+	'256 kbps',
+	'320 kbps',
+	'V0',
+	'V1',
+	'V2',
+	'V3',
+	'V4',
+	'128-320 kbps',
+	'192-320 kbps'
+],
+
+source_mus_lossy: [
+	'',
+	'CD',
+	'WEB',
+	'Vinyl'
+],
+
+scan_mus_loss: [
+	'',
+	'да',
+	'нет'
+],
+
+tag_mus_lossy: [
+	'',
+	'да',
+	'нет'
+],
+//программы - тестовые диски
+rip_type_test: [
+	'&raquo; Тип рипа',
+	'tracks',
+	'image + .cue',
+	'tracks + .cue',
+	'DVD-Rip',
+	'DVD',
+	'BluRay-Rip',
+	'BluRay'
+],
+
+audio_codec_test: [
+	'&raquo; Аудио кодек',
+	'WAV',
+	'MP3',
+	'APE',
+	'FLAC',
+	'WAVPack',
+	'WMA',
+	'OGG Vorbis',
+	'DTS',
+	'DVD-AUDIO',
+	'TTA',
+	'AAC',
+	'AC3',
+	'M4A',
+	'M4B'
+],
+
+video_codec_test: [
+	'&raquo; Видео кодек',
+	'DivX',
+	'XviD',
+	'MPEG4',
+	'VPx',
+	'MPEG1',
+	'MPEG2',
+	'Windows Media',
+	'QuickTime',
+	'H.264',
+	'Flash',
+	'Другой'
+],
+
+arch_linux: [
+	'',
+	'x86',
+	'amd64'
+
+],
+
+lang_game_dvd_pleer: [
+	'',
+	'английский',
+	'японский',
+	'русский',
+	'multi'
+],
+lang_game_dvd_pleer_abr: [
+	'',
+	'ENG',
+	'JAP',
+	'RUS',
+	'multi'
+],
+
+audio_codec_film : [
+		'» Выберите кодек аудио',
+		'MP3',
+		'AC3',
+		'DTS',
+		'AAC',
+		'FLAC',
+		'OGG'
+],
+video_quality_serials : [
+	'» Качество',
+	'DVDRip',
+	'HDRip',
+	'HDTVRip',
+	'BDRip',
+	'HDDVDRip',
+	'DTheaterRip',
+	'WEB-DLRip',
+	'SATRip',
+	'SATRemux',
+	'TVRip',
+	'VHSRip',
+	'DVD5',
+	'DVD9',
+	'HDTV',
+	'HDDVD',
+	'DTheater',
+	'BDRemux',
+	'Blu-Ray',
+	'Другое'
+],
+
+loss_bit: [
+		   '',
+		   'lossless'
+		   ],
+
+type_homebrewe: [
+	'',
+	'Прошивка',
+	'Homebrew программа',
+	'PC программа',
+	'CTF тема',
+	'PTF тема',
+	'Эмулятор',
+	'Hombrew-игра',
+	'Дополнение или руководство для игры',
+	'Flash-программа или игр',
+	'Карта местности',
+	'Сохранение игры',
+	'Обои',
+	'Прочее'
+],
+
+type_homebrewe_abr: [
+	'',
+	'[CFW4PSP]',
+	'[SOFT4PSP]',
+	'[PC4PSP]',
+	'[CTF4PSP]',
+	'[PTF4PSP]',
+	'[EMU4PSP]',
+	'[GAME4PSP]',
+	'[ADD4GAME]',
+	'[FLASH4PSP]',
+	'[MAP4PSP]',
+	'[SAVE4PSP]',
+	'[WLPR4PSP]',
+	'[MIST4PSP]'
+],
+
+console_type: [
+	'',
+	'Nintendo/Dendy',
+	'Super Nintendo',
+	'Nintendo 64',
+	'Game Boy',
+	'GameBoy Color',
+	'GameBoy Advaced',
+	'Sega Master System',
+	'Sega Mega Drive Genesis',
+	'Sega Saturn',
+	'Sega GameGear',
+	'Игровой автомат',
+	'MAME',
+	'Atari 2600',
+	'Atari 5200',
+	'PC Engine',
+	'Neo-Geo',
+	'Другая'
+],
+
+console_type_abr: [
+	'',
+	'[NES]',
+	'[SNES]',
+	'[N64]',
+	'[GB]',
+	'[GBC]',
+	'[GBA]',
+	'[SMS]',
+	'[SEGA MDG]',
+	'[SATURN]',
+	'[SGG]',
+	'[Игровой автомат]',
+	'[MAME]',
+	'[Atari 2600]',
+	'[Atari 5200]',
+	'[PCE]',
+	'[Neo-Geo]',
+	''
+],
+
+anime_type: [
+	'',
+	'TV',
+	'Movie',
+	'OVA',
+	'ONA',
+	'Special'
+],
+
+hd_format: [
+	'» Доп. информация',		
+	'720p',
+	'1080p',
+	'1080i'
+],
+
+sub_all_anime: [
+	'» Язык',
+   'русский',
+   'английский',
+   'немецкий',
+   'французский',
+   'китайский',
+   'Другой'
+ ],
+
+sub_all_anime_abr: [
+	'',
+   'SUB',
+   '',
+   '',
+   '',
+   '',
+   ''
+],
+
+sub_all_anime_2: [
+	'» Язык',
+   'русский',
+   'английский',
+   'немецкий',
+   'французский',
+   'китайский',
+   'Другой'
+ ],
+
+sub_all_anime_2_abr: [
+	'',
+   'SUB',
+   '',
+   '',
+   '',
+   '',
+   ''
+],
+
+sub_all_anime_3: [
+	'» Язык',
+   'русский',
+   'английский',
+   'немецкий',
+   'французский',
+   'китайский',
+   'Другой'
+ ],
+
+sub_all_anime_3_abr: [
+	'',
+   'SUB',
+   '',
+   '',
+   '',
+   '',
+   ''
+],
+
+transl_lat_setial:  [
+	'&raquo; Перевод 1',
+	'полное дублирование',
+	'профессиональный многоголосый закадровый',
+	'профессиональный двухголосый закадровый',
+	'профессиональный одноголосый закадровый',
+	'любительский двухголосый закадровый',
+	'любительский одноголосый закадровый (автор)',
+	'авторский одноголосый закадровый (автор)',
+	'не требуется',
+	'отсутствует',
+	'Другой'
+],
+
+transl_lat_setial_1:  [
+	'&raquo; Перевод 2',
+	'полное дублирование',
+	'профессиональный многоголосый закадровый',
+	'профессиональный двухголосый закадровый',
+	'профессиональный одноголосый закадровый',
+	'любительский двухголосый закадровый',
+	'любительский одноголосый закадровый (автор)',
+	'авторский одноголосый закадровый (автор)',
+	'не требуется',
+	'Другой'
+],
+
+transl_lat_setial_2:  [	
+	'&raquo; Перевод 3',
+	'полное дублирование',
+	'профессиональный многоголосый закадровый',
+	'профессиональный двухголосый закадровый',
+	'профессиональный одноголосый закадровый',
+	'любительский двухголосый закадровый',
+	'любительский одноголосый закадровый (автор)',
+	'авторский одноголосый закадровый (автор)',
+	'не требуется',
+	'Другой'
+],
+
+format_lat_serial: [
+	'&raquo; Формат',
+	'AVI',
+	'MKV',
+	'MP4',
+	'MPEG',
+	'DVD-Video',
+	'TS',
+	'MPEG-PS',
+	'M2TS',
+	'BDMV',
+	'BDAV',
+	'Другой'
+],
+
+game_lang_nds: [
+	'',
+	'JAP',
+	'ENG',
+	'RUS',
+	'Multi5'
+],
+
+lang_comp_vlesson: [
+	'',
+	'Русский',
+	'Английский',
+	'Немецкий',
+	'Другой'
+],
+
+  lang_comp_vlesson_abr : [
+	'',
+	'RUS',
+	'ENG',
+	'DEU',
+	''
+],
+  type_comp_vlesson: [
+	'',
+	'Видеоурок',
+	'Мультимедийный диск',
+	'Интерактивный диск',
+	'Видеоклипы'
+],
+  
+  type_comp_vlesson_abr :[
+	'',
+	'',
+	'ММ',
+	'',
+	''
+],
+  
+  lang_notes: [
+	'',
+	'Русский',
+	'Английский',
+	'Немецкий',
+	'Испанский',
+	'Китайский',
+	'Украинский',
+	'Другой'
+],
+
+  lang_notes_abr: [
+	'',
+	'RUS',
+	'ENG',
+	'DEU',
+	'ITA',
+	'CHN',
+	'UKR',
+	''
+],
+  
+  licence_old_game: [
+	'',
+	'да',
+	'нет'
+],
+  licence_old_game_abr: [
+	'',
+	'L',
+	'P'
+],
+  
+  lang_video_les: [
+	'',
+	'Русский',
+	'Английский',
+	'Русский + Английский',
+	'Немецкий',
+	'Украинский',
+	'Другой'
+],
+    lang_video_les_abr: [
+	'',
+	'RUS',
+	'ENG',
+	'RUS/ENG',
+	'DEU',
+	'UKR',
+	''
+],
+
+type_vlesson: [
+	'',
+	'Видеоурок',
+	'Мультимедийный диск',
+	'Другой'
+],
+
+type_vlesson_abr: [
+	'',
+	'Видеоурок',
+	'ММ',
+	''
+],
+
+  type_game: [
+	'',
+	'Patch',
+	'Maps',
+	'Mods',
+	'RUS',
+	'ENG',
+	'Pack',
+	'Crack',
+	'Guide',
+	'Save',
+	'Trainer',
+	'Other'
+],
+  
+  lang_other_game: [
+	'',
+	'русский',
+	'английский',
+	'русский + английский',
+	'немецкий',
+	'не важно',
+	'Другой'
+],
+
+// dummy
+  dummy : ['']
+};
+
+TPL.el_abrs = [
+	'translation_abr',
+	'maps_lang_abr',
+	'gui_lang_new_abr',
+	'prog_lic_type_abr',
+	'cpu_bits_abr',
+	'maps_format_abr',
+	'lang_book_avto_abr',
+	'lang_book_med_abr',
+	'book_lang_abr',
+	'orig_audio_abr',
+	'translation_abr',
+	'flang_lang_abr',
+	'sub_all_new_abr',
+	'anime_release_type_abr',
+	'lang_dorama_abr',
+	'game_lang_abr',
+	'game_type_edition_abr',
+	'game_lang_sound_abr',
+	'lang_psp_abr',
+	'lang_mob_abr',
+	'lang_anime_abr',
+	'lang_anime_2_abr',
+	'lang_anime_3_abr',
+	'publishing_type_abr',
+	'lang_old_game_abr',
+	'lang_vlesson_abr',
+	'perfotmer_mus_lossy_abr',
+	'lang_game_dvd_pleer_abr',
+	'translation4_abr',
+	'translation3_abr',
+	'translation2_abr',
+	'video_format_new_abr',
+	'audio_codec_mus_loss_abr',
+	'lang_dorama_2_abr',
+	'type_homebrewe_abr',
+	'console_type',
+	'sub_all_anime_3_abr',
+	'sub_all_anime_abr',
+	'sub_all_anime_abr',
+	'lang_game_video_abr',
+	'sub_game_video_abr',
+	'lang_comp_vlesson_abr',
+	'type_comp_vlesson_abr',
+	'lang_notes_abr',
+	'rus_sub_abr',
+	'licence_old_game_abr',
+	'lang_video_les_abr',
+	'type_vlesson_abr'
+]
+
+function preg_quote (str) {
+	return (str+'').replace(/([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:])/g, "\\$1");  // http://kevin.vanzonneveld.net
+}
+
+
+function tpl_submit ()
+{
+	if ( TPL.build_msg_all('tpl-post-message', 'tpl-post-subject') ) {
+		$('#tpl-post-form').submit();
+	}
+}
+</script>

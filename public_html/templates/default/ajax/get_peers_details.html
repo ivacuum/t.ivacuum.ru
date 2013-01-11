@@ -1,0 +1,101 @@
+<!-- IF SEEDERS -->
+<table class="borderless w60 bCenter">
+<tr>
+	<td><p class="floatL seed" style="margin-top: 4px;"><b>Сиды</b>: [ {SEEDERS} ]</p></td>
+</tr>
+<tr>
+	<td class="pad_0">
+
+	<table cellpadding="0" class="peers w100 med tablesorter" id="seeders-tbl">
+	<thead>
+	<tr style="height: 25px;">
+		<th class="{sorter: 'text'}"><b class="tbs-text">Имя</b><img width="130" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'digit'}"><b class="tbs-text">Ratio</b><img width="40" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'digit'}"><b class="tbs-text">раздал</b><img width="70" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'digit'}"><b class="tbs-text">скачал</b><img width="70" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'digit'}"><b class="tbs-text">раздает</b><img width="75" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'digit'}"><b class="tbs-text">качает</b><img width="75" class="spacer" src="{SPACER}" alt="" /></th>
+		<!-- IF SHOW_MODER_OPTIONS -->
+		<th class="{sorter: 'digit'}"><b class="tbs-text">IP</b><img width="100" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'digit'}"><b class="tbs-text">Порт</b><img width="50" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'text'}"><b class="tbs-text">Клиент</b><img width="140" class="spacer" src="{SPACER}" alt="" /></th>
+		<!-- ENDIF -->
+	</tr>
+	</thead>
+	<tbody class="p-body">
+	<!-- BEGIN seeders -->
+	<tr{seeders.ROW_BGR}>
+		<td class="tLeft" title="{seeders.UPDATE_TIME}"><b>{seeders.USERNAME}</b></td>
+		<td>{seeders.RATIO}</td>
+		<td><u>{seeders.INT_UP_TOTAL}</u>{seeders.UP_TOTAL}</td>
+		<td><u>{seeders.INT_DOWN_TOTAL}</u>{seeders.DOWN_TOTAL}</td>
+		<td class="seedmed"><u>{seeders.INT_SPEED_UP}</u>{seeders.SPEED_UP}</td>
+		<td class="leechmed"><u>{seeders.INT_SPEED_DOWN}</u>{seeders.SPEED_DOWN}</td>
+		<!-- IF SHOW_MODER_OPTIONS -->
+		<td class="tRight">{seeders.IP}</td>
+		<td>{seeders.PORT}</td>
+		<td>{seeders.CLIENT}</td>
+		<!-- ENDIF -->
+	</tr>
+	<!-- END seeders -->
+	</tbody>
+	</table>
+
+	</td>
+</tr>
+</table>
+<!-- ENDIF -->
+
+<!-- IF LEECHERS -->
+<table class="borderless w60 bCenter">
+<tr>
+	<td><p class="floatL leech" style="margin-top: 4px;"><b>Личи</b>: [ {LEECHERS} ]</p></td>
+</tr>
+<tr>
+	<td class="pad_0">
+
+	<table cellpadding="0" class="peers w100 med tablesorter" id="leechers-tbl">
+	<thead>
+	<tr style="height: 25px;">
+		<th class="{sorter: 'text'}"><b class="tbs-text">Имя</b><img width="130" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'digit'}"><b class="tbs-text">%</b><img width="40" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'digit'}"><b class="tbs-text">раздал</b><img width="70" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'digit'}"><b class="tbs-text">скачал</b><img width="70" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'digit'}"><b class="tbs-text">раздает</b><img width="75" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'digit'}"><b class="tbs-text">качает</b><img width="75" class="spacer" src="{SPACER}" alt="" /></th>
+		<!-- IF SHOW_MODER_OPTIONS -->
+		<th class="{sorter: 'digit'}"><b class="tbs-text">IP</b><img width="100" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'digit'}"><b class="tbs-text">Порт</b><img width="50" class="spacer" src="{SPACER}" alt="" /></th>
+		<th class="{sorter: 'text'}"><b class="tbs-text">Клиент</b><img width="140" class="spacer" src="{SPACER}" alt="" /></th>
+		<!-- ENDIF -->
+	</tr>
+	</thead>
+	<tbody class="p-body">
+	<!-- BEGIN leechers -->
+	<tr{leechers.ROW_BGR}>
+		<td class="tLeft" title="{leechers.UPDATE_TIME}"><b>{leechers.USERNAME}</b></td>
+		<td>{leechers.COMPLETE}</td>
+		<td><u>{leechers.INT_UP_TOTAL}</u>{leechers.UP_TOTAL}</td>
+		<td><u>{leechers.INT_DOWN_TOTAL}</u>{leechers.DOWN_TOTAL}</td>
+		<td class="seedmed"><u>{leechers.INT_SPEED_UP}</u>{leechers.SPEED_UP}</td>
+		<td class="leechmed"><u>{leechers.INT_SPEED_DOWN}</u>{leechers.SPEED_DOWN}</td>
+		<!-- IF SHOW_MODER_OPTIONS -->
+		<td class="tRight">{leechers.IP}</td>
+		<td>{leechers.PORT}</td>
+		<td>{leechers.CLIENT}</td>
+		<!-- ENDIF -->
+	</tr>
+	<!-- END leechers -->
+	</tbody>
+	</table>
+
+	</td>
+</tr>
+</table>
+<!-- ENDIF -->
+
+<div class="med tCenter mrg_4 warnColor1">показаны данные <i><b>только за текущую сессию</b></i></div>
+
+<script type="text/javascript">
+$('table.tablesorter').tablesorter({ sortList: [[4,1]] });
+</script>

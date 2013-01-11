@@ -1,0 +1,200 @@
+<script type="text/javascript">
+var PQP_DETAILS = false;
+var PQP_HEIGHT = 'tall';
+
+function changeTab(tab)
+{
+  $('#pQp').removeClass('console speed queries memory files').addClass(tab);
+}
+
+function toggleDetails()
+{
+  $('#pqp-container').toggleClass('hideDetails');
+
+  PQP_DETAILS = ( PQP_DETAILS ) ? false : true;
+}
+
+function toggleHeight()
+{
+  $('#pqp-container').toggleClass('tallDetails');
+
+  PQP_HEIGHT = ( PQP_HEIGHT == 'short' ) ? 'tall' : 'short';
+}
+
+function hideProfiler()
+{
+  $('#pqp-container').empty();
+}
+
+$(function() {
+  $('head').append('<link rel="stylesheet" type="text/css" href="//ivacuum.org/i/profiler/style.css" />');
+  setTimeout(function(){ $('#pqp-container').show(); }, 10);
+});
+</script>
+
+<div id="pqp-container" class="pQp hideDetails tallDetails" style="display: none;">
+
+	<div id="pQp" class="console">
+	<table id="pqp-metrics" cellspacing="0">
+	<tr>
+		<td class="green" onclick="changeTab('console');">
+			<var>{LOGS_COUNT}</var>
+			<h4>Консоль</h4>
+		</td>
+		<td class="blue" onclick="changeTab('speed');">
+			<var>{SPEED_TOTAL}</var>
+			<h4>Время загрузки</h4>
+		</td>
+		<td class="purple" onclick="changeTab('queries');">
+			<var>{QUERY_COUNT_TEXT}</var>
+			<h4>База данных</h4>
+		</td>
+		<td class="orange" onclick="changeTab('memory');">
+			<var>{MEMORY_USED}</var>
+			<h4>Расход памяти</h4>
+		</td>
+		<td class="red" onclick="changeTab('files');">
+			<var>{FILE_COUNT_TEXT}</var>
+			<h4>Загружено</h4>
+		</td>
+	</tr>
+	</table>
+
+	<div id="pqp-console" class="pqp-box">
+
+	<!-- IF LOGS_COUNT eq 0 -->
+	<h3>Нет данных.</h3>
+	<!-- ELSE -->
+		<table class="side" cellspacing="0">
+			<tr>
+				<td class="alt1"><var>{LOG_COUNT}</var><h4>Logs</h4></td>
+				<td class="alt2"><var>{ERROR_COUNT}</var> <h4>Errors</h4></td>
+			</tr>
+			<tr>
+				<td class="alt3"><var>{MEMORY_COUNT}</var> <h4>Memory</h4></td>
+				<td class="alt4"><var>{SPEED_COUNT}</var> <h4>Speed</h4></td>
+			</tr>
+		</table>
+		<table class="main" cellspacing="0">
+
+		<!-- BEGIN logs -->
+
+			<tr class="log-{logs.TYPE}">
+				<td class="type">{logs.TYPE}</td>
+				<td class="<!-- IF logs.S_ROW_COUNT is even -->alt<!-- ENDIF -->">
+				<!-- IF logs.TYPE eq 'log' -->
+					<div><pre>{logs.DATA}</pre></div>
+				<!-- ELSEIF logs.TYPE eq 'memory' -->
+					<div><pre>{logs.DATA}</pre> <em>{logs.DATA_TYPE}</em>: {logs.NAME} </div>
+				<!-- ELSEIF logs.TYPE eq 'speed' -->
+					<div><pre>{logs.DATA}</pre> <em>{logs.NAME}</em></div>
+				<!-- ELSEIF logs.TYPE eq 'error' -->
+					<div><em>Line {logs.LINE}</em> : {logs.DATA} <pre>{logs.FILE}</pre></div>
+				<!-- ENDIF -->
+				</td>
+			</tr>
+		<!-- END logs -->
+		</table>
+	<!-- ENDIF -->
+
+	</div>
+
+	<div id="pqp-speed" class="pqp-box">
+
+	<!-- IF SPEED_COUNT eq 0 -->
+	<h3>Нет данных.</h3>
+	<!-- ELSE -->
+		<table class="side" cellspacing="0">
+			<tr><td><var>{SPEED_TOTAL}</var><h4>Load Time</h4></td></tr>
+			<tr><td class="alt"><var>{SPEED_ALLOWED}</var> <h4>Max Execution Time</h4></td></tr>
+		</table>
+		<table class="main" cellspacing="0">
+			<!-- BEGIN logs -->
+				<!-- IF logs.TYPE eq 'speed' -->
+					<tr class="log-{logs.TYPE}">
+						<td class="<!-- IF logs.S_ROW_COUNT is even -->alt<!-- ENDIF -->">
+							<div><pre>{logs.DATA}</pre> <em>{logs.NAME}</em></div>
+						</td>
+					</tr>
+				<!-- ENDIF -->
+			<!-- END logs -->
+		</table>
+	<!-- ENDIF -->
+
+	</div>
+
+	<div id="pqp-queries" class="pqp-box">
+
+	<!-- IF QUERY_COUNT eq 0 -->
+	<h3>Нет данных.</h3>
+	<!-- ELSE -->
+	<table class="side" cellspacing="0">
+		<tr><td><var>{QUERY_COUNT}</var><h4>Total Queries</h4></td></tr>
+		<tr><td class="alt"><var>0</var> <h4>Total Time</h4></td></tr>
+		<tr><td><var>0</var> <h4>Duplicates</h4></td></tr>
+	</table>
+	<table class="main" cellspacing="0">
+		<!-- BEGIN queries -->
+			<tr>
+				<td class="<!-- IF queries.S_ROW_COUNT is even -->alt<!-- ENDIF -->">{queries.SQL} <em>{queries.TIME}</em></td>
+			</tr>
+		<!-- END queries -->
+	</table>
+	<!-- ENDIF -->
+
+	</div>
+
+	<div id="pqp-memory" class="pqp-box">
+
+	<!-- IF MEMORY_COUNT eq 0 -->
+	<h3>Нет данных.</h3>
+	<!-- ELSE -->
+		<table class="side" cellspacing="0">
+			<tr><td><var>{MEMORY_USED}</var><h4>Used Memory</h4></td></tr>
+			<tr><td class="alt"><var>{MEMORY_TOTAL}</var> <h4>Total Available</h4></td></tr>
+		</table>
+		<table class="main" cellspacing="0">
+			<!-- BEGIN logs -->
+				<!-- IF logs.TYPE eq 'memory' -->
+					<tr class="log-{logs.TYPE}">
+						<td class="<!-- IF logs.S_ROW_COUNT is even -->alt<!-- ENDIF -->"><b>{logs.DATA}</b> <em>{logs.DATA_TYPE}</em>: {logs.NAME}</td>
+					</tr>
+				<!-- ENDIF -->
+			<!-- END logs -->
+		</table>
+	<!-- ENDIF -->
+
+	</div>
+
+	<div id="pqp-files" class="pqp-box">
+
+	<!-- IF FILE_COUNT eq 0 -->
+	<h3>Нет данных.</h3>
+	<!-- ELSE -->
+		<table class="side" cellspacing="0">
+			<tr><td><var>{FILE_COUNT}</var><h4>Total Files</h4></td></tr>
+			<tr><td class="alt"><var>{FILE_SIZE}</var> <h4>Total Size</h4></td></tr>
+			<tr><td><var>{FILE_LARGEST}</var> <h4>Largest</h4></td></tr>
+		</table>
+		<table class="main" cellspacing="0">
+			<!-- BEGIN files -->
+				<tr><td class="<!-- IF files.S_ROW_COUNT is even -->alt<!-- ENDIF -->"><b>{files.SIZE}</b> {files.NAME}</td></tr>
+			<!-- END files -->
+		</table>
+	<!-- ENDIF -->
+
+	</div>
+
+	<table id="pqp-footer" cellspacing="0">
+		<tr>
+			<td class="credit">
+			</td>
+			<td class="actions">
+				<a href="#" onclick="hideProfiler(); return false;">Скрыть профайлер</a>
+				<a href="#" onclick="toggleDetails();return false">Подробности</a>
+				<a class="heightToggle" href="#" onclick="toggleHeight();return false">Изменить высоту</a>
+			</td>
+		</tr>
+	</table>
+
+</div></div>

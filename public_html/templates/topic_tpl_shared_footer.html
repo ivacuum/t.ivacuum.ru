@@ -1,0 +1,187 @@
+<div style="display: none;">
+	<!-- TPL.el_id элементы, для E[el] в форму подставляется $(el).html() -->
+	<div id="tpl-abr-box"></div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $.each(TPL.el_id, function(el,desc){
+    var m = el.match(/^(.*)(_abr)$/);
+    if (m == null) {
+      return true; // continue
+    }
+    var el_abr = m[0];
+    var el_ref = m[1];
+    $('#tpl-abr-box').append('<div id="'+el_abr+'-hid">'+ TPL.build_select_el(el_abr) +'</div>');
+    TPL.submit_fn[el_abr] = function(){
+      if ( $('#'+el_ref).length ) {
+        $('#'+el_abr)[0].selectedIndex = $('#'+el_ref)[0].selectedIndex;
+      }
+    }
+  });
+});
+</script>
+
+<div id="load_pic_btn"><input type="button" style="width: 140px;" value="Загрузить картинку" onclick="window.open('//up.local.ivacuum.ru/', '_blank'); return false;" /></div>
+
+<!--load_pic_faq_url-->
+<div id="load_pic_faq_url"> <a href="viewtopic.php?t=178" target="_blank"><b>Как залить картинку на разрешенный хост</b></a> </div>
+<!--/load_pic_faq_url-->
+
+<!--manga_type_faq_url-->
+<div id="manga_type_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?t=2168864#types" target="_blank"><b>Подробнее о типах</b></a> </div>
+<!--/manga_type_faq_url-->
+
+<!--make_screenlist_faq_url-->
+<div id="make_screenlist_faq_url"> <a href="viewtopic.php?t=172" target="_blank"><b>Как сделать скриншот / скринлист</b></a> </div>
+<!--/make_screenlist_faq_url-->
+
+<!--translation_rules_faq_url-->
+
+<div id="translation_rules_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?p=33482343#33482343" target="_blank"><b>Правила обозначения переводов</b></a> </div>
+<!--/translation_rules_faq_url-->
+
+<!--make_sample_faq_url-->
+<div id="make_sample_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?t=8415" target="_blank"><b>Как сделать сэмпл видео</b></a> </div>
+<!--/make_sample_faq_url-->
+
+<!--dvd_reqs_faq_url-->
+<div id="dvd_reqs_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?p=27157356#descr" target="_blank"><b>Требования и примеры для DVD</b></a> </div>
+
+<!--/dvd_reqs_faq_url-->
+
+<!--hd_reqs_faq_url-->
+<div id="hd_reqs_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?t=2277258#53" target="_blank"><b>Требования и примеры для HD</b></a> </div>
+<!--/hd_reqs_faq_url-->
+
+<!--videofile_info_faq_url-->
+<div id="videofile_info_faq_url"> <a href="viewtopic.php?t=41" target="_blank"><b>Как получить информацию по видео файлу</b></a> </div>
+<!--/videofile_info_faq_url-->
+
+<!--bdinfo_faq_url-->
+
+<div id="bdinfo_faq_url"> <a href="http://www.cinemasquid.com/blu-ray/tools/bdinfo" target="_blank"><b>BDInfo</b></a></div>
+<!--/bdinfo_faq_url-->
+
+<!--dvdinfo_faq_url-->
+<div id="dvdinfo_faq_url"> <a href="http://www.cinemasquid.com/blu-ray/tools/dvdinfo" target="_blank"><b>DVDInfo</b></a></div>
+<!--/dvdinfo_faq_url-->
+
+<!--make_poster_faq_url-->
+<div id="make_poster_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?t=1381634" target="_blank"><b>Инструкция по изготовлению постера</b></a> </div>
+<!--/make_poster_faq_url-->
+
+<!--pred_alt1_faq_url-->
+<div id="pred_alt1_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?t=648002#8" target="_blank"><b>О ссылках на предыдущие и альтернативные раздачи</b></a> </div>
+<!--/pred_alt1_faq_url-->
+
+<!--quality_decl_faq_url-->
+<div id="quality_decl_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?p=27840514#27840514" target="_blank"><b>об обозначениях качества</b></a> </div>
+<!--/quality_decl_faq_url-->
+
+<!--pred_alt2_faq_url-->
+<div id="pred_alt2_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?p=4960586#4960586" target="_blank"><b>О ссылках на предыдущие и альтернативные раздачи</b></a> </div>
+
+<!--/pred_alt2_faq_url-->
+
+<!--pred_alt3_faq_url-->
+<div id="pred_alt3_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?p=6734641#6734641" target="_blank"><b>О ссылках на предыдущие и альтернативные раздачи</b></a> </div>
+<!--/pred_alt3_faq_url-->
+
+<!--pred_alt4_faq_url-->
+<div id="pred_alt4_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?t=460883#8" target="_blank"><b>О ссылках на предыдущие и альтернативные раздачи</b></a> </div>
+<!--/pred_alt4_faq_url-->
+
+<!--dvdinfo_faq_url-->
+
+<div id="dvdinfo_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?t=101263" target="_blank"><b>Как получить информацию о DVD-Video</b></a> </div>
+<!--/dvdinfo_faq_url-->
+
+<!--tyt_faq_url-->
+<div id="tyt_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?t=2135853" target="_blank"><b>тут</b></a> </div>
+<!--/tyt_faq_url-->
+
+
+<!--wtf_faq_url-->
+<div id="wtf_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?t=2513781" target="_blank"><b>Что это значит?</b></a> </div>
+
+<!--/wtf_faq_url-->
+
+<!--faq_catalog-->
+<div id="faq_catalog"> <a href="http://rutracker.org/forum/viewtopic.php?t=1123827#3" target="_blank"><b>инструкция.</b></a> </div>
+<!--/faq_catalog-->
+
+<!--faq_pops-->
+<div id="faq_pops"> <a href="http://rutracker.org/forum/viewtopic.php?t=1077368" target="_blank"><b>Что такое Popsloader?</b></a> </div>
+<!--/faq_pops-->
+
+<!--faq_code-->
+
+<div id="faq_code"> <a href="http://rutracker.org/forum/viewtopic.php?p=24015560#24015560" target="_blank"><b>Как узнать код диcка?</b></a> </div>
+<!--/faq_code-->
+
+<!--faq_pegi-->
+<div id="faq_pegi"> <a href="http://www.pegi.info" target="_blank"><b>PEGI?</b></a> </div>
+<!--/faq_pegi-->
+
+<!--faq_screen_psp-->
+<div id="faq_screen_psp"> <a href="http://rutracker.org/forum/viewtopic.php?t=457909" target="_blank"><b>Как сделать скриншоты с PSP</b></a> </div>
+
+<!--/faq_screen_psp-->
+
+<!--dvdinfo_faq_ur_2l-->
+<div id="dvdinfo_faq_url_2"> <a href="http://www.cinemasquid.com/blu-ray/tools/dvdinfo" target="_blank"><b>Как получить информацию о DVD Video файле</b></a></div>
+<!--/dvdinfo_faq_url_2-->
+
+<!--quality_faq-->
+<div id="quality_faq"> <a href="http://rutracker.org/forum/viewtopic.php?t=2198792" target="_blank"><b>Обозначение качества видео</b></a></div>
+<!--/quality_faq-->
+
+<!--comparison_anime-->
+<div id="comparison_anime"> <a href="viewtopic.php?t=334#3.1.4" target="_blank"><b>Сравнения с другими раздачами</b></a></div>
+
+<!--/comparison_anime-->
+
+<!--file_list-->
+<div id="file_list"> <a href="http://rutracker.org/forum/viewtopic.php?p=21307338#21307338" target="_blank"><b>Как создать список файлов?</b></a></div>
+<!--/file_list-->
+
+<!--manga_chapters_prefix-->
+<input type="hidden" id="manga_chapters_prefix" value="главы">
+<!--/manga_chapters_prefix-->
+
+<!--test_dash-->
+<input type="hidden" id="test_dash" value="-">
+<!--/test_dash-->
+
+<!--DVD_PG-->
+<input type="hidden" id="DVD_PG" value="DVD-PG">
+<!--/DVD_PG-->
+
+<!--psp_psx-->
+<input type="hidden" id="psp_psx" value="PSP-PSX">
+<!--/psp_psx-->
+
+<!--series-->
+<input type="hidden" id="series" value="Серии:">
+<!--/series-->
+
+<!--series_of-->
+<input type="hidden" id="series_of" value="из">
+<!--/series_of-->
+
+<!--season-->
+
+<input type="hidden" id="season" value="Сезон:">
+<!--/season-->
+
+<!--point-->
+<input type="hidden" id="point" value=",">
+<!--/point-->
+
+<!--genre_faq_url-->
+<div id="genre_faq_url"> <a href="http://rutracker.org/forum/viewtopic.php?t=2090617" target="_blank"><b>Как определить жанр</b></a> </div>
+<!--/genre_faq_url-->
+
+<!--faq_game-->
+<div id="faq_game"> <a href="http://rutracker.org/forum/viewtopic.php?t=2706502" target="_blank"><b>Превью</b></a> </div>
+
+<!--/faq_game--></div>
