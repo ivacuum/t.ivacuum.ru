@@ -164,7 +164,7 @@ function bb_exit($output = '')
 {
 	global $profiler;
 
-	if( $_SERVER['REMOTE_ADDR'] == '10.171.2.236' )
+	if( $_SERVER['REMOTE_ADDR'] == '192.168.1.1' )
 	{
 		// $profiler->display();
 	}
@@ -243,7 +243,7 @@ require($t_root_path . 'includes/functions.php');
 require($t_root_path . 'includes/sessions.php');
 require($t_root_path . 'includes/template.php');
 
-if( $_SERVER['REMOTE_ADDR'] == '10.171.2.236' )
+if( $_SERVER['REMOTE_ADDR'] == '192.168.1.1' )
 {
 	require($t_root_path . 'includes/db/mysqli.php');
 

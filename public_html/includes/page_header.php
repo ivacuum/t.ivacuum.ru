@@ -117,7 +117,7 @@ $template->assign_vars(array(
 $autocomplete = false;
 
 if(
-	$_SERVER['REMOTE_ADDR'] == '10.171.2.236' || // vacuum
+	$_SERVER['REMOTE_ADDR'] == '192.168.1.1' || // vacuum
 	$_SERVER['REMOTE_ADDR'] == '10.171.87.121' || // mindblower
 	$_SERVER['REMOTE_ADDR'] == '10.171.66.250' || // bonik
 	$_SERVER['REMOTE_ADDR'] == '10.231.213.188' || // whitejocker
@@ -179,7 +179,7 @@ $template->assign_vars(array(
 	'U_TRACKER'          => "tracker.$phpEx",
 	'U_UPLOAD_IMAGE'     => ( $static_path == '//0.ivacuum.org' ) ? '//up.local.ivacuum.ru/' : '//up.ivacuum.ru/',
 
-	'DEVELOPER'          => $_SERVER['REMOTE_ADDR'] == '10.171.2.236',
+	'DEVELOPER'          => $_SERVER['REMOTE_ADDR'] == '192.168.1.1',
 	'SHOW_ADMIN_OPTIONS' => $is_admin,
 	'SHOW_MODER_OPTIONS' => ($is_admin || $is_mod),
 	'SHOW_SIDEBAR1'      => (!empty($page_cfg['show_sidebar1'][BB_SCRIPT]) || $bb_cfg['show_sidebar1_on_every_page']),

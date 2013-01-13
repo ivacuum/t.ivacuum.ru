@@ -172,7 +172,7 @@ class ajax_common
 	*/
 	function init()
 	{
-		if( $_SERVER['REMOTE_ADDR'] == '10.171.2.236' )
+		if( $_SERVER['REMOTE_ADDR'] == '192.168.1.1' )
 		{
 			$this->request = $_REQUEST;
 		}
