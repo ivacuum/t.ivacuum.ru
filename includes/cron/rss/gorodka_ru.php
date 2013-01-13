@@ -15,7 +15,7 @@ class gorodka_ru extends rss
 {
 	public function run()
 	{
-		if( false === $xml = $this->get_rss_xml_data('http://gorodka.ru/informer') )
+		if (false === $xml = $this->get_rss_xml_data('http://gorodka.ru/informer'))
 		{
 			return false;
 		}
@@ -23,9 +23,9 @@ class gorodka_ru extends rss
 		$data = array();
 		$n    = 0;
 
-		foreach( $xml->channel->item as $entry )
+		foreach ($xml->channel->item as $entry)
 		{
-			if( $n > 4 )
+			if ($n > 4)
 			{
 				break;
 			}

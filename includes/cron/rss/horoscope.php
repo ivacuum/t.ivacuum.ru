@@ -15,7 +15,7 @@ class horoscope extends rss
 {
 	public function run()
 	{
-		if( false === $xml = $this->get_rss_xml_data('http://www.hyrax.ru/cgi-bin/bn_xml5.cgi') )
+		if (false === $xml = $this->get_rss_xml_data('http://www.hyrax.ru/cgi-bin/bn_xml5.cgi'))
 		{
 			return false;
 		}
@@ -23,9 +23,9 @@ class horoscope extends rss
 		$data = array();
 		$i    = 0;
 
-		foreach( $xml->channel->item as $entry )
+		foreach ($xml->channel->item as $entry)
 		{
-			switch( $i )
+			switch ($i)
 			{
 				case 1:  $icon = 'zodiac_aries'; break;
 				case 2:  $icon = 'zodiac_taurus'; break;

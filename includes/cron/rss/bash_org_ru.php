@@ -15,14 +15,14 @@ class bash_org_ru extends rss
 {
 	public function run()
 	{
-		if( false === $xml = $this->get_rss_xml_data('http://bash.im/rss/') )
+		if (false === $xml = $this->get_rss_xml_data('http://bash.im/rss/'))
 		{
 			return false;
 		}
 		
 		$data = array();
 
-		foreach( $xml->channel->item as $entry )
+		foreach ($xml->channel->item as $entry)
 		{
 			$data[] = array(
 				'link'  => (string) $entry->link,

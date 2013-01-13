@@ -15,14 +15,14 @@ class mobile_beeline extends rss
 {
 	public function run()
 	{
-		if( false === $xml = $this->get_rss_xml_data('http://mobile.beeline.ru/rss/russia.wbp') )
+		if (false === $xml = $this->get_rss_xml_data('http://mobile.beeline.ru/rss/russia.wbp'))
 		{
 			return false;
 		}
 		
 		$data = array();
 
-		foreach( $xml->channel->item as $entry )
+		foreach ($xml->channel->item as $entry)
 		{
 			$data[] = array(
 				'link'  => (string) '',

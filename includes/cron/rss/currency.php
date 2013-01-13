@@ -15,14 +15,14 @@ class currency extends rss
 {
 	public function run()
 	{
-		if( false === $xml = $this->get_rss_xml_data('http://www.cbr.ru/scripts/XML_daily.asp') )
+		if (false === $xml = $this->get_rss_xml_data('http://www.cbr.ru/scripts/XML_daily.asp'))
 		{
 			return false;
 		}
 		
 		$data = array();
 		
-		foreach( $xml->Valute as $entry )
+		foreach ($xml->Valute as $entry)
 		{
 			$data[(string) $entry->CharCode] = array(
 				'name'    => (string) $entry->Name,

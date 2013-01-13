@@ -15,16 +15,16 @@ class forecast extends rss
 {
 	public function run()
 	{
-		if( false === $xml = $this->get_rss_xml_data('http://informer.gismeteo.ru/xml/27703.xml') )
+		if (false === $xml = $this->get_rss_xml_data('http://informer.gismeteo.ru/xml/27703.xml'))
 		{
 			return false;
 		}
 		
 		$data = array();
 
-		foreach( $xml->REPORT->TOWN->FORECAST as $entry )
+		foreach ($xml->REPORT->TOWN->FORECAST as $entry)
 		{
-			switch( (int) $entry->PHENOMENA['cloudiness'] )
+			switch ((int) $entry->PHENOMENA['cloudiness'])
 			{
 				case 0:  $cloudiness = 'ясно'; break;
 				case 1:  $cloudiness = 'малооблачно'; break;
@@ -34,7 +34,7 @@ class forecast extends rss
 				default: $cloudiness = ''; break;
 			}
 
-			switch( (int) $entry->PHENOMENA['precipitation'] )
+			switch ((int) $entry->PHENOMENA['precipitation'])
 			{
 				case 4:  $precipitation = 'дождь'; break;
 				case 5:  $precipitation = 'ливень'; break;
@@ -47,7 +47,7 @@ class forecast extends rss
 				default: $precipitation = ''; break;
 			}
 
-			switch( (int) $entry['tod'] )
+			switch ((int) $entry['tod'])
 			{
 				case 0:  $tod = 'ночь'; break;
 				case 1:  $tod = 'утро'; break;
@@ -59,23 +59,23 @@ class forecast extends rss
 
 			$icon = 'weather';
 
-			if( $precipitation == 'дождь' || $precipitation == 'ливень' )
+			if ($precipitation == 'дождь' || $precipitation == 'ливень')
 			{
 				$icon = 'weather_rain';
 			}
-			elseif( $precipitation == 'гроза' )
+			elseif ($precipitation == 'гроза')
 			{
 				$icon = 'weather_lightning';
 			}
-			elseif( $precipitation == 'снег' )
+			elseif ($precipitation == 'снег')
 			{
 				$icon = 'weather_snow';
 			}
 			else
 			{
-				if( $tod == 'ночь' )
+				if ($tod == 'ночь')
 				{
-					if( $cloudiness == 'ясно' )
+					if ($cloudiness == 'ясно')
 					{
 						$icon = 'weather_moon';
 					}
@@ -86,22 +86,22 @@ class forecast extends rss
 				}
 				else
 				{
-					if( $cloudiness == 'малооблачно' )
+					if ($cloudiness == 'малооблачно')
 					{
 						$icon = 'weather_cloudy';
 					}
-					elseif( $cloudiness == 'облачно' )
+					elseif ($cloudiness == 'облачно')
 					{
 						$icon = 'weather_cloud';
 					}
-					elseif( $cloudiness == 'пасмурно' )
+					elseif ($cloudiness == 'пасмурно')
 					{
 						$icon = 'weather_clouds';
 					}
 				}
 			}
 
-			switch( (int) $entry->WIND['direction'] )
+			switch ((int) $entry->WIND['direction'])
 			{
 				case 0:  $winddeg = '270'; $winddir = 'северный'; break;
 				case 1:  $winddeg = '225'; $winddir = 'северо-восточный'; break;
@@ -118,7 +118,7 @@ class forecast extends rss
 			$tavg = intval(((int) $entry->TEMPERATURE['min'] + (int) $entry->TEMPERATURE['max']) / 2);
 			$tavg -= $tavg % 4;
 
-			switch( $tavg )
+			switch ($tavg)
 			{
 				case -40: $tcolor = '86bae3'; break;
 				case -36: $tcolor = '90bfe4'; break;
@@ -147,7 +147,7 @@ class forecast extends rss
 				default:  $tcolor = 'f0eff0'; break;
 			}
 
-			switch( (int) $entry['month'] )
+			switch ((int) $entry['month'])
 			{
 				case 1:  $month = 'января'; break;
 				case 2:  $month = 'февраля'; break;

@@ -15,14 +15,14 @@ class lenta_ru extends rss
 {
 	public function run()
 	{
-		if( false === $xml = $this->get_rss_xml_data('http://lenta.ru/rss/') )
+		if (false === $xml = $this->get_rss_xml_data('http://lenta.ru/rss/'))
 		{
 			return false;
 		}
 		
 		$data = array();
 
-		foreach( $xml->channel->item as $entry )
+		foreach ($xml->channel->item as $entry)
 		{
 			$data[] = array(
 				'cat'   => (string) $entry->category,
