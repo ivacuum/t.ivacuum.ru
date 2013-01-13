@@ -1,9 +1,7 @@
 <?php
 /**
-*
 * @package t.ivacuum.ru
 * @copyright (c) 2011
-*
 */
 
 if( $_SERVER['REMOTE_ADDR'] != '10.171.2.236' )

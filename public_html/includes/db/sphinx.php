@@ -1,9 +1,7 @@
 <?php
 /**
-*
-* @package vacuum.kaluga.spark
+* @package fw
 * @copyright (c) 2011
-*
 */
 
 if( !defined('IN_SITE') && !defined('BB_SCRIPT') )
@@ -315,5 +313,3 @@ class db_sphinx
 		return $result;
 	}
 }
-
-?>

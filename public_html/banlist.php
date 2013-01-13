@@ -1,9 +1,7 @@
 <?php
 /**
-*
 * @package t.ivacuum.ru
 * @copyright (c) 2011
-*
 */
 
 /**
@@ -29,5 +27,3 @@
 define('BB_SCRIPT', 'banlist');
 $t_root_path = __DIR__ . '/';
 require($t_root_path . 'common.php');
-
-?>

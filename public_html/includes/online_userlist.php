@@ -1,9 +1,7 @@
 <?php
 /**
-*
 * @package t.ivacuum.ru
 * @copyright (c) 2010
-*
 */
 
 if( !defined('BB_ROOT') )

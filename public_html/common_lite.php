@@ -1,9 +1,7 @@
 <?php
 /**
-*
 * @package t.ivacuum.ru
 * @copyright (c) 2010
-*
 */
 
 define('TIMESTART', utime());

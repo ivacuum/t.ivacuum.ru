@@ -1,9 +1,7 @@
 <?php
 /**
-*
 * @package t.ivacuum.ru
 * @copyright (c) 2011
-*
 */
 
 define('IN_AJAX', true);

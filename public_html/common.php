@@ -1,9 +1,7 @@
 <?php
 /**
-*
 * @package t.ivacuum.ru
 * @copyright (c) 2010
-*
 */
 
 require(__DIR__ . '/includes/profiler.php');
