@@ -2621,14 +2621,6 @@ function ajax_decode ($data, $to_charset = AJAX_CHARSET)
 }
 
 /**
- *  Encode PHP var to JSON (PHP -> JS)
- */
-function bb_json_encode ($data)
-{
-	return json_encode($data);
-}
-
-/**
  *  Decode JSON to PHP (JS -> PHP)
  */
 function bb_json_decode ($data)

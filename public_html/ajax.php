@@ -224,7 +224,7 @@ class ajax_common
 			array_deep($this->response, 'ajax_encode');
 		}
 
-		$response_js = bb_json_encode($this->response);
+		$response_js = json_encode($this->response);
 
 		if( GZIP_OUTPUT_ALLOWED && !defined('NO_GZIP') )
 		{
