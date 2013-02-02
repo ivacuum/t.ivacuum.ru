@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {META}
 <link rel="shortcut icon" href="{STATIC_PATH}/i/t/images/siteicon.png">
+<link rel="stylesheet" href="{STATIC_PATH}/js/jqueryui/1.10.0/themes/smoothness/minified/jquery-ui.min.css?v={$bb_cfg['css_ver']}">
 <link rel="stylesheet" href="{STATIC_PATH}/i/t/css/style.css?v={$bb_cfg['css_ver']}">
 <script>
 <!-- IF STATIC_PATH eq '//static.local.ivacuum.ru' || STATIC_PATH eq '//0.ivacuum.org' -->
@@ -19,7 +20,6 @@ var S_LOCAL = false;
 <link rel="stylesheet" href="{STATIC_PATH}/i/highslide/highslide.css">
 <!-- ENDIF / INCLUDE_BBCODE_JS -->
 <script src="{STATIC_PATH}/i/t/js/main.js?v={$bb_cfg['js_ver']}"></script>
-<link rel="stylesheet" href="{STATIC_PATH}/i/t/css/ui.css?v={$bb_cfg['css_ver']}">
 <!-- IF INCLUDE_BBCODE_JS -->
 <script src="{STATIC_PATH}/i/t/js/bbcode.js?v={$bb_cfg['js_ver']}"></script>
 <script>
@@ -285,9 +285,8 @@ $(function() {
 			$('#quick-search').submit();
 		}
 	})
-	.data("autocomplete")._renderItem = function(ul, item) {
+	.data("ui-autocomplete")._renderItem = function(ul, item) {
 		return $("<li></li>")
-			.data("item.autocomplete", item)
 			.append('<a><img src="{STATIC_PATH}/i/_/' + item.icon + '.png" alt="" style="vertical-align: text-top;"> ' + ((item.icon == 'magnifier') ? 'Искать: ' : '') + item.label.replace(new RegExp(preg_quote(this.term), 'gi'), '<b>' + this.term + '</b>') + '</a>')
 			.appendTo(ul);
 	};
