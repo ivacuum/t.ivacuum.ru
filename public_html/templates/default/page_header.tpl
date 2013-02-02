@@ -7,13 +7,7 @@
 <link rel="shortcut icon" href="{STATIC_PATH}/i/t/images/siteicon.png">
 <link rel="stylesheet" href="{STATIC_PATH}/js/jqueryui/1.10.0/themes/smoothness/minified/jquery-ui.min.css?v={$bb_cfg['css_ver']}">
 <link rel="stylesheet" href="{STATIC_PATH}/i/t/css/style.css?v={$bb_cfg['css_ver']}">
-<script>
-<!-- IF STATIC_PATH eq '//static.local.ivacuum.ru' || STATIC_PATH eq '//0.ivacuum.org' -->
-var S_LOCAL = true;
-<!-- ELSE -->
-var S_LOCAL = false;
-<!-- ENDIF -->
-</script>
+<script>var S_LOCAL = <!-- IF STATIC_PATH eq '//0.ivacuum.org' -->true<!-- ELSE -->false<!-- ENDIF -->;</script>
 <script src="{STATIC_PATH}/js/jquery/1.8.2/jquery.pack.js?v={$bb_cfg['js_ver']}"></script>
 <!-- IF INCLUDE_BBCODE_JS -->
 <script src="{STATIC_PATH}/js/hs.min.js"></script>
