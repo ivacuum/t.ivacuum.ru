@@ -404,7 +404,7 @@ else if ($mode == 'group' && $group_id)
 	foreach ($forum_auth_fields as $auth_type)
 	{
 		$template->assign_block_vars('acltype', array(
-			'ACL_TYPE_NAME' => preg_replace("#(.{5})#", "\\1<br />", $lang[$auth_type]),
+			'ACL_TYPE_NAME' => $lang[$auth_type],//preg_replace("#(.{5})#", "\\1<br />", $lang[$auth_type]),
 			'ACL_TYPE_BF'   => $bf['forum_perm'][$auth_type],
 		));
 		$s_column_span++;
