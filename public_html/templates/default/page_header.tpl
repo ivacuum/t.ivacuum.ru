@@ -16,7 +16,7 @@ var S_LOCAL = true;
 var S_LOCAL = false;
 <!-- ENDIF -->
 </script>
-<script type="text/javascript" src="{STATIC_PATH}/js/jquery/1.4.4/jquery.pack.js?v={$bb_cfg['js_ver']}"></script>
+<script type="text/javascript" src="{STATIC_PATH}/js/jquery/1.8.2/jquery.pack.js?v={$bb_cfg['js_ver']}"></script>
 <!-- IF INCLUDE_BBCODE_JS -->
 <script type="text/javascript" src="{STATIC_PATH}/js/hs.min.js"></script>
 <link rel="stylesheet" href="{STATIC_PATH}/i/highslide/highslide.css" type="text/css" />
