@@ -214,28 +214,10 @@ $(document).ready(function(){
 
 var ajax = new Ajax('{AJAX_HANDLER}', 'POST', 'json');
 </script>
-<!--[if IE 8]>
-<style type="text/css">
-.sf_title { white-space: normal; }
-</style>
-<![endif]-->
-<!--[if lt IE 8]>
-<style>
-hr.dashed {
-	margin: 0;
-}
-</style>
-<![endif]-->
-<!--[if gte IE 7]><style type="text/css">
-input[type="checkbox"] { margin-bottom: -1px; }
-</style><![endif]-->
-<!--[if IE]><style type="text/css">
-.code-copy { display: block; }
-.post-hr   { margin: 2px auto; }
-</style><![endif]-->
-<style>
-.menu-sub, #ajax-loading, #ajax-error, var.ajax-params { display: none; }
-</style>
+<!--[if IE 8]><style>.sf_title { white-space: normal; }</style><![endif]-->
+<!--[if gte IE 7]><style>input[type="checkbox"] { margin-bottom: -1px; }</style><![endif]-->
+<!--[if IE]><style>.code-copy { display: block; } .post-hr { margin: 2px auto; }</style><![endif]-->
+<style>.menu-sub, #ajax-loading, #ajax-error, var.ajax-params { display: none; }</style>
 <title><!-- IF PAGE_TITLE -->{PAGE_TITLE} :: {SITENAME}<!-- ELSE -->{SITENAME}<!-- ENDIF --></title>
 </head>
 <body>
@@ -294,22 +276,22 @@ body { background: #E3E3E3; min-width: 10px; }
 <div id="page_header">
 
 <!--main_nav-->
-<div class="shadow-light<!-- IF HAVE_NEW_PM or HAVE_UNREAD_PM --> new-pm<!-- ENDIF -->" id="main-nav">
+<div class="top-bar shadow-light<!-- IF HAVE_NEW_PM or HAVE_UNREAD_PM --> new-pm<!-- ENDIF -->" id="main-nav">
 	<table width="100%" cellpadding="0" cellspacing="0">
 	<tr>
-		<td class="nowrap" style="color: #000;">
-			<a href="{U_INDEX}"><b><img src="{STATIC_PATH}/i/_/home.png" alt="" style="vertical-align: text-top;"> {L_HOME}</b></a>
-			<a href="{U_TRACKER}"><b><img src="{STATIC_PATH}/i/_/table.png" alt="" style="vertical-align: text-top;"> {L_TRACKER}</b></a>
-			<a href="{U_UPLOAD_IMAGE}"><img src="{STATIC_PATH}/i/_/image_plus.png" alt="" style="vertical-align: text-top;"> <b>Загрузка</b></a>
-			<a href="{U_SEARCH}"><b><img src="{STATIC_PATH}/i/_/magnifier.png" alt="" style="vertical-align: text-top;"> {L_SEARCH}</b></a>
-			<a href="viewforum.php?f=4"><b><img src="{STATIC_PATH}/i/_/question_balloon.png" alt="" style="vertical-align: text-top;"> Помощь</b></a>
-			<a href="{U_GROUP_CP}"><b><img src="{STATIC_PATH}/i/_/users.png" alt="" style="vertical-align: text-top;"> {L_USERGROUPS}</b></a>
-			<a href="{U_MEMBERLIST}"><b><img src="{STATIC_PATH}/i/_/cards_address.png" alt="" style="vertical-align: text-top;"> {L_MEMBERLIST}</b></a>
-			<a href="feed.php"><b><img src="{STATIC_PATH}/i/_/feed.png" alt="" style="vertical-align: text-top;"> Ленты</b></a>
+		<td>
+			<a href="{U_INDEX}"><b><img src="{STATIC_PATH}/i/_/home.png" alt=""> {L_HOME}</b></a>
+			<a href="{U_TRACKER}"><b><img src="{STATIC_PATH}/i/_/table.png" alt=""> {L_TRACKER}</b></a>
+			<a href="{U_UPLOAD_IMAGE}"><img src="{STATIC_PATH}/i/_/image_plus.png" alt=""> <b>Загрузка</b></a>
+			<a href="{U_SEARCH}"><b><img src="{STATIC_PATH}/i/_/magnifier.png" alt=""> {L_SEARCH}</b></a>
+			<a href="viewforum.php?f=4"><b><img src="{STATIC_PATH}/i/_/question_balloon.png" alt=""> Помощь</b></a>
+			<a href="{U_GROUP_CP}"><b><img src="{STATIC_PATH}/i/_/users.png" alt=""> {L_USERGROUPS}</b></a>
+			<a href="{U_MEMBERLIST}"><b><img src="{STATIC_PATH}/i/_/cards_address.png" alt=""> {L_MEMBERLIST}</b></a>
+			<a href="feed.php"><b><img src="{STATIC_PATH}/i/_/feed.png" alt=""> Ленты</b></a>
 		</td>
 		<!-- IF LOGGED_IN -->
-		<td class="nowrap" align="right" style="color: #000;">
-			<a href="{U_READ_PM}"<!-- IF HAVE_NEW_PM or HAVE_UNREAD_PM --> class="new-pm-link"<!-- ENDIF -->><img src="{STATIC_PATH}/i/_/mail_open<!-- IF HAVE_NEW_PM or HAVE_UNREAD_PM -->_document<!-- ENDIF -->.png" alt="{PM_INFO}" title="{PM_INFO}" style="vertical-align: text-top;"> <b>{L_PRIVATE_MESSAGES} ({PM_INFO})</b></a>
+		<td class="tRight">
+			<a href="{U_READ_PM}"<!-- IF HAVE_NEW_PM or HAVE_UNREAD_PM --> class="new-pm-link"<!-- ENDIF -->><img src="{STATIC_PATH}/i/_/mail_open<!-- IF HAVE_NEW_PM or HAVE_UNREAD_PM -->_document<!-- ENDIF -->.png" alt="{PM_INFO}" title="{PM_INFO}"> <b>{L_PRIVATE_MESSAGES} ({PM_INFO})</b></a>
 		</td>
 		<!-- ENDIF -->
 	</tr>
