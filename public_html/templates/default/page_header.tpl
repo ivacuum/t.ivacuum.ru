@@ -280,18 +280,18 @@ body { background: #E3E3E3; min-width: 10px; }
 	<table width="100%" cellpadding="0" cellspacing="0">
 	<tr>
 		<td>
-			<a href="{U_INDEX}"><b><img src="{STATIC_PATH}/i/_/home.png" alt=""> {L_HOME}</b></a>
-			<a href="{U_TRACKER}"><b><img src="{STATIC_PATH}/i/_/table.png" alt=""> {L_TRACKER}</b></a>
-			<a href="{U_UPLOAD_IMAGE}"><img src="{STATIC_PATH}/i/_/image_plus.png" alt=""> <b>Загрузка</b></a>
-			<a href="{U_SEARCH}"><b><img src="{STATIC_PATH}/i/_/magnifier.png" alt=""> {L_SEARCH}</b></a>
-			<a href="viewforum.php?f=4"><b><img src="{STATIC_PATH}/i/_/question_balloon.png" alt=""> Помощь</b></a>
-			<a href="{U_GROUP_CP}"><b><img src="{STATIC_PATH}/i/_/users.png" alt=""> {L_USERGROUPS}</b></a>
-			<a href="{U_MEMBERLIST}"><b><img src="{STATIC_PATH}/i/_/cards_address.png" alt=""> {L_MEMBERLIST}</b></a>
-			<a href="feed.php"><b><img src="{STATIC_PATH}/i/_/feed.png" alt=""> Ленты</b></a>
+			<a href="{U_INDEX}"><img src="{STATIC_PATH}/i/_/home.png" alt=""> {L_HOME}</a>
+			<a href="{U_TRACKER}"><img src="{STATIC_PATH}/i/_/table.png" alt=""> {L_TRACKER}</a>
+			<a href="{U_UPLOAD_IMAGE}"><img src="{STATIC_PATH}/i/_/image_plus.png" alt=""> Загрузка</a>
+			<a href="{U_SEARCH}"><img src="{STATIC_PATH}/i/_/magnifier.png" alt=""> {L_SEARCH}</a>
+			<a href="viewforum.php?f=4"><img src="{STATIC_PATH}/i/_/question_balloon.png" alt=""> Помощь</a>
+			<a href="{U_GROUP_CP}"><img src="{STATIC_PATH}/i/_/users.png" alt=""> {L_USERGROUPS}</a>
+			<a href="{U_MEMBERLIST}"><img src="{STATIC_PATH}/i/_/cards_address.png" alt=""> {L_MEMBERLIST}</a>
+			<a href="feed.php"><img src="{STATIC_PATH}/i/_/feed.png" alt=""> Ленты</a>
 		</td>
 		<!-- IF LOGGED_IN -->
 		<td class="tRight">
-			<a href="{U_READ_PM}"<!-- IF HAVE_NEW_PM or HAVE_UNREAD_PM --> class="new-pm-link"<!-- ENDIF -->><img src="{STATIC_PATH}/i/_/mail_open<!-- IF HAVE_NEW_PM or HAVE_UNREAD_PM -->_document<!-- ENDIF -->.png" alt="{PM_INFO}" title="{PM_INFO}"> <b>{L_PRIVATE_MESSAGES} ({PM_INFO})</b></a>
+			<a href="{U_READ_PM}"<!-- IF HAVE_NEW_PM or HAVE_UNREAD_PM --> class="new-pm-link"<!-- ENDIF -->><img src="{STATIC_PATH}/i/_/mail_open<!-- IF HAVE_NEW_PM or HAVE_UNREAD_PM -->_document<!-- ENDIF -->.png" alt="{PM_INFO}" title="{PM_INFO}"> {L_PRIVATE_MESSAGES} ({PM_INFO})</a>
 		</td>
 		<!-- ENDIF -->
 	</tr>
