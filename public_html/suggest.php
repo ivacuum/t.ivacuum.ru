@@ -41,8 +41,8 @@ if( !$q || mb_strlen($q) < 2 )
 
 $ary = array();
 $ary[] = array(
-	'icon'  => 'magnifier',
-	'label' => $q
+	'icon'  => $static_path . '/i/_/magnifier.png',
+	'label' => $q,
 );
 
 $excluded_forums_csv = $user->get_excluded_forums(AUTH_READ);
@@ -120,9 +120,9 @@ $result = $db->sql_query($sql);
 while( $row = $db->sql_fetchrow($result) )
 {
 	$ary[] = array(
-		'icon'  => ( $row['forum_icon'] ) ?: 'question_balloon',
+		'icon'  => $static_path . '/i/_/' . ($row['forum_icon'] ?: 'question_balloon') . '.png',
 		'label' => $row['topic_title'],
-		'link'  => '/viewtopic.php?t=' . $row['topic_id']
+		'link'  => '/viewtopic.php?t=' . $row['topic_id'],
 	);
 }
 

@@ -42,13 +42,8 @@ if( !isset($t_root_path) )
 
 $phpbb_root_path = BB_ROOT;
 
-$static_path = '//ivacuum.org';
 $s_provider  = isset($_SERVER['HTTP_PROVIDER']) ? $_SERVER['HTTP_PROVIDER'] : 'internet';
-
-if( $s_provider == 'local' )
-{
-	$static_path = '//0.ivacuum.org';
-}
+$static_path = $s_provider == 'local' ? '//0.ivacuum.org' : '//ivacuum.org';
 
 // Get initial config
 require($t_root_path . 'cfg.php');

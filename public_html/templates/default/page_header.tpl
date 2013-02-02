@@ -287,7 +287,7 @@ $(function() {
 	})
 	.data("ui-autocomplete")._renderItem = function(ul, item) {
 		return $("<li></li>")
-			.append('<a><img src="{STATIC_PATH}/i/_/' + item.icon + '.png" alt="" style="vertical-align: text-top;"> ' + ((item.icon == 'magnifier') ? 'Искать: ' : '') + item.label.replace(new RegExp(preg_quote(this.term), 'gi'), '<b>' + this.term + '</b>') + '</a>')
+			.append('<a><img src="' + item.icon + '" alt=""> ' + (item.link ? 'Искать: ' : '') + item.label.replace(new RegExp(preg_quote(this.term), 'gi'), '<b>' + this.term + '</b>') + '</a>')
 			.appendTo(ul);
 	};
 
