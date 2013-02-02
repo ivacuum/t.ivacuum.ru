@@ -238,66 +238,7 @@ input[type="checkbox"] { margin-bottom: -1px; }
 </style>
 <title><!-- IF PAGE_TITLE -->{PAGE_TITLE} :: {SITENAME}<!-- ELSE -->{SITENAME}<!-- ENDIF --></title>
 </head>
-
 <body>
-
-<script>
-$(function() {
-	$('#quick-search').submit(function(){
-		var action = $('#search-action').val();
-		var txt = $('#search-text').val();
-		if( txt == 'поиск...' || txt == '' ) {
-			$('#search-text').val('').addClass('hl-err-input').focus();
-			return false;
-		}
-		if( action == 'cse' ) {
-			$('#cse-search-btn-top').click();
-			return false;
-		} else {
-			$(this).attr('action', action);
-		}
-	});
-
-	<!-- IF LOGGED_IN -->
-	function preg_quote(str)
-	{
-			return (str+'').replace(/([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:])/g, "\\$1");
-	}
-
-	$('#search-text').autocomplete({
-		autoFocus: true,
-		delay: 1000,
-		minLength: 2,
-		source: '/suggest.php',
-
-		select: function(e, ui) {
-			if( $(this).val() && $(this).val() != ui.item.label ) {
-				$('#quick-search').submit();
-				return false;
-			}
-			
-			if( ui.item.link ) {
-				document.location = ui.item.link;
-				return false;
-			}
-
-			$(this).val(ui.item.label);
-			$('#quick-search').submit();
-		}
-	})
-	.data("ui-autocomplete")._renderItem = function(ul, item) {
-		return $("<li></li>")
-			.append('<a><img src="' + item.icon + '" alt=""> ' + (item.link ? 'Искать: ' : '') + item.label.replace(new RegExp(preg_quote(this.term), 'gi'), '<b>' + this.term + '</b>') + '</a>')
-			.appendTo(ul);
-	};
-
-	$('#search-action').change(function() {
-		$('#search-text').autocomplete('option', 'disabled', $(this).val() != 'tracker.php');
-	});
-	<!-- ENDIF -->
-});
-</script>
-
 <!-- IF EDITABLE_TPLS -->
 <div id="editable-tpl-input" style="display: none;">
 	<span class="editable-inputs nowrap" style="display: none;">
