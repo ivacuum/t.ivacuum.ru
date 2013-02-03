@@ -321,3 +321,34 @@ if( $bb_cfg['board_disable'] && !defined('IN_ADMIN') && !defined('IN_LOGIN') )
 {
 	message_die(GENERAL_MESSAGE, 'Board_disable', 'Information');
 }
+
+/**
+* Загрузка констант
+*/
+function load_constants($prefix)
+{
+	if (!function_exists('apc_fetch'))
+	{
+		return false;
+	}
+
+	return apc_load_constants("{$prefix}_constants");
+}
+
+/**
+* Установка констант
+*/
+function set_constants($prefix, $constants)
+{
+	if (!function_exists('apc_fetch'))
+	{
+		foreach ($constants as $key => $value)
+		{
+			define($key, $value);
+		}
+		
+		return;
+	}
+	
+	apc_define_constants("{$prefix}_constants", $constants);
+}
