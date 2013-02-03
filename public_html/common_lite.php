@@ -153,14 +153,14 @@ function bb_log($msg, $file_name)
 
 	$file_name .= (LOG_EXT) ? '.'. LOG_EXT : '';
 
-	return file_write($msg, LOG_DIR . $file_name);
+	return file_write($msg, SITE_DIR . 'log/' . $file_name);
 }
 
 function dbg_log($str, $file)
 {
 	if (!DBG_LOG) return;
 
-	$dir = LOG_DIR . (defined('IN_PHPBB') ? 'dbg_bb/' : 'dbg_tr/') . date('m-d_H') .'/';
+	$dir = SITE_DIR . 'log/' . (defined('IN_PHPBB') ? 'dbg_bb/' : 'dbg_tr/') . date('m-d_H') .'/';
 	return file_write($str, $dir . $file, false, false);
 }
 
@@ -385,7 +385,7 @@ function array_deep(&$var, $fn, $one_dimensional = false, $array_only = false)
 
 function hide_bb_path($path)
 {
-	return substr(str_replace(BB_PATH, '', $path), 1);
+	return substr(str_replace(SITE_DIR, '', $path), 1);
 }
 
 function get_loadavg()

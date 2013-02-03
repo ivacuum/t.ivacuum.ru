@@ -131,7 +131,7 @@ define('XS_FTP_LOCAL', 'no_ftp');
 define('XS_UPDATE_STYLE', 1);
 define('XS_UPDATE_MOD', 2);
 define('XS_UPDATE_PHPBB', 3);
-define('XS_TPL_PATH', TEMPLATES_DIR .'xs_mod/tpl/');
+define('XS_TPL_PATH', SITE_DIR . 'templates/xs_mod/tpl/');
 define('XS_BACKUP_PREFIX', 'backup.');
 define('XS_BACKUP_EXT', '.backup');
 define('XS_MAX_TIMEOUT', 600); // maximum timeout for downloads/import/installation
@@ -141,7 +141,7 @@ $xs_row_class = array('row1', 'row2');
 $template_dir = 'templates/';
 
 $template->assign_vars(array(
-	'XS_PATH'	=> TEMPLATES_DIR .'xs_mod/',
+	'XS_PATH'	=> SITE_DIR . 'templates/xs_mod/',
 	'XS_UL'		=> '<table width="100%" cellspacing="0" cellpadding="2" border="0">',
 	'XS_UL2'	=> '</table>',
 	'XS_LI'		=> '<tr><td width="20" align="center" valign="middle"><img src="../xs_mod/images/dot.gif" border="0" alt="" /></td><td align="left" valign="middle" width="100%"><span class="gen">',

@@ -9,7 +9,7 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require(INC_DIR .'functions_selects.php');
+require(SITE_DIR . 'includes/functions_selects.php');
 
 //
 // Pull all config data

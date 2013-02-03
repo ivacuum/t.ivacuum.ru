@@ -12,7 +12,7 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require(INC_DIR .'functions_group.php');
+require(SITE_DIR . 'includes/functions_group.php');
 
 $yes_sign = '&radic;';
 $no_sign  = 'x';

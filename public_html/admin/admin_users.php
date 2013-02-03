@@ -9,11 +9,11 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require(INC_DIR .'bbcode.php');
-require(INC_DIR .'functions_post.php');
-require(INC_DIR .'functions_selects.php');
-require(INC_DIR .'functions_validate.php');
-require(INC_DIR .'functions_group.php');
+require(SITE_DIR . 'includes/bbcode.php');
+require(SITE_DIR . 'includes/functions_post.php');
+require(SITE_DIR . 'includes/functions_selects.php');
+require(SITE_DIR . 'includes/functions_validate.php');
+require(SITE_DIR . 'includes/functions_group.php');
 
 array_deep($_POST, 'trim');
 

@@ -109,7 +109,7 @@ elseif ($do == 'info')
 {
 	$req_mode = (string) request_var('show', 'not_found');
 
-	$html_dir = BB_PATH .'/misc/html/';
+	$html_dir = SITE_DIR . 'misc/html/';
 	$require = file_exists($html_dir . $req_mode .'.html') ? $html_dir . $req_mode .'.html' : $html_dir . 'not_found.html';
 
 	$in_info = true;

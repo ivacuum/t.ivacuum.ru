@@ -87,7 +87,7 @@ echo '
 /*
 if (DBG_USER && (SQL_DEBUG || PROFILER))
 {
-	require(INC_DIR . 'page_footer_dev.php');
+	require(SITE_DIR . 'includes/page_footer_dev.php');
 }
 $search = $replace = array();
 

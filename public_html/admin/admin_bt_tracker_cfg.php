@@ -9,7 +9,7 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require(INC_DIR .'functions_admin_torrent.php');
+require(SITE_DIR . 'includes/functions_admin_torrent.php');
 require(LANG_DIR .'lang_admin_bt.php');
 
 $submit       = isset($_POST['submit']);

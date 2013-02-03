@@ -156,7 +156,7 @@ class datastore_common
 	var $queued_items  = array();
 
 	var $fetch_counter = 0;
-	var $ds_dir        = 'datastore/';  // inside INC_DIR
+	var $ds_dir        = 'datastore/';  // inside SITE_DIR/includes
 
 	/**
 	* 'title' => 'builder script name (without ext)' inside "includes/datastore" dir
@@ -284,7 +284,7 @@ class datastore_common
 		//	print $title;
 		//	exit;
 		}*/
-			require(INC_DIR . $this->ds_dir . $this->known_items[$title] . '.php');
+			require(SITE_DIR . 'includes/' . $this->ds_dir . $this->known_items[$title] . '.php');
 		}
 		else
 		{
@@ -1725,7 +1725,7 @@ function setup_style()
 	$stylesheet   = defined('IN_ADMIN') ? 'main.css'  : basename($bb_cfg['stylesheet']);
 	$theme_css    = defined('IN_ADMIN') ? 'admin.css' : basename($bb_cfg['theme_css']);
 
-	$template = new Template(TEMPLATES_DIR . $tpl_dir_name);
+	$template = new Template(SITE_DIR . 'templates/' . $tpl_dir_name);
 	/* $css_dir = SITE_DIR . basename(TEMPLATES_DIR) ."/$tpl_dir_name/css/"; */
 	$css_dir = $static_path . '/i/t/css/';
 
@@ -1738,7 +1738,7 @@ function setup_style()
 		'EXT_LINK_NEW_WIN' => $bb_cfg['ext_link_new_win'],
 	));
 
-	require(TEMPLATES_DIR . $tpl_dir_name .'/tpl_config.php');
+	require(SITE_DIR . 'templates/' . $tpl_dir_name .'/tpl_config.php');
 
 	$theme = array('template_name' => $tpl_dir_name);
 

@@ -9,7 +9,7 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require(INC_DIR .'functions_group.php');
+require(SITE_DIR . 'includes/functions_group.php');
 
 $group_id = (@$_REQUEST[POST_GROUPS_URL]) ? intval($_REQUEST[POST_GROUPS_URL]) : 0;
 $mode     = (@$_REQUEST['mode']) ? strval($_REQUEST['mode']) : '';

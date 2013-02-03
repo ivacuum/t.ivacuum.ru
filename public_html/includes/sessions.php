@@ -22,7 +22,7 @@ switch( $bb_cfg['session_cache_type'] )
 
 	case 'filecache':
 
-		$session_cache = new cache_file(CACHE_DIR . $bb_cfg['session_cache']['filecache']['path']);
+		$session_cache = new cache_file(SITE_DIR . 'cache/' . $bb_cfg['session_cache']['filecache']['path']);
 
 	break;
 	default:
@@ -652,15 +652,15 @@ class user_common
 
 		if (defined('LANG_DIR')) return;  // prevent multiple calling
 
-		define('DEFAULT_LANG_DIR', LANG_ROOT_DIR .'lang_'. $bb_cfg['default_lang'] .'/');
-		define('ENGLISH_LANG_DIR', LANG_ROOT_DIR .'lang_english/');
+		define('DEFAULT_LANG_DIR', SITE_DIR . 'language/lang_'. $bb_cfg['default_lang'] .'/');
+		define('ENGLISH_LANG_DIR', SITE_DIR . 'language/lang_english/');
 
 		if ($this->data['user_id'] != ANONYMOUS)
 		{
 			if ($this->data['user_lang'] && $this->data['user_lang'] != $bb_cfg['default_lang'])
 			{
 				$bb_cfg['default_lang'] = basename($this->data['user_lang']);
-				define('LANG_DIR', LANG_ROOT_DIR .'lang_'. $bb_cfg['default_lang'] .'/');
+				define('LANG_DIR', SITE_DIR . 'language/lang_'. $bb_cfg['default_lang'] .'/');
 			}
 
 			if ($this->data['user_dateformat'])
