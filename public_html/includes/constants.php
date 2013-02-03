@@ -1,18 +1,18 @@
 <?php
 /**
 * @package t.ivacuum.ru
-* @copyright (c) 2011
+* @copyright (c) 2013
 */
 
 $constants = array();
 $constants_loaded = false;
 
-if( $apc_installed && apc_load_constants($bb_cfg['apc_prefix'] . '_constants') )
+if ($apc_installed && apc_load_constants($bb_cfg['apc_prefix'] . '_constants'))
 {
 	$constants_loaded = true;
 }
 
-if( !$constants_loaded )
+if (!$constants_loaded)
 {
 	$constants = array(
 		/* Параметры куков */
@@ -195,15 +195,15 @@ if( !$constants_loaded )
 		'LOGIN_KEY_LENGTH' => 12,
 
 		'CAT_URL'      => '?c=',
-		'DOWNLOAD_URL' => 'download.php?id=',
-		'FORUM_URL'    => 'viewforum.php?f=',
-		'GROUP_URL'    => 'groupcp.php?g=',
-		'LOGIN_URL'    => 'login.php?redirect=',
-		'MODCP_URL'    => 'modcp.php?f=',
-		'PM_URL'       => 'privmsg.php?mode=post&amp;u=',
-		'POST_URL'     => 'viewtopic.php?p=',
-		'PROFILE_URL'  => 'profile.php?mode=viewprofile&amp;u=',
-		'TOPIC_URL'    => 'viewtopic.php?t=',
+		'DOWNLOAD_URL' => '/download.php?id=',
+		'FORUM_URL'    => '/viewforum.php?f=',
+		'GROUP_URL'    => '/groupcp.php?g=',
+		'LOGIN_URL'    => '/login.php?redirect=',
+		'MODCP_URL'    => '/modcp.php?f=',
+		'PM_URL'       => '/privmsg.php?mode=post&amp;u=',
+		'POST_URL'     => '/viewtopic.php?p=',
+		'PROFILE_URL'  => '/profile.php?mode=viewprofile&amp;u=',
+		'TOPIC_URL'    => '/viewtopic.php?t=',
 
 		'HTML_SELECT_MAX_LENGTH' => 60,
 		'HTML_WBR_LENGTH'        => 12,
@@ -254,16 +254,16 @@ if( !$constants_loaded )
 		/* Когда определяем права пользователя, принимать во внимание: */
 		'UG_PERM_BOTH'       => 1, /* и права пользователя и права группы */
 		'UG_PERM_USER_ONLY'  => 2, /* только права пользователя */
-		'UG_PERM_GROUP_ONLY' => 3 /* только права группы */
+		'UG_PERM_GROUP_ONLY' => 3, /* только права группы */
 	);
 
-	if( $apc_installed )
+	if ($apc_installed)
 	{
 		apc_define_constants($bb_cfg['apc_prefix'] . '_constants', $constants);
 	}
 	else
 	{
-		foreach( $constants as $key => $value )
+		foreach ($constants as $key => $value)
 		{
 			define($key, $value);
 		}
