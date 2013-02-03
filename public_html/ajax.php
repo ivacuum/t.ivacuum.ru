@@ -5,10 +5,8 @@
 */
 
 define('IN_AJAX', true);
-$t_root_path = __DIR__ . '/';
 $ajax = new ajax_common();
-
-require($t_root_path . 'common.php');
+require('common.php');
 
 $ajax->init();
 
@@ -23,13 +21,13 @@ switch( $ajax->action )
 {
 	case 'chat_message':
 
-		require($t_root_path . 'includes/functions_post.php');
-		require($t_root_path . 'includes/bbcode.php');
+		require(SITE_DIR . 'includes/functions_post.php');
+		require(SITE_DIR . 'includes/bbcode.php');
 
 	break;
 	case 'view_post':
 
-		require($t_root_path . 'includes/bbcode.php');
+		require(SITE_DIR . 'includes/bbcode.php');
 
 	break;
 }
@@ -511,9 +509,7 @@ class ajax_common
 
 				if( !$btu = get_bt_userdata($user_id) )
 				{
-					global $t_root_path;
-
-					require($t_root_path . 'includes/functions_torrent.php');
+					require(SITE_DIR . 'includes/functions_torrent.php');
 					generate_passkey($user_id, true);
 					$btu = get_bt_userdata($user_id);
 				}

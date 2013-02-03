@@ -25,5 +25,4 @@
 */
 
 define('BB_SCRIPT', 'banlist');
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
+require('common.php');

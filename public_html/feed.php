@@ -5,8 +5,7 @@
 */
 
 define('BB_SCRIPT', 'stats');
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
+require(SITE_DIR . 'common.php');
 
 // Session start
 $user->session_start();

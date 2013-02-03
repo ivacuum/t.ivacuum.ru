@@ -5,8 +5,7 @@
 */
 
 define('IN_PHPBB', true);
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
+require('common.php');
 
 $user->session_start(array('req_login' => true));
 

@@ -12,6 +12,8 @@ if( isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS']) )
 	die();
 }
 
+define('SITE_DIR', __DIR__ . '/');
+
 if( !defined('BB_ROOT') )
 {
 	define('BB_ROOT', './');
@@ -22,15 +24,10 @@ if( !defined('IN_PHPBB') )
 	define('IN_PHPBB', true);
 }
 
-if( !isset($t_root_path) )
-{
-	$t_root_path = BB_ROOT;
-}
-
 $phpbb_root_path = BB_ROOT;
 
 // Get initial config
-require($t_root_path . 'cfg.php');
+require(SITE_DIR . 'cfg.php');
 
 if (empty($dbcharset)) $dbcharset = 'latin1';
 
@@ -420,7 +417,5 @@ function ver_compare($version1, $operator, $version2)
 // Board init
 if( defined('IN_PHPBB') )
 {
-	require($t_root_path . 'includes/init_bb_lite.php');
+	require(SITE_DIR . 'includes/init_bb_lite.php');
 }
-
-?>

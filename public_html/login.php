@@ -5,8 +5,7 @@
 */
 
 define('IN_LOGIN', true);
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
+require('common.php');
 
 $redirect_url = "index.php";
 $login_error = $login_err_msg = false;

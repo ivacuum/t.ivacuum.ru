@@ -565,8 +565,7 @@ class attach_parent
 						//bt
 						if ($this->attachment_extension_list[$actual_element] === TORRENT_EXT && $attachments[$actual_element]['tracker_status'])
 						{
-							global $t_root_path;
-							include_once($t_root_path . 'includes/functions_torrent.php');
+							include_once(SITE_DIR . 'includes/functions_torrent.php');
 							tracker_unregister($attachment_id);
 						}
 						//bt end
@@ -758,7 +757,6 @@ class attach_parent
 	function display_attachment_bodies()
 	{
 		global $attach_config, $db, $is_auth, $lang, $mode, $template, $upload_dir, $userdata, $forum_id;
-		global $t_root_path;
 
 		// Choose what to display
 		$value_add = $value_posted = 0;

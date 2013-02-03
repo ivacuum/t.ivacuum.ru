@@ -5,8 +5,7 @@
 */
 
 define('BB_SCRIPT', 'index');
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
+require('common.php');
 
 $page_cfg['load_tpl_vars'] = array(
 	'post_icons'

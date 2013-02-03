@@ -8,11 +8,11 @@ if (!defined('IN_PHPBB'))
 	exit;
 }
 
-require($t_root_path . 'attach_mod/includes/functions_includes.php');
-require($t_root_path . 'attach_mod/includes/functions_attach.php');
-require($t_root_path . 'attach_mod/includes/functions_delete.php');
-require($t_root_path . 'attach_mod/includes/functions_thumbs.php');
-require($t_root_path . 'attach_mod/includes/functions_filetypes.php');
+require(SITE_DIR . 'attach_mod/includes/functions_includes.php');
+require(SITE_DIR . 'attach_mod/includes/functions_attach.php');
+require(SITE_DIR . 'attach_mod/includes/functions_delete.php');
+require(SITE_DIR . 'attach_mod/includes/functions_thumbs.php');
+require(SITE_DIR . 'attach_mod/includes/functions_filetypes.php');
 
 if (defined('ATTACH_INSTALL'))
 {
@@ -24,15 +24,15 @@ if (defined('ATTACH_INSTALL'))
 */
 function attach_mod_get_lang($language_file)
 {
-	global $t_root_path, $attach_config, $board_config;
+	global $attach_config, $board_config;
 
 	$language = $board_config['default_lang'];
 
-	if (!file_exists($t_root_path . 'language/lang_' . $language . '/' . $language_file . '.php'))
+	if (!file_exists(SITE_DIR . 'language/lang_' . $language . '/' . $language_file . '.php'))
 	{
 		$language = $attach_config['board_lang'];
 
-		if (!file_exists($t_root_path . 'language/lang_' . $language . '/' . $language_file . '.php'))
+		if (!file_exists(SITE_DIR . 'language/lang_' . $language . '/' . $language_file . '.php'))
 		{
 			message_die(GENERAL_MESSAGE, 'Attachment Mod language file does not exist: language/lang_' . $language . '/' . $language_file . '.php');
 		}
@@ -83,7 +83,7 @@ function get_config()
 }
 
 // Get Attachment Config
-$cache_dir = $t_root_path . '/cache';
+$cache_dir = SITE_DIR . 'cache';
 $cache_file = $cache_dir . '/attach_config.php';
 $attach_config = array();
 
@@ -129,9 +129,9 @@ else
 
 // Please do not change the include-order, it is valuable for proper execution.
 // Functions for displaying Attachment Things
-include($t_root_path . 'attach_mod/displaying.php');
+include(SITE_DIR . 'attach_mod/displaying.php');
 // Posting Attachments Class (HAVE TO BE BEFORE PM)
-include($t_root_path . 'attach_mod/posting_attachments.php');
+include(SITE_DIR . 'attach_mod/posting_attachments.php');
 
 if (!intval($attach_config['allow_ftp_upload']))
 {

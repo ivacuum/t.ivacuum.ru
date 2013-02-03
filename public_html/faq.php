@@ -5,8 +5,7 @@
 */
 
 define('IN_PHPBB', true);
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
+require('common.php');
 
 // Start session management
 $user->session_start();
@@ -36,8 +35,8 @@ else
 	$lang_file = 'lang_faq';
 	$l_title = $lang['FAQ'];
 }
-include($t_root_path . 'language/lang_' . $board_config['default_lang'] . '/' . $lang_file . '.php');
-include($t_root_path . "language/lang_{$board_config['default_lang']}/lang_faq_attach.php");
+include(SITE_DIR . 'language/lang_' . $board_config['default_lang'] . '/' . $lang_file . '.php');
+include(SITE_DIR . "language/lang_{$board_config['default_lang']}/lang_faq_attach.php");
 
 
 //

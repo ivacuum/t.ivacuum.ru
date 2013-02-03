@@ -276,8 +276,6 @@ class datastore_common
 
 	function _build_item($title)
 	{
-		global $t_root_path;
-
 		if( !empty($this->known_items[$title]) )
 		{
 /*		if( $_SERVER['REMOTE_ADDR'] == '192.168.1.1' )
@@ -1396,8 +1394,6 @@ function show_bt_userdata($user_id)
 
 function get_attachments_dir($cfg = null)
 {
-	global $t_root_path;
-
 	if( !$cfg AND !$cfg = $GLOBALS['attach_config'] )
 	{
 		$cfg = bb_get_config(ATTACH_CONFIG_TABLE, true, false);
@@ -1411,7 +1407,7 @@ function get_attachments_dir($cfg = null)
 		}
 		else
 		{
-			return $t_root_path . $cfg['upload_dir'];
+			return SITE_DIR . $cfg['upload_dir'];
 		}
 	}
 	else
@@ -1977,7 +1973,7 @@ function ajax_die ($msg_text, $msg_code = E_AJAX_GENERAL_ERROR)
 
 function message_die ($msg_code, $msg_text = '', $msg_title = '', $err_line = '', $err_file = '', $sql = '')
 {
-	global $db, $template, $bb_cfg, $theme, $lang, $phpbb_root_path, $nav_links, $gen_simple_header, $images, $t_root_path;
+	global $db, $template, $bb_cfg, $theme, $lang, $phpbb_root_path, $nav_links, $gen_simple_header, $images;
 	global $userdata;
 
 	if (defined('HAS_DIED'))

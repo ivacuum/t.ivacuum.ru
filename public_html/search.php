@@ -5,9 +5,8 @@
 */
 
 define('BB_SCRIPT', 'search');
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
-require($t_root_path . 'includes/bbcode.php');
+require('common.php');
+require(SITE_DIR . 'includes/bbcode.php');
 
 $page_cfg['load_tpl_vars'] = array(
 	'post_buttons',

@@ -107,7 +107,7 @@ $search = '<a href="' . $temp_url . '">' . sprintf($lang['Search_user_posts'], $
 /*
 if ($profiledata['user_id'] == $userdata['user_id'] || IS_ADMIN)
 {
-	require($t_root_path . 'attach_mod/attachment_mod.php');
+	require(SITE_DIR . 'attach_mod/attachment_mod.php');
 	display_upload_attach_box_limits($profiledata['user_id']);
 }
 */
@@ -239,7 +239,7 @@ $template->assign_vars(array(
 //bt
 // Show users torrent-profile
 define('IN_VIEWPROFILE', TRUE);
-require($t_root_path .'includes/torrent_userprofile.php');
+require(SITE_DIR .'includes/torrent_userprofile.php');
 //bt end
 
 $template->assign_vars(array(

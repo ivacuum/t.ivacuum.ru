@@ -1,11 +1,10 @@
 <?php
 
 define('IN_PHPBB', true);
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
-require($t_root_path . 'includes/bbcode.php');
-require($t_root_path . 'includes/functions_post.php');
-require_once($t_root_path . 'includes/functions_admin.php');
+require('common.php');
+require(SITE_DIR . 'includes/bbcode.php');
+require(SITE_DIR . 'includes/functions_post.php');
+require_once(SITE_DIR . 'includes/functions_admin.php');
 
 //
 // Functions

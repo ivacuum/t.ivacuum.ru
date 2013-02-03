@@ -187,7 +187,6 @@ function init_display_post_attachments($switch_attachment)
 function display_attachments($post_id)
 {
 	global $template, $upload_dir, $userdata, $allowed_extensions, $display_categories, $download_modes, $db, $lang, $attachments, $upload_icons, $attach_config;
-	global $t_root_path;
 
 	$num_attachments = @sizeof($attachments['_' . $post_id]);
 
@@ -452,8 +451,7 @@ function display_attachments($post_id)
 			//bt
 			if ($link && ($attachments['_'. $post_id][$i]['extension'] === TORRENT_EXT))
 			{
-				global $t_root_path;
-				include($t_root_path . 'attach_mod/displaying_torrent.php');
+				include(SITE_DIR . 'attach_mod/displaying_torrent.php');
 			}
 
 			else if ($link)

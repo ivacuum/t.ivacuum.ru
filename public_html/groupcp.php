@@ -5,9 +5,8 @@
 */
 
 define('BB_SCRIPT', 'groupcp');
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
-require($t_root_path . 'includes/functions_group.php');
+require('common.php');
+require(SITE_DIR . 'includes/functions_group.php');
 
 $s_member_groups = $s_pending_groups = $s_member_groups_opt = $s_pending_groups_opt = '';
 $select_sort_mode = $select_sort_order = '';
@@ -323,7 +322,7 @@ else
 
 			if ($bb_cfg['groupcp_send_email'])
 			{
-				require($t_root_path . 'includes/emailer.php');
+				require(SITE_DIR . 'includes/emailer.php');
 				$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 				$emailer->from($bb_cfg['board_email']);
@@ -403,7 +402,7 @@ else
 
 					$group_name = $group_info['group_name'];
 
-					require($t_root_path . 'includes/emailer.php');
+					require(SITE_DIR . 'includes/emailer.php');
 					$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 					$emailer->from($bb_cfg['board_email']);

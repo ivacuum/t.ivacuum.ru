@@ -5,8 +5,7 @@
 */
 
 define('IN_PHPBB', true);
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
+require('common.php');
 
 $forum_id  = (@$_REQUEST[POST_FORUM_URL]) ? (int) $_REQUEST[POST_FORUM_URL] : 0;
 $topic_id  = (@$_REQUEST[POST_TOPIC_URL]) ? (int) $_REQUEST[POST_TOPIC_URL] : 0;

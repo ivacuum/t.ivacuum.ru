@@ -5,8 +5,7 @@
 */
 
 define('BB_SCRIPT', 'forum');
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
+require('common.php');
 
 $show_last_topic     = true;
 $last_topic_max_len  = 40;

@@ -3,9 +3,8 @@
 define('IN_PHPBB', true);
 define('NO_GZIP', true);
 define('BB_ROOT',  './');
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
-require($t_root_path . 'attach_mod/attachment_mod.php');
+require('common.php');
+require(SITE_DIR . 'attach_mod/attachment_mod.php');
 
 $datastore->enqueue(array(
 	'attach_extensions',

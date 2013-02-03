@@ -243,8 +243,8 @@ define('SEARCH_ID_LENGTH', 12);
 define('SID_LENGTH',       20);
 define('LOGIN_KEY_LENGTH', 12);
 
-define('PAGE_HEADER', $t_root_path . 'includes/page_header.php');
-define('PAGE_FOOTER', $t_root_path . 'includes/page_footer.php');
+define('PAGE_HEADER', SITE_DIR . 'includes/page_header.php');
+define('PAGE_FOOTER', SITE_DIR . 'includes/page_footer.php');
 
 define('CAT_URL',      'index.php?'      . 'c=');
 define('DOWNLOAD_URL', 'download.php?'  . 'id=');
@@ -373,10 +373,10 @@ function make_url($path)
 	return $server_protocol . $bb_cfg['server_name'] . $server_port . $bb_cfg['script_path'] . $path;
 }
 
-require($t_root_path . 'includes/functions.php');
-require($t_root_path . 'includes/sessions.php');
-require($t_root_path . 'includes/template.php');
-require($t_root_path . 'includes/db/mysql.php');
+require(SITE_DIR . 'includes/functions.php');
+require(SITE_DIR . 'includes/sessions.php');
+require(SITE_DIR . 'includes/template.php');
+require(SITE_DIR . 'includes/db/mysql.php');
 
 // if (DBG_USER) require(INC_DIR .'functions_dev.php');
 
@@ -434,7 +434,7 @@ if( empty($_POST) && !defined('IN_ADMIN') && !defined('IN_AJAX') && !defined('IN
 		// Update cron_last_check
 		bb_update_config(array('cron_last_check' => TIMENOW));
 
-		require($t_root_path . 'config/cron_cfg.php');
+		require(SITE_DIR . 'config/cron_cfg.php');
 
 		// bb_log(date('H:i:s - ') . getmypid() .' -x-- DB-LOCK try'. LOG_LF, CRON_LOG_DIR .'cron_check');
 
@@ -443,7 +443,7 @@ if( empty($_POST) && !defined('IN_ADMIN') && !defined('IN_AJAX') && !defined('IN
 			// bb_log(date('H:i:s - ') . getmypid() .' --x- DB-LOCK OBTAINED !!!!!!!!!!!!!!!!!'. LOG_LF, CRON_LOG_DIR .'cron_check');
 
 			sleep(2);
-			require($t_root_path . 'includes/cron/cron_init.php');
+			require(SITE_DIR . 'includes/cron/cron_init.php');
 			$db->release_lock('cron');
 		}
 	}

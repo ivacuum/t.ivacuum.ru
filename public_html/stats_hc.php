@@ -10,8 +10,7 @@ if( $_SERVER['REMOTE_ADDR'] != '192.168.1.1' )
 }
 
 define('BB_SCRIPT', 'stats');
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
+require('common.php');
 
 // Session start
 $user->session_start();

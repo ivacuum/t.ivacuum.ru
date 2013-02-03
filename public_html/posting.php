@@ -5,11 +5,10 @@
 */
 
 define('IN_PHPBB', true);
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
-require($t_root_path . 'includes/bbcode.php');
-require($t_root_path . 'includes/functions_post.php');
-require($t_root_path . 'attach_mod/attachment_mod.php');
+require('common.php');
+require(SITE_DIR . 'includes/bbcode.php');
+require(SITE_DIR . 'includes/functions_post.php');
+require(SITE_DIR . 'attach_mod/attachment_mod.php');
 
 $page_cfg['load_tpl_vars'] = array(
 	'post_icons',
@@ -328,7 +327,7 @@ if (!$is_auth[$is_auth_type])
 
 if ($mode == 'newtopic' && $topic_tpl && $post_info['topic_tpl_id'])
 {
-	require($t_root_path . 'includes/topic_templates.php');
+	require(SITE_DIR . 'includes/topic_templates.php');
 }
 
 // BBCode
@@ -560,7 +559,7 @@ else if ( ($submit || $confirm) && !$topic_has_new_posts )
 
 		case 'delete':
 		case 'poll_delete':
-			require_once($t_root_path . 'includes/functions_admin.php');
+			require_once(SITE_DIR . 'includes/functions_admin.php');
 			delete_post($mode, $post_data, $return_message, $return_meta, $forum_id, $topic_id, $post_id, $poll_id);
 			break;
 	}

@@ -5,8 +5,7 @@
 */
 
 define('BB_SCRIPT', 'stats');
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
+require('common.php');
 
 // Session start
 $user->session_start(array('req_login' => $bb_cfg['bt_tor_browse_only_reg']));

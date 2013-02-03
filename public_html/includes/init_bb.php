@@ -21,7 +21,7 @@ if( !defined('IN_ADMIN') && !defined('IN_INSTALL') && !defined('IN_AJAX') && !de
 	{
 		cron_release_deadlock();
 
-		require($t_root_path . 'templates/board_disabled_exit.php');
+		require(SITE_DIR . 'templates/board_disabled_exit.php');
 	}
 }
 
@@ -103,13 +103,13 @@ if( !defined('IN_INSTALL') && !defined('IN_AJAX') )
 }
 
 // Config options
-define('TPL_LIMIT_LOAD_EXIT', $t_root_path . 'templates/limit_load_exit.php');
+define('TPL_LIMIT_LOAD_EXIT', SITE_DIR . 'templates/limit_load_exit.php');
 
 define('COOKIE_EXPIRED', TIMENOW - 31536000);
 define('COOKIE_PERSIST', TIMENOW + 31536000);
 
-define('PAGE_HEADER', $t_root_path . 'includes/page_header.php');
-define('PAGE_FOOTER', $t_root_path . 'includes/page_footer.php');
+define('PAGE_HEADER', SITE_DIR . 'includes/page_header.php');
+define('PAGE_FOOTER', SITE_DIR . 'includes/page_footer.php');
 
 define('USER_AGENT', @strtolower($_SERVER['HTTP_USER_AGENT']));
 define('UA_OPERA',   strpos(USER_AGENT, 'pera'));
@@ -117,7 +117,7 @@ define('UA_IE',      strpos(USER_AGENT, 'msie'));
 
 define('HTML_WBR_TAG', (UA_OPERA || strpos(USER_AGENT, 'afari')) ? '<wbr></wbr>&#8203;' : '<wbr>');
 
-require($t_root_path . 'includes/constants.php');
+require(SITE_DIR . 'includes/constants.php');
 
 function bb_setcookie($name, $val, $lifetime = COOKIE_PERSIST, $httponly = false)
 {
@@ -180,13 +180,13 @@ function bb_exit($output = '')
 }
 
 // Exit if server overloaded
-if( !(defined('IN_PROFILE') || defined('IN_LOGIN') || defined('IN_ADMIN') || defined('IN_AJAX') || defined('IN_SERVICE')) && $t_root_path == '/srv/www/vhosts/t.ivacuum.ru/' )
+if( !(defined('IN_PROFILE') || defined('IN_LOGIN') || defined('IN_ADMIN') || defined('IN_AJAX') || defined('IN_SERVICE')) && SITE_DIR == '/srv/www/vhosts/t.ivacuum.ru/public_html/' )
 {
 	if( $bb_cfg['max_srv_load'] && empty($_POST['message']) && !empty($_COOKIE[COOKIE_LOAD]) && LOADAVG )
 	{
 		if( LOADAVG > $bb_cfg['max_srv_load'] && (TIMENOW - $_COOKIE[COOKIE_LOAD]) > $bb_cfg['user_session_duration'] )
 		{
-			require($t_root_path . 'templates/limit_load_exit.php');
+			require(SITE_DIR . 'templates/limit_load_exit.php');
 		}
 	}
 }
@@ -239,13 +239,13 @@ function make_url($path)
 	return $server_protocol . $bb_cfg['server_name'] . $server_port . $bb_cfg['script_path'] . $path;
 }
 
-require($t_root_path . 'includes/functions.php');
-require($t_root_path . 'includes/sessions.php');
-require($t_root_path . 'includes/template.php');
+require(SITE_DIR . 'includes/functions.php');
+require(SITE_DIR . 'includes/sessions.php');
+require(SITE_DIR . 'includes/template.php');
 
 if( $_SERVER['REMOTE_ADDR'] == '192.168.1.1' )
 {
-	require($t_root_path . 'includes/db/mysqli.php');
+	require(SITE_DIR . 'includes/db/mysqli.php');
 
 	$db = new db_mysqli();
 
@@ -254,7 +254,7 @@ if( $_SERVER['REMOTE_ADDR'] == '192.168.1.1' )
 }
 else
 {
-	require($t_root_path . 'includes/db/mysql.php');
+	require(SITE_DIR . 'includes/db/mysql.php');
 
 	// Make the database connection.
 	$db = new sql_db(array(
@@ -302,7 +302,7 @@ switch( $bb_cfg['datastore_type'] )
 	break;
 	case 'filecache':
 
-		$datastore = new datastore_file($t_root_path . 'cache/filecache/datastore/');
+		$datastore = new datastore_file(SITE_DIR . 'cache/filecache/datastore/');
 
 	break;
 	default:

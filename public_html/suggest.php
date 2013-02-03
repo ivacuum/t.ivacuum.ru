@@ -5,8 +5,7 @@
 */
 
 define('IN_PHPBB', true);
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
+require('common.php');
 
 $user->session_start();
 
@@ -47,7 +46,7 @@ $ary[] = array(
 
 $excluded_forums_csv = $user->get_excluded_forums(AUTH_READ);
 
-require($t_root_path . 'includes/db/sphinx.php');
+require(SITE_DIR . 'includes/db/sphinx.php');
 
 $sphinx = new db_sphinx();
 $sphinx->connect($bb_cfg['sphinx']['host'], $bb_cfg['sphinx']['port'], $bb_cfg['sphinx']['socket']);

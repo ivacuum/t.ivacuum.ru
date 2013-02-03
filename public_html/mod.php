@@ -5,8 +5,7 @@
 */
 
 define('IN_PHPBB', true);
-$t_root_path = __DIR__ . '/';
-require($t_root_path . 'common.php');
+require('common.php');
 
 $page_cfg['load_tpl_vars'] = array(
 	'post_icons',
@@ -103,7 +102,7 @@ if( isset($_POST['topic_id']) )
 		break;
 		case 'delete':
 
-			require_once($t_root_path . 'includes/functions_admin.php');
+			require_once(SITE_DIR . 'includes/functions_admin.php');
 
 			topic_delete($topic_ids);
 			meta_refresh(2, $url);
@@ -112,7 +111,7 @@ if( isset($_POST['topic_id']) )
 		break;
 		case 'tor_delete':
 
-			require_once($t_root_path . 'includes/functions_torrent.php');
+			require_once(SITE_DIR . 'includes/functions_torrent.php');
 
 			$sql = '
 				SELECT
