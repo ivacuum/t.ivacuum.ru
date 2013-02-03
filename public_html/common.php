@@ -292,10 +292,5 @@ function get_loadavg()
 	return !empty($loadavg) ? $loadavg : 0;
 }
 
-function ver_compare($version1, $operator, $version2)
-{
-	return version_compare($version1, $version2, $operator);
-}
-
 // Board init
-require(SITE_DIR . 'includes/init_bb.php');
+require(SITE_DIR . 'includes/init_bb' . (PHP_SAPI == 'cli' ? '_lite' : '') . '.php');
