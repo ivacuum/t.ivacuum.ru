@@ -9,9 +9,8 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require($phpbb_root_path . 'includes/functions_selects.php');
-
-include($phpbb_root_path.'language/lang_' . $board_config['default_lang'] . '/lang_user_search.php');
+require(SITE_DIR . 'includes/functions_selects.php');
+include(SITE_DIR . 'language/lang_' . $board_config['default_lang'] . '/lang_user_search.php');
 
 $total_sql = '';
 

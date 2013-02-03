@@ -9,7 +9,7 @@
 */
 function attach_faq_include($lang_file)
 {
-	global $phpbb_root_path, $board_config, $faq, $attach_config;
+	global $board_config, $faq, $attach_config;
 
 	if (intval($attach_config['disable_mod']))
 	{
@@ -19,7 +19,7 @@ function attach_faq_include($lang_file)
 	if ($lang_file == 'lang_faq')
 	{
 		$language = attach_mod_get_lang('lang_faq_attach');
-		include($phpbb_root_path . 'language/lang_' . $language . '/lang_faq_attach.php');
+		include(SITE_DIR . 'language/lang_' . $language . '/lang_faq_attach.php');
 	}
 }
 
@@ -52,7 +52,7 @@ function attach_build_auth_levels($is_auth, &$s_auth_can)
 	}
 
 	// If you want to have the rules window link within the forum view too, comment out the two lines, and comment the third line
-//	$rules_link = '(<a href="' . $phpbb_root_path . 'attach_rules.php?f=' . $forum_id . '" target="_blank">Rules</a>)';
+//	$rules_link = '(<a href="attach_rules.php?f=' . $forum_id . '" target="_blank">Rules</a>)';
 //	$s_auth_can .= ( ( $is_auth['auth_attachments'] ) ? $rules_link . ' ' . $lang['Rules_attach_can'] : $lang['Rules_attach_cannot'] ) . '<br />';
 	$s_auth_can .= (($is_auth['auth_attachments']) ? $lang['Rules_attach_can'] : $lang['Rules_attach_cannot'] ) . '<br />';
 
@@ -64,7 +64,7 @@ function attach_build_auth_levels($is_auth, &$s_auth_can)
 */
 function attachment_quota_settings($admin_mode, $submit = false, $mode)
 {
-	global $template, $db, $lang, $lang, $phpbb_root_path, $attach_config;
+	global $template, $db, $lang, $lang, $attach_config;
 
 	if (!intval($attach_config['allow_ftp_upload']))
 	{
@@ -74,7 +74,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 		}
 		else
 		{
-			$upload_dir = $phpbb_root_path . $attach_config['upload_dir'];
+			$upload_dir = SITE_DIR . $attach_config['upload_dir'];
 		}
 	}
 	else
@@ -82,8 +82,8 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 		$upload_dir = $attach_config['download_path'];
 	}
 
-	include_once($phpbb_root_path . 'attach_mod/includes/functions_selects.php');
-	include_once($phpbb_root_path . 'attach_mod/includes/functions_admin.php');
+	include_once(SITE_DIR . 'attach_mod/includes/functions_selects.php');
+	include_once(SITE_DIR . 'attach_mod/includes/functions_admin.php');
 
 	$user_id = 0;
 
@@ -261,7 +261,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 */
 function display_upload_attach_box_limits($user_id, $group_id = 0)
 {
-	global $attach_config, $board_config, $phpbb_root_path, $lang, $db, $template, $userdata, $profiledata;
+	global $attach_config, $board_config, $lang, $db, $template, $userdata, $profiledata;
 
 	if (intval($attach_config['disable_mod']))
 	{
@@ -445,7 +445,7 @@ function display_upload_attach_box_limits($user_id, $group_id = 0)
 
 	$template->assign_vars(array(
 		'L_UACP'			=> $lang['UACP'],
-		'U_UACP'			=> $phpbb_root_path . 'uacp.php?u=' . $user_id . '&amp;sid=' . $userdata['session_id'],
+		'U_UACP'			=> 'uacp.php?u=' . $user_id . '&amp;sid=' . $userdata['session_id'],
 		'UPLOADED' => sprintf($lang['User_uploaded_profile'], $user_uploaded),
 		'QUOTA' => sprintf($lang['User_quota_profile'], $user_quota),
 		'UPLOAD_LIMIT_IMG_WIDTH' => $upload_limit_img_length,

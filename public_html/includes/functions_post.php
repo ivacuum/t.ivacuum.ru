@@ -42,7 +42,7 @@ function unprepare_message($message)
 //
 function prepare_post(&$mode, &$post_data, &$bbcode_on, &$smilies_on, &$error_msg, &$username, &$bbcode_uid, &$subject, &$message, &$poll_title, &$poll_options, &$poll_length)
 {
-	global $bb_cfg, $userdata, $lang, $phpbb_root_path;
+	global $bb_cfg, $userdata, $lang;
 
 	// Check username
 	if (!empty($username))
@@ -51,7 +51,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$smilies_on, &$error_ms
 
 		if (!$userdata['session_logged_in'] || ($userdata['session_logged_in'] && $username != $userdata['username']))
 		{
-			require($phpbb_root_path . 'includes/functions_validate.php');
+			require(SITE_DIR . 'includes/functions_validate.php');
 
 			$result = validate_username($username);
 			if ($result['error'])
@@ -132,7 +132,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$smilies_on, &$error_ms
 //
 function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_id, &$post_id, &$poll_id, &$topic_type, &$bbcode_on, &$smilies_on, &$attach_sig, &$bbcode_uid, $post_username, $post_subject, $post_message, $poll_title, &$poll_options, &$poll_length, $update_post_time)
 {
-	global $bb_cache, $bb_cfg, $lang, $db, $phpbb_root_path;
+	global $bb_cache, $bb_cfg, $lang, $db;
 	global $userdata, $post_info, $is_auth;
 
 	$current_time = time();
@@ -468,7 +468,7 @@ function delete_post($mode, $post_data, &$message, &$meta, $forum_id, $topic_id,
 //
 function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topic_id, &$post_id, &$notify_user)
 {
-	global $bb_cfg, $lang, $db, $phpbb_root_path;
+	global $bb_cfg, $lang, $db;
 	global $userdata;
 
 	if (!$bb_cfg['topic_notify_enabled'])
@@ -545,7 +545,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
 
 				if (sizeof($bcc_list_ary))
 				{
-					include($phpbb_root_path . 'includes/emailer.php');
+					include(SITE_DIR . 'includes/emailer.php');
 					$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 					$script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($bb_cfg['script_path']));
@@ -647,7 +647,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
 //
 function generate_smilies($mode)
 {
-	global $db, $bb_cfg, $template, $lang, $images, $phpbb_root_path;
+	global $db, $bb_cfg, $template, $lang, $images;
 	global $user;
 
 	$inline_columns = 4;
@@ -741,7 +741,7 @@ function generate_smilies($mode)
 
 function insert_post($mode, $topic_id, $forum_id = '', $old_forum_id = '', $new_topic_id = '', $new_topic_title = '', $old_topic_id = '', $message = '', $poster_id = '')
 {
-	global $bb_cfg, $lang, $db, $phpbb_root_path;
+	global $bb_cfg, $lang, $db;
 	global $userdata, $is_auth;
 
 	require(DEFAULT_LANG_DIR .'lang_bot.php');

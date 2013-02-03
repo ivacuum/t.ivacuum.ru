@@ -63,7 +63,7 @@ if ( $row = $db->fetch_row($sql) )
 
 			if ( !$error )
 			{
-				require($phpbb_root_path . 'includes/emailer.php');
+				require(SITE_DIR . 'includes/emailer.php');
 				$emailer = new emailer($board_config['smtp_delivery']);
 
 				$emailer->from($userdata['user_email']);

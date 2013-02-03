@@ -23,7 +23,7 @@ if (!intval($attach_config['allow_ftp_upload']))
 	}
 	else
 	{
-		$upload_dir = $phpbb_root_path . $attach_config['upload_dir'];
+		$upload_dir = SITE_DIR . $attach_config['upload_dir'];
 	}
 }
 else
@@ -31,7 +31,7 @@ else
 	$upload_dir = $attach_config['download_path'];
 }
 
-include($phpbb_root_path . 'attach_mod/includes/functions_selects.php');
+include(SITE_DIR . 'attach_mod/includes/functions_selects.php');
 
 // Check if the language got included
 if (!isset($lang['Test_settings_successful']))

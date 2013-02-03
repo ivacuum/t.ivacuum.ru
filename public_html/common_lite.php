@@ -24,8 +24,6 @@ if( !defined('IN_PHPBB') )
 	define('IN_PHPBB', true);
 }
 
-$phpbb_root_path = BB_ROOT;
-
 // Get initial config
 require(SITE_DIR . 'cfg.php');
 

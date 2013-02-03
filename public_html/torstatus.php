@@ -1,9 +1,9 @@
 <?php
+
 define('IN_PHPBB', true);
-$phpbb_root_path = './';
-include(__DIR__ . '/common.php');
-require(__DIR__ . '/attach_mod/attachment_mod.php');
-require(__DIR__ . '/includes/functions_torrent.php');
+include('common.php');
+require(SITE_DIR . 'attach_mod/attachment_mod.php');
+require(SITE_DIR . 'includes/functions_torrent.php');
 
 // Start session management
 $user->session_start();

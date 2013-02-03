@@ -5,14 +5,12 @@
 //
 function language_select($default, $select_name = "language", $dirname="language")
 {
-	global $phpbb_root_path;
-
-	$dir = opendir($phpbb_root_path . $dirname);
+	$dir = opendir(SITE_DIR . $dirname);
 
 	$lang = array();
 	while ( $file = readdir($dir) )
 	{
-		if (preg_match('#^lang_#i', $file) && !is_file(@phpbb_realpath($phpbb_root_path . $dirname . '/' . $file)) && !is_link(@phpbb_realpath($phpbb_root_path . $dirname . '/' . $file)))
+		if (preg_match('#^lang_#i', $file) && !is_file(@phpbb_realpath(SITE_DIR . $dirname . '/' . $file)) && !is_link(@phpbb_realpath(SITE_DIR . $dirname . '/' . $file)))
 		{
 			$filename = trim(str_replace("lang_", "", $file));
 			$displayname = preg_replace("/^(.*?)_(.*)$/", "\\1 [ \\2 ]", $filename);

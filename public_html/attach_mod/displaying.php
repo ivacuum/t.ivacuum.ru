@@ -306,7 +306,7 @@ function display_attachments($post_id)
 				// Images
 				// NOTE: If you want to use the download.php everytime an image is displayed inlined, replace the
 				// Section between BEGIN and END with (Without the // of course):
-				//	$img_source = append_sid($phpbb_root_path . 'download.php?id=' . $attachments['_' . $post_id][$i]['attach_id']);
+				//	$img_source = append_sid('download.php?id=' . $attachments['_' . $post_id][$i]['attach_id']);
 				//	$download_link = TRUE;
 				//
 				//
@@ -361,7 +361,7 @@ function display_attachments($post_id)
 				// Images, but display Thumbnail
 				// NOTE: If you want to use the download.php everytime an thumnmail is displayed inlined, replace the
 				// Section between BEGIN and END with (Without the // of course):
-				//	$thumb_source = append_sid($phpbb_root_path . 'download.php?id=' . $attachments['_' . $post_id][$i]['attach_id'] . '&thumb=1');
+				//	$thumb_source = append_sid('download.php?id=' . $attachments['_' . $post_id][$i]['attach_id'] . '&thumb=1');
 				//
 				if (intval($attach_config['allow_ftp_upload']) && trim($attach_config['download_path']) == '')
 				{

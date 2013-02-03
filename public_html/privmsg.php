@@ -1145,7 +1145,7 @@ else if ( $submit || $refresh || $mode != '' )
 				$server_protocol = ( $bb_cfg['cookie_secure'] ) ? 'https://' : 'http://';
 				$server_port = ( $bb_cfg['server_port'] <> 80 ) ? ':' . trim($bb_cfg['server_port']) . '/' : '/';
 
-				include($phpbb_root_path . 'includes/emailer.php');
+				include(SITE_DIR . 'includes/emailer.php');
 				$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 				$emailer->from($bb_cfg['board_email']);

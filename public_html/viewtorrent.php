@@ -14,7 +14,7 @@ $attach_id = request_var('t', 0);
 
 $torrent = get_torrent_info($attach_id);
 
-$filename = $phpbb_root_path . $attach_config['upload_dir'] . '/' . $torrent['physical_filename'];
+$filename = SITE_DIR . $attach_config['upload_dir'] . '/' . $torrent['physical_filename'];
 
 $tor = bdecode_file($filename);
 

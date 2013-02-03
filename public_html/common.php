@@ -27,8 +27,6 @@ if( !defined('IN_PHPBB') )
 	define('IN_PHPBB', true);
 }
 
-$phpbb_root_path = BB_ROOT;
-
 $s_provider  = isset($_SERVER['HTTP_PROVIDER']) ? $_SERVER['HTTP_PROVIDER'] : 'internet';
 $static_path = $s_provider == 'local' ? '//0.ivacuum.org' : '//ivacuum.org';
 

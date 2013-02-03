@@ -30,7 +30,7 @@ else
 	$upload_dir = $attach_config['download_path'];
 }
 
-include($phpbb_root_path . 'attach_mod/includes/functions_selects.php');
+include(SITE_DIR . 'attach_mod/includes/functions_selects.php');
 
 // Check if the language got included
 if (!isset($lang['Test_settings_successful']))
@@ -170,7 +170,7 @@ while ($row = $db->sql_fetchrow($result))
 }
 $db->sql_freeresult($result);
 
-$cache_dir = $phpbb_root_path . '/cache';
+$cache_dir = SITE_DIR . 'cache';
 $cache_file = $cache_dir . '/attach_config.php';
 
 if ((file_exists($cache_dir)) && (is_dir($cache_dir)))
@@ -264,7 +264,7 @@ if ($check_upload)
 	}
 	else
 	{
-		$upload_dir = $phpbb_root_path . $attach_config['upload_dir'];
+		$upload_dir = SITE_DIR . $attach_config['upload_dir'];
 	}
 
 	$error = false;
@@ -633,7 +633,7 @@ if ($check_image_cat)
 	}
 	else
 	{
-		$upload_dir = $phpbb_root_path . $attach_config['upload_dir'];
+		$upload_dir = SITE_DIR . $attach_config['upload_dir'];
 	}
 
 	$upload_dir = $upload_dir . '/' . THUMB_DIR;

@@ -223,7 +223,7 @@ function change_tor_status ($attach_id, $new_tor_status)
 
 function tracker_register ($attach_id, $mode = '')
 {
-	global $db, $template, $attach_config, $board_config, $phpbb_root_path, $lang, $return_message;
+	global $db, $template, $attach_config, $board_config, $lang, $return_message;
 	global $reg_mode;
 
 	$attach_id = intval($attach_id);
@@ -285,7 +285,7 @@ function tracker_register ($attach_id, $mode = '')
 
 	if ($board_config['bt_check_announce_url'])
 	{
-		include_once($phpbb_root_path .'includes/torrent_announce_urls.php');
+		include_once(SITE_DIR .'includes/torrent_announce_urls.php');
 
 		$ann = (@$tor['announce']) ? $tor['announce'] : '';
 		$announce_urls['main_url'] = $board_config['bt_announce_url'];

@@ -157,7 +157,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 
 	if( isset( $_POST['submit'] ) )
 	{
-		include($phpbb_root_path . 'includes/ucp/usercp_avatar.php');
+		include(SITE_DIR . 'includes/ucp/usercp_avatar.php');
 
 		$error = FALSE;
 

@@ -67,7 +67,7 @@ class emailer
 
 	function use_template($template_file, $template_lang = '')
 	{
-		global $bb_cfg, $phpbb_root_path;
+		global $bb_cfg;
 
 		if (trim($template_file) == '')
 		{
@@ -81,11 +81,11 @@ class emailer
 
 		if (empty($this->tpl_msg[$template_lang . $template_file]))
 		{
-			$tpl_file = $phpbb_root_path . 'language/lang_' . $template_lang . '/email/' . $template_file . '.tpl';
+			$tpl_file = SITE_DIR . 'language/lang_' . $template_lang . '/email/' . $template_file . '.tpl';
 
 			if (!@file_exists(@phpbb_realpath($tpl_file)))
 			{
-				$tpl_file = $phpbb_root_path . 'language/lang_' . $bb_cfg['default_lang'] . '/email/' . $template_file . '.tpl';
+				$tpl_file = SITE_DIR . 'language/lang_' . $bb_cfg['default_lang'] . '/email/' . $template_file . '.tpl';
 
 				if (!@file_exists(@phpbb_realpath($tpl_file)))
 				{
@@ -116,7 +116,7 @@ class emailer
 	// Send the mail out to the recipients set previously in var $this->address
 	function send()
 	{
-		global $bb_cfg, $lang, $phpbb_root_path, $db;
+		global $bb_cfg, $lang, $db;
 
 		if ($bb_cfg['emailer_disabled'])
 		{
@@ -186,7 +186,7 @@ class emailer
 		{
 			if ( !defined('SMTP_INCLUDED') )
 			{
-				include($phpbb_root_path . 'includes/smtp.php');
+				include(SITE_DIR . 'includes/smtp.php');
 			}
 
 			$result = smtpmail($to, $this->subject, $this->msg, $this->extra_headers);

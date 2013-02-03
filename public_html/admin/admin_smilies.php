@@ -33,7 +33,7 @@ $delimeter  = '=+:';
 //
 $smilies_path = '/srv/www/vhosts/static.ivacuum.ru/i/tracker/smilies';
 $smilies_web_path = 'http://static.ivacuum.ru/i/tracker/smilies';
-/* $smilies_path = $phpbb_root_path . $board_config['smilies_path']; */
+/* $smilies_path = SITE_DIR . $board_config['smilies_path']; */
 
 $dir = @opendir($smilies_path);
 

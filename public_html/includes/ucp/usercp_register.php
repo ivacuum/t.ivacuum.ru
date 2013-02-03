@@ -29,7 +29,7 @@ $default_user_opt = array(
 //
 function show_coppa()
 {
-	global $userdata, $template, $lang, $phpbb_root_path;
+	global $userdata, $template, $lang;
 
 	$template->assign_vars(array(
 		'REGISTRATION' => $lang['Registration'],
@@ -69,9 +69,9 @@ if (
 	isset($_POST['cancelavatar']) ||
 	$mode == 'register' )
 {
-	include($phpbb_root_path . 'includes/functions_validate.php');
-	include($phpbb_root_path . 'includes/bbcode.php');
-	include($phpbb_root_path . 'includes/functions_post.php');
+	include(SITE_DIR . 'includes/functions_validate.php');
+	include(SITE_DIR . 'includes/bbcode.php');
+	include(SITE_DIR . 'includes/functions_post.php');
 
 	if ( $mode == 'editprofile' )
 	{
@@ -207,7 +207,7 @@ if ($mode == 'register' && ($userdata['session_logged_in'] || $username == $user
 //
 if ( isset($_POST['submit']) )
 {
-	include($phpbb_root_path . 'includes/ucp/usercp_avatar.php');
+	include(SITE_DIR . 'includes/ucp/usercp_avatar.php');
 
 	// session id check
 	if ($sid == '' || $sid != $userdata['session_id'])
@@ -533,7 +533,7 @@ if ( isset($_POST['submit']) )
 				//
 				// The users account has been deactivated, send them an email with a new activation key
 				//
-				include($phpbb_root_path . 'includes/emailer.php');
+				include(SITE_DIR . 'includes/emailer.php');
 				$emailer = new emailer($bb_cfg['smtp_delivery']);
 
  				if ( $bb_cfg['require_activation'] != USER_ACTIVATION_ADMIN )
@@ -622,7 +622,7 @@ if ( isset($_POST['submit']) )
 			$db->query($sql);
 			$user_id = $db->sql_nextid();
 
-			include($phpbb_root_path . 'includes/functions_torrent.php');
+			include(SITE_DIR . 'includes/functions_torrent.php');
 			generate_passkey($user_id, 1);
 
 			if ( $coppa )
@@ -646,7 +646,7 @@ if ( isset($_POST['submit']) )
 				$email_template = 'user_welcome';
 			}
 
-			include($phpbb_root_path . 'includes/emailer.php');
+			include(SITE_DIR . 'includes/emailer.php');
 			$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 			$emailer->from($bb_cfg['board_email']);
@@ -797,7 +797,7 @@ if ( $mode == 'editprofile' )
 
 if( isset($_POST['avatargallery']) && !$error )
 {
-	include($phpbb_root_path . 'includes/ucp/usercp_avatar.php');
+	include(SITE_DIR . 'includes/ucp/usercp_avatar.php');
 
 	$avatar_category = ( !empty($_POST['avatarcategory']) ) ? htmlspecialchars($_POST['avatarcategory']) : '';
 
@@ -811,7 +811,7 @@ if( isset($_POST['avatargallery']) && !$error )
 }
 else
 {
-	include($phpbb_root_path . 'includes/functions_selects.php');
+	include(SITE_DIR . 'includes/functions_selects.php');
 
 	if ( !isset($coppa) )
 	{

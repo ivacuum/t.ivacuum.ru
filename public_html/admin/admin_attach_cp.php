@@ -27,7 +27,7 @@ else
 	$upload_dir = $attach_config['download_path'];
 }
 
-include($phpbb_root_path . 'attach_mod/includes/functions_selects.php');
+include(SITE_DIR . 'attach_mod/includes/functions_selects.php');
 
 // Check if the language got included
 if (!isset($lang['Test_settings_successful']))
@@ -571,7 +571,7 @@ if ($view == 'attachments')
 						$post_title = substr($post_title, 0, 30) . '...';
 					}
 
-					$view_topic = append_sid($phpbb_root_path . 'viewtopic.php?' . POST_POST_URL . '=' . $ids[$j]['post_id'] . '#' . $ids[$j]['post_id']);
+					$view_topic = append_sid('viewtopic.php?' . POST_POST_URL . '=' . $ids[$j]['post_id'] . '#' . $ids[$j]['post_id']);
 
 					$post_titles[] = '<a href="' . $view_topic . '" class="gen" target="_blank">' . $post_title . '</a>';
 				}
@@ -599,7 +599,7 @@ if ($view == 'attachments')
 
 				'S_DELETE_BOX' => $delete_box,
 				'S_HIDDEN' => $hidden_field,
-				'U_VIEW_ATTACHMENT'	=> append_sid($phpbb_root_path . 'download.php?id=' . $attachments[$i]['attach_id']))
+				'U_VIEW_ATTACHMENT'	=> append_sid('download.php?id=' . $attachments[$i]['attach_id']))
 //				'U_VIEW_POST' => ($attachments[$i]['post_id'] != 0) ? append_sid("../viewtopic.php?" . POST_POST_URL . "=" . $attachments[$i]['post_id'] . "#" . $attachments[$i]['post_id']) : '')
 			);
 

@@ -588,7 +588,7 @@ else if ( ($submit || $confirm) && !$topic_has_new_posts )
 
 		if ($torrent_attach && $bb_cfg['bt_newtopic_auto_reg'] && $mode == 'newtopic' && !$error_msg)
 		{
-			include_once($phpbb_root_path .'includes/functions_torrent.php');
+			include_once(SITE_DIR . 'includes/functions_torrent.php');
 			tracker_register(TORRENT_ATTACH_ID, 'newtopic');
 		}
 

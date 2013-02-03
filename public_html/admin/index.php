@@ -103,13 +103,13 @@ else if( isset($_GET['pane']) && $_GET['pane'] == 'right' )
 
 	$avatar_dir_size = 0;
 
-	if ($avatar_dir = @opendir($phpbb_root_path . $bb_cfg['avatar_path']))
+	if ($avatar_dir = @opendir(SITE_DIR . $bb_cfg['avatar_path']))
 	{
 		while( $file = @readdir($avatar_dir) )
 		{
 			if( $file != "." && $file != ".." )
 			{
-				$avatar_dir_size += @filesize($phpbb_root_path . $bb_cfg['avatar_path'] . "/" . $file);
+				$avatar_dir_size += @filesize(SITE_DIR . $bb_cfg['avatar_path'] . "/" . $file);
 			}
 		}
 		@closedir($avatar_dir);
