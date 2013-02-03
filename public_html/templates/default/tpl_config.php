@@ -11,7 +11,7 @@ if( !$static_path )
 	$static_path = $s_provider == 'local' ? '//0.ivacuum.org' : '//ivacuum.org';
 }
 
-//$_main = BB_ROOT . basename(TEMPLATES_DIR) .'/'. $template_name .'/images/';
+//$_main = SITE_DIR . 'templates/'. $template_name .'/images/';
 //$_lang = $_main . basename('lang_'. $bb_cfg['default_lang']) .'/';
 $_main = $static_path . '/i/tracker/';
 $_lang = $static_path . '/i/tracker/' . substr($bb_cfg['default_lang'], 0, 2) . '/';

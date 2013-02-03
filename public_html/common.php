@@ -17,11 +17,6 @@ if( isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS']) )
 
 define('SITE_DIR', __DIR__ . '/');
 
-if( !defined('BB_ROOT') )
-{
-	define('BB_ROOT', './');
-}
-
 $s_provider  = isset($_SERVER['HTTP_PROVIDER']) ? $_SERVER['HTTP_PROVIDER'] : 'internet';
 $static_path = $s_provider == 'local' ? '//0.ivacuum.org' : '//ivacuum.org';
 

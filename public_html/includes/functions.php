@@ -1730,7 +1730,6 @@ function setup_style()
 	$css_dir = $static_path . '/i/t/css/';
 
 	$template->assign_vars(array(
-		'BB_ROOT'          => BB_ROOT,
 		'SPACER'           => $static_path . '/i/tracker/spacer.gif',
 		'STYLESHEET'       => $css_dir . $stylesheet,
 		'THEME_CSS'        => ($theme_css) ? $css_dir . $theme_css : '',

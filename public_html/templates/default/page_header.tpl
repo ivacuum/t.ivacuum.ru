@@ -138,7 +138,6 @@ $(document).ready(function() {
 <!-- ENDIF / INCLUDE_BBCODE_JS -->
 
 <script>
-var BB_ROOT       = "{#BB_ROOT}";
 var cookieDomain  = "{$bb_cfg['cookie_domain']}";
 var cookiePath    = "{$bb_cfg['cookie_path']}";
 var cookieSecure  = {$bb_cfg['cookie_secure']};
@@ -177,31 +176,26 @@ $(document).ready(function(){
 });
 <!-- ENDIF -->
 
-function getElText (e)
-{
+function getElText(e) {
 	var t = '';
 	if (e.textContent !== undefined) {
 		t = e.textContent;
-	}
-	else if (e.innerText !== undefined) {
+	} else if (e.innerText !== undefined) {
 		t = e.innerText;
-	}
-	else {
+	} else {
 		t = jQuery(e).text();
 	}
 	return t;
 }
-function escHTML(txt)
-{
+function escHTML(txt) {
 	return txt.replace(/</g, '&lt;');
 }
-function cfm (txt)
-{
+function cfm(txt) {
 	return window.confirm(txt);
 }
 
 <!-- IF HTML_WBR_TAG != '<wbr>' -->
-$(document).ready(function(){
+$(document).ready(function() {
 	$('div.post_body wbr').after('{HTML_WBR_TAG}');
 });
 <!-- ENDIF -->
