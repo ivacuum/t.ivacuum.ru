@@ -11,11 +11,13 @@ $profiler = new profiler();
 define('TIMESTART', microtime(true));
 define('TIMENOW', time());
 
+date_default_timezone_set('Europe/Moscow');
+
 $s_provider  = isset($_SERVER['HTTP_PROVIDER']) ? $_SERVER['HTTP_PROVIDER'] : 'internet';
 $static_path = $s_provider == 'local' ? '//0.ivacuum.org' : '//ivacuum.org';
 
 // Get initial config
-require(SITE_DIR . 'cfg.php');
+require(SITE_DIR . '../config.php');
 
 // Debug options
 define('DBG_USER', (isset($_COOKIE[COOKIE_DBG]) || DEBUG === true));
