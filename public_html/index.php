@@ -252,7 +252,7 @@ foreach ($cat_forums as $cid => $c)
 	$template->assign_block_vars('c', array(
 		'CAT_ID'    => $cid,
 		'CAT_TITLE' => $cat_title_html[$cid],
-		'U_VIEWCAT' => "index.$phpEx?c=$cid",
+		'U_VIEWCAT' => "index.php?c=$cid",
 	));
 
 	foreach ($c['f'] as $fid => $f)

@@ -47,12 +47,12 @@ $full_url = (@$_POST['full_url']) ? str_replace('&amp;', '&', htmlspecialchars($
 
 if (@$_POST['redirect_type'] == 'search')
 {
-	$redirect_type = "search.$phpEx";
+	$redirect_type = "search.php";
 	$redirect = ($full_url) ? $full_url : "$dl_key=1";
 }
 else
 {
-	$redirect_type = (!$topic_id) ? "viewforum.$phpEx" : "viewtopic.$phpEx";
+	$redirect_type = (!$topic_id) ? "viewforum.php" : "viewtopic.php";
 	$redirect = ($full_url) ? $full_url : ((!$topic_id) ? POST_FORUM_URL ."=$forum_id" : POST_TOPIC_URL ."=$topic_id");
 }
 
@@ -62,7 +62,7 @@ $user->session_start();
 // Check if user logged in
 if (!$userdata['session_logged_in'])
 {
-	redirect("login.$phpEx?redirect=$redirect_type&$redirect");
+	redirect("login.php?redirect=$redirect_type&$redirect");
 }
 
 if ($bb_cfg['bt_min_ratio_dl_button'] && $btu = get_bt_userdata($user->id))
@@ -113,7 +113,7 @@ if ($mode == 'dl_delete' && $topic_id)
 
 		print_confirmation(array(
 			'QUESTION'      => $lang['DL_List_Del_Confirm'],
-			'FORM_ACTION'   => "dl_list.$phpEx",
+			'FORM_ACTION'   => "dl_list.php",
 			'HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
 		));
 	}
@@ -182,5 +182,5 @@ if ($topics_ary && ($mode == 'set_dl_status' || $mode == 'set_topics_dl_status')
 	redirect("$redirect_type?$redirect");
 }
 
-redirect("index.$phpEx");
+redirect("index.php");
 

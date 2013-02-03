@@ -31,7 +31,7 @@ else
 	$upload_dir = $attach_config['download_path'];
 }
 
-include($phpbb_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
+include($phpbb_root_path . 'attach_mod/includes/functions_selects.php');
 
 // Check if the language got included
 if (!isset($lang['Test_settings_successful']))
@@ -204,7 +204,7 @@ if ($submit && $mode == 'extensions')
 
 	if (!@$error)
 	{
-		$message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_extensions.$phpEx?mode=extensions") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
+		$message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_extensions.php?mode=extensions") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.php?pane=right") . '">', '</a>');
 
 		message_die(GENERAL_MESSAGE, $message);
 	}
@@ -223,8 +223,8 @@ if ($mode == 'extensions')
 		'L_EXTENSION_GROUP' => $lang['Extension_group'],
 		'L_ADD_NEW' => $lang['Add_new'],
 
-		'S_CANCEL_ACTION' => append_sid("admin_extensions.$phpEx?mode=extensions"),
-		'S_ATTACH_ACTION' => append_sid("admin_extensions.$phpEx?mode=extensions"))
+		'S_CANCEL_ACTION' => append_sid("admin_extensions.php?mode=extensions"),
+		'S_ATTACH_ACTION' => append_sid("admin_extensions.php?mode=extensions"))
 	);
 
 	if ($submit)
@@ -427,7 +427,7 @@ if ($submit && $mode == 'groups')
 
 	if (!@$error)
 	{
-		$message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_extensions.$phpEx?mode=groups") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
+		$message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_extensions.php?mode=groups") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.php?pane=right") . '">', '</a>');
 
 		message_die(GENERAL_MESSAGE, $message);
 	}
@@ -475,8 +475,8 @@ if ($mode == 'groups')
 		'S_FILESIZE' => size_select('add_size_select', $size),
 		'S_ADD_DOWNLOAD_MODE' => download_select('add_download_mode'),
 		'S_SELECT_CAT' => category_select('add_category'),
-		'S_CANCEL_ACTION' => append_sid("admin_extensions.$phpEx?mode=groups"),
-		'S_ATTACH_ACTION' => append_sid("admin_extensions.$phpEx?mode=groups"))
+		'S_CANCEL_ACTION' => append_sid("admin_extensions.php?mode=groups"),
+		'S_ATTACH_ACTION' => append_sid("admin_extensions.php?mode=groups"))
 	);
 
 	$sql = 'SELECT *
@@ -524,8 +524,8 @@ if ($mode == 'groups')
 
 			'MAX_FILESIZE' => $extension_group[$i]['max_filesize'],
 			'CAT_BOX' => ( $viewgroup == $extension_group[$i]['group_id'] ) ? $lang['Decollapse'] : $lang['Collapse'],
-			'U_VIEWGROUP' => ( $viewgroup == $extension_group[$i]['group_id'] ) ? append_sid("admin_extensions.$phpEx?mode=groups") : append_sid("admin_extensions.$phpEx?mode=groups&" . POST_GROUPS_URL . "=" . $extension_group[$i]['group_id']),
-			'U_FORUM_PERMISSIONS' => append_sid("admin_extensions.$phpEx?mode=$mode&amp;e_mode=perm&amp;e_group=" . $extension_group[$i]['group_id']))
+			'U_VIEWGROUP' => ( $viewgroup == $extension_group[$i]['group_id'] ) ? append_sid("admin_extensions.php?mode=groups") : append_sid("admin_extensions.php?mode=groups&" . POST_GROUPS_URL . "=" . $extension_group[$i]['group_id']),
+			'U_FORUM_PERMISSIONS' => append_sid("admin_extensions.php?mode=$mode&amp;e_mode=perm&amp;e_group=" . $extension_group[$i]['group_id']))
 		);
 
 		if ($viewgroup && $viewgroup == $extension_group[$i]['group_id'])
@@ -738,7 +738,7 @@ if ($e_mode == 'perm' && $group)
 		'L_GROUP_PERMISSIONS_EXPLAIN' => $lang['Group_permissions_explain'],
 		'L_ADD_FORUMS' => $lang['Add_forums'],
 		'L_ADD_SELECTED' => $lang['Add_selected'],
-		'A_PERM_ACTION' => append_sid("admin_extensions.$phpEx?mode=groups&amp;e_mode=perm&amp;e_group=$group"))
+		'A_PERM_ACTION' => append_sid("admin_extensions.php?mode=groups&amp;e_mode=perm&amp;e_group=$group"))
 	);
 
 	$forum_option_values = array(GPERM_ALL => $lang['Perm_all_forums']);

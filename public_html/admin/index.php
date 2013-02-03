@@ -12,7 +12,7 @@ if( isset($_GET['pane']) && $_GET['pane'] == 'left' )
 	$setmodules = 1;
 	while( $file = @readdir($dir) )
 	{
-		if( preg_match("/^admin_.*?\." . $phpEx . "$/", $file) )
+		if( preg_match("/^admin_.*?\.php$/", $file) )
 		{
 			include('./' . $file);
 		}
@@ -25,8 +25,8 @@ if( isset($_GET['pane']) && $_GET['pane'] == 'left' )
 	$template->assign_vars(array(
 		'TPL_ADMIN_NAVIGATE' => true,
 
-		"U_FORUM_INDEX" => append_sid("../index.$phpEx"),
-		"U_ADMIN_INDEX" => append_sid("index.$phpEx?pane=right"),
+		"U_FORUM_INDEX" => append_sid("../index.php"),
+		"U_ADMIN_INDEX" => append_sid("index.php?pane=right"),
 
 		"L_FORUM_INDEX" => $lang['Main_index'],
 		"L_ADMIN_INDEX" => $lang['Admin_Index'],
@@ -340,7 +340,7 @@ else if( isset($_GET['pane']) && $_GET['pane'] == 'right' )
 						"IP_ADDRESS" => $reg_ip,
 
 						"U_WHOIS_IP" => "http://www.dnsstuff.com/tools/whois.ch?ip=$reg_ip",
-						"U_USER_PROFILE" => append_sid("admin_users.$phpEx?mode=edit&amp;" . POST_USERS_URL . "=" . $onlinerow_reg[$i]['user_id']),
+						"U_USER_PROFILE" => append_sid("admin_users.php?mode=edit&amp;" . POST_USERS_URL . "=" . $onlinerow_reg[$i]['user_id']),
 					));
 				}
 			}
@@ -390,7 +390,7 @@ else if( isset($_GET['pane']) && $_GET['pane'] == 'right' )
 	else
 	{
 		$template->assign_vars(array(
-			'USERS_ONLINE_HREF' => "index.$phpEx?pane=right&users_online=1&sid={$userdata['session_id']}",
+			'USERS_ONLINE_HREF' => "index.php?pane=right&users_online=1&sid={$userdata['session_id']}",
 		));
 	}
 
@@ -460,12 +460,12 @@ else if( isset($_GET['pane']) && $_GET['pane'] == 'right' )
 	));
 
 	$template->assign_vars(array(
-		'U_CLEAR_DATASTORE'   => "index.$phpEx?clear_datastore=1",
-		'U_CLEAR_TPL_CACHE'   => "xs_cache.$phpEx?clear=",
-		'U_UPDATE_NET_NEWS'   => "index.$phpEx?update_net_news=1",
-		'U_UPDATE_USER_LEVEL' => "index.$phpEx?update_user_level=1",
-		'U_SYNC_TOPICS'       => "index.$phpEx?sync_topics=1",
-		'U_SYNC_USER_POSTS'   => "index.$phpEx?sync_user_posts=1",
+		'U_CLEAR_DATASTORE'   => "index.php?clear_datastore=1",
+		'U_CLEAR_TPL_CACHE'   => "xs_cache.php?clear=",
+		'U_UPDATE_NET_NEWS'   => "index.php?update_net_news=1",
+		'U_UPDATE_USER_LEVEL' => "index.php?update_user_level=1",
+		'U_SYNC_TOPICS'       => "index.php?sync_topics=1",
+		'U_SYNC_USER_POSTS'   => "index.php?sync_user_posts=1",
 	));
 }
 else if (isset($_REQUEST['clear_datastore']))
@@ -480,7 +480,7 @@ else if (isset($_REQUEST['update_net_news']))
 }
 else if (isset($_REQUEST['update_user_level']))
 {
-	require(INC_DIR .'functions_group.'. PHP_EXT);
+	require(INC_DIR .'functions_group.php');
 	update_user_level('all');
 	bb_die('User levels updated');
 }
@@ -502,8 +502,8 @@ else
 	//
 	$template->assign_vars(array(
 		'TPL_ADMIN_FRAMESET' => true,
-		'S_FRAME_NAV'        => "index.$phpEx?pane=left",
-		'S_FRAME_MAIN'       => "index.$phpEx?pane=right",
+		'S_FRAME_NAV'        => "index.php?pane=left",
+		'S_FRAME_MAIN'       => "index.php?pane=right",
 	));
 	send_no_cache_headers();
 	print_page('index.tpl', 'admin', 'no_header');

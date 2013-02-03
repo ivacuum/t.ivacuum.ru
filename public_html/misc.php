@@ -1,7 +1,6 @@
 <?php	
 define('IN_PHPBB', true);
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
 require('./common.php');
 
 // Start Session Management
@@ -15,7 +14,7 @@ if ($do == 'attach_rules')
 	{
 		bb_die('invalid forum_id');
 	}
-	require(BB_ROOT .'attach_mod/attachment_mod.'. PHP_EXT);
+	require(BB_ROOT .'attach_mod/attachment_mod.php');
 	// Display the allowed Extension Groups and Upload Size
 	$auth = auth(AUTH_ALL, $forum_id, $userdata);
 	$_max_filesize = $attach_config['max_filesize'];

@@ -90,7 +90,7 @@ $template->assign_vars(array(
 //
 if ( $cancel )
 {
-	redirect(append_sid("privmsg.$phpEx?folder=$folder", true));
+	redirect(append_sid("privmsg.php?folder=$folder", true));
 }
 
 //
@@ -112,13 +112,13 @@ $error = FALSE;
 //
 // Define the box image links
 //
-$inbox_url = ( $folder != 'inbox' || $mode != '' ) ? '<a href="'."privmsg.$phpEx?folder=inbox".'">'. $lang['Inbox'] .'</a>' : $lang['Inbox'];
+$inbox_url = ( $folder != 'inbox' || $mode != '' ) ? '<a href="'."privmsg.php?folder=inbox".'">'. $lang['Inbox'] .'</a>' : $lang['Inbox'];
 
-$outbox_url = ( $folder != 'outbox' || $mode != '' ) ? '<a href="'."privmsg.$phpEx?folder=outbox".'">'. $lang['Outbox'] .'</a>' : $lang['Outbox'];
+$outbox_url = ( $folder != 'outbox' || $mode != '' ) ? '<a href="'."privmsg.php?folder=outbox".'">'. $lang['Outbox'] .'</a>' : $lang['Outbox'];
 
-$sentbox_url = ( $folder != 'sentbox' || $mode != '' ) ? '<a href="'."privmsg.$phpEx?folder=sentbox".'">'. $lang['Sentbox'] .'</a>' : $lang['Sentbox'];
+$sentbox_url = ( $folder != 'sentbox' || $mode != '' ) ? '<a href="'."privmsg.php?folder=sentbox".'">'. $lang['Sentbox'] .'</a>' : $lang['Sentbox'];
 
-$savebox_url = ( $folder != 'savebox' || $mode != '' ) ? '<a href="'."privmsg.$phpEx?folder=savebox".'">'. $lang['Savebox'] .'</a>' : $lang['Savebox'];
+$savebox_url = ( $folder != 'savebox' || $mode != '' ) ? '<a href="'."privmsg.php?folder=savebox".'">'. $lang['Savebox'] .'</a>' : $lang['Savebox'];
 
 // ----------
 // Start main
@@ -194,7 +194,7 @@ if ( $mode == 'read' )
 	//
 	if ( !($privmsg = $db->sql_fetchrow($result)) )
 	{
-		redirect(append_sid("privmsg.$phpEx?folder=$folder", true));
+		redirect(append_sid("privmsg.php?folder=$folder", true));
 	}
 
 	$privmsg_id = $privmsg['privmsgs_id'];
@@ -303,10 +303,10 @@ if ( $mode == 'read' )
 	// Pick a folder, any folder, so long as it's one below ...
 	//
 	$post_urls = array(
-		'post' => append_sid("privmsg.$phpEx?mode=post"),
-		'reply' => append_sid("privmsg.$phpEx?mode=reply&amp;" . POST_POST_URL . "=$privmsg_id"),
-		'quote' => append_sid("privmsg.$phpEx?mode=quote&amp;" . POST_POST_URL . "=$privmsg_id"),
-		'edit' => append_sid("privmsg.$phpEx?mode=edit&amp;" . POST_POST_URL . "=$privmsg_id")
+		'post' => append_sid("privmsg.php?mode=post"),
+		'reply' => append_sid("privmsg.php?mode=reply&amp;" . POST_POST_URL . "=$privmsg_id"),
+		'quote' => append_sid("privmsg.php?mode=quote&amp;" . POST_POST_URL . "=$privmsg_id"),
+		'edit' => append_sid("privmsg.php?mode=edit&amp;" . POST_POST_URL . "=$privmsg_id")
 	);
 	$post_icons = array(
 		'post_img' => '<a href="' . $post_urls['post'] . '"><img src="' . $images['pm_postmsg'] . '" alt="' . $lang['Post_new_pm'] . '" border="0" /></a>',
@@ -421,7 +421,7 @@ if ( $mode == 'read' )
 		'L_SAVE_MSG' => $lang['Save_message'],
 		'L_DELETE_MSG' => $lang['Delete_message'],
 
-		'S_PRIVMSGS_ACTION' => append_sid("privmsg.$phpEx?folder=$folder"),
+		'S_PRIVMSGS_ACTION' => append_sid("privmsg.php?folder=$folder"),
 		'S_HIDDEN_FIELDS' => $s_hidden_fields)
 	);
 
@@ -432,15 +432,15 @@ if ( $mode == 'read' )
 
 	$post_date = create_date($bb_cfg['default_dateformat'], $privmsg['privmsgs_date'], $bb_cfg['board_timezone']);
 
-	$temp_url = append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $user_id_from);
+	$temp_url = append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $user_id_from);
 	$profile_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_profile'] . '" alt="' . $lang['Read_profile'] . '" title="' . $lang['Read_profile'] . '" border="0" /></a>';
 	$profile = '<a href="' . $temp_url . '">' . $lang['Read_profile'] . '</a>';
 
-	$temp_url = append_sid("privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL . "=$user_id_from");
+	$temp_url = append_sid("privmsg.php?mode=post&amp;" . POST_USERS_URL . "=$user_id_from");
 	$pm_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_pm'] . '" alt="' . $lang['Send_private_message'] . '" title="' . $lang['Send_private_message'] . '" border="0" /></a>';
 	$pm = '<a href="' . $temp_url . '">' . $lang['Send_private_message'] . '</a>';
 
-	$temp_url = append_sid("search.$phpEx?search_author=1&amp;uid=$user_id_from");
+	$temp_url = append_sid("search.php?search_author=1&amp;uid=$user_id_from");
 	$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . sprintf($lang['Search_user_posts'], $username_from) . '" title="' . sprintf($lang['Search_user_posts'], $username_from) . '" border="0" /></a>';
 	$search = '<a href="' . $temp_url . '">' . sprintf($lang['Search_user_posts'], $username_from) . '</a>';
 
@@ -526,7 +526,7 @@ else if ( ( $delete && $mark_list ) || $delete_all )
 
 		print_confirmation(array(
 			'QUESTION'      => (count($mark_list) == 1) ? $lang['Confirm_delete_pm'] : $lang['Confirm_delete_pms'],
-			'FORM_ACTION'   => "privmsg.$phpEx?folder=$folder",
+			'FORM_ACTION'   => "privmsg.php?folder=$folder",
 			'HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
 		));
 	}
@@ -901,7 +901,7 @@ else if ( $save && $mark_list && $folder != 'savebox' && $folder != 'outbox' )
 			message_die(GENERAL_ERROR, 'Could not save private messages', '', __LINE__, __FILE__, $saved_sql);
 		}
 
-		redirect(append_sid("privmsg.$phpEx?folder=savebox", true));
+		redirect(append_sid("privmsg.php?folder=savebox", true));
 	}
 }
 else if ( $submit || $refresh || $mode != '' )
@@ -1141,12 +1141,12 @@ else if ( $submit || $refresh || $mode != '' )
 			if ( $to_userdata['user_notify_pm'] && !empty($to_userdata['user_email']) && $to_userdata['user_active'] && $bb_cfg['pm_notify_enabled'] )
 			{
 				$script_name = preg_replace('/^\/?(.*?)\/?$/', "\\1", trim($bb_cfg['script_path']));
-				$script_name = ( $script_name != '' ) ? $script_name . '/privmsg.'.$phpEx : 'privmsg.'.$phpEx;
+				$script_name = ( $script_name != '' ) ? $script_name . '/privmsg.php' : 'privmsg.php';
 				$server_name = trim($bb_cfg['server_name']);
 				$server_protocol = ( $bb_cfg['cookie_secure'] ) ? 'https://' : 'http://';
 				$server_port = ( $bb_cfg['server_port'] <> 80 ) ? ':' . trim($bb_cfg['server_port']) . '/' : '/';
 
-				include($phpbb_root_path . 'includes/emailer.'.$phpEx);
+				include($phpbb_root_path . 'includes/emailer.php');
 				$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 				$emailer->from($bb_cfg['board_email']);
@@ -1263,7 +1263,7 @@ else if ( $submit || $refresh || $mode != '' )
 
 			if ( !($privmsg = $db->sql_fetchrow($result)) )
 			{
-				redirect(append_sid("privmsg.$phpEx?folder=$folder", true));
+				redirect(append_sid("privmsg.php?folder=$folder", true));
 			}
 
 			$privmsg_subject = $privmsg['privmsgs_subject'];
@@ -1298,7 +1298,7 @@ else if ( $submit || $refresh || $mode != '' )
 
 			if ( !($privmsg = $db->sql_fetchrow($result)) )
 			{
-				redirect(append_sid("privmsg.$phpEx?folder=$folder", true));
+				redirect(append_sid("privmsg.php?folder=$folder", true));
 			}
 
 			$privmsg_subject = ( ( !preg_match('/^Re:/', $privmsg['privmsgs_subject']) ) ? 'Re: ' : '' ) . $privmsg['privmsgs_subject'];
@@ -1484,7 +1484,7 @@ else if ( $submit || $refresh || $mode != '' )
 		'USERNAME' => $to_username,
 		'MESSAGE' => $privmsg_message,
 		'SMILIES_STATUS' => $smilies_status,
-		'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="' . append_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
+		'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="' . append_sid("faq.php?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
 		'FORUM_NAME' => $lang['PRIVATE_MESSAGE'],
 
 		'BOX_NAME' => $l_box_name,
@@ -1545,10 +1545,10 @@ else if ( $submit || $refresh || $mode != '' )
 		'S_BBCODE_CHECKED' => ( !$bbcode_on ) ? ' checked="checked"' : '',
 		'S_SMILIES_CHECKED' => ( !$smilies_on ) ? ' checked="checked"' : '',
 		'S_HIDDEN_FORM_FIELDS' => $s_hidden_fields,
-		'S_POST_ACTION' => append_sid("privmsg.$phpEx"),
+		'S_POST_ACTION' => append_sid("privmsg.php"),
 
-		'U_SEARCH_USER' => append_sid("search.$phpEx?mode=searchuser"),
-		'U_VIEW_FORUM' => append_sid("privmsg.$phpEx"))
+		'U_SEARCH_USER' => append_sid("search.php?mode=searchuser"),
+		'U_VIEW_FORUM' => append_sid("privmsg.php"))
 	);
 
 	// Output the data to the template (for MAIL.RU Keyboard)
@@ -1619,7 +1619,7 @@ else
 	//
 	// New message
 	//
-	$post_new_mesg_url = '<a href="' . append_sid("privmsg.$phpEx?mode=post") . '"><img src="' . $images['post_new'] . '" alt="' . $lang['Send_a_new_message'] . '" border="0" /></a>';
+	$post_new_mesg_url = '<a href="' . append_sid("privmsg.php?mode=post") . '"><img src="' . $images['post_new'] . '" alt="' . $lang['Send_a_new_message'] . '" border="0" /></a>';
 
 	//
 	// General SQL to obtain messages
@@ -1755,7 +1755,7 @@ else
 			$l_box_name = $lang['Sentbox'];
 			break;
 	}
-	$post_pm = append_sid("privmsg.$phpEx?mode=post");
+	$post_pm = append_sid("privmsg.php?mode=post");
 	$post_pm_img = '<a href="' . $post_pm . '"><img src="' . $images['pm_postmsg'] . '" alt="' . $lang['Post_new_pm'] . '" border="0" /></a>';
 	$post_pm = '<a href="' . $post_pm . '">' . $lang['Post_new_pm'] . '</a>';
 
@@ -1825,12 +1825,12 @@ else
 		'L_DELETE_ALL' => $lang['Delete_all'],
 		'L_SAVE_MARKED' => $lang['Save_marked'],
 
-		'S_PRIVMSGS_ACTION' => append_sid("privmsg.$phpEx?folder=$folder"),
+		'S_PRIVMSGS_ACTION' => append_sid("privmsg.php?folder=$folder"),
 		'S_HIDDEN_FIELDS' => '',
 		'S_POST_NEW_MSG' => $post_new_mesg_url,
 		'S_SELECT_MSG_DAYS' => $select_msg_days,
 
-		'U_POST_NEW_TOPIC' => append_sid("privmsg.$phpEx?mode=post"))
+		'U_POST_NEW_TOPIC' => append_sid("privmsg.php?mode=post"))
 	);
 
 	//
@@ -1856,7 +1856,7 @@ else
 			$msg_userid = $row['user_id'];
 			$msg_username = $row['username'];
 
-			$u_from_user_profile = append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$msg_userid");
+			$u_from_user_profile = append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . "=$msg_userid");
 
 			$msg_subject = $row['privmsgs_subject'];
 
@@ -1865,7 +1865,7 @@ else
 				$msg_subject = preg_replace($orig_word, $replacement_word, $msg_subject);
 			}
 
-			$u_subject = append_sid("privmsg.$phpEx?folder=$folder&amp;mode=read&amp;" . POST_POST_URL . "=$privmsg_id");
+			$u_subject = append_sid("privmsg.php?folder=$folder&amp;mode=read&amp;" . POST_POST_URL . "=$privmsg_id");
 
 			$msg_date = create_date($bb_cfg['default_dateformat'], $row['privmsgs_date'], $bb_cfg['board_timezone']);
 
@@ -1898,7 +1898,7 @@ else
 		while( $row = $db->sql_fetchrow($result) );
 
 		$template->assign_vars(array(
-			'PAGINATION' => generate_pagination("privmsg.$phpEx?folder=$folder", $pm_total, $bb_cfg['topics_per_page'], $start),
+			'PAGINATION' => generate_pagination("privmsg.php?folder=$folder", $pm_total, $bb_cfg['topics_per_page'], $start),
 			'PAGE_NUMBER' => sprintf($lang['Page_of'], ( floor( $start / $bb_cfg['topics_per_page'] ) + 1 ), ceil( $pm_total / $bb_cfg['topics_per_page'] )),
 		));
 
@@ -1926,15 +1926,15 @@ require(PAGE_FOOTER);
 //
 function pm_message_die ($msg)
 {
-	global $lang, $phpEx;
+	global $lang;
 
 	$msg .= '<br /><br />';
-	$msg .= sprintf($lang['Click_return_inbox'], '<a href="'."privmsg.$phpEx?folder=inbox".'">', '</a> ');
-	$msg .= sprintf($lang['Click_return_sentbox'], '<a href="'."privmsg.$phpEx?folder=sentbox".'">', '</a> ');
-	$msg .= sprintf($lang['Click_return_outbox'], '<a href="'."privmsg.$phpEx?folder=outbox".'">', '</a> ');
-	$msg .= sprintf($lang['Click_return_savebox'], '<a href="'."privmsg.$phpEx?folder=savebox".'">', '</a> ');
+	$msg .= sprintf($lang['Click_return_inbox'], '<a href="'."privmsg.php?folder=inbox".'">', '</a> ');
+	$msg .= sprintf($lang['Click_return_sentbox'], '<a href="'."privmsg.php?folder=sentbox".'">', '</a> ');
+	$msg .= sprintf($lang['Click_return_outbox'], '<a href="'."privmsg.php?folder=outbox".'">', '</a> ');
+	$msg .= sprintf($lang['Click_return_savebox'], '<a href="'."privmsg.php?folder=savebox".'">', '</a> ');
 	$msg .= '<br /><br />';
-	$msg .= sprintf($lang['Click_return_index'], '<a href="'."index.$phpEx".'">', '</a>');
+	$msg .= sprintf($lang['Click_return_index'], '<a href="'."index.php".'">', '</a>');
 
 	message_die(GENERAL_MESSAGE, $msg);
 }

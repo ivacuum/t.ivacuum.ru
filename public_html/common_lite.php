@@ -17,19 +17,9 @@ if( !defined('BB_ROOT') )
 	define('BB_ROOT', './');
 }
 
-if( !defined('PHP_EXT') )
-{
-	define('PHP_EXT', substr(strrchr(__FILE__, '.'), 1));
-}
-
 if( !defined('IN_PHPBB') )
 {
 	define('IN_PHPBB', true);
-}
-
-if( !isset($phpEx) )
-{
-	$phpEx = PHP_EXT;
 }
 
 if( !isset($t_root_path) )

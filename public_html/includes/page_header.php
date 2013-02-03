@@ -5,7 +5,7 @@
 if (!defined('BB_ROOT')) die(basename(__FILE__));
 if (defined('PAGE_HEADER_SENT')) return;
 
-global $page_cfg, $db, $bb_cache, $userdata, $user, $ads, $bb_cfg, $template, $lang, $images, $phpEx, $static_path;
+global $page_cfg, $db, $bb_cache, $userdata, $user, $ads, $bb_cfg, $template, $lang, $images, $static_path;
 
 $logged_in = (int) !empty($userdata['session_logged_in']);
 $is_admin  = ($logged_in && IS_ADMIN);
@@ -14,11 +14,11 @@ $is_mod    = ($logged_in && IS_MOD);
 // Generate logged in/logged out status
 if ($logged_in)
 {
-	$u_login_logout = BB_ROOT ."login.$phpEx?logout=1";
+	$u_login_logout = BB_ROOT ."login.php?logout=1";
 }
 else
 {
-	$u_login_logout = BB_ROOT ."login.$phpEx";
+	$u_login_logout = BB_ROOT ."login.php";
 }
 
 // Online userlist
@@ -39,7 +39,7 @@ if (defined('SHOW_ONLINE') && SHOW_ONLINE)
 
 		if (!${$online_list} = $bb_cache->get($online_list))
 		{
-			require(INC_DIR .'online_userlist.'. PHP_EXT);
+			require(INC_DIR .'online_userlist.php');
 		}
 /*	}*/
 
@@ -49,7 +49,7 @@ if (defined('SHOW_ONLINE') && SHOW_ONLINE)
 		'USERS_ONLINE_COUNTS' => ${$online_list}['cnt'],
 		'RECORD_USERS'        => sprintf($lang['Record_online_users'], $bb_cfg['record_online_users'], bb_date($bb_cfg['record_online_date'])),
 		'U_STATS'				=> 'stats.php',
-		'U_VIEWONLINE'        => "viewonline.$phpEx",
+		'U_VIEWONLINE'        => "viewonline.php",
 	));
 }
 
@@ -143,7 +143,7 @@ $template->assign_vars(array(
 	'USER_OPTIONS_JS'    => ($logged_in) ? json_encode($user->opt_js) : '{}',
 
 	'SITENAME'           => $bb_cfg['sitename'],
-	'U_INDEX'            => BB_ROOT ."index.$phpEx",
+	'U_INDEX'            => BB_ROOT ."index.php",
 	'T_INDEX'            => sprintf($lang['Forum_Index'], $bb_cfg['sitename']),
 
 	'LAST_VISIT_DATE'    => ($logged_in) ? sprintf($lang['You_last_visit'], create_date($bb_cfg['last_visit_date_format'], $userdata['user_lastvisit'])) : '',
@@ -159,24 +159,24 @@ $template->assign_vars(array(
 	'USERNAME_ESCAPED'   => htmlspecialchars($userdata['username'], ENT_QUOTES),
 	'SHOW_LOGIN_LINK'    => !defined('IN_LOGIN'),
 	'AUTOLOGIN_DISABLED' => !$bb_cfg['allow_autologin'],
-	'S_LOGIN_ACTION'     => BB_ROOT ."login.$phpEx",
+	'S_LOGIN_ACTION'     => BB_ROOT ."login.php",
 
 	'U_CUR_DOWNLOADS'    => PROFILE_URL . $userdata['user_id'],
 	'U_FAQ'              => $bb_cfg['faq_url'],
-	'U_FORUM'            => "viewforum.$phpEx",
-	'U_GROUP_CP'         => "groupcp.$phpEx",
+	'U_FORUM'            => "viewforum.php",
+	'U_GROUP_CP'         => "groupcp.php",
 	'U_LOGIN_LOGOUT'     => $u_login_logout,
-	'U_MEMBERLIST'       => "memberlist.$phpEx",
-	'U_MODCP'            => "modcp.$phpEx",
-	'U_OPTIONS'          => "profile.$phpEx?mode=editprofile",
-	'U_PRIVATEMSGS'      => "privmsg.$phpEx?folder=inbox",
+	'U_MEMBERLIST'       => "memberlist.php",
+	'U_MODCP'            => "modcp.php",
+	'U_OPTIONS'          => "profile.php?mode=editprofile",
+	'U_PRIVATEMSGS'      => "privmsg.php?folder=inbox",
 	'U_PROFILE'          => PROFILE_URL . $userdata['user_id'],
-	'U_READ_PM'          => "privmsg.$phpEx?folder=inbox". (($userdata['user_newest_pm_id'] && $userdata['user_new_privmsg'] == 1) ? "&mode=read&p={$userdata['user_newest_pm_id']}" : ''),
-	'U_REGISTER'         => "profile.$phpEx?mode=register",
-	'U_SEARCH'           => "search.$phpEx",
-	'U_SEND_PASSWORD'    => "profile.$phpEx?mode=sendpassword",
+	'U_READ_PM'          => "privmsg.php?folder=inbox". (($userdata['user_newest_pm_id'] && $userdata['user_new_privmsg'] == 1) ? "&mode=read&p={$userdata['user_newest_pm_id']}" : ''),
+	'U_REGISTER'         => "profile.php?mode=register",
+	'U_SEARCH'           => "search.php",
+	'U_SEND_PASSWORD'    => "profile.php?mode=sendpassword",
 	'U_TERMS'            => $bb_cfg['terms_and_conditions_url'],
-	'U_TRACKER'          => "tracker.$phpEx",
+	'U_TRACKER'          => "tracker.php",
 	'U_UPLOAD_IMAGE'     => ( $static_path == '//0.ivacuum.org' ) ? '//up.local.ivacuum.ru/' : '//up.ivacuum.ru/',
 
 	'DEVELOPER'          => $_SERVER['REMOTE_ADDR'] == '192.168.1.1',
@@ -196,7 +196,7 @@ $template->assign_vars(array(
 	'TOPIC_URL'          => BB_ROOT . TOPIC_URL,
 
 	'AJAX_HTML_DIR'      => AJAX_HTML_DIR,
-	'AJAX_HANDLER'       => BB_ROOT .'ajax.'. PHP_EXT,
+	'AJAX_HANDLER'       => BB_ROOT .'ajax.php',
 
 	'ONLY_NEW_POSTS'     => ONLY_NEW_POSTS,
 	'ONLY_NEW_TOPICS'    => ONLY_NEW_TOPICS,
@@ -214,12 +214,12 @@ $template->assign_vars(array(
 	'SELECTED'           => HTML_SELECTED,
 	'HTML_WBR_TAG'       => HTML_WBR_TAG,
 
-	'U_SEARCH_SELF_BY_LAST' => "search.$phpEx?uid={$userdata['user_id']}&amp;o=5",
+	'U_SEARCH_SELF_BY_LAST' => "search.php?uid={$userdata['user_id']}&amp;o=5",
 ));
 
 if (!empty($page_cfg['dl_links_user_id']))
 {
-	$dl_link = "search.$phpEx?dlu={$page_cfg['dl_links_user_id']}&amp;";
+	$dl_link = "search.php?dlu={$page_cfg['dl_links_user_id']}&amp;";
 
 	$template->assign_vars(array(
 		'SHOW_SEARCH_DL'       => true,

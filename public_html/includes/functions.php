@@ -1742,7 +1742,7 @@ function setup_style()
 		'EXT_LINK_NEW_WIN' => $bb_cfg['ext_link_new_win'],
 	));
 
-	require(TEMPLATES_DIR . $tpl_dir_name .'/tpl_config.'. PHP_EXT);
+	require(TEMPLATES_DIR . $tpl_dir_name .'/tpl_config.php');
 
 	$theme = array('template_name' => $tpl_dir_name);
 
@@ -1977,7 +1977,7 @@ function ajax_die ($msg_text, $msg_code = E_AJAX_GENERAL_ERROR)
 
 function message_die ($msg_code, $msg_text = '', $msg_title = '', $err_line = '', $err_file = '', $sql = '')
 {
-	global $db, $template, $bb_cfg, $theme, $lang, $phpEx, $phpbb_root_path, $nav_links, $gen_simple_header, $images, $t_root_path;
+	global $db, $template, $bb_cfg, $theme, $lang, $phpbb_root_path, $nav_links, $gen_simple_header, $images, $t_root_path;
 	global $userdata;
 
 	if (defined('HAS_DIED'))
@@ -2010,7 +2010,7 @@ function message_die ($msg_code, $msg_text = '', $msg_title = '', $err_line = ''
 
 	if (empty($lang))
 	{
-		require($bb_cfg['default_lang_dir'] .'lang_main.'. PHP_EXT);
+		require($bb_cfg['default_lang_dir'] .'lang_main.php');
 	}
 	if (empty($userdata) && ($msg_code == GENERAL_MESSAGE || $msg_code == GENERAL_ERROR))
 	{
@@ -2098,14 +2098,14 @@ function message_die ($msg_code, $msg_text = '', $msg_title = '', $err_line = ''
 // dougk_ff7 <October 5, 2002>
 function phpbb_realpath($path)
 {
-	global $phpbb_root_path, $phpEx;
+	global $phpbb_root_path;
 
-	return (!@function_exists('realpath') || !@realpath($phpbb_root_path . 'includes/functions.'.$phpEx)) ? $path : @realpath($path);
+	return (!@function_exists('realpath') || !@realpath($phpbb_root_path . 'includes/functions.php')) ? $path : @realpath($path);
 }
 
 function login_redirect ($url = '')
 {
-	redirect('login.'. PHP_EXT .'?redirect='. (($url) ? $url : $_SERVER['REQUEST_URI']));
+	redirect('login.php?redirect='. (($url) ? $url : $_SERVER['REQUEST_URI']));
 }
 
 function meta_refresh($time, $url)
@@ -2227,7 +2227,7 @@ function transliterate ($str)
 
 	if (!isset($translit_table))
 	{
-		require(DEFAULT_LANG_DIR .'translit_table.'. PHP_EXT);
+		require(DEFAULT_LANG_DIR .'translit_table.php');
 	}
 	return strtr($str, $translit_table);
 }
@@ -2391,7 +2391,7 @@ class log_action
 
 		if (empty($lang['log_action']))
 		{
-			require($bb_cfg['default_lang_dir'] .'lang_log_action.'. PHP_EXT);
+			require($bb_cfg['default_lang_dir'] .'lang_log_action.php');
 		}
 
 		foreach ($lang['log_action']['log_type'] as $log_type => $log_desc)

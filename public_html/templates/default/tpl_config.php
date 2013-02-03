@@ -1,6 +1,6 @@
 <?php
 
-global $bb_cfg, $page_cfg, $template, $images, $lang, $phpEx, $static_path;
+global $bb_cfg, $page_cfg, $template, $images, $lang, $static_path;
 
 $width = $height = array();
 $template_name = basename(dirname(__FILE__));
@@ -133,10 +133,10 @@ if (!empty($page_cfg['load_tpl_vars']) AND $vars = array_flip($page_cfg['load_tp
 			'DELETE_POST_IMG' => ($bb_cfg['text_buttons']) ? $lang['Delete_post_txtb']      : '<img src="'. $images['icon_delpost'] .'" alt="Delete" title="'. $lang['Delete_post'] .'" />',
 			'IP_POST_IMG'     => ($bb_cfg['text_buttons']) ? $lang['View_IP_txtb']          : '<img src="'. $images['icon_ip']      .'" alt="IP" title="'. $lang['View_IP'] .'" />',
 
-			'QUOTE_URL'       => BB_ROOT ."posting.$phpEx?mode=quote&amp;p=",
-			'EDIT_POST_URL'   => BB_ROOT ."posting.$phpEx?mode=editpost&amp;p=",
-			'DELETE_POST_URL' => BB_ROOT ."posting.$phpEx?mode=delete&amp;p=",
-			'IP_POST_URL'     => BB_ROOT ."modcp.$phpEx?mode=ip&amp;p=",
+			'QUOTE_URL'       => BB_ROOT ."posting.php?mode=quote&amp;p=",
+			'EDIT_POST_URL'   => BB_ROOT ."posting.php?mode=editpost&amp;p=",
+			'DELETE_POST_URL' => BB_ROOT ."posting.php?mode=delete&amp;p=",
+			'IP_POST_URL'     => BB_ROOT ."modcp.php?mode=ip&amp;p=",
 
 			'PROFILE_IMG'     => ($bb_cfg['text_buttons']) ? $lang['Read_profile_txtb']     : '<img src="'. $images['icon_profile'] .'" alt="Profile" title="'. $lang['Read_profile'] .'" />',
 			'PM_IMG'          => ($bb_cfg['text_buttons']) ? $lang['Send_pm_txtb']          : '<img src="'. $images['icon_pm'] .'" alt="PM" title="'. $lang['Send_private_message'] .'" />',
@@ -148,7 +148,7 @@ if (!empty($page_cfg['load_tpl_vars']) AND $vars = array_flip($page_cfg['load_tp
 			'YIM_IMG'         => ($bb_cfg['text_buttons']) ? $lang['YIM_txtb']              : '<img src="'. $images['icon_yim'] .'" alt="YIM" title="'. $lang['YIM'] .'" />',
 
 			'AIM_URL'         => 'aim:goim?screenname=',
-			'EMAIL_URL'       => BB_ROOT ."profile.$phpEx?mode=email&amp;u=",
+			'EMAIL_URL'       => BB_ROOT ."profile.php?mode=email&amp;u=",
 			'FORUM_URL'       => BB_ROOT . FORUM_URL,
 			'ICQ_URL'         => 'http://wwp.icq.com/scripts/search.dll?to=',
 			'MSN_URL'         => BB_ROOT . PROFILE_URL,

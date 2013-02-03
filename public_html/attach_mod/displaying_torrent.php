@@ -82,13 +82,13 @@ $ratio_warning_url_help = $bb_cfg['bt_ratio_warning_url_help'];
 
 
 
-$download_link = append_sid("download.$phpEx?id=$attach_id");
+$download_link = append_sid("download.php?id=$attach_id");
 $description   = ($comment) ? $comment : preg_replace("#.torrent$#i", '', $display_name);
 
 if ($tor_auth_reg || $tor_auth_del)
 {
-	$reg_href   = "torrent.$phpEx?mode=reg&amp;id=$attach_id&amp;sid="	. $userdata['session_id'];
-	$unreg_href = "torrent.$phpEx?mode=unreg&amp;id=$attach_id&amp;sid=". $userdata['session_id'];
+	$reg_href   = "torrent.php?mode=reg&amp;id=$attach_id&amp;sid="	. $userdata['session_id'];
+	$unreg_href = "torrent.php?mode=unreg&amp;id=$attach_id&amp;sid=". $userdata['session_id'];
 
 	$reg_tor_url   = '<a class="gen" href="'.$reg_href.'">'  . $lang['Bt_Reg_on_tracker']     .'</a>';
 	$unreg_tor_url = '<a class="gen" href="'.$unreg_href.'">'. $lang['Bt_Unreg_from_tracker'] .'</a>';
@@ -104,10 +104,10 @@ if ($tor_auth)
 {
 	$template->assign_vars(array(
 		'TOR_CONTROLS'  => true,
-		'TOR_ACTION'    => "torrent.$phpEx",
+		'TOR_ACTION'    => "torrent.php",
 
 		//torrent status mod
-		'TOR_STATUS'    => "torstatus.$phpEx",
+		'TOR_STATUS'    => "torstatus.php",
 		//end torrent status mod
 
 		'TOR_ATTACH_ID' => $attach_id,
@@ -213,7 +213,7 @@ if ($tor_reged && $tor_info)
 	{
 		$template->assign_vars(array(
 			'TOR_BLOCKED'     => true,
-			'TOR_BLOCKED_MSG' => sprintf($lang['Bt_Low_ratio_for_dl'], round($user_ratio, 2), "search.$phpEx?dlu=$bt_user_id&amp;dlc=1"),
+			'TOR_BLOCKED_MSG' => sprintf($lang['Bt_Low_ratio_for_dl'], round($user_ratio, 2), "search.php?dlu=$bt_user_id&amp;dlc=1"),
 		));
 	}
 	else
@@ -440,7 +440,7 @@ if ($tor_reged && $tor_info)
 
 			foreach ($peers as $pid => $peer)
 			{
-				$u_prof_href = ($s_mode == 'count') ? '#' : append_sid("profile.$phpEx?mode=viewprofile&amp;u=". $peer['user_id']) .'#torrent';
+				$u_prof_href = ($s_mode == 'count') ? '#' : append_sid("profile.php?mode=viewprofile&amp;u=". $peer['user_id']) .'#torrent';
 
 				// Full details mode
 				if ($s_mode == 'full')
@@ -469,7 +469,7 @@ if ($tor_reged && $tor_info)
 						if (!defined('SEEDER_EXIST'))
 						{
 							define('SEEDER_EXIST', true);
-							$seed_order_action = append_sid("viewtopic.$phpEx?". POST_TOPIC_URL ."=$bt_topic_id&amp;spmode=full") .'#seeders';
+							$seed_order_action = append_sid("viewtopic.php?". POST_TOPIC_URL ."=$bt_topic_id&amp;spmode=full") .'#seeders';
 
 							$template->assign_block_vars("$x_full", array(
 								'SEED_ORD_ACT'   => $seed_order_action,
@@ -497,7 +497,7 @@ if ($tor_reged && $tor_info)
 						if (!defined('LEECHER_EXIST'))
 						{
 							define('LEECHER_EXIST', true);
-							$leech_order_action = append_sid("viewtopic.$phpEx?". POST_TOPIC_URL ."=$bt_topic_id&amp;spmode=full") .'#leechers';
+							$leech_order_action = append_sid("viewtopic.php?". POST_TOPIC_URL ."=$bt_topic_id&amp;spmode=full") .'#leechers';
 
 							$template->assign_block_vars("$x_full", array(
 								'LEECH_ORD_ACT'     => $leech_order_action,
@@ -651,7 +651,7 @@ if ($bb_cfg['bt_allow_spmode_change'] && $s_mode != 'full')
 {
 	$template->assign_vars(array(
 		'PEERS_FULL_LINK'  => true,
-		'SPMODE_FULL_HREF' => append_sid("viewtopic.$phpEx?". POST_TOPIC_URL ."=$bt_topic_id&amp;spmode=full") .'#seeders',
+		'SPMODE_FULL_HREF' => append_sid("viewtopic.php?". POST_TOPIC_URL ."=$bt_topic_id&amp;spmode=full") .'#seeders',
 	));
 }
 

@@ -88,7 +88,7 @@ if( $mode != "" )
 			"L_FLAG_IMAGE" => $lang['Flag_image'],
 			"L_FLAG_IMAGE_EXPLAIN" => $lang['Flag_image_explain'],
 
-			"S_FLAG_ACTION" => append_sid("admin_flags.$phpEx"),
+			"S_FLAG_ACTION" => append_sid("admin_flags.php"),
 			"S_HIDDEN_FIELDS" => $s_hidden_fields)
 		);
 
@@ -140,7 +140,7 @@ if( $mode != "" )
 			message_die(GENERAL_ERROR, "Couldn't update/insert into flags table", "", __LINE__, __FILE__, $sql);
 		}
 
-		$message .= "<br /><br />" . sprintf($lang['Click_return_flagadmin'], "<a href=\"" . append_sid("admin_flags.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+		$message .= "<br /><br />" . sprintf($lang['Click_return_flagadmin'], "<a href=\"" . append_sid("admin_flags.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 		message_die(GENERAL_MESSAGE, $message);
 
@@ -159,7 +159,7 @@ if( $mode != "" )
 
 		print_confirmation(array(
 			'QUESTION'      => $lang['Confirm_delete_flag'],
-			'FORM_ACTION'   => "admin_flags.$phpEx",
+			'FORM_ACTION'   => "admin_flags.php",
 			'HIDDEN_FIELDS' => $hidden_fields,
 		));
 	}
@@ -210,7 +210,7 @@ if( $mode != "" )
 				message_die(GENERAL_ERROR, $lang['No_update_flags'], "", __LINE__, __FILE__, $sql);
 			}
 
-			$message = $lang['Flag_removed'] . "<br /><br />" . sprintf($lang['Click_return_flagadmin'], "<a href=\"" . append_sid("admin_flags.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['Flag_removed'] . "<br /><br />" . sprintf($lang['Click_return_flagadmin'], "<a href=\"" . append_sid("admin_flags.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 			message_die(GENERAL_MESSAGE, $message);
 
@@ -247,7 +247,7 @@ if( $mode != "" )
 			"L_ADD_FLAG" => $lang['Add_new_flag'],
 			"L_ACTION" => $lang['Action'],
 
-			"S_FLAGS_ACTION" => append_sid("admin_flags.$phpEx"))
+			"S_FLAGS_ACTION" => append_sid("admin_flags.php"))
 		);
 
 		for( $i = 0; $i < $flag_count; $i++)
@@ -263,8 +263,8 @@ if( $mode != "" )
 				"FLAG" => $flag,
 				"IMAGE_DISPLAY" => ( $flag_rows[$i]['flag_image'] != "" ) ? '<img src="http://static.ivacuum.ru/i/flags/48/' . $flag_rows[$i]['flag_image'] . '" />' : "",
 
-				"U_FLAG_EDIT" => append_sid("admin_flags.$phpEx?mode=edit&amp;id=$flag_id"),
-				"U_FLAG_DELETE" => append_sid("admin_flags.$phpEx?mode=delete&amp;id=$flag_id"))
+				"U_FLAG_EDIT" => append_sid("admin_flags.php?mode=edit&amp;id=$flag_id"),
+				"U_FLAG_DELETE" => append_sid("admin_flags.php?mode=delete&amp;id=$flag_id"))
 			);
 		}
 	}
@@ -295,7 +295,7 @@ else
 		"L_ADD_FLAG" => $lang['Add_new_flag'],
 		"L_ACTION" => $lang['Action'],
 
-		"S_FLAGS_ACTION" => append_sid("admin_flags.$phpEx"))
+		"S_FLAGS_ACTION" => append_sid("admin_flags.php"))
 	);
 
 	for($i = 0; $i < $flag_count; $i++)
@@ -309,8 +309,8 @@ else
 			"FLAG" => $flag,
 			"IMAGE_DISPLAY" => ( $flag_rows[$i]['flag_image'] != "" ) ? '<img src="http://static.ivacuum.ru/i/flags/48/' . $flag_rows[$i]['flag_image'] . '" />' : "",
 
-			"U_FLAG_EDIT" => append_sid("admin_flags.$phpEx?mode=edit&amp;id=$flag_id"),
-			"U_FLAG_DELETE" => append_sid("admin_flags.$phpEx?mode=delete&amp;id=$flag_id"))
+			"U_FLAG_EDIT" => append_sid("admin_flags.php?mode=edit&amp;id=$flag_id"),
+			"U_FLAG_DELETE" => append_sid("admin_flags.php?mode=delete&amp;id=$flag_id"))
 		);
 	}
 }

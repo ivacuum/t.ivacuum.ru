@@ -66,7 +66,7 @@ if ( isset($_POST['submit']) )
 
 	if ( !$error )
 	{
-		include($phpbb_root_path . 'includes/emailer.'.$phpEx);
+		include($phpbb_root_path . 'includes/emailer.php');
 
 		//
 		// Let's do some checking to make sure that mass mail functions
@@ -110,7 +110,7 @@ if ( isset($_POST['submit']) )
 		$emailer->send();
 		$emailer->reset();
 
-		message_die(GENERAL_MESSAGE, $lang['Email_sent'] . '<br /><br />' . sprintf($lang['Click_return_admin_index'],  '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>'));
+		message_die(GENERAL_MESSAGE, $lang['Email_sent'] . '<br /><br />' . sprintf($lang['Click_return_admin_index'],  '<a href="' . append_sid("index.php?pane=right") . '">', '</a>'));
 	}
 }
 
@@ -157,7 +157,7 @@ $template->assign_vars(array(
 	'L_EMAIL_SUBJECT' => $lang['Subject'],
 	'L_NOTICE' => @$notice,
 
-	'S_USER_ACTION' => append_sid('admin_mass_email.'.$phpEx),
+	'S_USER_ACTION' => append_sid('admin_mass_email.php'),
 	'S_GROUP_SELECT' => $select_list)
 );
 

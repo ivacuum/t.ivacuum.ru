@@ -9,7 +9,7 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require(INC_DIR .'functions_selects.'. PHP_EXT);
+require(INC_DIR .'functions_selects.php');
 
 //
 // Pull all config data
@@ -48,7 +48,7 @@ else
 
 	if( isset($_POST['submit']) )
 	{
-		$message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_config'], "<a href=\"" . append_sid("admin_board.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+		$message = $lang['Config_updated'] . "<br /><br />" . sprintf($lang['Click_return_config'], "<a href=\"" . append_sid("admin_board.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 		message_die(GENERAL_MESSAGE, $message);
 	}
@@ -109,7 +109,7 @@ $smtp_no = ( !$new['smtp_delivery'] ) ? "checked=\"checked\"" : "";
 // box on the admin page
 //
 $template->assign_vars(array(
-	"S_CONFIG_ACTION" => append_sid("admin_board.$phpEx"),
+	"S_CONFIG_ACTION" => append_sid("admin_board.php"),
 
 	"L_CONFIGURATION_TITLE" => $lang['General_Config'],
 	"L_CONFIGURATION_EXPLAIN" => $lang['Config_explain'],

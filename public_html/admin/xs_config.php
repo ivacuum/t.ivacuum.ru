@@ -9,14 +9,14 @@ if(empty($template->xs_version) || $template->xs_version !== 8)
 }
 
 define('IN_XS', true);
-include_once('xs_include.' . $phpEx);
+include_once('xs_include.php');
 
-$template->assign_block_vars('nav_left',array('ITEM' => '&raquo; <a href="' . append_sid('xs_config.'.$phpEx) . '">' . $lang['XS_CONFIGURATION'] . '</a>'));
+$template->assign_block_vars('nav_left',array('ITEM' => '&raquo; <a href="' . append_sid('xs_config.php') . '">' . $lang['XS_CONFIGURATION'] . '</a>'));
 
-$lang['XS_CONFIG_UPDATED_EXPLAIN'] = str_replace('{URL}', append_sid('xs_config.'.$phpEx), $lang['XS_CONFIG_UPDATED_EXPLAIN']);
+$lang['XS_CONFIG_UPDATED_EXPLAIN'] = str_replace('{URL}', append_sid('xs_config.php'), $lang['XS_CONFIG_UPDATED_EXPLAIN']);
 $lang['XS_CONFIG_TITLE'] = str_replace('{VERSION}', $template->xs_versiontxt, $lang['XS_CONFIG_TITLE']);
-$lang['XS_CONFIG_WARNING_EXPLAIN'] = str_replace('{URL}', append_sid('xs_chmod.'.$phpEx), $lang['XS_CONFIG_WARNING_EXPLAIN']);
-$lang['XS_CONFIG_BACK'] = str_replace('{URL}', append_sid('xs_config.'.$phpEx), $lang['XS_CONFIG_BACK']);
+$lang['XS_CONFIG_WARNING_EXPLAIN'] = str_replace('{URL}', append_sid('xs_chmod.php'), $lang['XS_CONFIG_WARNING_EXPLAIN']);
+$lang['XS_CONFIG_BACK'] = str_replace('{URL}', append_sid('xs_config.php'), $lang['XS_CONFIG_BACK']);
 
 //
 // Updating configuration
@@ -37,7 +37,7 @@ if(isset($_POST['submit']) && !defined('DEMO_MODE'))
 	if($shownav !== $board_config['xs_shownav'])
 	{
 		$template->assign_block_vars('left_refresh', array(
-				'ACTION'	=> append_sid('index.' . $phpEx . '?pane=left')
+				'ACTION'	=> append_sid('index.php?pane=left')
 			));
 	}
 	$_POST['xs_shownav'] = $shownav;
@@ -77,7 +77,7 @@ $template->assign_vars(array(
 	'XS_PHP'					=> htmlspecialchars($board_config['xs_php']),
 	'XS_ADD_COMMENTS_0'			=> $board_config['xs_add_comments'] ? '' : ' checked="checked"',
 	'XS_ADD_COMMENTS_1'			=> $board_config['xs_add_comments'] ? ' checked="checked"' : '',
-	'FORM_ACTION'				=> append_sid('xs_config.' . $phpEx),
+	'FORM_ACTION'				=> append_sid('xs_config.php'),
 	));
 
 for($i=0; $i<count($lang['XS_CONFIG_SHOWNAV']); $i++)

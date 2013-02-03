@@ -1022,7 +1022,7 @@ $template->assign_vars(array(
 	'TITLE_MATCH_VAL'  => $title_match_val,
 
 	'AJAX_TOPICS'      => $user->opt_js['tr_t_ax'],
-	'U_SEARCH_USER'    => "search.$phpEx?mode=searchuser&input_name=$poster_name_key",
+	'U_SEARCH_USER'    => "search.php?mode=searchuser&input_name=$poster_name_key",
 ));
 
 // Hidden fields

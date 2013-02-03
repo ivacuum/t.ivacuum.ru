@@ -23,7 +23,7 @@ $show_dl_buttons = ($dl_topic && $bb_cfg['bt_show_dl_list_buttons']);
 $template->assign_vars(array('S_DL_DELETE' => false));
 if (($is_auth['auth_mod']) && ($t_data['topic_dl_type'] == TOPIC_DL_TYPE_DL))
 {
-	$s_dl_delete = "<br /><a href=\"dl_list.$phpEx?mode=dl_delete&amp;". POST_TOPIC_URL ."=$topic_id&amp;sid=". $userdata['session_id'] .'">'. $lang['DL_List_Del'] .'</a>';
+	$s_dl_delete = "<br /><a href=\"dl_list.php?mode=dl_delete&amp;". POST_TOPIC_URL ."=$topic_id&amp;sid=". $userdata['session_id'] .'">'. $lang['DL_List_Del'] .'</a>';
 	$template->assign_vars(array('S_DL_DELETE' => $s_dl_delete));
 }
 
@@ -76,7 +76,7 @@ if ($show_dl_list)
 			}
 			else
 			{
-				$u_prof_href = ($u['user_id'] == ANONYMOUS) ? '#' : append_sid("profile.$phpEx?mode=viewprofile&amp;u=". $u['user_id']) .'#torrent';
+				$u_prof_href = ($u['user_id'] == ANONYMOUS) ? '#' : append_sid("profile.php?mode=viewprofile&amp;u=". $u['user_id']) .'#torrent';
 				$dl_cat[$u['user_status']] .= '<nobr><a class="'. $u_link_class .'" href="'. $u_prof_href .'" title="'. $u['last_modified_dlstatus'] .'">'. $u['username'] .'</a></nobr>, ';
 				$dl_count[$u['user_status']]++;
 			}

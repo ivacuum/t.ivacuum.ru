@@ -19,7 +19,7 @@ $sid  = request_var('sid', '');
 // Set default email variables
 //
 $script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($board_config['script_path']));
-$script_name = ( $script_name != '' ) ? $script_name . '/profile.'.$phpEx : 'profile.'.$phpEx;
+$script_name = ( $script_name != '' ) ? $script_name . '/profile.php' : 'profile.php';
 $server_name = trim($board_config['server_name']);
 $server_protocol = ( $board_config['cookie_secure'] ) ? 'https://' : 'http://';
 $server_port = ( $board_config['server_port'] <> 80 ) ? ':' . trim($board_config['server_port']) . '/' : '/';

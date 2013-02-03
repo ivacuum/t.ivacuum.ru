@@ -79,7 +79,7 @@ $select_sort_order .= '</select>';
 $template->assign_vars(array(
 	'S_MODE_SELECT' => $select_sort_mode,
 	'S_ORDER_SELECT' => $select_sort_order,
-	'S_MODE_ACTION' => append_sid("memberlist.$phpEx"))
+	'S_MODE_ACTION' => append_sid("memberlist.php"))
 );
 
 switch( $mode )
@@ -155,19 +155,19 @@ if ($by_letter_req)
 // ENG
 for ($i=ord('A'), $cnt=ord('Z'); $i <= $cnt; $i++)
 {
-	$select_letter .= ($by_letter == chr($i)) ? '<b>'. chr($i) .'</b>&nbsp;' : '<a class="genmed" href="'. append_sid("memberlist.$phpEx?letter=". chr($i) ."&amp;mode=$mode&amp;order=$sort_order") .'">'. chr($i) .'</a>&nbsp;';
+	$select_letter .= ($by_letter == chr($i)) ? '<b>'. chr($i) .'</b>&nbsp;' : '<a class="genmed" href="'. append_sid("memberlist.php?letter=". chr($i) ."&amp;mode=$mode&amp;order=$sort_order") .'">'. chr($i) .'</a>&nbsp;';
 }
 // RUS
 $select_letter .= ': ';
 for ($i=ord('А'), $cnt=ord('Я'); $i <= $cnt; $i++)
 {
-	$select_letter .= ($by_letter == chr($i)) ? '<b>'. chr($i) .'</b>&nbsp;' : '<a class="genmed" href="'. append_sid("memberlist.$phpEx?letter=". chr($i) ."&amp;mode=$mode&amp;order=$sort_order") .'">'. chr($i) .'</a>&nbsp;';
+	$select_letter .= ($by_letter == chr($i)) ? '<b>'. chr($i) .'</b>&nbsp;' : '<a class="genmed" href="'. append_sid("memberlist.php?letter=". chr($i) ."&amp;mode=$mode&amp;order=$sort_order") .'">'. chr($i) .'</a>&nbsp;';
 }
 
 $select_letter .= ':&nbsp;';
-$select_letter .= ($by_letter == 'others') ? '<b>'. $lang['Others'] .'</b>&nbsp;' : '<a class="genmed" href="'. append_sid("memberlist.$phpEx?letter=others&amp;mode=$mode&amp;order=$sort_order") .'">'. $lang['Others'] .'</a>&nbsp;';
+$select_letter .= ($by_letter == 'others') ? '<b>'. $lang['Others'] .'</b>&nbsp;' : '<a class="genmed" href="'. append_sid("memberlist.php?letter=others&amp;mode=$mode&amp;order=$sort_order") .'">'. $lang['Others'] .'</a>&nbsp;';
 $select_letter .= ':&nbsp;';
-$select_letter .= ($by_letter == 'all') ? '<b>'. $lang['All'] .'</b>' : '<a class="genmed" href="'. append_sid("memberlist.$phpEx?letter=all&amp;mode=$mode&amp;order=$sort_order") .'">'. $lang['All'] .'</a>';
+$select_letter .= ($by_letter == 'all') ? '<b>'. $lang['All'] .'</b>' : '<a class="genmed" href="'. append_sid("memberlist.php?letter=all&amp;mode=$mode&amp;order=$sort_order") .'">'. $lang['All'] .'</a>';
 
 $template->assign_vars(array(
 	'L_SORT_PER_LETTER' => $lang['Sort_per_letter'],
@@ -245,13 +245,13 @@ if ( $row = $db->sql_fetchrow($result) )
 			}
 		}
 
-		$pm = '<a class="txtb" href="'. append_sid("privmsg.$phpEx?mode=post&amp;". POST_USERS_URL ."=$user_id") .'">'. $lang['Send_pm_txtb'] .'</a>';
-		$email = ($board_config['board_email_form']) ? '<a class="txtb" href="'. append_sid("profile.$phpEx?mode=email&amp;". POST_USERS_URL ."=$user_id") .'">'. $lang['Send_email_txtb'] .'</a>' : false;
-		$temp_url = append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id");
+		$pm = '<a class="txtb" href="'. append_sid("privmsg.php?mode=post&amp;". POST_USERS_URL ."=$user_id") .'">'. $lang['Send_pm_txtb'] .'</a>';
+		$email = ($board_config['board_email_form']) ? '<a class="txtb" href="'. append_sid("profile.php?mode=email&amp;". POST_USERS_URL ."=$user_id") .'">'. $lang['Send_email_txtb'] .'</a>' : false;
+		$temp_url = append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id");
 		$profile = '<a href="' . $temp_url . '">' . $lang['Read_profile'] . '</a>';
 		$www = ($row['user_website']) ? '<a class="txtb" href="'. $row['user_website'] .'" target="_userwww">'. $lang['Visit_website_txtb'] .'</a>' : false;
 
-		$temp_url = append_sid("search.$phpEx?search_author=1&amp;uid=$user_id");
+		$temp_url = append_sid("search.php?search_author=1&amp;uid=$user_id");
 		$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . $lang['Search_user_posts'] . '" title="' . $lang['Search_user_posts'] . '" border="0" /></a>';
 		$search = '<a href="' . $temp_url . '">' . $lang['Search_user_posts'] . '</a>';
 
@@ -275,8 +275,8 @@ if ( $row = $db->sql_fetchrow($result) )
 			'LEECHING'      => $row['leeching'],
 			'UPLOAD'		=> ( $row['u_up_total'] ) ? humn_size($row['u_up_total']) : '-',
 			'DOWNLOAD'		=> ( $row['u_down_total'] ) ? humn_size($row['u_down_total']) : '-',
-			'U_PM'          => append_sid("privmsg.$phpEx?mode=post&amp;". POST_USERS_URL ."=$user_id"),
-			'U_VIEWPROFILE'	=> append_sid("profile.$phpEx?mode=viewprofile&amp;". POST_USERS_URL ."=$user_id"))
+			'U_PM'          => append_sid("privmsg.php?mode=post&amp;". POST_USERS_URL ."=$user_id"),
+			'U_VIEWPROFILE'	=> append_sid("profile.php?mode=viewprofile&amp;". POST_USERS_URL ."=$user_id"))
 		);
 		$i++;
 	}
@@ -294,7 +294,7 @@ if ( $mode != 'topten' || $board_config['topics_per_page'] < 10 )
 	if ($total = $db->sql_fetchrow($result))
 	{
 		$total_members = $total['total'];
-		$pagination = generate_pagination("memberlist.$phpEx?mode=$mode&amp;order=$sort_order&amp;letter=$by_letter", $total_members, $board_config['topics_per_page'], $start). '&nbsp;';
+		$pagination = generate_pagination("memberlist.php?mode=$mode&amp;order=$sort_order&amp;letter=$by_letter", $total_members, $board_config['topics_per_page'], $start). '&nbsp;';
 	}
 	$db->sql_freeresult($result);
 }

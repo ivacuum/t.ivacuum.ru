@@ -10,7 +10,7 @@ if(empty($template->xs_version) || $template->xs_version !== 8)
 
 define('IN_XS', true);
 define('NO_XS_HEADER', true);
-include_once('xs_include.' . $phpEx);
+include_once('xs_include.php');
 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 $get_data = array();
@@ -33,7 +33,7 @@ if(isset($_POST['action']) && $_POST['action'] === 'web')
 	}
 }
 
-$get_data = count($get_data) ? $phpEx . '?' . implode('&', $get_data) : $phpEx;
+$get_data = count($get_data) ? 'php?' . implode('&', $get_data) : 'php';
 
 $content_url = array(
 	'config'		=> append_sid('xs_config.'.$get_data),
@@ -64,7 +64,7 @@ else
 
 $template->set_filenames(array('body' => XS_TPL_PATH . 'frameset.tpl'));
 $template->assign_vars(array(
-	'FRAME_TOP'		=> append_sid('xs_frame_top.'.$phpEx),
+	'FRAME_TOP'		=> append_sid('xs_frame_top.php'),
 	'FRAME_MAIN'	=> $content,
 	));
 

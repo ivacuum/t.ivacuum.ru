@@ -186,7 +186,7 @@ function init_display_post_attachments($switch_attachment)
 */
 function display_attachments($post_id)
 {
-	global $template, $upload_dir, $userdata, $allowed_extensions, $display_categories, $download_modes, $db, $lang, $phpEx, $attachments, $upload_icons, $attach_config;
+	global $template, $upload_dir, $userdata, $allowed_extensions, $display_categories, $download_modes, $db, $lang, $attachments, $upload_icons, $attach_config;
 	global $t_root_path;
 
 	$num_attachments = @sizeof($attachments['_' . $post_id]);
@@ -307,13 +307,13 @@ function display_attachments($post_id)
 				// Images
 				// NOTE: If you want to use the download.php everytime an image is displayed inlined, replace the
 				// Section between BEGIN and END with (Without the // of course):
-				//	$img_source = append_sid($phpbb_root_path . 'download.' . $phpEx . '?id=' . $attachments['_' . $post_id][$i]['attach_id']);
+				//	$img_source = append_sid($phpbb_root_path . 'download.php?id=' . $attachments['_' . $post_id][$i]['attach_id']);
 				//	$download_link = TRUE;
 				//
 				//
 				if (intval($attach_config['allow_ftp_upload']) && trim($attach_config['download_path']) == '')
 				{
-					$img_source = append_sid('download.' . $phpEx . '?id=' . $attachments['_' . $post_id][$i]['attach_id']);
+					$img_source = append_sid('download.php?id=' . $attachments['_' . $post_id][$i]['attach_id']);
 					$download_link = TRUE;
 				}
 				else
@@ -321,7 +321,7 @@ function display_attachments($post_id)
 					// Check if we can reach the file or if it is stored outside of the webroot
 					if ($attach_config['upload_dir'][0] == '/' || ( $attach_config['upload_dir'][0] != '/' && $attach_config['upload_dir'][1] == ':'))
 					{
-						$img_source = append_sid('download.' . $phpEx . '?id=' . $attachments['_' . $post_id][$i]['attach_id']);
+						$img_source = append_sid('download.php?id=' . $attachments['_' . $post_id][$i]['attach_id']);
 						$download_link = TRUE;
 					}
 					else
@@ -362,18 +362,18 @@ function display_attachments($post_id)
 				// Images, but display Thumbnail
 				// NOTE: If you want to use the download.php everytime an thumnmail is displayed inlined, replace the
 				// Section between BEGIN and END with (Without the // of course):
-				//	$thumb_source = append_sid($phpbb_root_path . 'download.' . $phpEx . '?id=' . $attachments['_' . $post_id][$i]['attach_id'] . '&thumb=1');
+				//	$thumb_source = append_sid($phpbb_root_path . 'download.php?id=' . $attachments['_' . $post_id][$i]['attach_id'] . '&thumb=1');
 				//
 				if (intval($attach_config['allow_ftp_upload']) && trim($attach_config['download_path']) == '')
 				{
-					$thumb_source = append_sid('download.' . $phpEx . '?id=' . $attachments['_' . $post_id][$i]['attach_id'] . '&thumb=1');
+					$thumb_source = append_sid('download.php?id=' . $attachments['_' . $post_id][$i]['attach_id'] . '&thumb=1');
 				}
 				else
 				{
 					// Check if we can reach the file or if it is stored outside of the webroot
 					if ($attach_config['upload_dir'][0] == '/' || ( $attach_config['upload_dir'][0] != '/' && $attach_config['upload_dir'][1] == ':'))
 					{
-						$thumb_source = append_sid('download.' . $phpEx . '?id=' . $attachments['_' . $post_id][$i]['attach_id'] . '&thumb=1');
+						$thumb_source = append_sid('download.php?id=' . $attachments['_' . $post_id][$i]['attach_id'] . '&thumb=1');
 					}
 					else
 					{
@@ -387,7 +387,7 @@ function display_attachments($post_id)
 					'DOWNLOAD_NAME' => $display_name,
 					'S_UPLOAD_IMAGE' => $upload_image,
 
-					'IMG_SRC' => append_sid('download.' . $phpEx . '?id=' . $attachments['_' . $post_id][$i]['attach_id']),
+					'IMG_SRC' => append_sid('download.php?id=' . $attachments['_' . $post_id][$i]['attach_id']),
 					'IMG_THUMB_SRC' => $thumb_source,
 					'FILESIZE' => $filesize,
 					'SIZE_VAR' => $size_lang,
@@ -463,7 +463,7 @@ function display_attachments($post_id)
 
 				// display attachment
 				$template->assign_block_vars('postrow.attach.attachrow', array(
-					'U_DOWNLOAD_LINK'	=> append_sid('download.' . $phpEx . '?id=' . $attachments['_' . $post_id][$i]['attach_id']),
+					'U_DOWNLOAD_LINK'	=> append_sid('download.php?id=' . $attachments['_' . $post_id][$i]['attach_id']),
 					'S_UPLOAD_IMAGE' => $upload_image,
 
 					'DOWNLOAD_NAME' => $display_name,

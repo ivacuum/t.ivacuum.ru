@@ -29,14 +29,14 @@ $default_user_opt = array(
 //
 function show_coppa()
 {
-	global $userdata, $template, $lang, $phpbb_root_path, $phpEx;
+	global $userdata, $template, $lang, $phpbb_root_path;
 
 	$template->assign_vars(array(
 		'REGISTRATION' => $lang['Registration'],
 		"AGREE_OVER_13" => $lang['Agree_over_13'],
 		'DO_NOT_AGREE' => $lang['Agree_not'],
 
-		"U_AGREE_OVER13" => append_sid("profile.$phpEx?mode=register&amp;agreed=true"),
+		"U_AGREE_OVER13" => append_sid("profile.php?mode=register&amp;agreed=true"),
 	));
 
 	print_page('agreement.tpl');
@@ -69,9 +69,9 @@ if (
 	isset($_POST['cancelavatar']) ||
 	$mode == 'register' )
 {
-	include($phpbb_root_path . 'includes/functions_validate.'.$phpEx);
-	include($phpbb_root_path . 'includes/bbcode.'.$phpEx);
-	include($phpbb_root_path . 'includes/functions_post.'.$phpEx);
+	include($phpbb_root_path . 'includes/functions_validate.php');
+	include($phpbb_root_path . 'includes/bbcode.php');
+	include($phpbb_root_path . 'includes/functions_post.php');
 
 	if ( $mode == 'editprofile' )
 	{
@@ -207,7 +207,7 @@ if ($mode == 'register' && ($userdata['session_logged_in'] || $username == $user
 //
 if ( isset($_POST['submit']) )
 {
-	include($phpbb_root_path . 'includes/ucp/usercp_avatar.'.$phpEx);
+	include($phpbb_root_path . 'includes/ucp/usercp_avatar.php');
 
 	// session id check
 	if ($sid == '' || $sid != $userdata['session_id'])
@@ -533,7 +533,7 @@ if ( isset($_POST['submit']) )
 				//
 				// The users account has been deactivated, send them an email with a new activation key
 				//
-				include($phpbb_root_path . 'includes/emailer.'.$phpEx);
+				include($phpbb_root_path . 'includes/emailer.php');
 				$emailer = new emailer($bb_cfg['smtp_delivery']);
 
  				if ( $bb_cfg['require_activation'] != USER_ACTIVATION_ADMIN )
@@ -587,11 +587,11 @@ if ( isset($_POST['submit']) )
  					$db->sql_freeresult($result);
  				}
 
-				$message = $lang['Profile_updated_inactive'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
+				$message = $lang['Profile_updated_inactive'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.php") . '">', '</a>');
 			}
 			else
 			{
-				$message = $lang['Profile_updated'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
+				$message = $lang['Profile_updated'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.php") . '">', '</a>');
 			}
 
 			message_die(GENERAL_MESSAGE, $message);
@@ -646,7 +646,7 @@ if ( isset($_POST['submit']) )
 				$email_template = 'user_welcome';
 			}
 
-			include($phpbb_root_path . 'includes/emailer.'.$phpEx);
+			include($phpbb_root_path . 'includes/emailer.php');
 			$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 			$emailer->from($bb_cfg['board_email']);
@@ -729,7 +729,7 @@ if ( isset($_POST['submit']) )
 			/* Переадресация на тему "Как качать?" */
 			// redirect('viewtopic.php?t=262');
 
-			$message = $message . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
+			$message = $message . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.php") . '">', '</a>');
 
 			message_die(GENERAL_MESSAGE, $message);
 		} // if mode == register
@@ -797,7 +797,7 @@ if ( $mode == 'editprofile' )
 
 if( isset($_POST['avatargallery']) && !$error )
 {
-	include($phpbb_root_path . 'includes/ucp/usercp_avatar.'.$phpEx);
+	include($phpbb_root_path . 'includes/ucp/usercp_avatar.php');
 
 	$avatar_category = ( !empty($_POST['avatarcategory']) ) ? htmlspecialchars($_POST['avatarcategory']) : '';
 
@@ -811,7 +811,7 @@ if( isset($_POST['avatargallery']) && !$error )
 }
 else
 {
-	include($phpbb_root_path . 'includes/functions_selects.'.$phpEx);
+	include($phpbb_root_path . 'includes/functions_selects.php');
 
 	if ( !isset($coppa) )
 	{
@@ -956,12 +956,12 @@ else
 		");
 
 		$confirm_image = (extension_loaded('zlib')) ? '
-			<img src="'. append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id") .'" alt="" title="" />
+			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id") .'" alt="" title="" />
 		' : '
-			<img src="'. append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=1") .'" alt="" title="" />
-			<img src="'. append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=2") .'" alt="" title="" />
-			<img src="'. append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=3") .'" alt="" title="" />
-			<img src="'. append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=4") .'" alt="" title="" />
+			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id&amp;c=1") .'" alt="" title="" />
+			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id&amp;c=2") .'" alt="" title="" />
+			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id&amp;c=3") .'" alt="" title="" />
+			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id&amp;c=4") .'" alt="" title="" />
 		';
 		$s_hidden_fields .= '<input type="hidden" name="confirm_id" value="'. $confirm_id .'" />';
 
@@ -1015,7 +1015,7 @@ else
 		'LANGUAGE_SELECT' => language_select($user_lang, 'language'),
 		'TIMEZONE_SELECT' => tz_select($user_timezone, 'timezone'),
 		'DATE_FORMAT' => htmlCHR($user_dateformat),
-		'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="' . append_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
+		'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="' . append_sid("faq.php?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
 		'SMILIES_STATUS' => $smilies_status,
 
 		'L_CURRENT_PASSWORD' => $lang['Current_password'],
@@ -1068,9 +1068,9 @@ else
 		'S_ALLOW_AVATAR_REMOTE' => $bb_cfg['allow_avatar_remote'],
 		'S_HIDDEN_FIELDS' => $s_hidden_fields,
 		'S_FORM_ENCTYPE' => $form_enctype,
-		'S_PROFILE_ACTION' => append_sid("profile.$phpEx"),
+		'S_PROFILE_ACTION' => append_sid("profile.php"),
 
-		'U_RESET_AUTOLOGIN'      => "login.$phpEx?logout=1&amp;reset_autologin=1&amp;sid={$userdata['session_id']}",
+		'U_RESET_AUTOLOGIN'      => "login.php?logout=1&amp;reset_autologin=1&amp;sid={$userdata['session_id']}",
 		'L_AUTOLOGIN'            => $lang['Autologin'],
 		'L_RESET_AUTOLOGIN'      => $lang['Reset_autologin'],
 		'L_RESET_AUTOLOGIN_EXPL' => $lang['Reset_autologin_expl'],
@@ -1130,7 +1130,7 @@ if ($mode == 'editprofile' && $userdata['session_logged_in'])
 		'L_GEN_PASSKEY'           => $lang['Bt_Gen_Passkey'],
 		'L_GEN_PASSKEY_EXPLAIN'   => $lang['Bt_Gen_Passkey_Explain'],
 		'L_GEN_PASSKEY_EXPLAIN_2' => $lang['Bt_Gen_Passkey_Explain_2'],
-		'S_GEN_PASSKEY'           => "<a href=\"torrent.$phpEx?mode=gen_passkey&amp;u=" . $userdata['user_id'] . '&amp;sid=' . $userdata['session_id'] . '">' . $lang['Bt_Gen_Passkey_Url'] . '</a>',
+		'S_GEN_PASSKEY'           => "<a href=\"torrent.php?mode=gen_passkey&amp;u=" . $userdata['user_id'] . '&amp;sid=' . $userdata['session_id'] . '">' . $lang['Bt_Gen_Passkey_Url'] . '</a>',
 		'L_CURR_PASSKEY'          => $lang['Curr_passkey'],
 		'CURR_PASSKEY'            => $curr_passkey,
 	));

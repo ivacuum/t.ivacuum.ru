@@ -757,7 +757,7 @@ class attach_parent
 	*/
 	function display_attachment_bodies()
 	{
-		global $attach_config, $db, $is_auth, $lang, $mode, $phpEx, $template, $upload_dir, $userdata, $forum_id;
+		global $attach_config, $db, $is_auth, $lang, $mode, $template, $upload_dir, $userdata, $forum_id;
 		global $t_root_path;
 
 		// Choose what to display
@@ -840,7 +840,7 @@ class attach_parent
 				}
 				else
 				{
-					$download_link = append_sid('download.' . $phpEx . '?id=' . $this->attachment_id_list[$i]);
+					$download_link = append_sid('download.php?id=' . $this->attachment_id_list[$i]);
 				}
 
 				$template->assign_block_vars('attach_row', array(

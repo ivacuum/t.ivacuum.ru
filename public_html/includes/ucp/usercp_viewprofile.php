@@ -11,7 +11,7 @@ $datastore->enqueue(array(
 
 if (!$userdata['session_logged_in'])
 {
-	redirect(append_sid("login.$phpEx?redirect={$_SERVER['REQUEST_URI']}", TRUE));
+	redirect(append_sid("login.php?redirect={$_SERVER['REQUEST_URI']}", TRUE));
 }
 if ( empty($_GET[POST_USERS_URL]) || $_GET[POST_USERS_URL] == ANONYMOUS )
 {
@@ -58,7 +58,7 @@ if ($user_rank = $profiledata['user_rank'] AND isset($ranks[$user_rank]))
 	$poster_rank = $ranks[$user_rank]['rank_title'];
 }
 
-$temp_url = append_sid("privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL . "=" . $profiledata['user_id']);
+$temp_url = append_sid("privmsg.php?mode=post&amp;" . POST_USERS_URL . "=" . $profiledata['user_id']);
 $pm_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_pm'] . '" alt="' . $lang['Send_private_message'] . '" title="' . $lang['Send_private_message'] . '" border="0" /></a>';
 
 $location = ($profiledata['user_from']) ? $profiledata['user_from'] : '';
@@ -68,7 +68,7 @@ $pm = '<a href="' . $temp_url . '">' . $lang['Send_private_message'] . '</a>';
 
 if ( bf($profiledata['user_opt'], 'user_opt', 'viewemail') || IS_ADMIN )
 {
-	$email_uri = ( $board_config['board_email_form'] ) ? append_sid("profile.$phpEx?mode=email&amp;" . POST_USERS_URL .'=' . $profiledata['user_id']) : 'mailto:' . $profiledata['user_email'];
+	$email_uri = ( $board_config['board_email_form'] ) ? append_sid("profile.php?mode=email&amp;" . POST_USERS_URL .'=' . $profiledata['user_id']) : 'mailto:' . $profiledata['user_email'];
 	$email_img = '<a href="' . $email_uri . '"><img src="' . $images['icon_email'] . '" alt="' . $lang['Send_email'] . '" title="' . $lang['Send_email'] . '" border="0" /></a>';
 	$email = '<a href="' . $email_uri . '">' . $lang['Send_email'] . '</a>';
 }
@@ -97,7 +97,7 @@ $msn_img = ( $profiledata['user_msnm'] ) ? $profiledata['user_msnm'] : '';
 $msn = $msn_img;
 $yim_img = ( $profiledata['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $profiledata['user_yim'] . '&amp;.src=pg"><img src="' . $images['icon_yim'] . '" alt="' . $lang['YIM'] . '" title="' . $lang['YIM'] . '" border="0" /></a>' : '';
 $yim = ( $profiledata['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $profiledata['user_yim'] . '&amp;.src=pg">' . $lang['YIM'] . '</a>' : '';
-$temp_url = append_sid("search.$phpEx?search_author=1&amp;uid={$profiledata['user_id']}");
+$temp_url = append_sid("search.php?search_author=1&amp;uid={$profiledata['user_id']}");
 $search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . $lang['Search_user_posts'] . '" title="' . sprintf($lang['Search_user_posts'], $profiledata['username']) . '" border="0" /></a>';
 $search = '<a href="' . $temp_url . '">' . sprintf($lang['Search_user_posts'], $profiledata['username']) . '</a>';
 
@@ -229,11 +229,11 @@ $template->assign_vars(array(
 	'L_INTERESTS' => $lang['Interests'],
 	'L_USERGROUPS' => $lang['USERGROUPS'],
 
-	'U_SEARCH_USER'     => "search.$phpEx?search_author=1&amp;uid={$profiledata['user_id']}",
-	'U_SEARCH_RELEASES' => "tracker.$phpEx?rid={$profiledata['user_id']}#results",
+	'U_SEARCH_USER'     => "search.php?search_author=1&amp;uid={$profiledata['user_id']}",
+	'U_SEARCH_RELEASES' => "tracker.php?rid={$profiledata['user_id']}#results",
 	'L_SEARCH_RELEASES' => $lang['Search_user_releases'],
 
-	'S_PROFILE_ACTION'  => "profile.$phpEx",
+	'S_PROFILE_ACTION'  => "profile.php",
 ));
 
 //bt
@@ -255,8 +255,8 @@ if (IS_ADMIN)
 	$template->assign_vars(array(
 		'EDITABLE_TPLS' => true,
 
-		'U_MANAGE'      => "admin/admin_users.$phpEx?mode=edit&amp;u={$profiledata['user_id']}",
-		'U_PERMISSIONS' => "admin/admin_ug_auth.$phpEx?mode=user&amp;u={$profiledata['user_id']}",
+		'U_MANAGE'      => "admin/admin_users.php?mode=edit&amp;u={$profiledata['user_id']}",
+		'U_PERMISSIONS' => "admin/admin_ug_auth.php?mode=user&amp;u={$profiledata['user_id']}",
 
 		'L_MANAGE'      => 'Profile',
 		'L_PERMISSIONS' => 'Permissions',

@@ -129,7 +129,7 @@ while( $row = $db->sql_fetchrow($result) )
 			'USERNAME'   => $username,
 			'LASTUPDATE' => bb_date($row['session_time']),
 
-			'U_USER_PROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $user_id),
+			'U_USER_PROFILE' => append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $user_id),
 		));
 
 		$$which_counter++;

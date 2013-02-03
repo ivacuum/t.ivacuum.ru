@@ -48,7 +48,7 @@ if (($mode == 'reg' || $mode == 'unreg' || !empty($_POST['tor_action'])) && !$at
 // Show users torrent-profile
 if ($mode == 'userprofile')
 {
-	redirect(append_sid("profile.$phpEx?mode=viewprofile&u=$req_uid"), true);
+	redirect(append_sid("profile.php?mode=viewprofile&u=$req_uid"), true);
 }
 
 // check SID
@@ -63,7 +63,7 @@ if (!empty($_POST['tor_status']) && $confirm)
 		change_tor_status($attach_id, $new_tor_status);
 		$sql = "update ". BT_TORRENTS_TABLE ." set checked_user_id=". $userdata['user_id'] .", checked_time=". time() ." WHERE attach_id=". $attach_id;
 		$db->sql_query($sql);
-		redirect("viewtopic.$phpEx?t=$topic_id");
+		redirect("viewtopic.php?t=$topic_id");
 
 
 //end torrent status mod

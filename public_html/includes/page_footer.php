@@ -2,7 +2,7 @@
 
 if (!defined('BB_ROOT')) die(basename(__FILE__));
 
-global $bb_cfg, $lang, $userdata, $gen_simple_header, $template, $db, $phpEx;
+global $bb_cfg, $lang, $userdata, $gen_simple_header, $template, $db;
 global $datastore, $bb_cache, $session_cache;
 
 $logged_in = !empty($userdata['session_logged_in']);
@@ -16,7 +16,7 @@ if (!empty($template))
 
 		'TRANSLATION_INFO' => isset($lang['TRANSLATION_INFO']) ? $lang['TRANSLATION_INFO'] : '',
 		'SHOW_ADMIN_LINK'  => ($is_admin && !defined('IN_ADMIN')),
-		'ADMIN_LINK_HREF'  => "admin/index.$phpEx",
+		'ADMIN_LINK_HREF'  => "admin/index.php",
 		'L_GOTO_ADMINCP'   => $lang['Admin_panel'],
 	#!#
 		'SHOW_BANNERS'     => (!DEBUG && (!($is_admin || $is_mod) || $userdata['user_id'] == 2)),
@@ -84,7 +84,7 @@ echo '
 /*
 if (DBG_USER && (SQL_DEBUG || PROFILER))
 {
-	require(INC_DIR . 'page_footer_dev.'. PHP_EXT);
+	require(INC_DIR . 'page_footer_dev.php');
 }
 $search = $replace = array();
 

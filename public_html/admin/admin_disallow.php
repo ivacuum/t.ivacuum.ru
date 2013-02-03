@@ -13,7 +13,7 @@ $message = '';
 
 if( isset($_POST['add_name']) )
 {
-	include($phpbb_root_path . 'includes/functions_validate.'.$phpEx);
+	include($phpbb_root_path . 'includes/functions_validate.php');
 
 	$disallowed_user = ( isset($_POST['disallowed_user']) ) ? trim($_POST['disallowed_user']) : trim($_GET['disallowed_user']);
 
@@ -37,7 +37,7 @@ if( isset($_POST['add_name']) )
 		$message = $lang['Disallow_successful'];
 	}
 
-	$message .= "<br /><br />" . sprintf($lang['Click_return_disallowadmin'], "<a href=\"" . append_sid("admin_disallow.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+	$message .= "<br /><br />" . sprintf($lang['Click_return_disallowadmin'], "<a href=\"" . append_sid("admin_disallow.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 	message_die(GENERAL_MESSAGE, $message);
 }
@@ -53,7 +53,7 @@ else if( isset($_POST['delete_name']) )
 		message_die(GENERAL_ERROR, "Couldn't removed disallowed user.", "",__LINE__, __FILE__, $sql);
 	}
 
-	$message .= $lang['Disallowed_deleted'] . "<br /><br />" . sprintf($lang['Click_return_disallowadmin'], "<a href=\"" . append_sid("admin_disallow.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+	$message .= $lang['Disallowed_deleted'] . "<br /><br />" . sprintf($lang['Click_return_disallowadmin'], "<a href=\"" . append_sid("admin_disallow.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 	message_die(GENERAL_MESSAGE, $message);
 
@@ -94,7 +94,7 @@ $disallow_select .= '</select>';
 
 $template->assign_vars(array(
 	"S_DISALLOW_SELECT" => $disallow_select,
-	"S_FORM_ACTION" => append_sid("admin_disallow.$phpEx"),
+	"S_FORM_ACTION" => append_sid("admin_disallow.php"),
 
 	"L_DISALLOW_TITLE" => $lang['Disallow_control'],
 	"L_DISALLOW_EXPLAIN" => $lang['Disallow_explain'],

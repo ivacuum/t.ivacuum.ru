@@ -292,7 +292,7 @@ function user_avatar_upload($mode, $avatar_mode, &$current_avatar, &$current_typ
 function display_avatar_gallery($mode, $category, $user_id, $email, $current_email, $coppa, $username, $email, $new_password, $cur_password, $password_confirm, $icq, $aim, $msn, $yim, $website, $location, $user_flag, $occupation, $interests, $signature, $viewemail, $notifypm, $notifyreply, $attachsig, $hideonline, $style, $language, $timezone, $dateformat, &$session_id)
 {
 	global $board_config, $db, $template, $lang, $images, $theme;
-	global $phpbb_root_path, $phpEx;
+	global $phpbb_root_path;
 
 	$dir = @opendir($board_config['avatar_gallery_path']);
 
@@ -382,7 +382,7 @@ function display_avatar_gallery($mode, $category, $user_id, $email, $current_ema
 
 		'S_CATEGORY_SELECT' => $s_categories,
 		'S_COLSPAN' => $s_colspan,
-		'S_PROFILE_ACTION' => append_sid("profile.$phpEx?mode=$mode"),
+		'S_PROFILE_ACTION' => append_sid("profile.php?mode=$mode"),
 		'S_HIDDEN_FIELDS' => $s_hidden_vars)
 	);
 

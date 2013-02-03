@@ -8,7 +8,7 @@ define('IN_LOGIN', true);
 $t_root_path = __DIR__ . '/';
 require($t_root_path . 'common.php');
 
-$redirect_url = "index.$phpEx";
+$redirect_url = "index.php";
 $login_error = $login_err_msg = false;
 
 // Requested redirect
@@ -30,7 +30,7 @@ $redirect_url = str_replace('&admin=1', '', $redirect_url);
 
 if (!$redirect_url || strstr(urldecode($redirect_url), "\n") || strstr(urldecode($redirect_url), "\r") || strstr(urldecode($redirect_url), ';url'))
 {
-	$redirect_url = "index.$phpEx";
+	$redirect_url = "index.php";
 }
 
 // if (!empty($_POST['login']) && !empty($_POST['cookie_test']))
@@ -61,14 +61,14 @@ else if (isset($_POST['login']))
 {
 	if (!IS_GUEST && !$mod_admin_login)
 	{
-		redirect("index.$phpEx");
+		redirect("index.php");
 	}
 
 	if ($user->login($_POST, $mod_admin_login))
 	{
 		if ($bb_cfg['board_disable'] && $user->data['user_level'] != ADMIN)
 		{
-			redirect("index.$phpEx");
+			redirect("index.php");
 		}
 
 		if ($mod_admin_login)
@@ -91,7 +91,7 @@ else if (!empty($_GET['logout']))
 	{
 		$user->session_end();
 	}
-	redirect("index.$phpEx");
+	redirect("index.php");
 }
 
 // Login page
@@ -106,7 +106,7 @@ if (IS_GUEST || $mod_admin_login)
 		'ERR_MSG'          => $login_err_msg,
 		'T_ENTER_PASSWORD' => ($mod_admin_login) ? $lang['Admin_reauthenticate'] : $lang['Enter_password'],
 
-		'U_SEND_PASSWORD'  => "profile.$phpEx?mode=sendpassword",
+		'U_SEND_PASSWORD'  => "profile.php?mode=sendpassword",
 		'ADMIN_LOGIN'      => $mod_admin_login,
 		'COOKIE_TEST_VAL'  => $cookie_test_val,
 		'COOKIES_ERROR'    => ($login_error == 'cookie'),
@@ -117,5 +117,5 @@ if (IS_GUEST || $mod_admin_login)
 	print_page('login.tpl');
 }
 
-redirect("index.$phpEx");
+redirect("index.php");
 

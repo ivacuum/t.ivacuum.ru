@@ -16,7 +16,7 @@ $user->session_start();
 // Check if user logged in
 if (!$userdata['session_logged_in'])
 {
-	redirect(append_sid("login.$phpEx?redirect=index.$phpEx", true));
+	redirect(append_sid("login.php?redirect=index.php", true));
 }
 
 $sid = request_var('sid', '');
@@ -53,7 +53,7 @@ if (($mode == 'reg' || $mode == 'unreg' || !empty($_POST['tor_action'])) && !$at
 // Show users torrent-profile
 if ($mode == 'userprofile')
 {
-	redirect(append_sid("profile.$phpEx?mode=viewprofile&u=$req_uid"), true);
+	redirect(append_sid("profile.php?mode=viewprofile&u=$req_uid"), true);
 }
 
 // check SID
@@ -82,20 +82,20 @@ if (!empty($_POST['tor_action']) && $confirm)
 	if ($_POST['tor_action'] === 'del_torrent')
 	{
 		delete_torrent($attach_id, 'request');
-		redirect("viewtopic.$phpEx?t=$topic_id");
+		redirect("viewtopic.php?t=$topic_id");
 	}
 	// Delete torrent and move topic
 	if ($_POST['tor_action'] === 'del_torrent_move_topic')
 	{
 		delete_torrent($attach_id, 'request');
-		redirect("modcp.$phpEx?t=$topic_id&mode=move&sid={$userdata['session_id']}");
+		redirect("modcp.php?t=$topic_id&mode=move&sid={$userdata['session_id']}");
 	}
 	// Freeze/Unfreeze torrent
 	if ($_POST['tor_action'] === 'freeze' || $_POST['tor_action'] === 'unfreeze')
 	{
 		$new_tor_status = ($_POST['tor_action'] === 'freeze') ? TOR_STATUS_FROZEN : TOR_STATUS_NORMAL;
 		change_tor_status($attach_id, $new_tor_status);
-		redirect("viewtopic.$phpEx?t=$topic_id");
+		redirect("viewtopic.php?t=$topic_id");
 	}
 }
 

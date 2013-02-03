@@ -138,7 +138,7 @@ $user->session_start(array('req_login' => true));
 // Check if user did or did not confirm. If they did not, forward them to the last page they were on
 if (isset($_POST['cancel']) || IS_GUEST)
 {
-	$redirect = "index.$phpEx";
+	$redirect = "index.php";
 
 	if ($topic_id || $forum_id)
 	{
@@ -179,7 +179,7 @@ if (!$is_auth['auth_mod'])
 if ($is_moderator && !$userdata['session_admin'])
 {
 	$redirect = isset($_POST['redirect']) ? $_POST['redirect'] : $_SERVER['REQUEST_URI'];
-	redirect("login.$phpEx?redirect=$redirect&admin=1");
+	redirect("login.php?redirect=$redirect&admin=1");
 }
 
 //
@@ -247,7 +247,7 @@ switch ($mode)
 			print_confirmation(array(
 				'QUESTION'      => $lang['Confirm_delete_topic'],
 				'ITEMS_LIST'    => join("\n</li>\n<li>\n", $topic_titles),
-				'FORM_ACTION'   => "modcp.$phpEx",
+				'FORM_ACTION'   => "modcp.php",
 				'HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
 			));
 		}
@@ -290,7 +290,7 @@ switch ($mode)
 				'L_LEAVESHADOW'   => $lang['Leave_shadow_topic'],
 
 				'S_FORUM_SELECT'  => $forum_select,
-				'S_MODCP_ACTION'  => "modcp.$phpEx",
+				'S_MODCP_ACTION'  => "modcp.php",
 				'S_HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
 			));
 
@@ -510,8 +510,8 @@ switch ($mode)
 				sync('forum', array($forum_id, $new_forum_id));
 
 				//bot
-				$message = $lang['Topic_split'] .'<br /><br /><a href="' . "viewtopic.$phpEx?". POST_TOPIC_URL ."=$topic_id&amp;sid=". $userdata['session_id'] .'">'. $lang['Topic_split_old'] .'</a>';
-				$message .= ' &nbsp;::&nbsp; <a href="' . "viewtopic.$phpEx?". POST_TOPIC_URL ."=$new_topic_id&amp;sid=". $userdata['session_id'] .'">'. $lang['Topic_split_new'] .'</a>';
+				$message = $lang['Topic_split'] .'<br /><br /><a href="' . "viewtopic.php?". POST_TOPIC_URL ."=$topic_id&amp;sid=". $userdata['session_id'] .'">'. $lang['Topic_split_old'] .'</a>';
+				$message .= ' &nbsp;::&nbsp; <a href="' . "viewtopic.php?". POST_TOPIC_URL ."=$new_topic_id&amp;sid=". $userdata['session_id'] .'">'. $lang['Topic_split_new'] .'</a>';
 				//bot end
 
 				// Log action
@@ -569,7 +569,7 @@ switch ($mode)
 					'L_POST' => $lang['Post'],
 					'FORUM_NAME' => htmlCHR($forum_name),
 					'U_VIEW_FORUM' => FORUM_URL . $forum_id,
-					'S_SPLIT_ACTION' => "modcp.$phpEx",
+					'S_SPLIT_ACTION' => "modcp.php",
 					'S_HIDDEN_FIELDS' => $s_hidden_fields,
 					'S_FORUM_SELECT' => get_forum_select('admin', 'new_forum_id', $forum_id),
 				));
@@ -667,7 +667,7 @@ switch ($mode)
 			'L_OTHER_USERS'  => $lang['Users_this_IP'],
 			'L_LOOKUP_IP'    => $lang['Lookup_IP'],
 			'IP'             => $ip_this_post,
-			'U_LOOKUP_IP'    => "modcp.$phpEx?mode=ip&amp;" . POST_POST_URL . "=$post_id&amp;" . POST_TOPIC_URL . "=$topic_id&amp;rdns=$ip_this_post&amp;sid=" . $userdata['session_id'])
+			'U_LOOKUP_IP'    => "modcp.php?mode=ip&amp;" . POST_POST_URL . "=$post_id&amp;" . POST_TOPIC_URL . "=$topic_id&amp;rdns=$ip_this_post&amp;sid=" . $userdata['session_id'])
 		);
 
 		//
@@ -706,7 +706,7 @@ switch ($mode)
 					'ROW_CLASS'   => !($i % 2) ? 'row4' : 'row5',
 					'IP'          => $ip,
 					'POSTS'       => $row['postings'],
-					'U_LOOKUP_IP' => "modcp.$phpEx?mode=ip&amp;" . POST_POST_URL . "=$post_id&amp;" . POST_TOPIC_URL . "=$topic_id&amp;rdns=" . $row['poster_ip'] . "&amp;sid=" . $userdata['session_id'],
+					'U_LOOKUP_IP' => "modcp.php?mode=ip&amp;" . POST_POST_URL . "=$post_id&amp;" . POST_TOPIC_URL . "=$topic_id&amp;rdns=" . $row['poster_ip'] . "&amp;sid=" . $userdata['session_id'],
 				));
 
 				$i++;
@@ -745,8 +745,8 @@ switch ($mode)
 					'USERNAME'       => wbr($username),
 					'POSTS'          => $row['postings'],
 					'L_SEARCH_POSTS' => $lang['Search_user_posts_short'],
-					'U_PROFILE'      => ($id == ANONYMOUS) ? "modcp.$phpEx?mode=ip&amp;p=$post_id&amp;t=$topic_id" : PROFILE_URL . $id,
-					'U_SEARCHPOSTS'  => "search.$phpEx?search_author=1&amp;uid=$id",
+					'U_PROFILE'      => ($id == ANONYMOUS) ? "modcp.php?mode=ip&amp;p=$post_id&amp;t=$topic_id" : PROFILE_URL . $id,
+					'U_SEARCHPOSTS'  => "search.php?search_author=1&amp;uid=$id",
 				));
 
 				$i++;

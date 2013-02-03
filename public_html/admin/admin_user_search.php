@@ -9,9 +9,9 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require($phpbb_root_path . 'includes/functions_selects.' . $phpEx);
+require($phpbb_root_path . 'includes/functions_selects.php');
 
-include($phpbb_root_path.'language/lang_' . $board_config['default_lang'] . '/lang_user_search.'.$phpEx);
+include($phpbb_root_path.'language/lang_' . $board_config['default_lang'] . '/lang_user_search.php');
 
 $total_sql = '';
 
@@ -135,7 +135,7 @@ if(!isset($_POST['dosearch'])&&!isset($_GET['dosearch']))
 		'STYLE_LIST' => $styles_list,
 		'LASTVISITED_LIST' => $lastvisited_list,
 
-		'S_SEARCH_ACTION' => append_sid("admin_user_search.$phpEx")
+		'S_SEARCH_ACTION' => append_sid("admin_user_search.php")
 	));
 }
 else
@@ -320,7 +320,7 @@ else
 			}
 	}
 
-	$base_url = "admin_user_search.$phpEx?dosearch=true";
+	$base_url = "admin_user_search.php?dosearch=true";
 
 	$select_sql = "SELECT u.user_id, u.username, u.user_email, u.user_posts, u.user_regdate, u.user_level, u.user_active, u.user_lastvisit
 						FROM ".USERS_TABLE." AS u";
@@ -1203,7 +1203,7 @@ else
 
 		'PAGE_NUMBER' => sprintf($lang['Page_of'], $page, $num_pages),
 		'PAGINATION' => $pagination,
-		'NEW_SEARCH' => sprintf($lang['Search_users_new'],$text, $total_pages['total'],append_sid("admin_user_search.$phpEx")),
+		'NEW_SEARCH' => sprintf($lang['Search_users_new'],$text, $total_pages['total'],append_sid("admin_user_search.php")),
 
 		'U_USERNAME' => ( ( $sort == 'username' ) ? append_sid("$base_url&sort=$sort&order=$o_order") : append_sid("$base_url&sort=username&order=$order") ),
 		'U_EMAIL' => ( ( $sort == 'user_email' ) ? append_sid("$base_url&sort=$sort&order=$o_order") : append_sid("$base_url&sort=user_email&order=$order") ),
@@ -1260,10 +1260,10 @@ else
 			'BAN' => ( ( !isset($banned[$rowset[$i]['user_id']]) ) ? $lang['Not_banned'] : $lang['Banned'] ),
 			'ABLED' => ( ( $rowset[$i]['user_active'] ) ? $lang['Enabled'] : $lang['Disabled'] ),
 
-			'U_VIEWPROFILE' => append_sid("../profile.$phpEx?mode=viewprofile&".POST_USERS_URL."=".$rowset[$i]['user_id']),
-			'U_VIEWPOSTS' => append_sid("../search.$phpEx?search_author=1&amp;uid={$rowset[$i]['user_id']}"),
-			'U_MANAGE' => append_sid("admin_users.$phpEx?mode=edit&".POST_USERS_URL."=".$rowset[$i]['user_id']),
-			'U_PERMISSIONS' => append_sid("admin_ug_auth.$phpEx?mode=user&".POST_USERS_URL."=".$rowset[$i]['user_id']),
+			'U_VIEWPROFILE' => append_sid("../profile.php?mode=viewprofile&".POST_USERS_URL."=".$rowset[$i]['user_id']),
+			'U_VIEWPOSTS' => append_sid("../search.php?search_author=1&amp;uid={$rowset[$i]['user_id']}"),
+			'U_MANAGE' => append_sid("admin_users.php?mode=edit&".POST_USERS_URL."=".$rowset[$i]['user_id']),
+			'U_PERMISSIONS' => append_sid("admin_ug_auth.php?mode=user&".POST_USERS_URL."=".$rowset[$i]['user_id']),
 		));
 	}
 }

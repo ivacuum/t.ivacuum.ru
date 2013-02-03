@@ -23,7 +23,7 @@ if( $profile_user_id == $userdata['user_id'] )
 	$template->assign_vars(array(
 		'EDIT_PROF'			=> true,
 		'L_EDIT_PROF'		=> $lang['Edit_profile'],
-		'EDIT_PROF_HREF'	=> append_sid("profile.$phpEx?mode=editprofile"))
+		'EDIT_PROF_HREF'	=> append_sid("profile.php?mode=editprofile"))
 	);
 }
 else
@@ -40,7 +40,7 @@ if( IS_ADMIN )
 {
 	$template->assign_vars(array(
 		'SHOW_PASSKEY'		=> true,
-		'S_GEN_PASSKEY'		=> "<a href=\"torrent.$phpEx?mode=gen_passkey&amp;u=". $profile_user_id .'&amp;sid='. $userdata['session_id'] .'">'. $lang['Bt_Gen_Passkey_Url'] .'</a>',
+		'S_GEN_PASSKEY'		=> "<a href=\"torrent.php?mode=gen_passkey&amp;u=". $profile_user_id .'&amp;sid='. $userdata['session_id'] .'">'. $lang['Bt_Gen_Passkey_Url'] .'</a>',
 		'CAN_EDIT_RATIO'	=> IS_SUPER_ADMIN,
 	));
 }
@@ -165,8 +165,8 @@ if( $seeding_count = sizeof($seeding) )
 			'SEEDERS'      => $seeding[$i]['seeders'],
 			'SPEED'        => ( $seeding[$i]['speed_up'] > 0 ) ? humn_size($seeding[$i]['speed_up'], null, 'KБ') . '/с' : '-',
 			'TOPIC_TITLE'  => wbr($seeding[$i]['topic_title']),
-			'U_VIEW_FORUM' => "viewforum.$phpEx?". POST_FORUM_URL .'='. $seeding[$i]['forum_id'],
-			'U_VIEW_TOPIC' => "viewtopic.$phpEx?". POST_TOPIC_URL .'='. $seeding[$i]['topic_id'] .'&amp;spmode=full#seeders',
+			'U_VIEW_FORUM' => "viewforum.php?". POST_FORUM_URL .'='. $seeding[$i]['forum_id'],
+			'U_VIEW_TOPIC' => "viewtopic.php?". POST_TOPIC_URL .'='. $seeding[$i]['topic_id'] .'&amp;spmode=full#seeders',
 		));
 	}
 }
@@ -190,8 +190,8 @@ if ($leeching_count = count($leeching))
 			'SEEDERS'      => $leeching[$i]['seeders'],
 			'SPEED'        => ( $leeching[$i]['speed_up'] > 0 ) ? humn_size($leeching[$i]['speed_up'], null, 'KБ') . '/с' : '-',
 			'TOPIC_TITLE'  => wbr($leeching[$i]['topic_title']),
-			'U_VIEW_FORUM' => "viewforum.$phpEx?". POST_FORUM_URL .'='. $leeching[$i]['forum_id'],
-			'U_VIEW_TOPIC' => "viewtopic.$phpEx?". POST_TOPIC_URL .'='. $leeching[$i]['topic_id'] .'&amp;spmode=full#leechers',
+			'U_VIEW_FORUM' => "viewforum.php?". POST_FORUM_URL .'='. $leeching[$i]['forum_id'],
+			'U_VIEW_TOPIC' => "viewtopic.php?". POST_TOPIC_URL .'='. $leeching[$i]['topic_id'] .'&amp;spmode=full#leechers',
 			'COMPL_PERC'   => $compl_perc,
 		));
 	}
@@ -228,7 +228,7 @@ if (!IS_USER || $profile_user_id == $userdata['user_id'])
 }
 
 $template->assign_vars(array(
-	'U_TORRENT_PROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;u=". $profiledata['user_id']) . '#torrent',
+	'U_TORRENT_PROFILE' => append_sid("profile.php?mode=viewprofile&amp;u=". $profiledata['user_id']) . '#torrent',
 	'L_TORRENT_PROFILE' => $lang['View_torrent_profile'],
 ));
 

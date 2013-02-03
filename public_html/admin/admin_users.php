@@ -9,11 +9,11 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require(INC_DIR .'bbcode.'. PHP_EXT);
-require(INC_DIR .'functions_post.'. PHP_EXT);
-require(INC_DIR .'functions_selects.'. PHP_EXT);
-require(INC_DIR .'functions_validate.'. PHP_EXT);
-require(INC_DIR .'functions_group.'. PHP_EXT);
+require(INC_DIR .'bbcode.php');
+require(INC_DIR .'functions_post.php');
+require(INC_DIR .'functions_selects.php');
+require(INC_DIR .'functions_validate.php');
+require(INC_DIR .'functions_group.php');
 
 array_deep($_POST, 'trim');
 
@@ -27,14 +27,14 @@ $mode = isset($_REQUEST['mode']) ? $_REQUEST['mode'] : '';
 
 function return_msg_ua ($status_msg)
 {
-	global $lang, $phpEx;
+	global $lang;
 
 	$message = $status_msg;
 
 	$message .= '<br /><br />';
-	$message .= sprintf($lang['Click_return_useradmin'], '<a href="'. append_sid("admin_users.$phpEx") .'">', '</a>');
+	$message .= sprintf($lang['Click_return_useradmin'], '<a href="'. append_sid("admin_users.php") .'">', '</a>');
 	$message .= '<br /><br />';
-	$message .= sprintf($lang['Click_return_admin_index'], '<a href="'. append_sid("index.$phpEx?pane=right") .'">', '</a>');
+	$message .= sprintf($lang['Click_return_admin_index'], '<a href="'. append_sid("index.php?pane=right") .'">', '</a>');
 
 	return $message;
 }
@@ -157,7 +157,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 
 	if( isset( $_POST['submit'] ) )
 	{
-		include($phpbb_root_path . 'includes/ucp/usercp_avatar.'.$phpEx);
+		include($phpbb_root_path . 'includes/ucp/usercp_avatar.php');
 
 		$error = FALSE;
 
@@ -572,7 +572,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 				));
 			}
 
-			$message .= '<br /><br />' . sprintf($lang['Click_return_useradmin'], '<a href="' . append_sid("admin_users.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
+			$message .= '<br /><br />' . sprintf($lang['Click_return_useradmin'], '<a href="' . append_sid("admin_users.php") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.php?pane=right") . '">', '</a>');
 
 			message_die(GENERAL_MESSAGE, $message);
 		}
@@ -785,7 +785,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 
 				"S_OPTIONS_CATEGORIES" => $s_categories,
 				"S_COLSPAN" => $s_colspan,
-				"S_PROFILE_ACTION" => append_sid("admin_users.$phpEx?mode=$mode"),
+				"S_PROFILE_ACTION" => append_sid("admin_users.php?mode=$mode"),
 				"S_HIDDEN_FIELDS" => $s_hidden_fields)
 			);
 		}
@@ -958,7 +958,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 			'L_EMAIL_ADDRESS' => $lang['Email_address'],
 			'S_FORM_ENCTYPE' => $form_enctype,
 
-			'BBCODE_STATUS' => sprintf(@$bbcode_status, '<a href="../' . append_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
+			'BBCODE_STATUS' => sprintf(@$bbcode_status, '<a href="../' . append_sid("faq.php?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
 			'SMILIES_STATUS' => @$smilies_status,
 
 			'L_DELETE_USER' => $lang['User_delete'],
@@ -968,7 +968,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 			'L_SELECT_RANK' => $lang['Rank_title'],
 
 			'S_HIDDEN_FIELDS' => $s_hidden_fields,
-			'S_PROFILE_ACTION' => append_sid("admin_users.$phpEx"))
+			'S_PROFILE_ACTION' => append_sid("admin_users.php"))
 		);
 
 		if( file_exists(@phpbb_realpath('./../' . $bb_cfg['avatar_path'])) && ($bb_cfg['allow_avatar_upload'] == TRUE) )
@@ -1001,9 +1001,9 @@ else
 
 		'L_USER_EXPLAIN' => $lang['User_admin_explain'],
 
-		'U_SEARCH_USER' => append_sid("./../search.$phpEx?mode=searchuser"),
+		'U_SEARCH_USER' => append_sid("./../search.php?mode=searchuser"),
 
-		'S_USER_ACTION' => append_sid("admin_users.$phpEx"),
+		'S_USER_ACTION' => append_sid("admin_users.php"),
 		'S_USER_SELECT' => @$select_list)
 	);
 }

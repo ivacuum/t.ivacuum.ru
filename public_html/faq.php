@@ -36,8 +36,8 @@ else
 	$lang_file = 'lang_faq';
 	$l_title = $lang['FAQ'];
 }
-include($t_root_path . 'language/lang_' . $board_config['default_lang'] . '/' . $lang_file . '.' . $phpEx);
-include($t_root_path . "language/lang_{$board_config['default_lang']}/lang_faq_attach.$phpEx");
+include($t_root_path . 'language/lang_' . $board_config['default_lang'] . '/' . $lang_file . '.php');
+include($t_root_path . "language/lang_{$board_config['default_lang']}/lang_faq_attach.php");
 
 
 //

@@ -378,7 +378,7 @@ require($t_root_path . 'includes/sessions.php');
 require($t_root_path . 'includes/template.php');
 require($t_root_path . 'includes/db/mysql.php');
 
-// if (DBG_USER) require(INC_DIR .'functions_dev.'. PHP_EXT);
+// if (DBG_USER) require(INC_DIR .'functions_dev.php');
 
 // Make the database connection.
 $db = new sql_db(array(

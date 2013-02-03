@@ -5,7 +5,7 @@
 define('IN_PHPBB', true);
 define('BB_ROOT', './');
 require(BB_ROOT . 'common.php');
-require(BB_ROOT . 'attach_mod/attachment_mod.'. PHP_EXT);
+require(BB_ROOT . 'attach_mod/attachment_mod.php');
 
 // session id check
 $sid = request_var('sid', '');
@@ -30,12 +30,12 @@ if ($profiledata['user_id'] != $userdata['user_id'] && !IS_ADMIN)
 
 $language = $board_config['default_lang'];
 
-if (!file_exists($phpbb_root_path . 'language/lang_' . $language . '/lang_admin_attach.'.$phpEx))
+if (!file_exists($phpbb_root_path . 'language/lang_' . $language . '/lang_admin_attach.php'))
 {
 	$language = $attach_config['board_lang'];
 }
 
-include($phpbb_root_path . 'language/lang_' . $language . '/lang_admin_attach.' . $phpEx);
+include($phpbb_root_path . 'language/lang_' . $language . '/lang_admin_attach.php');
 
 $start = request_var('start', 0);
 $sort_order = request_var('order', 'ASC');
@@ -153,7 +153,7 @@ else if ($delete && sizeof($delete_id_list) > 0)
 
 	print_confirmation(array(
 		'QUESTION'      => $lang['Confirm_delete_attachments'],
-		'FORM_ACTION'   => "uacp.$phpEx",
+		'FORM_ACTION'   => "uacp.php",
 		'HIDDEN_FIELDS' => $hidden_fields,
 	));
 }
@@ -185,7 +185,7 @@ $template->assign_vars(array(
 	'USERNAME' => $profiledata['username'],
 
 	'S_USER_HIDDEN' => $s_hidden,
-	'S_MODE_ACTION'		=> append_sid($phpbb_root_path . 'uacp.' . $phpEx),
+	'S_MODE_ACTION'		=> append_sid($phpbb_root_path . 'uacp.php'),
 	'S_MODE_SELECT' => $select_sort_mode,
 	'S_ORDER_SELECT' => $select_sort_order)
 );
@@ -279,7 +279,7 @@ if (sizeof($attachments) > 0)
 					$post_title = substr($post_title, 0, 30) . '...';
 				}
 
-				$view_topic = append_sid($phpbb_root_path . 'viewtopic.' . $phpEx . '?' . POST_POST_URL . '=' . $ids[$j]['post_id'] . '#' . $ids[$j]['post_id']);
+				$view_topic = append_sid($phpbb_root_path . 'viewtopic.php?' . POST_POST_URL . '=' . $ids[$j]['post_id'] . '#' . $ids[$j]['post_id']);
 
 				$post_titles[] = '<a href="' . $view_topic . '" class="gen" target="_blank">' . $post_title . '</a>';
 			}
@@ -320,8 +320,8 @@ if (sizeof($attachments) > 0)
 
 				'S_DELETE_BOX' => $delete_box,
 				'S_HIDDEN' => $hidden_field,
-				'U_VIEW_ATTACHMENT' => append_sid($phpbb_root_path . 'download.' . $phpEx . '?id=' . $attachments[$i]['attach_id']))
-	//			'U_VIEW_POST' => ($attachments[$i]['post_id'] != 0) ? append_sid("../viewtopic." . $phpEx . "?" . POST_POST_URL . "=" . $attachments[$i]['post_id'] . "#" . $attachments[$i]['post_id']) : '')
+				'U_VIEW_ATTACHMENT' => append_sid($phpbb_root_path . 'download.php?id=' . $attachments[$i]['attach_id']))
+	//			'U_VIEW_POST' => ($attachments[$i]['post_id'] != 0) ? append_sid("../viewtopic.php?" . POST_POST_URL . "=" . $attachments[$i]['post_id'] . "#" . $attachments[$i]['post_id']) : '')
 			);
 		}
 	}
@@ -330,7 +330,7 @@ if (sizeof($attachments) > 0)
 // Generate Pagination
 if ($do_pagination && $total_rows > $board_config['topics_per_page'])
 {
-	$pagination = generate_pagination($phpbb_root_path . 'uacp.' . $phpEx . '?mode=' . $mode . '&amp;order=' . $sort_order . '&amp;' . POST_USERS_URL . '=' . $profiledata['user_id'] . '&amp;sid=' . $userdata['session_id'], $total_rows, $board_config['topics_per_page'], $start).'&nbsp;';
+	$pagination = generate_pagination($phpbb_root_path . 'uacp.php?mode=' . $mode . '&amp;order=' . $sort_order . '&amp;' . POST_USERS_URL . '=' . $profiledata['user_id'] . '&amp;sid=' . $userdata['session_id'], $total_rows, $board_config['topics_per_page'], $start).'&nbsp;';
 
 	$template->assign_vars(array(
 		'PAGINATION'	=> $pagination,

@@ -47,7 +47,7 @@ if ( isset($_POST['submit']) )
 				message_die(GENERAL_ERROR, 'Could not update new password information', '', __LINE__, __FILE__, $sql);
 			}
 
-			include($phpbb_root_path . 'includes/emailer.'.$phpEx);
+			include($phpbb_root_path . 'includes/emailer.php');
 			$emailer = new emailer($board_config['smtp_delivery']);
 
 			$emailer->from($board_config['board_email']);
@@ -68,7 +68,7 @@ if ( isset($_POST['submit']) )
 			$emailer->send();
 			$emailer->reset();
 
-			$message = $lang['Password_updated'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
+			$message = $lang['Password_updated'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.php") . '">', '</a>');
 
 			message_die(GENERAL_MESSAGE, $message);
 		}
@@ -96,7 +96,7 @@ $template->assign_vars(array(
 	'L_EMAIL_ADDRESS' => $lang['Email_address'],
 
 	'S_HIDDEN_FIELDS' => '',
-	'S_PROFILE_ACTION' => append_sid("profile.$phpEx?mode=sendpassword"))
+	'S_PROFILE_ACTION' => append_sid("profile.php?mode=sendpassword"))
 );
 
 print_page('usercp_sendpasswd.tpl');

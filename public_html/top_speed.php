@@ -63,7 +63,7 @@ while( $row = $db->sql_fetchrow($result) )
 		'UPLOAD'     => ( $row['speed_up'] ) ? humn_size($row['speed_up']) . '/с' : '&mdash;',
 		'USERNAME'   => $username,
 
-		'U_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;". POST_USERS_URL ."=" . $row['user_id']))
+		'U_VIEWPROFILE' => append_sid("profile.php?mode=viewprofile&amp;". POST_USERS_URL ."=" . $row['user_id']))
 	);
 
 	$i++;

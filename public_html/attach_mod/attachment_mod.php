@@ -24,17 +24,17 @@ if (defined('ATTACH_INSTALL'))
 */
 function attach_mod_get_lang($language_file)
 {
-	global $t_root_path, $phpEx, $attach_config, $board_config;
+	global $t_root_path, $attach_config, $board_config;
 
 	$language = $board_config['default_lang'];
 
-	if (!file_exists($t_root_path . 'language/lang_' . $language . '/' . $language_file . '.' . $phpEx))
+	if (!file_exists($t_root_path . 'language/lang_' . $language . '/' . $language_file . '.php'))
 	{
 		$language = $attach_config['board_lang'];
 
-		if (!file_exists($t_root_path . 'language/lang_' . $language . '/' . $language_file . '.' . $phpEx))
+		if (!file_exists($t_root_path . 'language/lang_' . $language . '/' . $language_file . '.php'))
 		{
-			message_die(GENERAL_MESSAGE, 'Attachment Mod language file does not exist: language/lang_' . $language . '/' . $language_file . '.' . $phpEx);
+			message_die(GENERAL_MESSAGE, 'Attachment Mod language file does not exist: language/lang_' . $language . '/' . $language_file . '.php');
 		}
 		else
 		{

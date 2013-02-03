@@ -169,7 +169,7 @@ function tracker_unregister ($attach_id, $mode = '')
 
 function delete_torrent ($attach_id, $mode = '')
 {
-	global $phpEx, $lang, $userdata;
+	global $lang, $userdata;
 	global $reg_mode, $topic_id;
 
 	$attach_id = intval($attach_id);
@@ -223,7 +223,7 @@ function change_tor_status ($attach_id, $new_tor_status)
 
 function tracker_register ($attach_id, $mode = '')
 {
-	global $phpEx, $db, $template, $attach_config, $board_config, $phpbb_root_path, $lang, $return_message;
+	global $db, $template, $attach_config, $board_config, $phpbb_root_path, $lang, $return_message;
 	global $reg_mode;
 
 	$attach_id = intval($attach_id);
@@ -285,7 +285,7 @@ function tracker_register ($attach_id, $mode = '')
 
 	if ($board_config['bt_check_announce_url'])
 	{
-		include_once($phpbb_root_path .'includes/torrent_announce_urls.'.$phpEx);
+		include_once($phpbb_root_path .'includes/torrent_announce_urls.php');
 
 		$ann = (@$tor['announce']) ? $tor['announce'] : '';
 		$announce_urls['main_url'] = $board_config['bt_announce_url'];
@@ -401,7 +401,7 @@ function tracker_register ($attach_id, $mode = '')
 
 	if ($reg_mode == 'request' || $reg_mode == 'newtopic')
 	{
-		$mess = sprintf($lang['Bt_Registered'], append_sid("download.$phpEx?id=$attach_id"));
+		$mess = sprintf($lang['Bt_Registered'], append_sid("download.php?id=$attach_id"));
 		exit_redirect($mess, $post_id, $forum_id);
 	}
 
@@ -410,7 +410,7 @@ function tracker_register ($attach_id, $mode = '')
 
 function send_torrent_with_passkey ($filename)
 {
-	global $attachment, $auth_pages, $db, $userdata, $board_config, $phpEx, $lang, $bb_cfg;
+	global $attachment, $auth_pages, $db, $userdata, $board_config, $lang, $bb_cfg;
 
 	if (!$board_config['bt_add_auth_key'] || $attachment['extension'] !== TORRENT_EXT || !$size = @filesize($filename))
 	{
@@ -440,7 +440,7 @@ function send_torrent_with_passkey ($filename)
 	// Redirect guests to login page
 	if (IS_GUEST)
 	{
-		$redirect_url = ($post_id) ? POST_URL . $post_id : 'index.'. PHP_EXT;
+		$redirect_url = ($post_id) ? POST_URL . $post_id : 'index.php';
 		redirect(LOGIN_URL . $redirect_url);
 	}
 
@@ -470,7 +470,7 @@ function send_torrent_with_passkey ($filename)
 		}
 		else
 		{
-			$mess = sprintf($lang['Passkey_err_empty'], append_sid("profile.$phpEx?mode=editprofile#bittorrent"));
+			$mess = sprintf($lang['Passkey_err_empty'], append_sid("profile.php?mode=editprofile#bittorrent"));
 			message_die(GENERAL_ERROR, $mess);
 		}
 	}
@@ -492,7 +492,7 @@ function send_torrent_with_passkey ($filename)
 
 			if (!isset($dl['user_status']) || $dl['user_status'] != DL_STATUS_COMPLETE)
 			{
-				$mess = sprintf($lang['Bt_Low_ratio_for_dl'], round($user_ratio, 2), "search.$phpEx?dlu=$user_id&amp;dlc=1");
+				$mess = sprintf($lang['Bt_Low_ratio_for_dl'], round($user_ratio, 2), "search.php?dlu=$user_id&amp;dlc=1");
 				message_die(GENERAL_ERROR, $mess);
 			}
 		}
@@ -738,10 +738,10 @@ function get_registered_torrents ($id, $mode)
 
 function exit_redirect ($message, $post_id, $forum_id)
 {
-	global $template, $lang, $phpEx;
+	global $template, $lang;
 
-	meta_refresh(3, append_sid("viewtopic.$phpEx?". POST_POST_URL ."=". $post_id));
-	$exit_message = $message .'<br /><br />'. sprintf($lang['Click_return_topic'], '<a href="'. append_sid("viewtopic.$phpEx?". POST_POST_URL ."=". $post_id) .'#'. $post_id .'">', '</a>') .'<br /><br />'. sprintf($lang['Click_return_forum'], '<a href="'. append_sid("viewforum.$phpEx?". POST_FORUM_URL ."=$forum_id") .'">', '</a>');
+	meta_refresh(3, append_sid("viewtopic.php?". POST_POST_URL ."=". $post_id));
+	$exit_message = $message .'<br /><br />'. sprintf($lang['Click_return_topic'], '<a href="'. append_sid("viewtopic.php?". POST_POST_URL ."=". $post_id) .'#'. $post_id .'">', '</a>') .'<br /><br />'. sprintf($lang['Click_return_forum'], '<a href="'. append_sid("viewforum.php?". POST_FORUM_URL ."=$forum_id") .'">', '</a>');
 	message_die(GENERAL_MESSAGE, $exit_message);
 }
 

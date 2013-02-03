@@ -258,8 +258,8 @@ if( empty($_GET) && empty($_POST) )
 
 		'THIS_USER_ID'      => $userdata['user_id'],
 		'THIS_USER_NAME'    => addslashes($userdata['username']),
-		'SEARCH_ACTION'     => "search.$phpEx",
-		'U_SEARCH_USER'     => "search.$phpEx?mode=searchuser&input_name=$poster_name_key",
+		'SEARCH_ACTION'     => "search.php",
+		'U_SEARCH_USER'     => "search.php?mode=searchuser&input_name=$poster_name_key",
 		'ONLOAD_FOCUS_ID'   => 'text_match_input',
 
 		'MY_TOPICS_ID'      => 'my_topics',
@@ -759,7 +759,7 @@ if( $items_display )
 		'DISPLAY_AS_POSTS' => $post_mode,
 
 		'DL_CONTROLS'   => ($dl_search && $dl_user_id_val == $user_id),
-		'DL_ACTION'     => "dl_list.$phpEx",
+		'DL_ACTION'     => "dl_list.php",
 
 		'L_SUBJECT'    => $lang['Subject'],
 	));
@@ -861,7 +861,7 @@ function prevent_huge_searches($SQL)
 
 function username_search($search_match)
 {
-	global $db, $template, $lang, $phpEx;
+	global $db, $template, $lang;
 	global $gen_simple_header;
 
 	$username_list = '';
@@ -899,7 +899,7 @@ function username_search($search_match)
 		'USERNAME'          => !empty($search_match) ? htmlCHR(html_entity_decode($search_match)) : '',
 		'INPUT_NAME'        => $input_name,
 		'USERNAME_OPTIONS'  => $username_list,
-		'SEARCH_ACTION'     => "search.$phpEx?mode=searchuser&amp;input_name=$input_name",
+		'SEARCH_ACTION'     => "search.php?mode=searchuser&amp;input_name=$input_name",
 	));
 
 	print_page('search.tpl', 'simple');

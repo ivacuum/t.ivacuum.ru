@@ -9,9 +9,9 @@ if(empty($template->xs_version) || $template->xs_version !== 8)
 }
 
 define('IN_XS', true);
-include_once('xs_include.' . $phpEx);
+include_once('xs_include.php');
 
-$template->assign_block_vars('nav_left',array('ITEM' => '&raquo; <a href="' . append_sid('xs_cache.'.$phpEx) . '">' . $lang['XS_MANAGE_CACHE'] . '</a>'));
+$template->assign_block_vars('nav_left',array('ITEM' => '&raquo; <a href="' . append_sid('xs_cache.php') . '">' . $lang['XS_MANAGE_CACHE'] . '</a>'));
 
 $data = '';
 
@@ -203,8 +203,8 @@ for($i=0; $i<count($style_rowset); $i++)
 					'ROW_CLASS'	=> $row_class,
 					'TPL'		=> $prev_tpl,
 					'STYLES'	=> $str,
-					'U_CLEAR'	=> "xs_cache.{$phpEx}?clear={$str2}&sid={$userdata['session_id']}",
-					'U_COMPILE'	=> "xs_cache.{$phpEx}?compile={$str2}&sid={$userdata['session_id']}",
+					'U_CLEAR'	=> "xs_cache.php?clear={$str2}&sid={$userdata['session_id']}",
+					'U_COMPILE'	=> "xs_cache.php?compile={$str2}&sid={$userdata['session_id']}",
 				)
 			);
 		}
@@ -223,15 +223,15 @@ if($prev_id > 0)
 			'ROW_CLASS'	=> $row_class,
 			'TPL'		=> $prev_tpl,
 			'STYLES'	=> $str,
-			'U_CLEAR'	=> "xs_cache.{$phpEx}?clear={$str2}&sid={$userdata['session_id']}",
-			'U_COMPILE'	=> "xs_cache.{$phpEx}?compile={$str2}&sid={$userdata['session_id']}",
+			'U_CLEAR'	=> "xs_cache.php?clear={$str2}&sid={$userdata['session_id']}",
+			'U_COMPILE'	=> "xs_cache.php?compile={$str2}&sid={$userdata['session_id']}",
 		)
 	);
 }
 
 $template->assign_vars(array(
-	'U_CLEAR_ALL'	=> "xs_cache.{$phpEx}?clear=&sid={$userdata['session_id']}",
-	'U_COMPILE_ALL'	=> "xs_cache.{$phpEx}?compile=&sid={$userdata['session_id']}",
+	'U_CLEAR_ALL'	=> "xs_cache.php?clear=&sid={$userdata['session_id']}",
+	'U_COMPILE_ALL'	=> "xs_cache.php?compile=&sid={$userdata['session_id']}",
 	'RESULT'		=> '<br /><br />' . $data
 	)
 );

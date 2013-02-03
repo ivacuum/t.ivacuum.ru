@@ -27,7 +27,7 @@ else
 	$upload_dir = $attach_config['download_path'];
 }
 
-include($phpbb_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
+include($phpbb_root_path . 'attach_mod/includes/functions_selects.php');
 
 // Check if the language got included
 if (!isset($lang['Test_settings_successful']))
@@ -204,7 +204,7 @@ else if ($delete && sizeof($delete_id_list) > 0)
 
 	print_confirmation(array(
 		'QUESTION'      => $lang['Confirm_delete_attachments'],
-		'FORM_ACTION'   => "admin_attach_cp.$phpEx",
+		'FORM_ACTION'   => "admin_attach_cp.php",
 		'HIDDEN_FIELDS' => $hidden_fields,
 	));
 }
@@ -216,7 +216,7 @@ $template->assign_vars(array(
 	'L_CONTROL_PANEL_EXPLAIN' => $lang['Control_panel_explain'],
 
 	'S_VIEW_SELECT' => $select_view,
-	'S_MODE_ACTION' => append_sid('admin_attach_cp.' . $phpEx))
+	'S_MODE_ACTION' => append_sid('admin_attach_cp.php'))
 );
 
 if ($submit_change && $view == 'attachments')
@@ -571,7 +571,7 @@ if ($view == 'attachments')
 						$post_title = substr($post_title, 0, 30) . '...';
 					}
 
-					$view_topic = append_sid($phpbb_root_path . 'viewtopic.' . $phpEx . '?' . POST_POST_URL . '=' . $ids[$j]['post_id'] . '#' . $ids[$j]['post_id']);
+					$view_topic = append_sid($phpbb_root_path . 'viewtopic.php?' . POST_POST_URL . '=' . $ids[$j]['post_id'] . '#' . $ids[$j]['post_id']);
 
 					$post_titles[] = '<a href="' . $view_topic . '" class="gen" target="_blank">' . $post_title . '</a>';
 				}
@@ -599,8 +599,8 @@ if ($view == 'attachments')
 
 				'S_DELETE_BOX' => $delete_box,
 				'S_HIDDEN' => $hidden_field,
-				'U_VIEW_ATTACHMENT'	=> append_sid($phpbb_root_path . 'download.' . $phpEx . '?id=' . $attachments[$i]['attach_id']))
-//				'U_VIEW_POST' => ($attachments[$i]['post_id'] != 0) ? append_sid("../viewtopic." . $phpEx . "?" . POST_POST_URL . "=" . $attachments[$i]['post_id'] . "#" . $attachments[$i]['post_id']) : '')
+				'U_VIEW_ATTACHMENT'	=> append_sid($phpbb_root_path . 'download.php?id=' . $attachments[$i]['attach_id']))
+//				'U_VIEW_POST' => ($attachments[$i]['post_id'] != 0) ? append_sid("../viewtopic.php?" . POST_POST_URL . "=" . $attachments[$i]['post_id'] . "#" . $attachments[$i]['post_id']) : '')
 			);
 
 		}
@@ -626,7 +626,7 @@ if ($view == 'attachments')
 // Generate Pagination
 if ($do_pagination && $total_rows > $board_config['topics_per_page'])
 {
-	$pagination = generate_pagination('admin_attach_cp.' . $phpEx . '?view=' . $view . '&amp;mode=' . $mode . '&amp;order=' . $sort_order . '&amp;uid=' . $uid, $total_rows, $board_config['topics_per_page'], $start).'&nbsp;';
+	$pagination = generate_pagination('admin_attach_cp.php?view=' . $view . '&amp;mode=' . $mode . '&amp;order=' . $sort_order . '&amp;uid=' . $uid, $total_rows, $board_config['topics_per_page'], $start).'&nbsp;';
 
 	$template->assign_vars(array(
 		'PAGINATION' => $pagination,

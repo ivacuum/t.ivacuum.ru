@@ -130,7 +130,7 @@ if( isset($_POST['submit']) )
 	}
 
 	$datastore->update('cat_forums');
-	$message = $lang['Forum_auth_updated'] . '<br /><br />' . sprintf($lang['Click_return_forumauth'],  '<a href="'."admin_forumauth.$phpEx".'">', "</a>");
+	$message = $lang['Forum_auth_updated'] . '<br /><br />' . sprintf($lang['Click_return_forumauth'],  '<a href="'."admin_forumauth.php".'">', "</a>");
 	message_die(GENERAL_MESSAGE, $message);
 
 } // End of submit
@@ -152,7 +152,7 @@ if (empty($forum_id))
 		'L_AUTH_EXPLAIN' => $lang['Forum_auth_explain'],
 		'L_AUTH_SELECT'  => $lang['Select_a_Forum'],
 
-		'S_AUTH_ACTION'  => "admin_forumauth.$phpEx",
+		'S_AUTH_ACTION'  => "admin_forumauth.php",
 		'S_AUTH_SELECT'  => get_forum_select('admin', 'f', null, 80),
 	));
 
@@ -241,7 +241,7 @@ else
 	}
 
 	$adv_mode = ( empty($adv) ) ? '1' : '0';
-	$switch_mode = "admin_forumauth.$phpEx?f=$forum_id&amp;adv=$adv_mode";
+	$switch_mode = "admin_forumauth.php?f=$forum_id&amp;adv=$adv_mode";
 	$switch_mode_text = ( empty($adv) ) ? $lang['Advanced_mode'] : $lang['Simple_mode'];
 	$u_switch_mode = '<a href="' . $switch_mode . '">' . $switch_mode_text . '</a>';
 
@@ -257,7 +257,7 @@ else
 
 		'U_SWITCH_MODE' => $u_switch_mode,
 
-		'S_FORUMAUTH_ACTION' => "admin_forumauth.$phpEx",
+		'S_FORUMAUTH_ACTION' => "admin_forumauth.php",
 		'S_COLUMN_SPAN' => $s_column_span,
 		'S_HIDDEN_FIELDS' => $s_hidden_fields,
 	));

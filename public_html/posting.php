@@ -9,7 +9,7 @@ $t_root_path = __DIR__ . '/';
 require($t_root_path . 'common.php');
 require($t_root_path . 'includes/bbcode.php');
 require($t_root_path . 'includes/functions_post.php');
-require($t_root_path . 'attach_mod/attachment_mod.'. PHP_EXT);
+require($t_root_path . 'attach_mod/attachment_mod.php');
 
 $page_cfg['load_tpl_vars'] = array(
 	'post_icons',
@@ -323,7 +323,7 @@ if (!$is_auth[$is_auth_type])
 		default:
 			$redirect = '';
 	}
-	redirect("login.$phpEx?redirect=posting.$phpEx&amp;$redirect");
+	redirect("login.php?redirect=posting.php&amp;$redirect");
 }
 
 if ($mode == 'newtopic' && $topic_tpl && $post_info['topic_tpl_id'])
@@ -446,7 +446,7 @@ if ( ( $delete || $poll_delete || $mode == 'delete' ) && !$confirm )
 
 	print_confirmation(array(
 		'QUESTION'      => ($delete || $mode == 'delete') ? $lang['Confirm_delete'] : $lang['Confirm_delete_poll'],
-		'FORM_ACTION'   => "posting.$phpEx",
+		'FORM_ACTION'   => "posting.php",
 		'HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
 	));
 }
@@ -515,13 +515,13 @@ else if ( $mode == 'vote' )
 		}
 		$db->sql_freeresult($result);
 
-		meta_refresh(1, append_sid('viewtopic.' . $phpEx . '?' . POST_TOPIC_URL . '=' . $topic_id));
-		$message .=  '<br /><br />' . sprintf($lang['Click_return_topic'], '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id") . '">', '</a>');
+		meta_refresh(1, append_sid('viewtopic.php?' . POST_TOPIC_URL . '=' . $topic_id));
+		$message .=  '<br /><br />' . sprintf($lang['Click_return_topic'], '<a href="' . append_sid("viewtopic.php?" . POST_TOPIC_URL . "=$topic_id") . '">', '</a>');
 		message_die(GENERAL_MESSAGE, $message);
 	}
 	else
 	{
-		redirect(append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id", true));
+		redirect(append_sid("viewtopic.php?" . POST_TOPIC_URL . "=$topic_id", true));
 	}
 }
 //snp
@@ -589,7 +589,7 @@ else if ( ($submit || $confirm) && !$topic_has_new_posts )
 
 		if ($torrent_attach && $bb_cfg['bt_newtopic_auto_reg'] && $mode == 'newtopic' && !$error_msg)
 		{
-			include_once($phpbb_root_path .'includes/functions_torrent.'. $phpEx);
+			include_once($phpbb_root_path .'includes/functions_torrent.php');
 			tracker_register(TORRENT_ATTACH_ID, 'newtopic');
 		}
 
@@ -873,7 +873,7 @@ $template->assign_vars(array(
 
 	'SHOW_VIRTUAL_KEYBOARD' => $bb_cfg['show_virtual_keyboard'],
 
-	'U_VIEW_FORUM' => append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id"))
+	'U_VIEW_FORUM' => append_sid("viewforum.php?" . POST_FORUM_URL . "=$forum_id"))
 );
 
 if ($mode == 'newtopic' || $post_data['first_post'])
@@ -899,7 +899,7 @@ $template->assign_vars(array(
 	'USERNAME' => @$username,
 	'SUBJECT' => $subject,
 	'MESSAGE' => $message,
-	'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="'."faq.$phpEx?mode=bbcode".'" target="_phpbbcode">', '</a>'),
+	'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="'."faq.php?mode=bbcode".'" target="_phpbbcode">', '</a>'),
 	'SMILIES_STATUS' => ($bb_cfg['allow_smilies']) ? $lang['Smilies_are_ON'] : $lang['Smilies_are_OFF'],
 
 	'L_SUBJECT' => $lang['Subject'],
@@ -953,7 +953,7 @@ $template->assign_vars(array(
 	'L_BBCODE_CLOSE_TAGS' => $lang['Close_Tags'],
 	'L_STYLES_TIP' => $lang['Styles_tip'],
 
-	'U_VIEWTOPIC' => ( $mode == 'reply' ) ? append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;postorder=desc") : '',
+	'U_VIEWTOPIC' => ( $mode == 'reply' ) ? append_sid("viewtopic.php?" . POST_TOPIC_URL . "=$topic_id&amp;postorder=desc") : '',
 
 	'S_BBCODE_CHECKED' => ( !$bbcode_on ) ? 'checked="checked"' : '',
 	'S_SMILIES_CHECKED' => ( !$smilies_on ) ? 'checked="checked"' : '',
@@ -961,7 +961,7 @@ $template->assign_vars(array(
 	'S_NOTIFY_CHECKED' => ( $notify_user ) ? 'checked="checked"' : '',
 	'S_TYPE_TOGGLE' => $topic_type_toggle,
 	'S_TOPIC_ID' => $topic_id,
-	'S_POST_ACTION' => append_sid("posting.$phpEx"),
+	'S_POST_ACTION' => append_sid("posting.php"),
 	'S_HIDDEN_FORM_FIELDS' => $hidden_form_fields)
 );
 
