@@ -1,6 +1,9 @@
 <?php
 
-if (!defined('BB_ROOT')) die(basename(__FILE__));
+if (!defined('SITE_DIR'))
+{
+	exit;
+}
 
 if ($bb_cfg['topic_moved_days_keep'])
 {

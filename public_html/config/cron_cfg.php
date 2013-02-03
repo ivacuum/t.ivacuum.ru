@@ -1,6 +1,9 @@
 <?php
 
-if (!defined('BB_ROOT')) die(basename(__FILE__));
+if (!defined('SITE_DIR'))
+{
+	exit;
+}
 
 // Cron options
 define('CRON_LOG_ENABLED', false);   // global ON/OFF

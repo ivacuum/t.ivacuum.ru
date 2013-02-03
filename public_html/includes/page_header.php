@@ -2,7 +2,11 @@
 
 // Parse and show the overall page header
 
-if (!defined('BB_ROOT')) die(basename(__FILE__));
+if (!defined('SITE_DIR'))
+{
+	exit;
+}
+
 if (defined('PAGE_HEADER_SENT')) return;
 
 global $page_cfg, $db, $bb_cache, $userdata, $user, $ads, $bb_cfg, $template, $lang, $images, $static_path;
@@ -14,11 +18,11 @@ $is_mod    = ($logged_in && IS_MOD);
 // Generate logged in/logged out status
 if ($logged_in)
 {
-	$u_login_logout = BB_ROOT ."login.php?logout=1";
+	$u_login_logout = "/login.php?logout=1";
 }
 else
 {
-	$u_login_logout = BB_ROOT ."login.php";
+	$u_login_logout = "/login.php";
 }
 
 // Online userlist
@@ -143,7 +147,7 @@ $template->assign_vars(array(
 	'USER_OPTIONS_JS'    => ($logged_in) ? json_encode($user->opt_js) : '{}',
 
 	'SITENAME'           => $bb_cfg['sitename'],
-	'U_INDEX'            => BB_ROOT ."index.php",
+	'U_INDEX'            => "/index.php",
 	'T_INDEX'            => sprintf($lang['Forum_Index'], $bb_cfg['sitename']),
 
 	'LAST_VISIT_DATE'    => ($logged_in) ? sprintf($lang['You_last_visit'], create_date($bb_cfg['last_visit_date_format'], $userdata['user_lastvisit'])) : '',
@@ -159,7 +163,7 @@ $template->assign_vars(array(
 	'USERNAME_ESCAPED'   => htmlspecialchars($userdata['username'], ENT_QUOTES),
 	'SHOW_LOGIN_LINK'    => !defined('IN_LOGIN'),
 	'AUTOLOGIN_DISABLED' => !$bb_cfg['allow_autologin'],
-	'S_LOGIN_ACTION'     => BB_ROOT ."login.php",
+	'S_LOGIN_ACTION'     => "/login.php",
 
 	'U_CUR_DOWNLOADS'    => PROFILE_URL . $userdata['user_id'],
 	'U_FAQ'              => $bb_cfg['faq_url'],
@@ -186,17 +190,16 @@ $template->assign_vars(array(
 	'SHOW_SIDEBAR2'      => (!empty($page_cfg['show_sidebar2'][BB_SCRIPT]) || $bb_cfg['show_sidebar2_on_every_page']),
 
 	// Common urls
-	'CAT_URL'            => BB_ROOT . CAT_URL,
-	'DOWNLOAD_URL'       => BB_ROOT . DOWNLOAD_URL,
-	'FORUM_URL'          => BB_ROOT . FORUM_URL,
-	'GROUP_URL'          => BB_ROOT . GROUP_URL,
+	'CAT_URL'            => CAT_URL,
+	'DOWNLOAD_URL'       => DOWNLOAD_URL,
+	'FORUM_URL'          => FORUM_URL,
+	'GROUP_URL'          => GROUP_URL,
 	'NEWEST_URL'         => '&amp;view=newest#newest',
-	'POST_URL'           => BB_ROOT . POST_URL,
-	'PROFILE_URL'        => BB_ROOT . PROFILE_URL,
-	'TOPIC_URL'          => BB_ROOT . TOPIC_URL,
+	'POST_URL'           => POST_URL,
+	'PROFILE_URL'        => PROFILE_URL,
+	'TOPIC_URL'          => TOPIC_URL,
 
-	'AJAX_HTML_DIR'      => AJAX_HTML_DIR,
-	'AJAX_HANDLER'       => BB_ROOT .'ajax.php',
+	'AJAX_HANDLER'       => '/ajax.php',
 
 	'ONLY_NEW_POSTS'     => ONLY_NEW_POSTS,
 	'ONLY_NEW_TOPICS'    => ONLY_NEW_TOPICS,

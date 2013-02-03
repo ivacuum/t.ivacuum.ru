@@ -1,6 +1,9 @@
 <?php
 
-if (!defined('BB_ROOT')) die(basename(__FILE__));
+if (!defined('SITE_DIR'))
+{
+	exit;
+}
 
 if ($mode == 'register' && $bb_cfg['new_user_reg_disabled'])
 {

@@ -262,7 +262,7 @@ else if (@$_POST['joingroup'])
 
 	if ($bb_cfg['groupcp_send_email'])
 	{
-		include(BB_ROOT .'includes/emailer.php');
+		include(SITE_DIR . 'includes/emailer.php');
 		$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 		$emailer->from($bb_cfg['board_email']);

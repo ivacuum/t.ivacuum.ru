@@ -1,6 +1,9 @@
 <?php
 
-if (!defined('BB_ROOT')) die(basename(__FILE__));
+if (!defined('SITE_DIR'))
+{
+	exit;
+}
 
 $fix_errors = true;
 $debug_mode = false;
@@ -21,7 +24,7 @@ $db->query("
 
 $db->query("ALTER TABLE ". USERS_TABLE ." ADD INDEX user_avatar(user_avatar(10))");
 
-$avatars_dir = BB_ROOT . $bb_cfg['avatar_path'];
+$avatars_dir = SITE_DIR . $bb_cfg['avatar_path'];
 
 // Get all names of existed avatars and insert them into $tmp_tbl
 if ($dir = @opendir($avatars_dir))

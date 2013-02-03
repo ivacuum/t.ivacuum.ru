@@ -1,6 +1,9 @@
 <?php
 
-if (!defined('BB_ROOT')) die(basename(__FILE__));
+if (!defined('SITE_DIR'))
+{
+	exit;
+}
 
 global $db, $bf, $bb_cfg;
 
@@ -111,8 +114,8 @@ $data = array(
 
 $this->store('jumpbox', $data);
 
-file_write(ajax_encode($data['guest']), AJAX_HTML_DIR .'jumpbox_guest.html', false, true, true);
-file_write(ajax_encode($data['user']), AJAX_HTML_DIR .'jumpbox_user.html', false, true, true);
+file_write(ajax_encode($data['guest']), SITE_DIR . 'ajax/html/jumpbox_guest.html', false, true, true);
+file_write(ajax_encode($data['user']), SITE_DIR . 'ajax/html/jumpbox_user.html', false, true, true);
 
 //
 // viewtopic_forum_select

@@ -437,7 +437,7 @@ else
 	{
 		$template->assign_vars(array(
 			'TPL_SELECT_USER' => true,
-			'U_SEARCH_USER'   => BB_ROOT ."search.php?mode=searchuser",
+			'U_SEARCH_USER'   => "/search.php?mode=searchuser",
 		));
 	}
 	else

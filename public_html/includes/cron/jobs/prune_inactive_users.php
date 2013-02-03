@@ -1,10 +1,13 @@
 <?php
 
-if (!defined('BB_ROOT')) die(basename(__FILE__));
+if (!defined('SITE_DIR'))
+{
+	exit;
+}
 
 $users_per_cycle = 1000;
 
-require_once(INC_DIR .'functions_admin.php');
+require_once(SITE_DIR . 'includes/functions_admin.php');
 
 $excluded_users = join(',', array(
 	ANONYMOUS,

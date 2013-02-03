@@ -4,9 +4,9 @@
 * @copyright (c) 2011
 */
 
-if( !defined('BB_ROOT') )
+if (!defined('SITE_DIR'))
 {
-	die(basename(__FILE__));
+	exit;
 }
 
 /**
@@ -1726,7 +1726,7 @@ function setup_style()
 	$theme_css    = defined('IN_ADMIN') ? 'admin.css' : basename($bb_cfg['theme_css']);
 
 	$template = new Template(TEMPLATES_DIR . $tpl_dir_name);
-	/* $css_dir = BB_ROOT . basename(TEMPLATES_DIR) ."/$tpl_dir_name/css/"; */
+	/* $css_dir = SITE_DIR . basename(TEMPLATES_DIR) ."/$tpl_dir_name/css/"; */
 	$css_dir = $static_path . '/i/t/css/';
 
 	$template->assign_vars(array(

@@ -1,6 +1,9 @@
 <?php
 
-if (!defined('BB_ROOT')) die(basename(__FILE__));
+if (!defined('SITE_DIR'))
+{
+	exit;
+}
 
 $html_entities_match = array('#&(?!(\#[0-9]+;))#', '#<#', '#>#', '#"#');
 $html_entities_replace = array('&amp;', '&lt;', '&gt;', '&quot;');

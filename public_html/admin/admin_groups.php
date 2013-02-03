@@ -59,7 +59,7 @@ if (!empty($_POST['edit']) || !empty($_POST['new']))
 		'GROUP_DESCRIPTION'      => htmlspecialchars($group_info['group_description']),
 		'GROUP_MODERATOR'        => replace_quote($group_info['group_mod_name']),
 		'T_GROUP_EDIT_DELETE'    => ($mode == 'newgroup') ? $lang['CREATE_NEW_GROUP'] : $lang['Edit_group'],
-		'U_SEARCH_USER'          => append_sid(BB_ROOT ."search.php?mode=searchuser"),
+		'U_SEARCH_USER'          => append_sid("/search.php?mode=searchuser"),
 		'S_GROUP_OPEN_TYPE'      => GROUP_OPEN,
 		'S_GROUP_CLOSED_TYPE'    => GROUP_CLOSED,
 		'S_GROUP_HIDDEN_TYPE'    => GROUP_HIDDEN,

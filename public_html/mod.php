@@ -224,7 +224,7 @@ if( $tor_count )
 		{
 			//$username =  colornick_level($tor[$i]['username'], $tor[$i]['user_level']);
 			$username = $tor[$i]['username'];
-			$topic_poster = ( $tor[$i]['topic_poster'] == ANONYMOUS ) ? ( ($username != '' ) ? $username . ' ' : $lang['Guest'] . ' ' ) : '<a class="genmed" href="' . append_sid(BB_ROOT . "profile.php?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $tor[$i]['topic_poster']) . '">' . $username . '</a>';
+			$topic_poster = ( $tor[$i]['topic_poster'] == ANONYMOUS ) ? ( ($username != '' ) ? $username . ' ' : $lang['Guest'] . ' ' ) : '<a class="genmed" href="' . append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $tor[$i]['topic_poster']) . '">' . $username . '</a>';
 
 			// Иконка темы
 			$is_unread = is_unread($tor[$i]['topic_last_post_time'], $tor[$i]['topic_id'], $tor[$i]['forum_id']);
@@ -245,8 +245,8 @@ if( $tor_count )
 
 				'TOPIC_POSTER'  => $topic_poster,
 
-				'U_FORUM'       => append_sid(BB_ROOT . "viewforum.php?" . POST_FORUM_URL . '=' . $tor[$i]['forum_id']),
-				'U_TOPIC'       => append_sid(BB_ROOT . "viewtopic.php?"  . POST_TOPIC_URL . '=' . $tor[$i]['topic_id']),
+				'U_FORUM'       => append_sid("viewforum.php?" . POST_FORUM_URL . '=' . $tor[$i]['forum_id']),
+				'U_TOPIC'       => append_sid("viewtopic.php?"  . POST_TOPIC_URL . '=' . $tor[$i]['topic_id']),
 
 				'TOR_STATUS'    => $tor[$i]['tor_status'],
 				'TOR_FROZEN'    => ($tor[$i]['tor_status'] == TOR_STATUS_FROZEN || $tor[$i]['tor_status'] == 3 || $tor[$i]['tor_status'] == 4 || $tor[$i]['tor_status'] == 7),

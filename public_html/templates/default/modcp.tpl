@@ -69,7 +69,7 @@
 				<td>
 					<p>{S_FORUM_SELECT}</p>
 
-					<?php require(BB_ROOT .'/misc/html/move_topic_bookmarks.html'); ?>
+					<?php require(SITE_DIR .'misc/html/move_topic_bookmarks.html'); ?>
 
 				</td>
 			</tr>

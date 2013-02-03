@@ -850,7 +850,7 @@ if (!$mode || $show_main_page)
 						'SF_PAD'            => ($forum_rows[$j]['forum_parent']) ? ' style="padding-left: 20px;" ' : '',
 						'FORUM_NAME_CLASS'  => ($forum_rows[$j]['forum_parent']) ? 'genmed' : 'gen',
 						'ADD_SUB_HREF'      => "admin_forums.php?mode=addforum&amp;forum_parent={$forum_rows[$j]['forum_id']}",
-						'U_VIEWFORUM'       => BB_ROOT ."viewforum.php?f=$forum_id",
+						'U_VIEWFORUM'       => "/viewforum.php?f=$forum_id",
 						'U_FORUM_EDIT'      => "admin_forums.php?mode=editforum&amp;f=$forum_id",
 						'U_FORUM_DELETE'    => "admin_forums.php?mode=deleteforum&amp;f=$forum_id",
 						'U_FORUM_MOVE_UP'   => "admin_forums.php?mode=forum_order&amp;move=-15&amp;f=$forum_id&amp;c=$req_cat_id",

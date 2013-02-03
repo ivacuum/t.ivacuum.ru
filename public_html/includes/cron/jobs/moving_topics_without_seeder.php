@@ -1,13 +1,16 @@
 <?php
 
-if (!defined('BB_ROOT')) die(basename(__FILE__));
+if (!defined('SITE_DIR'))
+{
+	exit;
+}
 
-require(BB_PATH . '/includes/functions_admin.php');
-require(BB_PATH . '/includes/functions_post.php');
+require(SITE_DIR . 'includes/functions_admin.php');
+require(SITE_DIR . 'includes/functions_post.php');
 
 if( !defined('DEFAULT_LANG_DIR') )
 {
-	define('DEFAULT_LANG_DIR', BB_PATH . '/language/lang_russian/');
+	define('DEFAULT_LANG_DIR', SITE_DIR . 'language/lang_russian/');
 }
 
 /**

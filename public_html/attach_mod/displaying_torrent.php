@@ -233,7 +233,7 @@ if ($tor_reged && $tor_info)
 
 			// torrent status mod
 			'TOR_STATUS'      => $tor_info['tor_status'],
-			'TOR_STATUS_BY'   => $tor_row['checked_user_id'] ? ('(by <a href='. BB_ROOT . 'profile.php?mode=viewprofile&u=' . $tor_row['checked_user_id'] . '>' . $tor_row['username'] . '</a> in ' . create_date($bb_cfg['default_dateformat'], $tor_row['checked_time'],
+			'TOR_STATUS_BY'   => $tor_row['checked_user_id'] ? ('(by <a href="/profile.php?mode=viewprofile&u=' . $tor_row['checked_user_id'] . '">' . $tor_row['username'] . '</a> in ' . create_date($bb_cfg['default_dateformat'], $tor_row['checked_time'],
 			$bb_cfg['board_timezone']).')'):'',
 			//end torrent status mod
 

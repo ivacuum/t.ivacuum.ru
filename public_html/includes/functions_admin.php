@@ -1,6 +1,9 @@
 <?php
 
-if (!defined('BB_ROOT')) die(basename(__FILE__));
+if (!defined('SITE_DIR'))
+{
+	exit;
+}
 
 if( !function_exists('sync') ) {
 function sync($type, $id)
@@ -743,7 +746,7 @@ function user_delete ($user_id, $delete_posts = false)
 	{
 		if ($filename = basename($row['user_avatar']))
 		{
-			@unlink(BB_ROOT . $bb_cfg['avatar_path'] .'/'. $filename);
+			@unlink(SITE_DIR . $bb_cfg['avatar_path'] .'/'. $filename);
 		}
 	}
 	unset($row, $result);

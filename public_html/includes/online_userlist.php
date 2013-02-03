@@ -4,9 +4,9 @@
 * @copyright (c) 2010
 */
 
-if( !defined('BB_ROOT') )
+if (!defined('SITE_DIR'))
 {
-	die(basename(__FILE__));
+	exit;
 }
 
 // Obtain user/online information

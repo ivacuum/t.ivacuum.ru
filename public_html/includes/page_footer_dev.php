@@ -1,4 +1,4 @@
-<?php if (!defined('BB_ROOT') OR empty($db)) die(basename(__FILE__)); ?>
+<?php if (!defined('SITE_DIR') OR empty($db)) die(basename(__FILE__)); ?>
 
 <style type="text/css">
 .sqlLog {
