@@ -129,5 +129,3 @@ foreach( $cron_jobs as $job )
 		bb_log($cron_err_msg, 'cron_error');
 	}
 }
-
-?>

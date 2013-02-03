@@ -448,5 +448,3 @@ if( empty($_POST) && !defined('IN_ADMIN') && !defined('IN_AJAX') && !defined('IN
 		}
 	}
 }
-
-?>

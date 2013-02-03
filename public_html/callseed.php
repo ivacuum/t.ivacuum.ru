@@ -140,5 +140,3 @@ switch($msg_error) {
 }
 $msg .= $return_to;
 message_die(GENERAL_MESSAGE, $msg);
-
-?>

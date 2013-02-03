@@ -27,5 +27,3 @@ $data['postcount'] = $row['postcount'];
 $data['topiccount'] = $row['topiccount'];
 
 $this->store('stats', $data);
-
-?>

@@ -2723,5 +2723,3 @@ function plural($n = 0, $forms)
 
 	return sprintf('%s %s', num_format($n), $forms[$plural]);
 }
-
-?>

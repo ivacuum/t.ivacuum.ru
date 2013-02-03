@@ -304,5 +304,3 @@ $template->set_filenames(array('page_header' => 'page_header.tpl'));
 $template->pparse('page_header');
 
 define('PAGE_HEADER_SENT', true);
-
-?>

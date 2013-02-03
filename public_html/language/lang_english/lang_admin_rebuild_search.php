@@ -111,4 +111,3 @@ $lang['Next'] = 'Next';
 $lang['Processing'] = 'Processing...';
 $lang['Finished'] = 'Finished';
 
-?>

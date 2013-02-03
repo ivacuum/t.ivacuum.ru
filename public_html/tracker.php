@@ -1076,5 +1076,3 @@ $template->assign_vars(array(
 ));
 
 print_page('tracker.tpl');
-
-?>

@@ -810,5 +810,3 @@ class db_mysqli
 		return "{$this->selected_db}_{$name}";
 	}
 }
-
-?>

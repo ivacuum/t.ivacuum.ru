@@ -78,5 +78,3 @@ if( $mode )
 }
 
 redirect(append_sid('index.php', true));
-
-?>

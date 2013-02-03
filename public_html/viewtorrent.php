@@ -127,5 +127,3 @@ if( isset($info['files']) && is_array($info['files']) )
 }
 
 print $html;
-
-?>

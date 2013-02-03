@@ -65,5 +65,3 @@ if( defined('IN_CRON') )
 {
 	// bb_log(date('H:i:s - ') . getmypid() . ' --x- ALL jobs FINISHED *************************************************' . LOG_LF, CRON_LOG_DIR . 'cron_check');
 }
-
-?>

@@ -251,5 +251,3 @@ $template->assign_vars(array(
 	'SPEED_UP' => $speed_up,
 	'SPEED_DOWN' => $speed_down)
 );
-
-?>

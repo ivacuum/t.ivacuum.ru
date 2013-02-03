@@ -4,10 +4,10 @@ define('BB_ROOT', './../');
 define('IN_PHPBB', true);
 define('IN_ADMIN', true);
 
-require(BB_ROOT .'common.php');
-require(BB_ROOT .'attach_mod/attachment_mod.php');
-require(BB_ROOT .'attach_mod/includes/functions_admin.php');
-require_once(INC_DIR .'functions_admin.php');
+require('../common.php');
+require(SITE_DIR . 'attach_mod/attachment_mod.php');
+require(SITE_DIR . 'attach_mod/includes/functions_admin.php');
+require_once(SITE_DIR . 'includes/functions_admin.php');
 
 $user->session_start();
 

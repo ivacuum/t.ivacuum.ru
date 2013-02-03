@@ -433,5 +433,3 @@ function utf8_str_split($str, $split_len = 1)
 	preg_match_all('/.{' . $split_len . '}|[^\x00]{1,' . $split_len . '}$/us', $str, $ar);
 	return $ar[0];
 }
-
-?>

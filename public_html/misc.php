@@ -1,7 +1,7 @@
 <?php	
+
 define('IN_PHPBB', true);
-define('BB_ROOT', './');
-require('./common.php');
+require('common.php');
 
 // Start Session Management
 $user->session_start();
@@ -14,7 +14,7 @@ if ($do == 'attach_rules')
 	{
 		bb_die('invalid forum_id');
 	}
-	require(BB_ROOT .'attach_mod/attachment_mod.php');
+	require(SITE_DIR . 'attach_mod/attachment_mod.php');
 	// Display the allowed Extension Groups and Upload Size
 	$auth = auth(AUTH_ALL, $forum_id, $userdata);
 	$_max_filesize = $attach_config['max_filesize'];
@@ -143,5 +143,3 @@ else
 {
 	message_die(GENERAL_ERROR, 'Invalid mode <br /> <a href="javascript:history.go(-1)">Go back</a>');
 }
-
-?>

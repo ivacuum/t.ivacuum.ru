@@ -27,5 +27,3 @@ if( $online > $bb_cfg['maximum_visitors'] )
 }
 
 $bb_cache->rm('config_bb_config');
-
-?>

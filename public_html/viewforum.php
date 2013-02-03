@@ -588,5 +588,3 @@ $template->assign_vars(array(
 ));
 
 print_page('viewforum.tpl');
-
-?>

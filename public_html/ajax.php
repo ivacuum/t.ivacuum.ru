@@ -1113,5 +1113,3 @@ class ajax_common
 		$this->response['html'] = $html;
 	}
 }
-
-?>

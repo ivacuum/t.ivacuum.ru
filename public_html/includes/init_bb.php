@@ -337,5 +337,3 @@ if( $bb_cfg['board_disable'] && !defined('IN_ADMIN') && !defined('IN_LOGIN') )
 {
 	message_die(GENERAL_MESSAGE, 'Board_disable', 'Information');
 }
-
-?>

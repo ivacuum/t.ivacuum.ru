@@ -1427,5 +1427,3 @@ $lang['NORMAL'] = 'Обычный';
 $lang['CHECK_ALL'] = 'Отметить всё';
 $lang['UNCHECK_ALL'] = 'Снять выделение';
 // Moderate panel [END]
-
-?>

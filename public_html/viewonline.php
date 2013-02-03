@@ -194,5 +194,3 @@ if ( $guest_users == 0 )
 }
 
 print_page('viewonline.tpl');
-
-?>

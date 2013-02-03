@@ -903,5 +903,3 @@ function username_search($search_match)
 
 	print_page('search.tpl', 'simple');
 }
-
-?>

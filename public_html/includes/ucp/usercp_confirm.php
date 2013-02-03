@@ -275,5 +275,3 @@ else
 
 $code = strtolower($code);
 $captcha = new KCAPTCHA($code);
-
-?>

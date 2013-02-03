@@ -347,5 +347,3 @@ if( $bb_cfg['t_top_share'] )
 	$data = $db->fetch_rowset($sql);
 	$this->store('top_share', $data);
 }
-
-?>

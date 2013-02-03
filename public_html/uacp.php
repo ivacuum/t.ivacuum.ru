@@ -4,8 +4,8 @@
 */
 define('IN_PHPBB', true);
 define('BB_ROOT', './');
-require(BB_ROOT . 'common.php');
-require(BB_ROOT . 'attach_mod/attachment_mod.php');
+require('common.php');
+require(SITE_DIR . 'attach_mod/attachment_mod.php');
 
 // session id check
 $sid = request_var('sid', '');

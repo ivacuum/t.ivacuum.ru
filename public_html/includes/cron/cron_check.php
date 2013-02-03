@@ -43,5 +43,3 @@ else
 {
 	// bb_log(date('H:i:s - ') . getmypid() .' --x- no active jobs found ----------------------------------------------'. LOG_LF, CRON_LOG_DIR .'cron_check');
 }
-
-?>

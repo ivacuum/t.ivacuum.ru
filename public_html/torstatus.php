@@ -107,4 +107,3 @@ if( $userdata['user_id'] != ANONYMOUS && is_numeric($attach_id) ) {
   }
 }*/
 }
-?>

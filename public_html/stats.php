@@ -5,7 +5,7 @@
 */
 
 define('BB_SCRIPT', 'stats');
-require(SITE_DIR . 'common.php');
+require('common.php');
 
 // Session start
 $user->session_start();
@@ -171,5 +171,3 @@ $template->assign_vars(array(
 );
 
 print_page('stats.tpl');
-
-?>

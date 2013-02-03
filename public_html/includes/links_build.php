@@ -32,5 +32,3 @@
 		$ed2k_out = 'ed2k://|file|' . $fname . '|' . $fsize . '|' . $fhash . '|/';
 		return $ed2k_out;
 	}
-
-?>

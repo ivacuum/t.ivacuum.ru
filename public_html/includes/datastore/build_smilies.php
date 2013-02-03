@@ -16,5 +16,3 @@ foreach ($rowset as $smile)
 }
 
 $this->store('smile_replacements', $smilies);
-
-?>

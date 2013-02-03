@@ -435,5 +435,3 @@ if( !empty($city_news) )
 }
 
 print_page('index.tpl');
-
-?>

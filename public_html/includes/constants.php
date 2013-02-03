@@ -271,5 +271,3 @@ if( !$constants_loaded )
 }
 
 unset($constants, $constants_loaded);
-
-?>

@@ -24,5 +24,3 @@ $sql = '
 $db->sql_query($sql);
 
 $db->unlock();
-
-?>

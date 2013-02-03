@@ -78,5 +78,3 @@ $template->assign_vars(array(
 );
 
 print_page('top_speed.tpl');
-
-?>

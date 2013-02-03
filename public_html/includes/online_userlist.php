@@ -191,5 +191,3 @@ HTML;
 
 $bb_cache->set('online', $online, 60);
 $bb_cache->set('online_short', $online_short, 60);
-
-?>
