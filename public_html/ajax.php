@@ -194,11 +194,6 @@ class ajax_common
 	{
 		$this->response['action'] = $this->action;
 
-		if( DBG_USER && SQL_DEBUG && !empty($_COOKIE['sql_log']) )
-		{
-			$this->response['sql_log'] = get_sql_log();
-		}
-
 		// sending output will be handled by $this->ob_handler()
 		bb_exit();
 		// exit();

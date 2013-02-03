@@ -84,32 +84,6 @@ echo '
 	</div><!--/body_container-->
 ';
 
-/*
-if (DBG_USER && (SQL_DEBUG || PROFILER))
-{
-	require(SITE_DIR . 'includes/page_footer_dev.php');
-}
-$search = $replace = array();
-
-function wbr_callback ($matches)
-{
-	$max_word_length = ($matches[3]) ? (int) $matches[3] : HTML_WBR_LENGTH;
-	return wbr($matches[4], $max_word_length);
-}
-$contents = preg_replace_callback("#(<\!-- WBR(\[(\d+)\])? -->)(.*?)(<\!-- WBR_END -->)#s", 'wbr_callback', $contents);
-*/
-
-##### LOG #####
-global $log_ip_resp;
-
-if (isset($log_ip_resp[USER_IP]) || isset($log_ip_resp[CLIENT_IP]))
-{
-	$str = date('H:i:s') . LOG_SEPR . preg_replace("#\s+#", ' ', $contents) . LOG_LF;
-	$file = 'sessions/'. date('m-d') .'_{'. USER_IP .'}_'. CLIENT_IP .'_resp';
-	bb_log($str, $file);
-}
-### LOG END ###
-
 if (!empty($GLOBALS['timer_markers']) && DBG_USER)
 {
 	$GLOBALS['timer']->display();
