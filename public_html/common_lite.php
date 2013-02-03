@@ -1,23 +1,15 @@
 <?php
 /**
 * @package t.ivacuum.ru
-* @copyright (c) 2010
+* @copyright (c) 2013
 */
 
-define('TIMESTART', utime());
-define('TIMENOW',   time());
-
-if( isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS']) )
-{
-	die();
-}
-
 define('SITE_DIR', __DIR__ . '/');
+define('TIMESTART', utime());
+define('TIMENOW', time());
 
 // Get initial config
 require(SITE_DIR . 'cfg.php');
-
-if (empty($dbcharset)) $dbcharset = 'latin1';
 
 // Debug options
 define('DBG_USER', (isset($_COOKIE[COOKIE_DBG]) || DEBUG === true));
@@ -149,14 +141,6 @@ function bb_log($msg, $file_name)
 	$file_name .= (LOG_EXT) ? '.'. LOG_EXT : '';
 
 	return file_write($msg, SITE_DIR . 'log/' . $file_name);
-}
-
-function dbg_log($str, $file)
-{
-	if (!DBG_LOG) return;
-
-	$dir = SITE_DIR . 'log/' . (defined('IN_PHPBB') ? 'dbg_bb/' : 'dbg_tr/') . date('m-d_H') .'/';
-	return file_write($str, $dir . $file, false, false);
 }
 
 function file_write($str, $file, $max_size = LOG_MAX_SIZE, $lock = true, $replace_content = false)

@@ -713,7 +713,7 @@ class sql_db
 
 		if ($mode == 'start')
 		{
-			if (SQL_CALC_QUERY_TIME || DBG_LOG || SQL_LOG_SLOW_QUERIES)
+			if (SQL_CALC_QUERY_TIME || SQL_LOG_SLOW_QUERIES)
 			{
 				$this->sql_starttime = utime();
 			}
@@ -734,7 +734,7 @@ class sql_db
 		}
 		else if ($mode == 'stop')
 		{
-			if (SQL_CALC_QUERY_TIME || DBG_LOG || SQL_LOG_SLOW_QUERIES)
+			if (SQL_CALC_QUERY_TIME || SQL_LOG_SLOW_QUERIES)
 			{
 				$this->cur_query_time = utime() - $this->sql_starttime;
 				$this->sql_timetotal += $this->cur_query_time;
