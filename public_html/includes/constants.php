@@ -4,17 +4,9 @@
 * @copyright (c) 2013
 */
 
-$constants = array();
-$constants_loaded = false;
-
-if ($apc_installed && apc_load_constants($bb_cfg['apc_prefix'] . '_constants'))
+if (false !== load_constants($bb_cfg['apc_prefix']))
 {
-	$constants_loaded = true;
-}
-
-if (!$constants_loaded)
-{
-	$constants = array(
+	set_constants($bb_cfg['apc_prefix'], [
 		/* Параметры куков */
 		'COOKIE_DATA'  => $bb_cfg['cookie_prefix'] . 'data',
 		'COOKIE_FORUM' => $bb_cfg['cookie_prefix'] . 'f',
@@ -194,7 +186,7 @@ if (!$constants_loaded)
 		'SID_LENGTH'       => 20,
 		'LOGIN_KEY_LENGTH' => 12,
 
-		'CAT_URL'      => '?c=',
+		'CAT_URL'      => '/?c=',
 		'DOWNLOAD_URL' => '/download.php?id=',
 		'FORUM_URL'    => '/viewforum.php?f=',
 		'GROUP_URL'    => '/groupcp.php?g=',
@@ -208,10 +200,10 @@ if (!$constants_loaded)
 		'HTML_SELECT_MAX_LENGTH' => 60,
 		'HTML_WBR_LENGTH'        => 12,
 
-		'HTML_CHECKED'  => ' checked="checked" ',
-		'HTML_DISABLED' => ' disabled="disabled" ',
-		'HTML_READONLY' => ' readonly="readonly" ',
-		'HTML_SELECTED' => ' selected="selected" ',
+		'HTML_CHECKED'  => ' checked ',
+		'HTML_DISABLED' => ' disabled ',
+		'HTML_READONLY' => ' readonly ',
+		'HTML_SELECTED' => ' selected ',
 
 		'HTML_SF_SPACER' => '&nbsp;|-&nbsp;',
 
@@ -255,19 +247,5 @@ if (!$constants_loaded)
 		'UG_PERM_BOTH'       => 1, /* и права пользователя и права группы */
 		'UG_PERM_USER_ONLY'  => 2, /* только права пользователя */
 		'UG_PERM_GROUP_ONLY' => 3, /* только права группы */
-	);
-
-	if ($apc_installed)
-	{
-		apc_define_constants($bb_cfg['apc_prefix'] . '_constants', $constants);
-	}
-	else
-	{
-		foreach ($constants as $key => $value)
-		{
-			define($key, $value);
-		}
-	}
+	]);
 }
-
-unset($constants, $constants_loaded);
