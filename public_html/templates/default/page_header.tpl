@@ -486,9 +486,6 @@ var display_forecast = 'none';
 <!-- <p>Афиша временно недоступна</p> -->
 <ul>
 	<li><a href="http://cinema-starkaluga.ru/afisha/">Синема-стар</a></li>
-	<li><a href="http://www.cinema-star.ru/cinema/detail.php?ID=12891">Рио</a></li>
-	<li><a href="http://centr-kino.ru/">Центральный</a></li>
-	<li><a href="http://arlekino-kaluga.ru/">Арлекино</a></li>
 </ul>
 <!-- ENDIF -->
 </div>
