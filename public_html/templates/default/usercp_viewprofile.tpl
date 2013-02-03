@@ -232,7 +232,7 @@ table.ratio td { padding: 2px 4px; }
 					<!-- ELSE -->
 					<span class="med">начнет учитываться после того как будет скачано <b>{MIN_DL_FOR_RATIO}</b></span>
 					<!-- ENDIF -->
-					<!-- IF SHOW_PASSKEY -->[ <a href="genmed" href="#" onclick="$('#passkey-expl').toggle(); return false;">Passkey</a> ]<!-- ENDIF -->
+					<!-- IF SHOW_PASSKEY -->[ <a class="genmed" href="#" onclick="$('#passkey-expl').toggle(); return false;">Passkey</a> ]<!-- ENDIF -->
 				</td>
 			</tr>
 			<tr id="ratio-expl" style="display: none;">
