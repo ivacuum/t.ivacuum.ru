@@ -4,7 +4,7 @@
 * @copyright (c) 2013
 */
 
-if (false !== load_constants($bb_cfg['apc_prefix']))
+if (false === load_constants($bb_cfg['apc_prefix']))
 {
 	set_constants($bb_cfg['apc_prefix'], [
 		/* Параметры куков */
