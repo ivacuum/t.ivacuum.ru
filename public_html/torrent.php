@@ -4,7 +4,6 @@
 * @copyright (c) 2011
 */
 
-define('IN_PHPBB', true);
 require('common.php');
 require(SITE_DIR . 'attach_mod/attachment_mod.php');
 require(SITE_DIR . 'includes/functions_torrent.php');

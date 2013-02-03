@@ -1,6 +1,10 @@
 <?php
 
-if (!defined('IN_PHPBB')) die(basename(__FILE__));
+if (!defined('SITE_DIR'))
+{
+	exit;
+}
+
 if (!$post_info) die('$post_info missing');
 
 require(DEFAULT_LANG_DIR .'lang_topic_templates.php');

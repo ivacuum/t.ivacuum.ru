@@ -1,10 +1,7 @@
 <?php
 
-/**
-*/
-if (!defined('IN_PHPBB'))
+if (!defined('SITE_DIR'))
 {
-	die('Hacking attempt');
 	exit;
 }
 

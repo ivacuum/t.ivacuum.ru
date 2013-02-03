@@ -1,6 +1,5 @@
 <?php
 
-define('IN_PHPBB', true);
 define('NO_GZIP', true);
 define('BB_ROOT',  './');
 require('common.php');

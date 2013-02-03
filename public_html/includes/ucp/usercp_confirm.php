@@ -1,5 +1,10 @@
 <?php
 
+if (!defined('SITE_DIR'))
+{
+	exit;
+}
+
 class KCAPTCHA{
 
      // generates key-string and image
@@ -224,12 +229,6 @@ class KCAPTCHA{
 	function getKeyString(){
 		return $this->keystring;
 	}
-}
-
-if ( !defined('IN_PHPBB') )
-{
-	die('Hacking attempt');
-	exit;
 }
 
 // Note to potential users of this code ...

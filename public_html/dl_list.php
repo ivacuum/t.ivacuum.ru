@@ -4,7 +4,6 @@
 * @copyright (c) 2011
 */
 
-define('IN_PHPBB', true);
 require('common.php');
 
 $forum_id  = (@$_REQUEST[POST_FORUM_URL]) ? (int) $_REQUEST[POST_FORUM_URL] : 0;

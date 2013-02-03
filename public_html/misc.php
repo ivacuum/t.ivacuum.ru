@@ -1,6 +1,5 @@
 <?php	
 
-define('IN_PHPBB', true);
 require('common.php');
 
 // Start Session Management

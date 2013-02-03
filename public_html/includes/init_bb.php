@@ -4,9 +4,9 @@
 * @copyright (c) 2011
 */
 
-if( !defined('IN_PHPBB') )
+if( !defined('SITE_DIR') )
 {
-	die(basename(__FILE__));
+	exit;
 }
 
 if( !defined('BB_SCRIPT') )

@@ -1,7 +1,6 @@
 <?php
 
 define('BB_ROOT', './../');
-define('IN_PHPBB', true);
 define('IN_ADMIN', true);
 
 require('../common.php');

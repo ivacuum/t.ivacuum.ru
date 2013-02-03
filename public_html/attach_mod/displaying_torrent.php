@@ -1,6 +1,9 @@
 <?php
 
-if (!defined('IN_PHPBB'))	die(basename(__FILE__));
+if (!defined('SITE_DIR'))
+{
+	exit;
+}
 
 global $bb_cfg, $t_data, $poster_id, $is_auth;
 global $dl_link_css, $dl_status_css;

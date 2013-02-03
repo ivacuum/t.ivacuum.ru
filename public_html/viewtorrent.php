@@ -4,7 +4,6 @@
 * @copyright (c) 2011
 */
 
-define('IN_PHPBB', TRUE);
 define('IN_AJAX', TRUE);
 require('common.php');
 require(SITE_DIR . 'attach_mod/attachment_mod.php');

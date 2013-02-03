@@ -1,6 +1,5 @@
 <?php
 
-define('IN_PHPBB', true);
 require('common.php');
 require(SITE_DIR . 'includes/bbcode.php');
 require(SITE_DIR . 'includes/functions_post.php');

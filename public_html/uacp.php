@@ -2,7 +2,6 @@
 
 /**
 */
-define('IN_PHPBB', true);
 define('BB_ROOT', './');
 require('common.php');
 require(SITE_DIR . 'attach_mod/attachment_mod.php');

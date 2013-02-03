@@ -4,7 +4,6 @@
 * @copyright (c) 2011
 */
 
-define('IN_PHPBB', true);
 require('common.php');
 
 $user->session_start();

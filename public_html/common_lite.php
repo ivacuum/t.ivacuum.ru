@@ -19,11 +19,6 @@ if( !defined('BB_ROOT') )
 	define('BB_ROOT', './');
 }
 
-if( !defined('IN_PHPBB') )
-{
-	define('IN_PHPBB', true);
-}
-
 // Get initial config
 require(SITE_DIR . 'cfg.php');
 
@@ -413,7 +408,4 @@ function ver_compare($version1, $operator, $version2)
 }
 
 // Board init
-if( defined('IN_PHPBB') )
-{
-	require(SITE_DIR . 'includes/init_bb_lite.php');
-}
+require(SITE_DIR . 'includes/init_bb_lite.php');

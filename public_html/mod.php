@@ -4,7 +4,6 @@
 * @copyright (c) 2011
 */
 
-define('IN_PHPBB', true);
 require('common.php');
 
 $page_cfg['load_tpl_vars'] = array(

@@ -4,7 +4,6 @@
 * @copyright (c) 2011
 */
 
-define('IN_PHPBB', true);
 define('IN_PROFILE', true);
 require('common.php');
 

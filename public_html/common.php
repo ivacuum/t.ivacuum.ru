@@ -22,11 +22,6 @@ if( !defined('BB_ROOT') )
 	define('BB_ROOT', './');
 }
 
-if( !defined('IN_PHPBB') )
-{
-	define('IN_PHPBB', true);
-}
-
 $s_provider  = isset($_SERVER['HTTP_PROVIDER']) ? $_SERVER['HTTP_PROVIDER'] : 'internet';
 $static_path = $s_provider == 'local' ? '//0.ivacuum.org' : '//ivacuum.org';
 
@@ -416,7 +411,4 @@ function ver_compare($version1, $operator, $version2)
 }
 
 // Board init
-if( defined('IN_PHPBB') )
-{
-	require(SITE_DIR . 'includes/init_bb.php');
-}
+require(SITE_DIR . 'includes/init_bb.php');

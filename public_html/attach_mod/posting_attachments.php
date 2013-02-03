@@ -6,9 +6,8 @@ define('FILENAME_CRYPTIC',        false);
 define('FILENAME_CRYPTIC_LENGTH', 6);
 define('FILENAME_TRANSLITERATE',  true);
 
-if ( !defined('IN_PHPBB') )
+if (!defined('SITE_DIR'))
 {
-	die('Hacking attempt');
 	exit;
 }
 

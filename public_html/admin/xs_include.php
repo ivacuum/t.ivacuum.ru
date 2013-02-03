@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('IN_PHPBB') || !defined('IN_XS'))
+if (!defined('SITE_DIR') || !defined('IN_XS'))
 {
 	die(basename(__FILE__));
 }
