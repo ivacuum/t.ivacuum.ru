@@ -75,26 +75,10 @@ define('USER_IP',   $user_ip);
 
 function send_page($contents)
 {
-	return compress_output($contents);
+	return $contents;
 }
 
 define('UA_GZIP_SUPPORTED', (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false));
-
-function compress_output($contents)
-{
-	global $bb_cfg;
-
-	if ($bb_cfg['gzip_compress'] && GZIP_OUTPUT_ALLOWED && !defined('NO_GZIP') )
-	{
-		if( (UA_GZIP_SUPPORTED || $bb_cfg['gzip_force']) && strlen($contents) > 2000 )
-		{
-			header('Content-Encoding: gzip');
-			$contents = gzencode($contents, 1);
-		}
-	}
-
-	return $contents;
-}
 
 // Start output buffering
 if( !defined('IN_INSTALL') && !defined('IN_AJAX') )
