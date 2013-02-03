@@ -147,7 +147,7 @@ $template->assign_vars(array(
 	'USER_OPTIONS_JS'    => ($logged_in) ? json_encode($user->opt_js) : '{}',
 
 	'SITENAME'           => $bb_cfg['sitename'],
-	'U_INDEX'            => "/index.php",
+	'U_INDEX'            => "/",
 	'T_INDEX'            => sprintf($lang['Forum_Index'], $bb_cfg['sitename']),
 
 	'LAST_VISIT_DATE'    => ($logged_in) ? sprintf($lang['You_last_visit'], create_date($bb_cfg['last_visit_date_format'], $userdata['user_lastvisit'])) : '',

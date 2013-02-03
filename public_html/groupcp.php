@@ -227,7 +227,7 @@ else if (!empty($_POST['groupstatus']))
 
 	$message = $lang['Group_type_updated'] .'<br /><br />';
 	$message .= sprintf($lang['Click_return_group'], '<a href="'. GROUP_URL ."$group_id" .'">', '</a>') .'<br /><br />';
-	$message .= sprintf($lang['Click_return_index'], '<a href="'. "index.php" .'">', '</a>');
+	$message .= sprintf($lang['Click_return_index'], '<a href="/">', '</a>');
 
 	bb_die($message);
 }
@@ -285,7 +285,7 @@ else if (@$_POST['joingroup'])
 
 	$message = $lang['Group_joined'] .'<br /><br />';
 	$message .= sprintf($lang['Click_return_group'], '<a href="'. GROUP_URL ."$group_id" .'">', '</a>') .'<br /><br />';
-	$message .= sprintf($lang['Click_return_index'], '<a href="'. "index.php" .'">', '</a>');
+	$message .= sprintf($lang['Click_return_index'], '<a href="/">', '</a>');
 
 	bb_die($message);
 }
@@ -295,7 +295,7 @@ else if (!empty($_POST['unsub']) || !empty($_POST['unsubpending']))
 
 	$message = $lang['Unsub_success'] .'<br /><br />';
 	$message .= sprintf($lang['Click_return_group'], '<a href="'. GROUP_URL ."$group_id" .'">', '</a>') .'<br /><br />';
-	$message .= sprintf($lang['Click_return_index'], '<a href="index.php">', '</a>');
+	$message .= sprintf($lang['Click_return_index'], '<a href="/">', '</a>');
 
 	bb_die($message);
 }

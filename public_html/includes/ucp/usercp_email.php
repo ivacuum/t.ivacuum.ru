@@ -8,7 +8,7 @@ if (!defined('SITE_DIR'))
 // Is send through board enabled? No, return to index
 if (!$board_config['board_email_form'])
 {
-	redirect(append_sid("index.php", true));
+	redirect(append_sid("/", true));
 }
 
 if ( !empty($_GET[POST_USERS_URL]) || !empty($_POST[POST_USERS_URL]) )
@@ -107,8 +107,7 @@ if ( $row = $db->fetch_row($sql) )
 					$emailer->reset();
 				}
 
-				sleep(7);
-				$message = $lang['Email_sent'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.php") . '">', '</a>');
+				$message = $lang['Email_sent'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("/") . '">', '</a>');
 				message_die(GENERAL_MESSAGE, $message);
 			}
 		}

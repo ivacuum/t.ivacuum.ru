@@ -14,7 +14,7 @@ $user->session_start();
 // Check if user logged in
 if (!$userdata['session_logged_in'])
 {
-	redirect(append_sid("login.php?redirect=index.php", true));
+	redirect(append_sid("login.php?redirect=/", true));
 }
 
 $sid = request_var('sid', '');

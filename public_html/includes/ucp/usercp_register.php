@@ -590,11 +590,11 @@ if ( isset($_POST['submit']) )
  					$db->sql_freeresult($result);
  				}
 
-				$message = $lang['Profile_updated_inactive'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.php") . '">', '</a>');
+				$message = $lang['Profile_updated_inactive'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("/") . '">', '</a>');
 			}
 			else
 			{
-				$message = $lang['Profile_updated'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.php") . '">', '</a>');
+				$message = $lang['Profile_updated'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("/") . '">', '</a>');
 			}
 
 			message_die(GENERAL_MESSAGE, $message);
@@ -732,7 +732,7 @@ if ( isset($_POST['submit']) )
 			/* Переадресация на тему "Как качать?" */
 			// redirect('viewtopic.php?t=262');
 
-			$message = $message . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("index.php") . '">', '</a>');
+			$message = $message . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("/") . '">', '</a>');
 
 			message_die(GENERAL_MESSAGE, $message);
 		} // if mode == register

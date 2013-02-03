@@ -443,7 +443,7 @@ function send_torrent_with_passkey ($filename)
 	// Redirect guests to login page
 	if (IS_GUEST)
 	{
-		$redirect_url = ($post_id) ? POST_URL . $post_id : 'index.php';
+		$redirect_url = ($post_id) ? POST_URL . $post_id : '/';
 		redirect(LOGIN_URL . $redirect_url);
 	}
 

@@ -142,7 +142,7 @@ if( $ulist )
 		{
 			$style = 'margin: 3px 0; padding: 2px 4px; border: 1px inset; height: 200px; overflow: auto;';
 			$block[] = "<div style=\"$style\">\n". join(",\n", $users) ."</div>\n";
-			$short[] = '<a href="index.php?online_full=1#online">'. $lang['Users'] .': '. count($users) .'</a>';
+			$short[] = '<a href="/?online_full=1#online">'. $lang['Users'] .': '. count($users) .'</a>';
 		}
 		else
 		{

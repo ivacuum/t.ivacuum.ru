@@ -66,7 +66,7 @@ $only_new = $user->opt_js['only_new'];
 // Validate requested category id
 if( $viewcat AND !$viewcat =& $forums['c'][$viewcat]['cat_id'] )
 {
-	redirect('index.php');
+	redirect('/');
 }
 // Forums
 $forums_join_sql = 'f.cat_id = c.cat_id';
@@ -186,7 +186,7 @@ $datastore->rm('moderators');
 
 if( !$forums_count = count($cat_forums) AND $viewcat )
 {
-	redirect('index.php');
+	redirect('/');
 }
 
 $template->assign_vars(array(
@@ -251,7 +251,7 @@ foreach ($cat_forums as $cid => $c)
 	$template->assign_block_vars('c', array(
 		'CAT_ID'    => $cid,
 		'CAT_TITLE' => $cat_title_html[$cid],
-		'U_VIEWCAT' => "index.php?c=$cid",
+		'U_VIEWCAT' => "/?c=$cid",
 	));
 
 	foreach ($c['f'] as $fid => $f)

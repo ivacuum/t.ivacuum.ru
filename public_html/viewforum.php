@@ -124,7 +124,7 @@ if ($mark_read && !IS_GUEST)
 	$message = $lang['Topics_marked_read'] .'<br /><br />';
 	$message .= sprintf($lang['Click_return_forum'], '<a href="'. FORUM_URL . $forum_id .'">', '</a>');
 	$message .= '<br /><br />';
-	$message .= sprintf($lang['Click_return_index'], '<a href="index.php">', '</a>');
+	$message .= sprintf($lang['Click_return_index'], '<a href="/">', '</a>');
 	bb_die($message);
 }
 
@@ -465,7 +465,7 @@ $template->assign_vars(array(
 	'T_POST_NEW_TOPIC'    => ($forum_data['forum_status'] == FORUM_LOCKED) ? $lang['Forum_locked'] : $lang['Post_new_topic'],
 	'S_AUTH_LIST'         => $u_auth,
 	'U_VIEW_FORUM'        => FORUM_URL . $forum_id,
-	'U_VIEW_FORUM_CAT'		=> append_sid('index.php?c=' . $forum_data['cat_id']),
+	'U_VIEW_FORUM_CAT'	  => append_sid('/?c=' . $forum_data['cat_id']),
 	'U_MARK_READ'         => FORUM_URL . $forum_id ."&amp;mark=topics",
 ));
 

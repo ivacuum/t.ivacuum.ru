@@ -136,7 +136,7 @@ $user->session_start(array('req_login' => true));
 // Check if user did or did not confirm. If they did not, forward them to the last page they were on
 if (isset($_POST['cancel']) || IS_GUEST)
 {
-	$redirect = "index.php";
+	$redirect = "/";
 
 	if ($topic_id || $forum_id)
 	{

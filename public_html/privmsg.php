@@ -1933,7 +1933,7 @@ function pm_message_die ($msg)
 	$msg .= sprintf($lang['Click_return_outbox'], '<a href="'."privmsg.php?folder=outbox".'">', '</a> ');
 	$msg .= sprintf($lang['Click_return_savebox'], '<a href="'."privmsg.php?folder=savebox".'">', '</a> ');
 	$msg .= '<br /><br />';
-	$msg .= sprintf($lang['Click_return_index'], '<a href="'."index.php".'">', '</a>');
+	$msg .= sprintf($lang['Click_return_index'], '<a href="/">', '</a>');
 
 	message_die(GENERAL_MESSAGE, $msg);
 }

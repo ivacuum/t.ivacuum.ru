@@ -7,7 +7,7 @@
 define('IN_LOGIN', true);
 require('common.php');
 
-$redirect_url = "index.php";
+$redirect_url = "/";
 $login_error = $login_err_msg = false;
 
 // Requested redirect
@@ -29,7 +29,7 @@ $redirect_url = str_replace('&admin=1', '', $redirect_url);
 
 if (!$redirect_url || strstr(urldecode($redirect_url), "\n") || strstr(urldecode($redirect_url), "\r") || strstr(urldecode($redirect_url), ';url'))
 {
-	$redirect_url = "index.php";
+	$redirect_url = "/";
 }
 
 // if (!empty($_POST['login']) && !empty($_POST['cookie_test']))
@@ -60,14 +60,14 @@ else if (isset($_POST['login']))
 {
 	if (!IS_GUEST && !$mod_admin_login)
 	{
-		redirect("index.php");
+		redirect("/");
 	}
 
 	if ($user->login($_POST, $mod_admin_login))
 	{
 		if ($bb_cfg['board_disable'] && $user->data['user_level'] != ADMIN)
 		{
-			redirect("index.php");
+			redirect("/");
 		}
 
 		if ($mod_admin_login)
@@ -90,7 +90,7 @@ else if (!empty($_GET['logout']))
 	{
 		$user->session_end();
 	}
-	redirect("index.php");
+	redirect("/");
 }
 
 // Login page
@@ -116,5 +116,4 @@ if (IS_GUEST || $mod_admin_login)
 	print_page('login.tpl');
 }
 
-redirect("index.php");
-
+redirect("/");

@@ -25,7 +25,7 @@ if( isset($_GET['pane']) && $_GET['pane'] == 'left' )
 	$template->assign_vars(array(
 		'TPL_ADMIN_NAVIGATE' => true,
 
-		"U_FORUM_INDEX" => append_sid("../index.php"),
+		"U_FORUM_INDEX" => append_sid("/"),
 		"U_ADMIN_INDEX" => append_sid("index.php?pane=right"),
 
 		"L_FORUM_INDEX" => $lang['Main_index'],

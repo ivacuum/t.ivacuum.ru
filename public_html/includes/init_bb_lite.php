@@ -246,16 +246,16 @@ define('LOGIN_KEY_LENGTH', 12);
 define('PAGE_HEADER', SITE_DIR . 'includes/page_header.php');
 define('PAGE_FOOTER', SITE_DIR . 'includes/page_footer.php');
 
-define('CAT_URL',      'index.php?'      . 'c=');
-define('DOWNLOAD_URL', 'download.php?'  . 'id=');
-define('FORUM_URL',    'viewforum.php?' . 'f=');
-define('GROUP_URL',    'groupcp.php?'   . 'g=');
-define('LOGIN_URL',    'login.php?'     . 'redirect=');
-define('MODCP_URL',    'modcp.php?'     . 'f=');
-define('PM_URL',       'privmsg.php?'   . 'mode=post&amp;u=');
-define('POST_URL',     'viewtopic.php?' . 'p=');
-define('PROFILE_URL',  'profile.php?'   . 'mode=viewprofile&amp;u=');
-define('TOPIC_URL',    'viewtopic.php?' . 't=');
+define('CAT_URL',      '/?c=');
+define('DOWNLOAD_URL', '/download.php?'  . 'id=');
+define('FORUM_URL',    '/viewforum.php?' . 'f=');
+define('GROUP_URL',    '/groupcp.php?'   . 'g=');
+define('LOGIN_URL',    '/login.php?'     . 'redirect=');
+define('MODCP_URL',    '/modcp.php?'     . 'f=');
+define('PM_URL',       '/privmsg.php?'   . 'mode=post&amp;u=');
+define('POST_URL',     '/viewtopic.php?' . 'p=');
+define('PROFILE_URL',  '/profile.php?'   . 'mode=viewprofile&amp;u=');
+define('TOPIC_URL',    '/viewtopic.php?' . 't=');
 
 define('HTML_SELECT_MAX_LENGTH', 60);
 define('HTML_WBR_LENGTH', 12);
