@@ -44,7 +44,7 @@ foreach( $cron_jobs as $job )
 
 	if( file_exists($job_script) )
 	{
-		$cron_start_time   = utime();
+		$cron_start_time   = microtime(true);
 		$cron_runtime_log  = '';
 		$cron_write_log    = (CRON_LOG_ENABLED && (CRON_FORCE_LOG || $job['log_enabled'] >= 1));
 		$cron_sql_log_file = CRON_LOG_DIR . 'SQL-'. basename($job['cron_script']);
@@ -84,7 +84,7 @@ foreach( $cron_jobs as $job )
 			$msg[] = date('H:i:s');
 			$msg[] = sprintf('%-4s', round(get_loadavg(), 1));
 			$msg[] = sprintf('%05d', getmypid());
-			$msg[] = round(utime() - $cron_start_time) .'/'. round(utime() - TIMESTART) . ' sec';
+			$msg[] = round(microtime(true) - $cron_start_time) .'/'. round(microtime(true) - TIMESTART) . ' sec';
 			$msg = join(LOG_SEPR, $msg);
 			$msg .= LOG_LF .'------=-------=----------=------=-------=----------';
 			bb_log($msg . LOG_LF, CRON_LOG_DIR . CRON_LOG_FILE);

@@ -40,7 +40,7 @@ if ($show_dbg_info)
 {
 #	echo '</textarea></form></title></comment></a></div></span></ilayer></layer></iframe></noframes></style></noscript></table></script></applet></font>';
 
-	$gen_time = utime() - TIMESTART;
+	$gen_time = microtime(true) - TIMESTART;
 	$gen_time_txt = sprintf('%.3f', $gen_time);
 	$gzip_text = (UA_GZIP_SUPPORTED) ? 'GZIP' : '<s>GZIP</s>';
 	$gzip_text .= ($bb_cfg['gzip_compress']) ? ' ON' : ' OFF';

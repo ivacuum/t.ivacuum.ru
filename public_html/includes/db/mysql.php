@@ -715,7 +715,7 @@ class sql_db
 		{
 			if (SQL_CALC_QUERY_TIME || SQL_LOG_SLOW_QUERIES)
 			{
-				$this->sql_starttime = utime();
+				$this->sql_starttime = microtime(true);
 			}
 			if ($this->dbg_enabled)
 			{
@@ -736,7 +736,7 @@ class sql_db
 		{
 			if (SQL_CALC_QUERY_TIME || SQL_LOG_SLOW_QUERIES)
 			{
-				$this->cur_query_time = utime() - $this->sql_starttime;
+				$this->cur_query_time = microtime(true) - $this->sql_starttime;
 				$this->sql_timetotal += $this->cur_query_time;
 
 				if (SQL_LOG_SLOW_QUERIES && $this->cur_query_time > SQL_SLOW_QUERY_TIME)
@@ -746,7 +746,7 @@ class sql_db
 			}
 			if ($this->dbg_enabled)
 			{
-				$dbg['time'] = utime() - $this->sql_starttime;
+				$dbg['time'] = microtime(true) - $this->sql_starttime;
 				$dbg['info'] = $this->query_info();
 				$dbg['mem_after'] = (MEM_USAGE) ? memory_get_usage() : null;
 				$id++;

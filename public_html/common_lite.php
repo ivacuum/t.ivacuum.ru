@@ -5,7 +5,7 @@
 */
 
 define('SITE_DIR', __DIR__ . '/');
-define('TIMESTART', utime());
+define('TIMESTART', microtime(time));
 define('TIMENOW', time());
 
 // Get initial config
@@ -123,12 +123,6 @@ switch( $bb_cfg['bb_cache_type'] )
 	default:
 
 		$bb_cache = new cache_common();
-}
-
-// Functions
-function utime()
-{
-	return array_sum(explode(' ', microtime()));
 }
 
 function bb_log($msg, $file_name)

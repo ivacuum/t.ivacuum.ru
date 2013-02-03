@@ -8,7 +8,7 @@ define('SITE_DIR', __DIR__ . '/');
 require(SITE_DIR . 'includes/profiler.php');
 $profiler = new profiler();
 
-define('TIMESTART', utime());
+define('TIMESTART', microtime(true));
 define('TIMENOW', time());
 
 $s_provider  = isset($_SERVER['HTTP_PROVIDER']) ? $_SERVER['HTTP_PROVIDER'] : 'internet';
@@ -129,12 +129,6 @@ switch( $bb_cfg['bb_cache_type'] )
 	default:
 
 		$bb_cache = new cache_common();
-}
-
-// Functions
-function utime()
-{
-	return array_sum(explode(' ', microtime()));
 }
 
 function bb_log($msg, $file_name)
