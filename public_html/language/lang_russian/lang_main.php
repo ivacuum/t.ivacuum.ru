@@ -1275,7 +1275,7 @@ $lang['UPLOADED'] = 'Отдано';
 $lang['RELEASED'] = 'на своих';
 $lang['BT_BONUS_UP'] = 'бонус';
 
-$lang['TRACKER'] = 'Трекер';
+$lang['TRACKER'] = 'Раздачи';
 $lang['OPEN_TOPICS'] = 'Открывать топики';
 $lang['OPEN_IN_SAME_WINDOW'] = 'открывать в этом же окне';
 
