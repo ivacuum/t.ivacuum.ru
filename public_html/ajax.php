@@ -48,7 +48,7 @@ class ajax_common
 
 	var $valid_actions = array(
 	//   ACTION NAME             AJAX_AUTH
-		'chat_ban'            => array('admin'),
+		'chat_ban'            => array('mod'),
 		'chat_delete'         => array('mod'),
 		'chat_message'        => array('user'),
 		'edit_user_profile'   => array('admin'),
