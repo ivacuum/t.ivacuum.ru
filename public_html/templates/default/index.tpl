@@ -381,15 +381,13 @@ $(document).ready(function() {
   });
   
 	<!-- IF CHAT_ALLOWED -->
-	<!-- IF SHOW_ADMIN_OPTIONS -->
+	<!-- IF SHOW_MODER_OPTIONS -->
 	ajax.chat_ban = function(id) {
 		ajax.exec({ action: 'chat_ban', id: id });
 	};
 	
 	ajax.callback.chat_ban = function(response) { };
-	<!-- ENDIF -->
 		
-	<!-- IF SHOW_MODER_OPTIONS -->
 	ajax.chat_delete = function(id) {
 		ajax.exec({ action: 'chat_delete', id: id });
 	};
