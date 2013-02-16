@@ -14,20 +14,18 @@ if (!defined('SITE_DIR'))
 //
 function cron_get_file_lock()
 {
-	$lock_obtained = false;
-
 	if( file_exists(CRON_ALLOWED) )
 	{
 #		bb_log(date('H:i:s - ') . getmypid() .' -x-- FILE-LOCK try'. LOG_LF, CRON_LOG_DIR .'cron_check');
 
-		$lock_obtained = @rename(CRON_ALLOWED, CRON_RUNNING);
+		return @rename(CRON_ALLOWED, CRON_RUNNING);
 	}
 	elseif( file_exists(CRON_RUNNING) )
 	{
 		cron_release_deadlock();
 	}
 
-	return $lock_obtained;
+	return touch(CRON_ALLOWED);
 }
 
 function cron_track_running($mode)
