@@ -414,11 +414,11 @@ $(document).ready(function() {
 			}
 		});
 		
-	    if( !S_LOCAL ) {
+	    if (!S_LOCAL) {
 	      $('img.smile', '#chat_messages').each(function() { $(this).attr('src', $(this).attr('src').replace('static.local.ivacuum.ru', 'ivacuum.org').replace('0.ivacuum.org', 'ivacuum.org')); });
-		  $("a[href^='http://t.ivacuum.ru']", '#chat_messages').each(function() {
-			  $(this).attr('href', $(this).attr('href').replace('http://t.ivacuum.ru', 'http://t.internet.ivacuum.ru'));
-		  });
+				$("a[href^='http://t.ivacuum.ru']", '#chat_messages').each(function() {
+					$(this).attr('href', $(this).attr('href').replace('http://t.ivacuum.ru', 'http://t.internet.ivacuum.ru'));
+				});
 	    }
 	};
 
