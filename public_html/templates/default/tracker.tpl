@@ -535,7 +535,13 @@ $(function(){
 	BB.disable_sel_if_search_q( $('#title-search').val() != '' );
 
 //console.time('tr');
-	BB.divide_title_tags();  	BB.hl_text_in_brackets();
+	<!-- IF TRACKER_DIV_TAG -->
+	BB.divide_title_tags();
+	<!-- ENDIF -->
+	<!-- IF TRACKER_HL_BRAK -->
+	BB.hl_text_in_brackets();
+	<!-- ENDIF -->
+	
 	$('a.tLink').each(function(){
 		if (user.opt_js.h_tsp) {
 			this.innerHTML = this.innerHTML.replace(/\{.+?\}/g, '{...}');  // Скрыть содержимое {...}
