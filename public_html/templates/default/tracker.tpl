@@ -82,116 +82,91 @@ ajax.callback.view_post = function(data) {
 <!-- ENDIF / TORHELP_TOPICS -->
 
 <!-- IF SHOW_SEARCH_OPT -->
-<style type="text/css"> 
+<style type="text/css">
 #fs-nav-ul .b { font-weight: bold; }
 #fs-nav-ul li, #fs-nav-close { cursor: pointer; }
 #fs-nav-ul span.f:hover, #fs-nav-close:hover { color: blue; background: #DEE2E4; }
 #fs-nav-list { border: 3px double #9AA7AD; background: #EFEFEF; padding: 8px; max-height: 500px; overflow: auto; }
-#fs-sel-cat { min-width: 250px; max-width: 300px; }
+#fs-sel-cat { width: 260px; }
 #fs-sel-cat option.cat-title { font-weight: bold; color: #005A88; background: #F5F5F5; }
 .tablesorter .header { padding: 2px 4px; }
-</style> 
+</style>
  
-<script type="text/javascript"> 
+<script type="text/javascript">
+window.BB = {};
 var FSN = {
 	fs_all      : '',
 	fs_og       : [],
 	fs_lb       : [],
-	show_fs_nav : true,
 	sel_width   : null,
 	scroll      : $.browser.mozilla,
- 
+	nav_inited  : false,
+
+	show_nav: function() {
+		$('#fs>legend').empty().append( $('#fs-nav-legend').contents() );
+	},
 	build_nav: function() {
- 
+
+		if (FSN.nav_inited) return;
+		FSN.nav_inited = true;
+
 		var $fieldset = $('fieldset#fs');
-		var $select = $('select', $fieldset);
+		var $select = $('select:last', $fieldset);
 		var $optgroup = $('optgroup', $select);
- 
-		$('legend', $fieldset).empty().append( $('#fs-nav-legend').contents() );
-		FSN.show_fs_nav = !($.browser.msie && parseFloat($.browser.version) <= 6);
- 
+
 		$optgroup.each(function(i){
 			var $og = $(this);
 			$og.attr({ id: 'og-'+i });
 			FSN.fs_og[i] = $(this).html();
 			FSN.fs_lb[i] = $(this).attr('label');
 			$('#fs-sel-cat').append('<option class="cat-title" value="'+ i +'">&nbsp;&nbsp;&middot;&nbsp;'+ FSN.fs_lb[i] +'&nbsp;</option>\n');
-			if (FSN.show_fs_nav) {
-				$('<li><span class="b">'+ FSN.fs_lb[i] +'</span>\n<ul id="nav-c-'+ i +'"></ul>\n</li>').appendTo('#fs-nav-ul').click(function(){
-					if (FSN.scroll) {
-						$select.scrollTo('#og-'+i);
-					}
-				});
-				$('option', $og).each(function(){
-					var $op = $(this);
-					if ($op[0].className) {
-						$('<li><span class="f">'+ $op.html() +'</span>\n</li>').appendTo('#nav-c-'+ i).click(function(e){
-							e.stopPropagation();
-							if (FSN.scroll) {
-								$select.scrollTo( '#'+$op.attr('id'), { duration:300 } ).scrollTo( '-=3px' );
-							}
-							$('option', $select).attr({ selected: 0 });
-							$('#'+$op.attr('id')).attr({ selected: 1 });
-							$('#fs-nav-list').fadeOut();
-						});
-					}
-				});
-			}
+			$('<li><span class="b">'+ FSN.fs_lb[i] +'</span>\n<ul id="nav-c-'+ i +'"></ul>\n</li>').appendTo('#fs-nav-ul').click(function(){
+				if (FSN.scroll) {
+					$select.scrollTo('#og-'+i);
+				}
+			});
+			$('option', $og).each(function(){
+				var $op = $(this);
+				if ($op[0].className) {
+					$('<li><span class="f">'+ $op.html() +'</span>\n</li>').appendTo('#nav-c-'+ i).click(function(e){
+						e.stopPropagation();
+						if (FSN.scroll) {
+							$select.scrollTo( '#'+$op.attr('id'), { duration:300 } ).scrollTo( '-=3px' );
+						}
+						$select.val( $op.val() );
+						$('#fs-nav-list').fadeOut();
+					});
+				}
+			});
 		});
- 
-		if (FSN.show_fs_nav) {
-			$('#fs-nav-menu').show();
-			$('#fs-nav-ul').treeview({ collapsed: true });
-			// фикс для FF2, чтобы меню не выстраивалось лесенкой
-			if ($.browser.mozilla && parseFloat($.browser.version) <= 1.8) {
-				$('#fs-nav-list ul').after('<div style="margin-top: 1px;"></div>');
-			}
-		}
-		else {
-			$('#fs-nav-menu').remove();
-		}
- 
+
+		$('#fs-nav-ul').treeview({ collapsed: true });
+
 		$('#fs-sel-cat').bind('change', function(){
 			var i = $(this).val();
 			if (FSN.sel_width == null) {
 				FSN.sel_width = $select.width() + 4;
 			}
-			// опера не понимает <optgroup> при популяции селекта [http://dev.jquery.com/ticket/3040]
-			if ($.browser.opera) {
-				if (i == 'all') {
-					$select.empty().append('<option id="fs--1" value="-1">&nbsp;Все имеющиеся</option>\n');
-					$.each(FSN.fs_og, function(i, v){
-					 $select.append( $(document.createElement('optgroup')).attr('label', FSN.fs_lb[i]).append(FSN.fs_og[i]) );
-					});
-				}
-				else {
-					$select.empty().append( $(document.createElement('optgroup')).attr('label', FSN.fs_lb[i]).append(FSN.fs_og[i]) );
-				}
-			}
-			else {
-				if (i == 'all') {
-					var fs_html = FSN.fs_all;
-				}
-				else {
-					var fs_html = '<optgroup label="'+ FSN.fs_lb[i] +'">'+ FSN.fs_og[i] +'</optgroup>';
-				}
-				$select.html(fs_html).focus();
-			}
 			if (i == 'all') {
+				var fs_html = FSN.fs_all;
 				$('#fs-nav-menu').show();
 			}
 			else {
+				var fs_html = '<optgroup label="'+ FSN.fs_lb[i] +'">'+ FSN.fs_og[i] +'</optgroup>';
 				$('#fs-nav-menu').hide();
 			}
-			$select.width(FSN.sel_width);
+			$select.html(fs_html).focus().width(FSN.sel_width);
 		});
- 
+
 		FSN.fs_all = $select.html();
+		$('div.fsn-load, option.fsn-load').remove();
 	}
 };
- 
+
 $(function(){
-	FSN.build_nav();
+	FSN.show_nav();
+	$('#fs-sel-cat').one('mouseenter', FSN.build_nav);
+	$('#fs legend a').one('click', FSN.build_nav);
 });
 </script>
 
@@ -202,7 +177,7 @@ $(function(){
 
 <div id="fs-nav-legend" style="display: none;"> 
 	<select id="fs-sel-cat"><option value="all">&nbsp;Выбрать категорию...&nbsp;</option></select> 
-	<span id="fs-nav-menu" style="display: none;">&middot;&nbsp;<a class="menu-root" href="#fs-nav-list">перейти к разделу</a></span> 
+	<span id="fs-nav-menu">&middot;&nbsp;<a class="menu-root" href="#fs-nav-list">перейти к разделу</a></span> 
 </div>
 
 <form method="POST" name="post" action="{TOR_SEARCH_ACTION}">
@@ -223,10 +198,6 @@ $(function(){
 			<td rowspan="2" width="50%">
 				<fieldset id="fs">
 				<legend>Искать в форумах</legend>
-				<!--
-					<select id="fs-sel-cat"><option value="all">&nbsp;{L_SELECT_CAT}&nbsp;</option></select>
-					<span id="fs-nav-menu" style="display: none">&middot;&nbsp;<a class="menu-root" href="#fs-nav-list">{L_GO_TO_SECTION}</a></span>
-				-->
 				<div>
 					<p class="select">{CAT_FORUM_SELECT}</p>
 					<p id="fs-qs-div" class="med" style="display: none;"><input id="fs-qs-input" type="text" style="width: 200px;"> <i>фильтр по названию</i></p>
@@ -246,7 +217,7 @@ $(function(){
 				<fieldset>
 				<legend>{L_TORRENTS_FROM}</legend>
 				<div>
-					<p class="select dis-if-ts">{TIME_SELECT}</p>
+					<p class="select dis-if-search-q">{TIME_SELECT}</p>
 				</div>
 				</fieldset>
 				<!--
@@ -262,12 +233,12 @@ $(function(){
 				<fieldset>
 				<legend>{L_SHOW_ONLY}</legend>
 				<div class="gen">
-					<p class="chbox dis-if-ts">{ONLY_MY_CHBOX}[<b>&reg;</b>]</p>
+					<p class="chbox dis-if-search-q">{ONLY_MY_CHBOX}[<b>&reg;</b>]</p>
 					<p>{DL_WILL_CHBOX}</p>
 					<p>{DL_COMPL_CHBOX}</p>
 					<!-- <p class="chbox">{ONLY_ACTIVE_CHBOX}</p> -->
 					<p class="chbox">{SEED_EXIST_CHBOX}</p>
-					<p class="chbox dis-if-ts">{ONLY_NEW_CHBOX}[{MINIPOST_IMG_NEW}]&nbsp;</p>
+					<p class="chbox dis-if-search-q">{ONLY_NEW_CHBOX}[{MINIPOST_IMG_NEW}]&nbsp;</p>
 					<p class="chbox"><label><input type="checkbox" onclick="user.set('h_tsp', this.checked ? 1 : 0);" />&nbsp;Скрыть содержимое {...}</label></p>
 				</div>
 				</fieldset>
@@ -303,7 +274,7 @@ $(function(){
 				<fieldset style="margin-top: 0; padding-bottom: 3px;">
 				<legend>{L_AUTHOR}</legend>
 				<div>
-					<p class="input dis-if-ts"><input style="width: 40%" <!-- IF POSTER_ERROR -->style="color: red"<!-- ELSE --> class="post"<!-- ENDIF --> type="text" size="16" maxlength="{POSTER_NAME_MAX}" name="{POSTER_NAME_NAME}" value="{POSTER_NAME_VAL}" /> <button class="btn-small" onclick="window.open('{U_SEARCH_USER}', '_phpbbsearch', 'HEIGHT=250,resizable=yes,WIDTH=400'); return false;">{L_FIND_USERNAME}</button></p>
+					<p class="input dis-if-search-q"><input style="width: 40%" <!-- IF POSTER_ERROR -->style="color: red"<!-- ELSE --> class="post"<!-- ENDIF --> type="text" size="16" maxlength="{POSTER_NAME_MAX}" name="{POSTER_NAME_NAME}" value="{POSTER_NAME_VAL}" /></p>
 				</div>
 				</fieldset>
 				<fieldset style="margin-top: 4px; padding-bottom: 3px;">
@@ -345,20 +316,6 @@ $(function(){
 <div class="spacer_6"></div>
 
 <!-- ENDIF / SHOW_SEARCH_OPT -->
-
-<script type="text/javascript"> 
-$(function() {
-	$('#title-search').bind('keyup blur mouseleave', function() {
-		var disabled = (this.value != '');
-		ts_dis_selects(disabled);
-	});
-	ts_dis_selects($('#title-search').val() != '');
-});
-
-function ts_dis_selects(disabled) {
-	$('p.dis-if-ts').find('select, input').attr('disabled',  disabled ? 1 : 0);
-}
-</script>
 
 <table class="w100 border bw_TRL" cellpadding="0" cellspacing="0">
 	<tr>
@@ -412,9 +369,15 @@ function ts_dis_selects(disabled) {
 			<legend>{L_OPEN_TOPICS}</legend>
 			<div class="med pad_4">
 				<label>
-					<input type="checkbox" <!-- IF AJAX_TOPICS -->{CHECKED}<!-- ENDIF -->
-						onclick="user.set('tr_t_ax', this.checked ? 1 : 0);"
-					/>{L_OPEN_IN_SAME_WINDOW}
+					<input type="checkbox" checked="checked" 						onclick="user.set('hl_brak', this.checked ? 1 : 0);"
+					/><b>Выделять название и</b> [текст в скобках]
+				</label>
+				<label>
+					<div>
+					<input type="checkbox" checked="checked" 						onclick="user.set('div_tag', this.checked ? 1 : 0);"
+					/><i style="color: #000EFF;">(Начальные / Теги)</i> отдельной строкой
+					</div>
+					<div class="t-tags" style="margin-left: 24px;"><span>Начальные</span><span>Теги</span></div>
 				</label>
 			</div>
 			</fieldset>
@@ -427,19 +390,46 @@ function ts_dis_selects(disabled) {
 </div><!--/tr-options-->
 <!-- ENDIF / LOGGED_IN -->
 
-<style type="text/css"> 
-#tor-tbl u { display: none; }
+<style type="text/css">
+#tor-tbl u  { display: none; }
 .seed-leech { padding-left: 1px; padding-right: 0; }
-.tr_tm { margin-top: 2px; font-size: 10px; color: #676767; }
-.ch { font-style: italic; color: #0080FF; }
-.tor-size { padding: 7px 4px 6px !important; }
-tr.hl-tr:hover td { background-color: #F8F8F8 !important; }</style> 
-<script type="text/javascript"> 
-$(function(){
-	$('#tor-tbl').tablesorter();
-});
-</script>
+.tr_tm      { margin-top: 2px; font-size: 10px; color: #676767; }
+.ch         { font-style: italic; color: #0080FF; }
+.tor-size   { padding: 7px 4px 6px !important; }
+tr.hl-tr:hover td { background-color: #F8F8F8 !important; }
 
+a.hl-tags                { font-size: 12px; }
+td.t-title               { padding: 3px 5px 3px; }
+span.brackets-pair       { color: #095177; font-weight: normal; font-family: tahoma,arial,sans-serif; }
+a:hover   .brackets-pair { color: #DD6900 !important; }
+a:visited .brackets-pair { color: #5493B4; }
+div.t-tags span {
+	display: inline-block; margin: 3px 4px 0 0; padding: 0 5px 1px;
+	line-height: 13px; font-family: tahoma,arial,sans-serif; text-transform: capitalize;
+	max-width: 200px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+	background: #E7E7E7; color: #2F2F2F; text-shadow: 0 1px 0 #F5F5F5;
+	border-width: 1px; border-style: solid; border-color: #C5C5C5 #AAAAAA #ABABAB #BCBCBC; border-radius: 3px;
+	border-collapse: separate; /* IE bug */
+}
+div.t-tags span:hover {
+	cursor: pointer; color: #000000; border-color: #BEBEBE #AAAAAA #AAAAAA #AAAAAA;
+	background:    -moz-linear-gradient(top, #F2F2F2, #E0E0E0);
+	background: -webkit-linear-gradient(top, #F2F2F2, #E0E0E0);
+	background:      -o-linear-gradient(top, #F2F2F2, #E0E0E0);
+	background:         linear-gradient(top, #F2F2F2, #E0E0E0);
+/*box-shadow: 1px 1px 1px 0 #584848, 0 1px 1px 0 #FFFFFF inset; padding: 0 4px 0 6px;*/
+}
+
+#fs-main   {     width: 500px; }
+#title-div { min-width: 524px; }
+@media screen and (max-width: 1100px) {
+	#fs-main   {     width: 450px; }
+	#title-div { min-width: 480px; }
+}
+.wbr    { word-wrap: break-word; }
+.t-ico  { padding: 4px !important; text-align: center; }
+.u-name { margin: 0 auto; }
+</style>
 <table class="forumline tablesorter" id="tor-tbl">
 <thead>
 <tr>
@@ -475,9 +465,9 @@ $(function(){
 	<!-- IF SHOW_FORUM -->
 	<td class="row1"><a class="gen f" href="{TR_FORUM_URL}{tor.FORUM_ID}">{tor.FORUM_NAME}</a></td>
 	<!-- ENDIF -->
-	<td class="row4 med tLeft u">
-		<div>
-			<a class="tLink {tor.DL_CLASS}<!-- IF AJAX_TOPICS --> folded2<!-- ENDIF -->" <!-- IF AJAX_TOPICS -->onclick="ajax.view_post({tor.POST_ID}, this); return false;"<!-- ENDIF --> href="{TOPIC_URL}{tor.TOPIC_ID}"><!-- IF tor.TOR_FROZEN -->{tor.TOPIC_TITLE}<!-- ELSE --><b>{tor.TOPIC_TITLE}</b><!-- ENDIF --></a>
+	<td class="row4 med tLeft u t-title">
+		<div class="wbr t-title">
+			<a class="med tLink hl-tags bold {tor.DL_CLASS}" href="{TOPIC_URL}{tor.TOPIC_ID}"><!-- IF tor.TOR_FROZEN -->{tor.TOPIC_TITLE}<!-- ELSE -->{tor.TOPIC_TITLE}<!-- ENDIF --></a>
 		</div>
 	</td>
 	<!-- IF SHOW_AUTHOR -->
@@ -527,35 +517,130 @@ $(function(){
 </div><!--/bottom_info-->
 
 <script type="text/javascript"> 
-// Скрыть содержимое {...}
-if( user.opt_js.h_tsp ) {
-	$('a.tLink').each(function() {
-		$(this).html( $(this).html().replace(/\{.+?\}/g, '{...}') );
+$('#no-js-warn').hide();
+
+$.each( [-1], function(i,n){ $('#fs-'+ n).prop({selected: true}) });
+$('#search_opt').show();
+
+// При поиске по названию некоторые опции недоступны
+BB.disable_sel_if_search_q = function (dis_state) {
+	$('p.dis-if-search-q').find('select, input').prop({disabled: dis_state});
+}
+// Растягивание страницы длинными названиями
+BB.resize_wbr_els = function ()
+{
+	var w = $(window).width() - 20;
+	$('.f-name').css({  'min-width': Math.round( w * 0.14 ) +'px' });
+	$('.t-title').css({ 'max-width': Math.round( w * 0.52 ) +'px' });
+	$('.u-name').css({      'width': Math.round( w * 0.08 ) +'px' });
+}
+// Выделение тегов и текста в скобках
+BB.divide_title_tags = function ()
+{
+	var rgx_test_lead_tags  = /^\s*(\(|\[|\{)/;                    // скобка в начале
+	var rgx_1st_lead_tags   = /^\s*(\(.+?\)|\[.+?\]|\{.+?\})\s*/;  // m[1] = '(tag1, tag2)'
+	var rgx_crop_tags       = /[\(\)\[\]\{\}]/g;                   // (tag1, tag2) -> tag1, tag2
+	var rgx_split_tags      = /\s*[~,\|\/\\]\s*/;                  //  tag1, tag2  -> [tag1, tag2]
+	var rgx_cleanup_delims  = /([~,\|\/\\])([~,\|\/\\])+/g;        //  ,/~~~       -> ,
+	var rgx_test_empty_tag  = /[0-9a-zA-Zа-яА-ЯёЁ]/;
+	var rgx_clean_tag_chars = /"<>/g;
+	var rgx_cut_leftovers   = /^[^0-9a-zA-Zа-яА-ЯёЁ&\(\[\{]+/;           // возможные остатки разделителей в начале названия
+
+	$('a.hl-tags').each(function(){
+		var t_id   = $(this).data('topic_id');
+		var t_html = this.innerHTML;
+		var t_tags = [];
+		var tags_group, tags_apart;
+
+		if (rgx_test_lead_tags.test(t_html)) {
+			t_html = t_html.replace(rgx_cleanup_delims, '$1');
+			while( m = t_html.match(rgx_1st_lead_tags) ) {
+				// удаляем тег из названия
+				t_html = t_html.replace(m[0], '');
+				t_html = t_html.replace(rgx_cut_leftovers, '');
+				// откат, если от названия ничего не осталось
+				if ( $.trim(t_html) == '' ) {
+					t_html = this.innerHTML;
+					t_tags = [];
+					break;
+				}
+				tags_group = m[1].replace(rgx_crop_tags, '');
+				tags_group = tags_group.replace(rgx_clean_tag_chars, ' ');
+				tags_apart = BB.fix_tag_exceptions( $.trim(tags_group) );
+				tags_apart = tags_apart.split(rgx_split_tags);
+				tags_apart = $.grep(tags_apart, function(tag,i){
+					return rgx_test_empty_tag.test(tag);
+				});
+				if (tags_apart.length) {
+					t_tags = t_tags.concat(tags_apart);
+				}
+			}
+			if (t_tags.length) {
+				$('#tg-'+ t_id).append('<span class="tg">'+ t_tags.join('</span><span class="tg">') +'</span>');
+			}
+		}
+		this.innerHTML = t_html.replace(rgx_cut_leftovers, '');
+	});
+	$('span.tg').click(function(){
+		var search_txt = $(this).text().replace(/[^0-9a-zA-Zа-яА-ЯёЁ\-]/g, ' ').replace(/\s+/g, ' ');
+		$('#title-search').val(search_txt);
+		$('#tr-form').submit();
 	});
 }
-$.each([-1], function(i,n){ $('#fs-'+ n).attr('selected', 1) });
-$('#search_opt, #search-results').show();
+BB.fix_tag_exceptions = function (txt)
+{
+	txt = txt.replace(/^\s*([\d.]+)\s*([\/\\])\s*([\d.]+)\s*$/, '$1&#47;$3');    // [24/192] [16/44.1]
+	return $.trim(txt);
+}
+BB.hl_text_in_brackets = function ()
+{
+	$('a.hl-tags').each(function(){
+		this.innerHTML = this.innerHTML.replace( /(\(.+?\)|\[.+?\]|\{.+?\})/g, '<span class="brackets-pair">$1</span>' );
+	});
+}
 
-var fs_last_val = [];
+$(function(){
+	$('#title-search').bind('keyup blur mouseleave', function(){
+		BB.disable_sel_if_search_q( this.value != '' );
+	});
+	BB.disable_sel_if_search_q( $('#title-search').val() != '' );
 
-$(function() {
-	// лимит на количество выбранных разделов
-	fs_last_val = $('#fs-main').val();
+//console.time('tr');
+	BB.divide_title_tags();  	BB.hl_text_in_brackets();
+	$('a.tLink').each(function(){
+		if (user.opt_js.h_tsp) {
+			this.innerHTML = this.innerHTML.replace(/\{.+?\}/g, '{...}');  // Скрыть содержимое {...}
+		}
+		this.innerHTML = this.innerHTML.replace(/([\.,](?!\s))/g, '$1<wbr>');
+	});
 
-	$('#fs-main').bind('change', function() {
+	BB.resize_wbr_els();
+	$('#search-results').show();
+	$('#tor-tbl').tablesorter(); //	{debug: true}
+//console.timeEnd('tr');
+
+			// лимит на количество выбранных разделов
+	BB.fs_last_val = $('#fs-main').val();
+
+	$('#fs-main').bind('change', function(){
 		var fs_val = $('#fs-main').val();
-
-		if( fs_val != null ) {
-			if( fs_val.length > 50 ) {
+		// снятие отметки со "Все имеющиеся"
+		if (fs_val.length > 1 && $.inArray('-1', fs_val) != -1) {
+			$('#fs--1').prop({selected: false});
+			fs_val = $('#fs-main').val();
+		}
+		// лимит на количество выбранных разделов
+		if (fs_val != null) {
+			if (fs_val.length > 50) {
 				alert('Вы можете выбрать максимум 50 разделов');
-				$('#fs-main').val(fs_last_val);
-			} else {
-				fs_last_val = fs_val;
+				$('#fs-main').val( BB.fs_last_val );
+			}
+			else {
+				BB.fs_last_val = fs_val;
 			}
 		}
 	});
-
-	if( $.browser.mozilla ) {
+		if ($.browser.mozilla) {
 		$('#fs-qs-input').focus().quicksearch('#fs-main option', {
 			delay   : 300,
 			onAfter : function(){
@@ -563,23 +648,36 @@ $(function() {
 				$('#fs-main option:hidden').parent('optgroup').not( $('#fs-main :visible').parent('optgroup') ).hide();
 			}
 		});
-		$('#fs-main').attr('size', $('#fs-main').attr('size') - 1);
+		$('#fs-main').attr( 'size', $('#fs-main').attr('size')-1 );
 		$('#fs-qs-div').show();
 	}
-});
+		$('#tr-form').submit(function(){
+		var selected_forums = $('#fs-main').val();
+		var search_query    = $.trim( $('#title-search').val() );
+		var url_params      = [];
 
-function get_fs_link()
+		if (selected_forums != null && $.inArray('-1', selected_forums) == -1) {
+			url_params.push( 'f='+ selected_forums.sort().join() );
+		}
+		if (search_query != '') {
+			BB.disable_sel_if_search_q(true);
+			url_params.push( 'nm='+ encodeURIComponent(search_query) );
+		}
+		if (url_params.length) {
+			$('#tr-form').attr({ action: 'tracker.php?'+ url_params.join('&') });
+		}
+	});
+});
+function get_fs_link ()
 {
-	var fs_url = 'http://t.ivacuum.ru/tracker.php?';
 	var fs_val = $('#fs-main').val();
 
-	if( fs_val == null ) {
-		alert('Вы не выбрали разделы');
-	} else {
-		fs_url += 'f[]='+ fs_val.join('&f[]=');
-		window.prompt('Ссылка на выбранные разделы:', fs_url);
+	if (fs_val != null && $.inArray('-1', fs_val) == -1) {
+		window.prompt( 'Ссылка на выбранные разделы:', 'http://t.ivacuum.ru/tracker.php?f='+ fs_val.sort().join() );
 	}
-
+	else {
+		alert('Вы не выбрали разделы');
+	}
 	return false;
 }
 </script> 
