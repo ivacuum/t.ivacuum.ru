@@ -176,7 +176,7 @@ $(document).ready(function() {
 <tr>
 	<td colspan="9" class="catBottom tRight med">
 		{L_SELECT}:
-		<select style="padding-left: 5px !important;" name="status" onchange="$('#tor-confirm').attr('checked', 0); $('#tor-submit').attr('disabled', 1)">
+		<select style="padding-left: 5px !important;" name="status" onchange="$('#tor-confirm').attr('checked', false); $('#tor-submit').attr('disabled', true)">
 			<optgroup label="&nbsp;статус раздачи">
 				<option value="0" class="tor-not-approved">* {L_TOR_STATUS_NOT_CHECKED}</option>
 				<option value="1" class="tor-closed">x {L_TOR_STATUS_CLOSED}</option>

@@ -45,7 +45,7 @@
 			<input type="hidden" name="f" value="{FORUM_ID}" />
 			<input type="hidden" name="sid" value="{SID}" />
 
-			<select name="mod_action" id="mod-select" onchange="$('#mod-confirm').attr('checked', 0); $('#mod-submit').attr('disabled', 1)">
+			<select name="mod_action" id="mod-select" onchange="$('#mod-confirm').attr('checked', false); $('#mod-submit').attr('disabled', true)">
 				<option value="" selected="selected" class="select-action">&raquo; {L_SELECT_ACTION}</option>
 				<option value="topic_delete">{L_DELETE}</option>
 				<option value="topic_move">{L_MOVE}</option>

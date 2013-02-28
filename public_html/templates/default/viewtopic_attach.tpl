@@ -182,7 +182,7 @@
 		<form method="POST" action="{TOR_ACTION}">
 			<input type="hidden" name="id" value="{postrow.attach.tor_not_reged.ATTACH_ID}" />
 
-			<select name="tor_action" id="tor-select-{postrow.attach.tor_not_reged.ATTACH_ID}" onchange="$('#tor-confirm-{postrow.attach.tor_not_reged.ATTACH_ID}').attr('checked', 0); $('#tor-submit-{postrow.attach.tor_not_reged.ATTACH_ID}').attr('disabled', 1)">
+			<select name="tor_action" id="tor-select-{postrow.attach.tor_not_reged.ATTACH_ID}" onchange="$('#tor-confirm-{postrow.attach.tor_not_reged.ATTACH_ID}').attr('checked', false); $('#tor-submit-{postrow.attach.tor_not_reged.ATTACH_ID}').attr('disabled', true)">
 				<option value="" selected="selected" class="select-action">&raquo; {L_SELECT_ACTION}</option>
 				<option value="del_torrent">{L_DELETE_TORRENT}</option>
 				<option value="del_torrent_move_topic">{L_DEL_MOVE_TORRENT}</option>
@@ -251,7 +251,7 @@
 		<p class="pad_4">
 		<form method="POST" action="{TOR_STATUS}">
 			<input type="hidden" name="id" value="{postrow.attach.tor_reged.ATTACH_ID}" />
-			<select name="tor_status" id="tor-select-{postrow.attach.tor_reged.ATTACH_ID}" onchange="$('#tor-status_confirm-{postrow.attach.tor_reged.ATTACH_ID}').attr('checked', 0); $('#tor-submit-{postrow.attach.tor_reged.ATTACH_ID}').attr('disabled', 1)">
+			<select name="tor_status" id="tor-select-{postrow.attach.tor_reged.ATTACH_ID}" onchange="$('#tor-status_confirm-{postrow.attach.tor_reged.ATTACH_ID}').attr('checked', false); $('#tor-submit-{postrow.attach.tor_reged.ATTACH_ID}').attr('disabled', true)">
 				<option value="" selected="selected" class="select-action">&raquo; {L_TOR_STATUS_SELECT_ACTION}</option>
 				<option value="2">{L_TOR_STATUS_CHECKED}</option>
 				<option value="gy">{L_TOR_STATUS_NOT_CHECKED}</option>
@@ -294,7 +294,7 @@
 		<form method="POST" action="{TOR_ACTION}">
 			<input type="hidden" name="id" value="{postrow.attach.tor_reged.ATTACH_ID}" />
 
-			<select name="tor_action" id="tor-select-{postrow.attach.tor_reged.ATTACH_ID}" onchange="$('#tor-confirm-{postrow.attach.tor_reged.ATTACH_ID}').attr('checked', 0); $('#tor-submit-{postrow.attach.tor_reged.ATTACH_ID}').attr('disabled', 1)">
+			<select name="tor_action" id="tor-select-{postrow.attach.tor_reged.ATTACH_ID}" onchange="$('#tor-confirm-{postrow.attach.tor_reged.ATTACH_ID}').attr('checked', false); $('#tor-submit-{postrow.attach.tor_reged.ATTACH_ID}').attr('disabled', true)">
 				<option value="" selected="selected" class="select-action">&raquo; {L_SELECT_ACTION}</option>
 				<option value="del_torrent">{L_DELETE_TORRENT}</option>
 				<option value="del_torrent_move_topic">{L_DEL_MOVE_TORRENT}</option>
