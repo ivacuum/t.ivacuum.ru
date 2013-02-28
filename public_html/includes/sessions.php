@@ -55,6 +55,8 @@ class user_common
 		'h_sig'    => 0,     // hide signatures
 		'sp_op'    => 0,     // show spoiler opened
 		'tr_t_ax'  => 0,     // ajax open topics
+		'hl_brak'  => 1,     // Выделять названия раздач и текст в скобках
+		'div_tag'  => 1,     // (начальные / тэги) отдельной строкой
 	);
 
 	/**

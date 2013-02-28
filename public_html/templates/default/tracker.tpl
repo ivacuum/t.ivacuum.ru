@@ -1,72 +1,3 @@
-<!-- IF AJAX_TOPICS -->
-<script type="text/javascript">
-ajax.openedPosts = {};
-
-ajax.view_post = function(post_id, src) {
-	if (!ajax.openedPosts[post_id]) {
-		ajax.exec({
-			action  : 'view_post',
-			post_id : post_id
-		});
-	}
-	else {
-		var $post = $('#post_'+post_id);
-		if ($post.is(':visible')) {
-			$post.hide();
-		}	else {
-			$post.css({ display: '' });
-		}
-	}
-	$(src).toggleClass('unfolded2');
-};
-
-ajax.callback.view_post = function(data) {
-	var post_id = data.post_id;
-	var $tor = $('#tor_'+post_id);
-	window.location.href='#tor_'+post_id;
-	$('#post-row tbody')
-		.clone()
-		.attr({ id: 'post_'+post_id })
-		.find('div.post_body').html(data.post_html).end()
-		.find('a.tLink').attr({ href: $('a.tLink', $tor).attr('href') }).end()
-		.find('a.dLink').attr({ href: $('a.dLink', $tor).attr('href') }).end()
-		.insertAfter($tor)
-	;
-	initPostBBCode('#post_'+post_id);
-	var maxH   = screen.height - 290;
-	var maxW   = screen.width - 60;
-	var $post  = $('div.post_wrap', $('#post_'+post_id));
-	var $links = $('div.post_links', $('#post_'+post_id));
-	$post.css({ maxWidth: maxW, maxHeight: maxH });
-	$links.css({ maxWidth: maxW });
-	if ($.browser.msie) {
-		if ($post.height() > maxH) { $post.height(maxH); }
-		if ($post.width() > maxW)  { $post.width(maxW); $links.width(maxW); }
-	}
-	ajax.openedPosts[post_id] = true;
-};
-</script>
-
-<style type="text/css">
-.post_wrap { border: 1px #A5AFB4 solid; margin: 8px 8px 6px; overflow: auto; }
-.post_links { margin: 6px; }
-</style>
-
-<table id="post-row" style="display: none;">
-<tbody>
-<tr>
-	<td class="row2" colspan="{TOR_COLSPAN}">
-		<div class="post_wrap row1">
-			<div class="post_body pad_6"></div><!--/post_body-->
-			<div class="clear"></div>
-		</div><!--/post_wrap-->
-		<div class="post_links med bold tCenter"><a class="tLink">{L_OPEN_TOPIC}</a> &nbsp;&#0183;&nbsp; <a class="dLink">{L_DL_TORRENT}</a></div>
-	</td>
-</tr>
-</tbody>
-</table>
-<!-- ENDIF / AJAX_TOPICS -->
-
 <a name="start"></a>
 <h1 class="pagetitle">{PAGE_TITLE}</h1>
 
@@ -369,13 +300,11 @@ $(function(){
 			<legend>{L_OPEN_TOPICS}</legend>
 			<div class="med pad_4">
 				<label>
-					<input type="checkbox" checked="checked" 						onclick="user.set('hl_brak', this.checked ? 1 : 0);"
-					/><b>Выделять название и</b> [текст в скобках]
+					<input type="checkbox" <!-- IF TRACKER_HL_BRAK -->checked<!-- ENDIF --> onclick="user.set('hl_brak', this.checked ? 1 : 0);"><b>Выделять название и</b> [текст в скобках]
 				</label>
 				<label>
 					<div>
-					<input type="checkbox" checked="checked" 						onclick="user.set('div_tag', this.checked ? 1 : 0);"
-					/><i style="color: #000EFF;">(Начальные / Теги)</i> отдельной строкой
+					<input type="checkbox" <!-- IF TRACKER_DIV_TAG -->checked<!-- ENDIF --> onclick="user.set('div_tag', this.checked ? 1 : 0);"><i style="color: #000EFF;">(Начальные / Теги)</i> отдельной строкой
 					</div>
 					<div class="t-tags" style="margin-left: 24px;"><span>Начальные</span><span>Теги</span></div>
 				</label>

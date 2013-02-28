@@ -1020,7 +1020,8 @@ $template->assign_vars(array(
 	'TITLE_MATCH_NAME' => $title_match_key,
 	'TITLE_MATCH_VAL'  => $title_match_val,
 
-	'AJAX_TOPICS'      => $user->opt_js['tr_t_ax'],
+	'TRACKER_HL_BRAK'  => $user->opt_js['hl_brak'],
+	'TRACKER_DIV_TAG'  => $user->opt_js['div_tag'],
 	'U_SEARCH_USER'    => "search.php?mode=searchuser&input_name=$poster_name_key",
 ));
 
