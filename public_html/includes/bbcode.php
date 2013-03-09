@@ -220,6 +220,22 @@ function bbencode_second_pass($text, $uid)
 	$text = str_replace("[i:$uid]", $bbcode_tpl['i_open'], $text);
 	$text = str_replace("[/i:$uid]", $bbcode_tpl['i_close'], $text);
 
+	// [table] и [/table] для создания таблиц
+	$text = str_replace("[table:$uid]", '<table class="usertable">', $text);
+	$text = str_replace("[/table:$uid]", '</table>', $text);
+	
+	// [tr] и [/tr] для создания колонок
+	$text = str_replace("[tr:$uid]", '<tr>', $text);
+	$text = str_replace("[/tr:$uid]", '</tr>', $text);
+	
+	// [td] и [/td] для создания строк
+	$text = str_replace("[td:$uid]", '<td>', $text);
+	$text = str_replace("[/td:$uid]", '</td>', $text);
+	
+	// [th] и [/th] для создания строк-заголовков
+	$text = str_replace("[th:$uid]", '</th>', $text);
+	$text = str_replace("[/th:$uid]", '</th>', $text);
+
 	// Patterns and replacements for URL and email tags..
 	$patterns = array();
 	$replacements = array();
@@ -329,6 +345,18 @@ function bbencode_first_pass($text, $uid)
 
 	// [i] and [/i] for italicizing text.
 	$text = preg_replace("#\[i\](.*?)\[/i\]#si", "[i:$uid]\\1[/i:$uid]", $text);
+	
+	// [table] и [/table] для создания таблиц
+	$text = preg_replace("#\[table\](.*?)\[/table\]#si", "[table:$uid]\\1[/table:$uid]", $text);
+	
+	// [tr] и [/tr] для создания колонок
+	$text = preg_replace("#\[tr\](.*?)\[/tr\]#si", "[tr:$uid]\\1[/tr:$uid]", $text);
+	
+	// [td] и [/td] для создания строк
+	$text = preg_replace("#\[td\](.*?)\[/td\]#si", "[td:$uid]\\1[/td:$uid]", $text);
+	
+	// [th] и [/th] для создания строк-заголовков
+	$text = preg_replace("#\[th\](.*?)\[/th\]#si", "[th:$uid]\\1[/th:$uid]", $text);
 
 	// [img]image_url_here[/img] code..
 	$text = preg_replace("#\[img\]((http|ftp|https|ftps)://)([^\s\?&=\#\"<>]+?(\.(jpg|jpeg|gif|png)))\[/img\]#i", "[img:$uid]\\1\\3[/img:$uid]", $text);
