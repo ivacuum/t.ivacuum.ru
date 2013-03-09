@@ -233,7 +233,7 @@ function bbencode_second_pass($text, $uid)
 	$text = str_replace("[/td:$uid]", '</td>', $text);
 	
 	// [th] и [/th] для создания строк-заголовков
-	$text = str_replace("[th:$uid]", '</th>', $text);
+	$text = str_replace("[th:$uid]", '<th>', $text);
 	$text = str_replace("[/th:$uid]", '</th>', $text);
 
 	// Patterns and replacements for URL and email tags..
