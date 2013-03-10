@@ -697,7 +697,7 @@ function generate_smilies($mode)
 
 				$template->assign_block_vars('smilies_row.smilies_col', array(
 					'SMILEY_CODE' => $data['code'],
-					'SMILEY_IMG' => 'http://static.ivacuum.ru/i/tracker/smilies/' . $smile_url,
+					'SMILEY_IMG' => 'http://ivacuum.org/i/tracker/smilies/' . $smile_url,
 					'SMILEY_DESC' => $data['emoticon'])
 				);
 

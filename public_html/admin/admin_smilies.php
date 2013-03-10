@@ -32,7 +32,7 @@ $delimeter  = '=+:';
 // Read a listing of uploaded smilies for use in the add or edit smliey code...
 //
 $smilies_path = '/srv/www/vhosts/static.ivacuum.ru/i/tracker/smilies';
-$smilies_web_path = 'http://static.ivacuum.ru/i/tracker/smilies';
+$smilies_web_path = 'http://ivacuum.org/i/tracker/smilies';
 /* $smilies_path = SITE_DIR . $board_config['smilies_path']; */
 
 $dir = @opendir($smilies_path);

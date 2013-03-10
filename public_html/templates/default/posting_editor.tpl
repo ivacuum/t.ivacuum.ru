@@ -202,6 +202,6 @@ bbcode.addTag("codeSpoiler", "spoiler=\"скрытый текст\"", "/spoiler"
 bbcode.addTag("fontFace", function(e) { var v=e.value; e.selectedIndex=0; return "font=\""+v+"\"" }, "/font");
 bbcode.addTag("codeColor", function(e) { var v=e.value; e.selectedIndex=0; return "color="+v }, "/color");
 bbcode.addTag("codeSize", function(e) { var v=e.value; e.selectedIndex=0; return "size="+v }, "/size");
-bbcode.addTag('codeFlag', function(e) { var v=e.value; e.selectedIndex=0; return '[img]http://static.ivacuum.ru/i/flags/24/'+ v +'.png[/img]' }, '');
+bbcode.addTag('codeFlag', function(e) { var v=e.value; e.selectedIndex=0; return '[img]http://ivacuum.org/i/flags/24/'+ v +'.png[/img]' }, '');
 </script>
 <!-- ENDIF -->

@@ -80,7 +80,7 @@ if( $mode != "" )
 
 			"FLAG" => $flag_info['flag_name'],
 			"IMAGE" => ( $flag_info['flag_image'] != "" ) ? $flag_info['flag_image'] : "",
-			"IMAGE_DISPLAY" => ( $flag_info['flag_image'] != "" ) ? '<img src="http://static.ivacuum.ru/i/flags/48/' . $flag_info['flag_image'] . '" />' : "",
+			"IMAGE_DISPLAY" => ( $flag_info['flag_image'] != "" ) ? '<img src="http://ivacuum.org/i/flags/48/' . $flag_info['flag_image'] . '" />' : "",
 
 			"L_FLAGS_TITLE" => $lang['Flags_title'],
 			"L_FLAGS_TEXT" => $lang['Flags_explain'],
@@ -261,7 +261,7 @@ if( $mode != "" )
 				"ROW_CLASS" => $row_class,
 
 				"FLAG" => $flag,
-				"IMAGE_DISPLAY" => ( $flag_rows[$i]['flag_image'] != "" ) ? '<img src="http://static.ivacuum.ru/i/flags/48/' . $flag_rows[$i]['flag_image'] . '" />' : "",
+				"IMAGE_DISPLAY" => ( $flag_rows[$i]['flag_image'] != "" ) ? '<img src="http://ivacuum.org/i/flags/48/' . $flag_rows[$i]['flag_image'] . '" />' : "",
 
 				"U_FLAG_EDIT" => append_sid("admin_flags.php?mode=edit&amp;id=$flag_id"),
 				"U_FLAG_DELETE" => append_sid("admin_flags.php?mode=delete&amp;id=$flag_id"))
@@ -307,7 +307,7 @@ else
 		$template->assign_block_vars("flags", array(
 			"ROW_CLASS" => $row_class,
 			"FLAG" => $flag,
-			"IMAGE_DISPLAY" => ( $flag_rows[$i]['flag_image'] != "" ) ? '<img src="http://static.ivacuum.ru/i/flags/48/' . $flag_rows[$i]['flag_image'] . '" />' : "",
+			"IMAGE_DISPLAY" => ( $flag_rows[$i]['flag_image'] != "" ) ? '<img src="http://ivacuum.org/i/flags/48/' . $flag_rows[$i]['flag_image'] . '" />' : "",
 
 			"U_FLAG_EDIT" => append_sid("admin_flags.php?mode=edit&amp;id=$flag_id"),
 			"U_FLAG_DELETE" => append_sid("admin_flags.php?mode=delete&amp;id=$flag_id"))

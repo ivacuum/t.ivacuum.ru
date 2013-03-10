@@ -62,7 +62,7 @@ $temp_url = append_sid("privmsg.php?mode=post&amp;" . POST_USERS_URL . "=" . $pr
 $pm_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_pm'] . '" alt="' . $lang['Send_private_message'] . '" title="' . $lang['Send_private_message'] . '" border="0" /></a>';
 
 $location = ($profiledata['user_from']) ? $profiledata['user_from'] : '';
-$location .= ($profiledata['user_from_flag'] && $profiledata['user_from_flag'] != 'blank.gif') ? '&nbsp;<img align="absmiddle" src="http://static.ivacuum.ru/i/flags/48/'. $profiledata['user_from_flag'] .'" alt="'. $profiledata['user_from_flag'] . '" title="' . $profiledata['user_from_flag'] . '" />' : '';
+$location .= ($profiledata['user_from_flag'] && $profiledata['user_from_flag'] != 'blank.gif') ? '&nbsp;<img align="absmiddle" src="http://ivacuum.org/i/flags/48/'. $profiledata['user_from_flag'] .'" alt="'. $profiledata['user_from_flag'] . '" title="' . $profiledata['user_from_flag'] . '" />' : '';
 
 $pm = '<a href="' . $temp_url . '">' . $lang['Send_private_message'] . '</a>';
 
