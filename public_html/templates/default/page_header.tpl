@@ -48,9 +48,11 @@ function initPostImages(context) {
   
   $('var.postImg', context).not($in_spoilers).each(function() {
     var $v = $(this);
-    <!-- IF STATIC_PATH eq '//static.local.ivacuum.ru' || STATIC_PATH eq '//0.ivacuum.org' -->
-    $v.attr('title', $v.attr('title').replace('img.ivacuum.ru', 'img.local.ivacuum.ru').replace('static.ivacuum.ru', '0.ivacuum.org'));
-    <!-- ENDIF -->
+		
+		if (S_LOCAL) {
+			$v.attr('title', $v.attr('title').replace('//img.ivacuum.ru', '//img.local.ivacuum.ru').replace('//static.ivacuum.ru', '//0.ivacuum.org').replace('//ivacuum.org', '//0.ivacuum.org'));
+		}
+		
     var src = $v.attr('title');
     var $img = $('<img src="' + src + '" class="' + $v.attr('className') + '" alt="pic">');
     $img = fixPostImage($img);
@@ -120,10 +122,18 @@ function initExternalLinks(context) {
 $(document).ready(function() {
   $('div.post_body, div.signature').each(function() { initPostBBCode( $(this) ) });
 
-  if( S_LOCAL ) {
+  if (S_LOCAL) {
 	  $("img[src^='http://static.ivacuum.ru/'], img[src^='//static.ivacuum.ru/']").each(function() {
 		  $(this).attr('src', $(this).attr('src').replace('//static.ivacuum.ru', '//0.ivacuum.org'));
 	  });
+
+	  $("img[src^='http://ivacuum.org/'], img[src^='//ivacuum.org/']").each(function() {
+		  $(this).attr('src', $(this).attr('src').replace('//ivacuum.org', '//0.ivacuum.org'));
+	  });
+
+	  $("a[href^='http://t.internet.ivacuum.ru']").each(function() {
+		  $(this).attr('href', $(this).attr('href').replace('http://t.internet.ivacuum.ru', 'http://t.ivacuum.ru'));
+	  })
   } else {
 	  $("img[src^='//0.ivacuum.org'], img[src^='http://t.ivacuum.ru']").each(function() {
 		  $(this).attr('src', $(this).attr('src').replace('//0.ivacuum.org', '//ivacuum.org').replace('http://t.ivacuum.ru', 'http://t.internet.ivacuum.ru'));
