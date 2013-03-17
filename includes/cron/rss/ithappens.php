@@ -1,21 +1,21 @@
 <?php
 /**
 * @package t.ivacuum.ru
-* @copyright (c) 2011
+* @copyright (c) 2013
 */
 
 namespace app\cron\rss;
 
-use engine\cron\tasks\rss;
+use fw\cron\tasks\rss;
 
 /**
-* Цитаты bash.org.ru
+* Истории ithappens.ru
 */
-class bash_org_ru extends rss
+class ithappens extends rss
 {
 	public function run()
 	{
-		if (false === $xml = $this->get_rss_xml_data('http://bash.im/rss/'))
+		if (false === $xml = $this->get_rss_xml_data('http://ithappens.ru/rss/'))
 		{
 			return false;
 		}
@@ -32,7 +32,7 @@ class bash_org_ru extends rss
 			);
 		}
 
-		$this->cache->set('rss_bash.org.ru', $data);
+		$this->cache->set('rss_ithappens.ru', $data);
 		
 		return true;
 	}

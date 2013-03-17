@@ -17,8 +17,8 @@ switch( $feed )
 {
 	case 'bash':
 
-		$data  = $bb_cache->get('rss_bash.org.ru');
-		$title = 'Последние цитаты с сайта bash.org.ru';
+		$data  = $bb_cache->get('rss_bash.im');
+		$title = 'Последние цитаты с сайта bash.im';
 
 	break;
 	case 'beeline':

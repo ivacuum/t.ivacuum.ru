@@ -1,17 +1,17 @@
 <?php
 /**
 * @package t.ivacuum.ru
-* @copyright (c) 2012
+* @copyright (c) 2013
 */
 
 namespace app\cron\rss;
 
-use engine\cron\tasks\rss;
+use fw\cron\tasks\rss;
 
 /**
 * Новости Калуги с сайта gorodka.ru
 */
-class gorodka_ru extends rss
+class gorodka extends rss
 {
 	public function run()
 	{

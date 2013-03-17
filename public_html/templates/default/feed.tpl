@@ -9,7 +9,7 @@
 	<h3><a href="feed.php?feed=beeline">Новости Билайн</a></h3>
 	<p>Новости для абонентов сотовой связи Билайн</p>
 	<br />
-	<h3><a href="feed.php?feed=bash">bash.org.ru</a></h3>
+	<h3><a href="feed.php?feed=bash">bash.im</a></h3>
 	<p>Смешные, забавные фрагменты электронных переписок или произошедшие истории</p>
 	<br />
 	<h3><a href="feed.php?feed=ithappens">ithappens.ru</a></h3>

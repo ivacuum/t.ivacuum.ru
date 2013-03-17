@@ -1,12 +1,12 @@
 <?php
 /**
 * @package t.ivacuum.ru
-* @copyright (c) 2011
+* @copyright (c) 2013
 */
 
 namespace app\cron\rss;
 
-use engine\cron\tasks\rss;
+use fw\cron\tasks\rss;
 
 /**
 * Курс валют

@@ -1,46 +1,39 @@
 <?php
 /**
 * @package t.ivacuum.ru
-* @copyright (c) 2011
+* @copyright (c) 2013
 */
 
 namespace app\cron\rss;
 
-use engine\cron\tasks\rss;
+use fw\cron\tasks\rss;
 
 /**
-* Истории nefart.ru
+* Новости lenta.ru
 */
-class nefart_ru extends rss
+class lenta extends rss
 {
 	public function run()
 	{
-		if (false === $xml = $this->get_rss_xml_data('http://feeds.feedburner.com/nefart/oanc?format=xml'))
+		if (false === $xml = $this->get_rss_xml_data('http://lenta.ru/rss/'))
 		{
 			return false;
 		}
 		
 		$data = array();
-		$n    = 0;
 
 		foreach ($xml->channel->item as $entry)
 		{
-			if ($n > 49)
-			{
-				break;
-			}
-
 			$data[] = array(
+				'cat'   => (string) $entry->category,
 				'link'  => (string) $entry->link,
 				'text'  => (string) $entry->description,
 				'time'  => (int) strtotime($entry->pubDate),
 				'title' => (string) $entry->title
 			);
-
-			$n++;
 		}
 
-		$this->cache->set('rss_nefart.ru', $data);
+		$this->cache->set('rss_lenta.ru', $data);
 		
 		return true;
 	}
