@@ -283,8 +283,7 @@ if ( $row = $db->sql_fetchrow($result) )
 }
 if ( $mode != 'topten' || $board_config['topics_per_page'] < 10 )
 {
-	$sql = 'SELECT COUNT(*) AS total FROM ' . BT_USERS_TABLE . ' u';
-	$sql .=	($letter_sql) ? " WHERE $letter_sql" : '';
+	$sql = 'SELECT COUNT(*) AS total FROM ' . BT_USERS_TABLE;
 	if (!$result = $db->sql_query($sql))
 	{
 		message_die(GENERAL_ERROR, 'Error getting total users', '', __LINE__, __FILE__, $sql);
