@@ -283,7 +283,7 @@ if ( $row = $db->sql_fetchrow($result) )
 }
 if ( $mode != 'topten' || $board_config['topics_per_page'] < 10 )
 {
-	$sql = 'SELECT COUNT(*) AS total FROM ' . BT_USERS_TABLE;
+	$sql = 'SELECT COUNT(*) AS total FROM ' . BT_USERS_TABLE . ' u';
 	$sql .=	($letter_sql) ? " WHERE $letter_sql" : '';
 	if (!$result = $db->sql_query($sql))
 	{
