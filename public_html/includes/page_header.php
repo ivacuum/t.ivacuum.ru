@@ -183,7 +183,7 @@ $template->assign_vars(array(
 	'U_TRACKER'          => "tracker.php",
 	'U_UPLOAD_IMAGE'     => ( $static_path == '//0.ivacuum.org' ) ? '//up.local.ivacuum.ru/' : '//up.ivacuum.ru/',
 
-	'DEVELOPER'          => $_SERVER['REMOTE_ADDR'] == '192.168.1.1',
+	'DEVELOPER'          => in_array($_SERVER['REMOTE_ADDR'], ['192.168.1.1', '192.168.1.2']),
 	'SHOW_ADMIN_OPTIONS' => $is_admin,
 	'SHOW_MODER_OPTIONS' => ($is_admin || $is_mod),
 	'SHOW_SIDEBAR1'      => (!empty($page_cfg['show_sidebar1'][BB_SCRIPT]) || $bb_cfg['show_sidebar1_on_every_page']),

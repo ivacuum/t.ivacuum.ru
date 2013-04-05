@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {META}
 <link rel="shortcut icon" href="{STATIC_PATH}/i/t/images/siteicon.png">
+<!-- IF DEVELOPER2 -->
+<link rel="stylesheet" href="{STATIC_PATH}/i/bootstrap/2.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="{STATIC_PATH}/i/bootstrap/2.3.1/css/expansion.css">
+<script src="{STATIC_PATH}/i/bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- ENDIF -->
 <link rel="stylesheet" href="{STATIC_PATH}/js/jqueryui/1.10.0/themes/smoothness/minified/jquery-ui.min.css?v={$bb_cfg['css_ver']}">
 <link rel="stylesheet" href="{STATIC_PATH}/i/t/css/style.css?v={$bb_cfg['css_ver']}">
 <script>var S_LOCAL = <!-- IF STATIC_PATH eq '//0.ivacuum.org' -->true<!-- ELSE -->false<!-- ENDIF -->;</script>
