@@ -300,7 +300,7 @@ table.ratio td { padding: 2px 4px; }
 						</tr>
 						<tr class="row5 seed">
 							<th>Таймбонус</th>
-							<td class="bold">{TIMEBONUS_TODAY} / <span class="leechmed">-{TIMEBONUS_SPEND_TODAY}</span></td>
+							<td class="bold">{TIMEBONUS_TODAY} / <span class="leechmed">-{TIMEBONUS_SPENT_TODAY}</span></td>
 							<td>+{TIMEBONUS_YDAY} / <span class="leechmed">-{TIMEBONUS_SPENT_YDAY}</span></td>
 							<td id="timebonus"><span class="editable bold">{TIMEBONUS}</span></td>
 						</tr>
