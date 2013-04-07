@@ -421,7 +421,7 @@ function send_torrent_with_passkey ($filename)
 	}
 
 	$post_id = $poster_id = $passkey_val = '';
-	$user_id = $userdata['user_id'];
+	$user_id = (int) $userdata['user_id'];
 	$attach_id = $attachment['attach_id'];
 
 	if (!$passkey_key = $bb_cfg['passkey_key'])
@@ -500,7 +500,7 @@ function send_torrent_with_passkey ($filename)
 			}
 		}
 	}
-
+	
 	// Seeding torrents limit
 	if ($bb_cfg['max_seeding_torrents'] && IS_USER)
 	{
@@ -528,6 +528,24 @@ function send_torrent_with_passkey ($filename)
 				redirect($bb_cfg['too_many_seeding_redirect_url']);
 			}
 		}
+	}
+
+	// if ($userdata['timebonus'] < 10 && $user_id != $poster_id)
+	// {
+	// 	message_die(GENERAL_ERROR, 'Недостаточно таймбонусов для скачивания торрент-файла.');
+	// }
+	
+	/* Расход таймбонусов */
+	if ($user_id != $poster_id)
+	{
+		$sql = '
+			UPDATE
+				bb_bt_users
+			SET
+				timebonus_spent_today = timebonus_spent_today + 10
+			WHERE
+				user_id = ' . (int) $user_id;
+		$db->sql_query($sql);
 	}
 
 	// Announce URL

@@ -298,14 +298,12 @@ table.ratio td { padding: 2px 4px; }
 							<td>{UP_BONUS_YDAY}</td>
 							<td id="u_up_bonus"><span class="editable bold">{UP_BONUS}</span></td>
 						</tr>
-						<!-- IF DEVELOPER -->
 						<tr class="row5 seed">
 							<th>Таймбонус</th>
-							<td class="bold"><!-- IF TIMEBONUS_TODAY gt 1000 -->1000<!-- ELSE -->{TIMEBONUS_TODAY}<!-- ENDIF --></td>
+							<td class="bold">{TIMEBONUS_TODAY} / <span class="leechmed">-{TIMEBONUS_SPEND_TODAY}</span></td>
 							<td>+{TIMEBONUS_YDAY} / <span class="leechmed">-{TIMEBONUS_SPENT_YDAY}</span></td>
 							<td id="timebonus"><span class="editable bold">{TIMEBONUS}</span></td>
 						</tr>
-						<!-- ENDIF -->
 					</table>
 				</td>
 			</tr>
