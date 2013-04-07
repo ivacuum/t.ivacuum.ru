@@ -382,7 +382,7 @@ class ajax_common
 			FROM
 				bb_chat c
 			LEFT JOIN
-				' . USERS_TABLE . ' u ON (u.user_id = c.user_id)
+				bb_users u ON (u.user_id = c.user_id)
 			WHERE
 				u.user_chat = 1
 			ORDER BY
@@ -432,7 +432,7 @@ class ajax_common
 			$this->ajax_die('invalid profile field');
 		}
 
-		$table = USERS_TABLE;
+		$table = 'bb_users';
 		$value = (string) $this->request['value'];
 
 		switch( $field )
@@ -466,7 +466,7 @@ class ajax_common
 					$this->ajax_die($lang['Only_for_super_admin']);
 				}
 
-				$table = BT_USERS_TABLE;
+				$table = 'bb_bt_users';
 				$value = (float) str_replace(',', '.', $this->request['value']);
 
 				foreach( array('КБ' => 1, 'МБ' => 2, 'ГБ' => 3, 'ТБ' => 4) as $s => $m )
@@ -499,7 +499,7 @@ class ajax_common
 					$this->ajax_die($lang['Only_for_super_admin']);
 				}
 
-				$table = BT_USERS_TABLE;
+				$table = 'bb_bt_users';
 				$value = (int) $this->request['value'];
 
 				$this->response['new_value'] = (string) $value;
@@ -551,7 +551,7 @@ class ajax_common
 			SELECT
 				username
 			FROM
-				' . USERS_TABLE . '
+				bb_users
 			WHERE
 				user_ip = "' . $_SERVER['REMOTE_ADDR'] . '"
 			ORDER BY
@@ -595,11 +595,11 @@ class ajax_common
 				tor.size,
 				u.username
 			FROM
-				' . BT_TRACKER_TABLE . ' t
+				bb_bt_tracker t
 			LEFT JOIN
-				' . USERS_TABLE . ' u ON u.user_id = t.user_id
+				bb_users u ON u.user_id = t.user_id
 			LEFT JOIN
-				' . BT_TORRENTS_TABLE . ' tor ON t.topic_id = tor.topic_id
+				bb_bt_torrents tor ON t.topic_id = tor.topic_id
 			WHERE
 				t.topic_id = ' . $topic_id . '
 			LIMIT
@@ -688,9 +688,9 @@ class ajax_common
 				DATE_FORMAT(d.last_modified_dlstatus, "%Y-%m-%d") AS last_modified_dlstatus,
 				u.username
 			FROM
-				' . BT_DLSTATUS_TABLE . ' d
+				bb_bt_dlstatus_main d
 			LEFT JOIN
-				' . USERS_TABLE . ' u ON d.user_id = u.user_id
+				bb_users u ON d.user_id = u.user_id
 			WHERE
 				d.topic_id = ' . $topic_id . '
 			AND
@@ -766,7 +766,7 @@ class ajax_common
 				'user_status' => (int) DL_STATUS_WILL
 			);
 
-			$sql = 'INSERT INTO ' . BT_DLSTATUS_MAIN_TABLE . ' ' . $db->build_array('INSERT', $sql_ary) . ' ON DUPLICATE KEY UPDATE user_status = values(user_status)';
+			$sql = 'INSERT INTO bb_bt_dlstatus_main ' . $db->build_array('INSERT', $sql_ary) . ' ON DUPLICATE KEY UPDATE user_status = values(user_status)';
 			$db->sql_query($sql);
 
 			$this->response['html'] = '<img src="' . $static_path . '/i/_/tick.png" alt="" style="vertical-align: text-top;"> Раздача добавлена в список будущих закачек';
@@ -777,7 +777,7 @@ class ajax_common
 			$sql = '
 				DELETE
 				FROM
-					' . BT_DLSTATUS_MAIN_TABLE . '
+					bb_bt_dlstatus_main
 				WHERE
 					user_id = ' . $userdata['user_id'] . '
 				AND
@@ -813,7 +813,7 @@ class ajax_common
 					u.username
 				FROM
 					bb_attachments_thanks a,
-					' . USERS_TABLE . ' u
+					bb_users u
 				WHERE
 					a.user_id = u.user_id
 				AND
@@ -841,7 +841,7 @@ class ajax_common
 				SELECT
 					poster_id
 				FROM
-					' . BT_TORRENTS_TABLE . '
+					bb_bt_torrents
 				WHERE
 					attach_id = ' . $attach_id;
 			$result = $db->sql_query($sql);
@@ -905,9 +905,9 @@ class ajax_common
 				p.*,
 				pt.post_subject, pt.post_text, pt.bbcode_uid,
 				f.auth_read
-			FROM       ". POSTS_TABLE      ." p
-			INNER JOIN ". POSTS_TEXT_TABLE ." pt ON(pt.post_id = p.post_id)
-			INNER JOIN ". FORUMS_TABLE     ." f  ON(f.forum_id = p.forum_id)
+			FROM       bb_posts p
+			INNER JOIN bb_posts_text pt ON(pt.post_id = p.post_id)
+			INNER JOIN bb_forums f  ON(f.forum_id = p.forum_id)
 			WHERE
 			  p.post_id = $post_id
 			LIMIT 1
@@ -954,7 +954,7 @@ class ajax_common
 				user_level,
 				user_session_time
 			FROM
-				' . USERS_TABLE . '
+				bb_users
 			WHERE
 				user_session_time >= ' . strtotime(date('Y-m-d')) . '
 			ORDER BY

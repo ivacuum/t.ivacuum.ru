@@ -26,7 +26,7 @@ if ( !$userdata['session_logged_in'] )
 }
 
 $sql = "SELECT username, user_email, user_lang
-	FROM " . USERS_TABLE . "
+	FROM bb_users
 	WHERE user_id = $user_id";
 if ( $row = $db->fetch_row($sql) )
 {

@@ -24,7 +24,7 @@ if ($do == 'attach_rules')
 	}
 
 	$sql = 'SELECT group_id, group_name, max_filesize, forum_permissions
-		FROM ' . EXTENSION_GROUPS_TABLE . '
+		FROM bb_extension_groups
 		WHERE allow_group = 1
 		ORDER BY group_name ASC';
 
@@ -69,8 +69,8 @@ if ($do == 'attach_rules')
 				'GROUP_RULE_HEADER' => sprintf($lang['Group_rule_header'], $group_name, $max_filesize))
 			);
 
-			$sql = 'SELECT extension
-				FROM ' . EXTENSIONS_TABLE . "
+			$sql = "SELECT extension
+				FROM bb_extensions
 				WHERE group_id = " . (int) $rows[$i]['group_id'] . "
 				ORDER BY extension ASC";
 

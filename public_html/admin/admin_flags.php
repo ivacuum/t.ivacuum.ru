@@ -61,7 +61,7 @@ if( $mode != "" )
 				message_die(GENERAL_MESSAGE, $lang['Must_select_flag']);
 			}
 
-			$sql = "SELECT * FROM " . FLAG_TABLE . "
+			$sql = "SELECT * FROM bb_flags
 				WHERE flag_id = $flag_id";
 			if(!$result = $db->sql_query($sql))
 			{
@@ -121,7 +121,7 @@ if( $mode != "" )
 
 		if ($flag_id)
 		{
-			$sql = "UPDATE " . FLAG_TABLE . "
+			$sql = "UPDATE 
 				SET flag_name = '" . str_replace("\'", "''", $flag_name) . "', flag_image = '" . str_replace("\'", "''", $flag_image) . "'
 				WHERE flag_id = $flag_id";
 
@@ -129,7 +129,7 @@ if( $mode != "" )
 		}
 		else
 		{
-			$sql = "INSERT INTO " . FLAG_TABLE . " (flag_name, flag_image)
+			$sql = "INSERT INTO bb_flags (flag_name, flag_image)
 				VALUES ('" . str_replace("\'", "''", $flag_name) . "', '" . str_replace("\'", "''", $flag_image) . "')";
 
 			$message = $lang['Flag_added'];
@@ -182,7 +182,7 @@ if( $mode != "" )
 		if( $flag_id )
 		{
 			// get the doomed flag's info
-			$sql = "SELECT * FROM " . FLAG_TABLE . "
+			$sql = "SELECT * FROM bb_flags
 				WHERE flag_id = $flag_id" ;
 			if( !$result = $db->sql_query($sql) )
 			{
@@ -193,7 +193,7 @@ if( $mode != "" )
 
 
 			// delete the flag
-			$sql = "DELETE FROM " . FLAG_TABLE . "
+			$sql = "DELETE FROM bb_flags
 				WHERE flag_id = $flag_id";
 
 			if( !$result = $db->sql_query($sql) )
@@ -202,7 +202,7 @@ if( $mode != "" )
 			}
 
 			// update the users who where using this flag
-			$sql = "UPDATE " . USERS_TABLE . "
+			$sql = "UPDATE bb_users
 				SET user_from_flag = ''
 				WHERE user_from_flag = '$flag_image'";
 			if( !$result = $db->sql_query($sql) )
@@ -226,7 +226,7 @@ if( $mode != "" )
 		// They didn't feel like giving us any information. Oh, too bad, we'll just display the
 		// list then...
 		//
-		$sql = "SELECT * FROM " . FLAG_TABLE . "
+		$sql = "SELECT * FROM bb_flags
 			ORDER BY flag_name";
 		if( !$result = $db->sql_query($sql) )
 		{
@@ -274,7 +274,7 @@ else
 	//
 	// Show the default page
 	//
-	$sql = "SELECT * FROM " . FLAG_TABLE . "
+	$sql = "SELECT * FROM bb_flags
 		ORDER BY flag_name ASC";
 	if( !$result = $db->sql_query($sql) )
 	{

@@ -24,7 +24,7 @@ while (true)
 	{
 		$sql = "
 			SELECT user_id
-			FROM ". USERS_TABLE ."
+			FROM bb_users
 			WHERE user_active    = 0
 			  AND user_lastvisit = 0
 			  AND user_regdate   < ". (TIMENOW - 86400*$not_activated_days) ."
@@ -40,7 +40,7 @@ while (true)
 	{
 		$sql = "
 			SELECT user_id
-			FROM ". USERS_TABLE ."
+			FROM bb_users
 			WHERE user_active    = 1
 			  AND user_posts     = 0
 			  AND user_lastvisit < ". (TIMENOW - 86400*$not_active_days) ."

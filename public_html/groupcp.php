@@ -130,13 +130,13 @@ if (!$group_id)
 			g.group_moderator, u.username AS moderator_name,
 			IF(g.group_moderator = ug.user_id, 1, 0) AS is_group_mod
 		FROM
-			". GROUPS_TABLE ." g
+			bb_groups g
 		LEFT JOIN
-			". USER_GROUP_TABLE ." ug ON
+			bb_user_group ug ON
 			    ug.group_id = g.group_id
 			AND ug.user_id = ". $userdata['user_id'] ."
 		LEFT JOIN
-			". USERS_TABLE ." u ON g.group_moderator = u.user_id
+			bb_users u ON g.group_moderator = u.user_id
 		WHERE
 			g.group_single_user = 0
 		ORDER BY
@@ -218,7 +218,7 @@ else if (!empty($_POST['groupstatus']))
 	}
 
 	$db->query("
-		UPDATE ". GROUPS_TABLE ." SET
+		UPDATE bb_groups SET
 			group_type = $new_group_type
 		WHERE group_id = $group_id
 			AND group_single_user = 0
@@ -239,9 +239,9 @@ else if (@$_POST['joingroup'])
 	}
 
 	$sql = "SELECT g.group_id, g.group_name, ug.user_id, u.user_email, u.username, u.user_lang
-		FROM ". GROUPS_TABLE ." g
-		LEFT JOIN ". USERS_TABLE ." u ON(u.user_id = g.group_moderator)
-		LEFT JOIN ". USER_GROUP_TABLE ." ug ON(ug.group_id = g.group_id AND ug.user_id = {$userdata['user_id']})
+		FROM bb_groups g
+		LEFT JOIN bb_users u ON(u.user_id = g.group_moderator)
+		LEFT JOIN bb_user_group ug ON(ug.group_id = g.group_id AND ug.user_id = {$userdata['user_id']})
 		WHERE g.group_id = $group_id
 			AND group_single_user = 0
 			AND g.group_type = ". GROUP_OPEN ."
@@ -361,7 +361,7 @@ else
 				if (!empty($_POST['approve']))
 				{
 					$db->query("
-						UPDATE ". USER_GROUP_TABLE ." SET
+						UPDATE bb_user_group SET
 							user_pending = 0
 						WHERE user_id IN($sql_in)
 							AND group_id = $group_id
@@ -372,7 +372,7 @@ else
 				else if (!empty($_POST['deny']) || !empty($_POST['remove']))
 				{
 					$db->query("
-						DELETE FROM ". USER_GROUP_TABLE ."
+						DELETE FROM bb_user_group
 						WHERE user_id IN($sql_in)
 							AND group_id = $group_id
 					");
@@ -386,7 +386,7 @@ else
 				if (!empty($_POST['approve']) && $bb_cfg['groupcp_send_email'])
 				{
 					$sql_select = "SELECT user_email
-						FROM ". USERS_TABLE ."
+						FROM bb_users
 						WHERE user_id IN($sql_in)";
 
 					if (!$result = $db->sql_query($sql_select))
@@ -433,7 +433,7 @@ else
 	// Get moderator details for this group
 	$group_moderator = $db->fetch_row("
 		SELECT *
-		FROM ". USERS_TABLE ."
+		FROM bb_users
 		WHERE user_id = ". $group_info['group_moderator'] ."
 	");
 
@@ -443,7 +443,7 @@ else
 	// Members
 	$group_members = $db->fetch_rowset("
 		SELECT u.username, u.user_id, u.user_opt, u.user_posts, u.user_regdate, u.user_from, u.user_website, u.user_email, u.user_icq, u.user_aim, u.user_yim, u.user_msnm, ug.user_pending
-		FROM ". USER_GROUP_TABLE ." ug, ". USERS_TABLE ." u
+		FROM bb_user_group ug, bb_users u
 		WHERE ug.group_id = $group_id
 			AND ug.user_pending = 0
 			AND ug.user_id <> ". $group_moderator['user_id'] ."
@@ -479,7 +479,7 @@ else
 	{
 		$modgroup_pending_list = $db->fetch_rowset("
 			SELECT u.username, u.user_id, u.user_opt, u.user_posts, u.user_regdate, u.user_from, u.user_website, u.user_email, u.user_icq, u.user_aim, u.user_yim, u.user_msnm
-			FROM ". USER_GROUP_TABLE ." ug, ". USERS_TABLE ." u
+			FROM bb_user_group ug, bb_users u
 			WHERE ug.group_id = $group_id
 				AND ug.user_pending = 1
 				AND u.user_id = ug.user_id
@@ -493,7 +493,7 @@ else
 	$is_group_member = $is_group_pending_member = false;
 
 	$sql = "SELECT user_pending
-		FROM ". USER_GROUP_TABLE ."
+		FROM bb_user_group
 		WHERE group_id = $group_id
 			AND user_id = ". $userdata['user_id'] ."
 		LIMIT 1";

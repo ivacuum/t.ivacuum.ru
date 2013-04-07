@@ -17,7 +17,7 @@ $total_sql = '';
 if(!isset($_POST['dosearch'])&&!isset($_GET['dosearch']))
 {
 	$sql = "SELECT group_id, group_name
-				FROM ".GROUPS_TABLE."
+				FROM bb_groups
 					WHERE group_single_user = 0
 						ORDER BY group_name ASC";
 
@@ -42,7 +42,7 @@ if(!isset($_POST['dosearch'])&&!isset($_GET['dosearch']))
 	$timezone_list = tz_select('', 'timezone_type');
 
 	$sql = "SELECT f.forum_id, f.forum_name, f.forum_parent, c.cat_id, c.cat_title
-				FROM ( ". FORUMS_TABLE ." AS f INNER JOIN ". CATEGORIES_TABLE ." AS c ON c.cat_id = f.cat_id )
+				FROM ( bb_forums AS f INNER JOIN bb_categories AS c ON c.cat_id = f.cat_id )
 				ORDER BY c.cat_order, f.forum_order ASC";
 
 	if(!$result = $db->sql_query($sql))
@@ -322,7 +322,7 @@ else
 	$base_url = "admin_user_search.php?dosearch=true";
 
 	$select_sql = "SELECT u.user_id, u.username, u.user_email, u.user_posts, u.user_regdate, u.user_level, u.user_active, u.user_lastvisit
-						FROM ".USERS_TABLE." AS u";
+						FROM bb_users AS u";
 
 	$lower_b = 'LOWER(';
 	$lower_e = ')';
@@ -382,7 +382,7 @@ else
 			if($regex && SQL_LAYER == 'oracle')
 			{
 				$total_sql .= "SELECT COUNT(user_id) AS total
-								FROM ".USERS_TABLE."
+								FROM bb_users
 									WHERE REGEXP_LIKE(username, '".str_replace("\'", "''", $username)."')
 										AND user_id <> ".ANONYMOUS;
 
@@ -392,7 +392,7 @@ else
 			else
 			{
 				$total_sql .= "SELECT COUNT(user_id) AS total
-								FROM ".USERS_TABLE."
+								FROM bb_users
 									WHERE {$lower_b}username{$lower_e} $op '".str_replace("\'", "''", $username)."'
 										AND user_id <> ".ANONYMOUS;
 
@@ -431,7 +431,7 @@ else
 			if($regex && SQL_LAYER == 'oracle')
 			{
 				$total_sql .= "SELECT COUNT(user_id) AS total
-								FROM ".USERS_TABLE."
+								FROM bb_users
 									WHERE REGEXP_LIKE(user_email, '".str_replace("\'", "''", $email)."')
 										AND user_id <> ".ANONYMOUS;
 
@@ -441,7 +441,7 @@ else
 			else
 			{
 				$total_sql .= "SELECT COUNT(user_id) AS total
-								FROM ".USERS_TABLE."
+								FROM bb_users
 									WHERE {$lower_b}user_email{$lower_e} $op '".str_replace("\'", "''", $email)."'
 										AND user_id <> ".ANONYMOUS;
 
@@ -576,7 +576,7 @@ else
 			if (!$where_sql) bb_die('invalid request');
 
 			$sql = "SELECT poster_id
-						FROM ".POSTS_TABLE."
+						FROM bb_posts
 							WHERE poster_id <> ".ANONYMOUS."
 								AND ($where_sql)
 							GROUP BY poster_id";
@@ -607,7 +607,7 @@ else
 				SELECT
 					user_id
 				FROM
-					' . USERS_TABLE . '
+					bb_users
 				WHERE
 					(' . $where_sql . ')
 				' . ( ( $ip_users_sql ) ? 'AND user_id NOT IN (' . $ip_users_sql . ')' : '' );
@@ -674,7 +674,7 @@ else
 			}
 
 			$total_sql .= "SELECT COUNT(user_id) AS total
-							FROM ".USERS_TABLE."
+							FROM bb_users
 								WHERE user_regdate $arg $time
 									AND user_id <> ".ANONYMOUS;
 
@@ -693,7 +693,7 @@ else
 			}
 
 			$sql = "SELECT group_name
-						FROM ".GROUPS_TABLE."
+						FROM bb_groups
 							WHERE group_id = $group_id
 								AND group_single_user = 0";
 
@@ -712,12 +712,12 @@ else
 			$text = sprintf($lang['Search_for_group'], strip_tags(htmlspecialchars($group_name['group_name'])));
 
 			$total_sql .= "SELECT COUNT(u.user_id) AS total
-							FROM ".USERS_TABLE." AS u, ".USER_GROUP_TABLE." AS ug
+							FROM bb_users AS u, bb_user_group AS ug
 								WHERE u.user_id = ug.user_id
 										AND ug.group_id = $group_id
 										AND u.user_id <> ".ANONYMOUS;
 
-			$select_sql .= ", ".USER_GROUP_TABLE." AS ug
+			$select_sql .= ", bb_user_group AS ug
 								WHERE u.user_id = ug.user_id
 										AND ug.group_id = $group_id
 										AND u.user_id <> ".ANONYMOUS;
@@ -737,7 +737,7 @@ else
 					$text = sprintf($lang['Search_for_postcount_greater'], $postcount_value);
 
 					$total_sql .= "SELECT COUNT(user_id) AS total
-									FROM ".USERS_TABLE."
+									FROM bb_users
 										WHERE user_posts > $postcount_value
 											AND user_id <> ".ANONYMOUS;
 
@@ -750,7 +750,7 @@ else
 					$text = sprintf($lang['Search_for_postcount_lesser'], $postcount_value);
 
 					$total_sql .= "SELECT COUNT(user_id) AS total
-									FROM ".USERS_TABLE."
+									FROM bb_users
 										WHERE user_posts < $postcount_value
 											AND user_id <> ".ANONYMOUS;
 
@@ -774,7 +774,7 @@ else
 						$text = sprintf($lang['Search_for_postcount_range'], $range_begin, $range_end);
 
 						$total_sql .= "SELECT COUNT(user_id) AS total
-										FROM ".USERS_TABLE."
+										FROM bb_users
 											WHERE user_posts >= $range_begin
 												AND user_posts <= $range_end
 												AND user_id <> ".ANONYMOUS;
@@ -790,7 +790,7 @@ else
 						$text = sprintf($lang['Search_for_postcount_equals'], $postcount_value);
 
 						$total_sql .= "SELECT COUNT(user_id) AS total
-										FROM ".USERS_TABLE."
+										FROM bb_users
 											WHERE user_posts = $postcount_value
 												AND user_id <> ".ANONYMOUS;
 
@@ -874,7 +874,7 @@ else
 			if($regex && SQL_LAYER == 'oracle')
 			{
 				$total_sql .= "SELECT COUNT(user_id) AS total
-								FROM ".USERS_TABLE."
+								FROM bb_users
 									WHERE REGEXP_LIKE($field, '".str_replace("\'", "''", $userfield_value)."')
 										AND user_id <> ".ANONYMOUS;
 
@@ -884,7 +884,7 @@ else
 			else
 			{
 				$total_sql .= "SELECT COUNT(user_id) AS total
-								FROM ".USERS_TABLE."
+								FROM bb_users
 									WHERE {$lower_b}$field{$lower_e} $op '".str_replace("\'", "''", $userfield_value)."'
 										AND user_id <> ".ANONYMOUS;
 
@@ -907,7 +907,7 @@ else
 					$text = sprintf($lang['Search_for_lastvisited_inthelast'], $lastvisited_days, ( ( $lastvisited_days > 1 ) ? $lang['Days'] : $lang['Day'] ) );
 
 					$total_sql .= "SELECT COUNT(user_id) AS total
-									FROM ".USERS_TABLE."
+									FROM bb_users
 										WHERE user_lastvisit >= $lastvisited_seconds
 											AND user_id <> ".ANONYMOUS;
 
@@ -918,7 +918,7 @@ else
 					$text = sprintf($lang['Search_for_lastvisited_afterthelast'], $lastvisited_days, ( ( $lastvisited_days > 1 ) ? $lang['Days'] : $lang['Day'] ));
 
 					$total_sql .= "SELECT COUNT(user_id) AS total
-									FROM ".USERS_TABLE."
+									FROM bb_users
 										WHERE user_lastvisit < $lastvisited_seconds
 											AND user_id <> ".ANONYMOUS;
 
@@ -944,7 +944,7 @@ else
 			$text = sprintf($lang['Search_for_language'], strip_tags(htmlspecialchars($language_type)));
 
 			$total_sql .= "SELECT COUNT(user_id) AS total
-							FROM ".USERS_TABLE."
+							FROM bb_users
 								WHERE user_lang = '".str_replace("\'", "''", $language_type)."'
 									AND user_id <> ".ANONYMOUS;
 
@@ -959,7 +959,7 @@ else
 			$timezone_type = intval($timezone_type);
 
 			$total_sql .= "SELECT COUNT(user_id) AS total
-							FROM ".USERS_TABLE."
+							FROM bb_users
 								WHERE user_timezone = $timezone_type
 									AND user_id <> ".ANONYMOUS;
 
@@ -975,7 +975,7 @@ else
 			$moderators_forum = intval($moderators_forum);
 
 			$sql = "SELECT forum_name
-						FROM ".FORUMS_TABLE."
+						FROM bb_forums
 							WHERE forum_id = ".$moderators_forum;
 
 
@@ -994,7 +994,7 @@ else
 			$text = sprintf($lang['Search_for_moderators'], htmlCHR($forum_name['forum_name']));
 
 			$total_sql .= "SELECT COUNT(DISTINCT u.user_id) AS total
-							FROM ".USERS_TABLE." AS u, ".GROUPS_TABLE." AS g, ".USER_GROUP_TABLE." AS ug, ".AUTH_ACCESS_TABLE." AS aa
+							FROM bb_users AS u, bb_groups AS g, bb_user_group AS ug, bb_auth_access AS aa
 								WHERE u.user_id = ug.user_id
 									AND ug.group_id = g.group_id
 									AND	g.group_id = aa.group_id
@@ -1002,7 +1002,7 @@ else
 									AND aa.forum_perm & ". BF_AUTH_MOD ."
 									AND u.user_id <> ".ANONYMOUS;
 
-			$select_sql .= ", ".GROUPS_TABLE." AS g, ".USER_GROUP_TABLE." AS ug, ".AUTH_ACCESS_TABLE." AS aa
+			$select_sql .= ", bb_groups AS g, bb_user_group AS ug, bb_auth_access AS aa
 								WHERE u.user_id = ug.user_id
 									AND ug.group_id = g.group_id
 									AND	g.group_id = aa.group_id
@@ -1023,7 +1023,7 @@ else
 					$text = $lang['Search_for_admins'];
 
 					$total_sql .= "SELECT COUNT(user_id) AS total
-									FROM ".USERS_TABLE."
+									FROM bb_users
 										WHERE user_level = ".ADMIN."
 											AND user_id <> ".ANONYMOUS;
 
@@ -1034,7 +1034,7 @@ else
 					$text = $lang['Search_for_mods'];
 
 					$total_sql .= "SELECT COUNT(user_id) AS total
-									FROM ".USERS_TABLE."
+									FROM bb_users
 										WHERE user_level = ".MOD."
 											AND user_id <> ".ANONYMOUS;
 
@@ -1045,11 +1045,11 @@ else
 					$text = $lang['Search_for_banned'];
 
 					$total_sql .= "SELECT COUNT(u.user_id) AS total
-									FROM ".USERS_TABLE." AS u, ".BANLIST_TABLE." AS b
+									FROM bb_users AS u, bb_banlist AS b
 										WHERE u.user_id = b.ban_userid
 											AND u.user_id <> ".ANONYMOUS;
 
-					$select_sql .= ", ".BANLIST_TABLE." AS b
+					$select_sql .= ", bb_banlist AS b
 										WHERE u.user_id = b.ban_userid
 											AND u.user_id <> ".ANONYMOUS;
 
@@ -1058,7 +1058,7 @@ else
 					$text = $lang['Search_for_disabled'];
 
 					$total_sql .= "SELECT COUNT(user_id) AS total
-									FROM ".USERS_TABLE."
+									FROM bb_users
 										WHERE user_active = 0
 											AND user_id <> ".ANONYMOUS;
 
@@ -1070,7 +1070,7 @@ else
 					$text = $lang['Search_for_disabled_pms'];
 
 					$total_sql .= "SELECT COUNT(user_id) AS total
-									FROM ".USERS_TABLE."
+									FROM bb_users
 										WHERE user_allow_pm = 0
 											AND user_id <> ".ANONYMOUS;
 
@@ -1228,7 +1228,7 @@ else
 	}
 
 	$sql = "SELECT ban_userid AS user_id
-				FROM ".BANLIST_TABLE."
+				FROM bb_banlist
 					WHERE ban_userid IN ($users_sql)";
 
 	if(!$result = $db->sql_query($sql))

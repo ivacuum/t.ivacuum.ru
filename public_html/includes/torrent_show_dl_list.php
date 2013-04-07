@@ -43,13 +43,13 @@ if ($show_dl_list)
 	if ($count_mode)
 	{
 		$sql = "SELECT dl_status AS user_status, users_count AS username
-			FROM ". BT_DLSTATUS_SNAP_TABLE ."
+			FROM bb_bt_dlstatus_snap
 			WHERE topic_id = $topic_id";
 	}
 	else
 	{
 		$sql = "SELECT d.user_status, d.user_id, DATE_FORMAT(d.last_modified_dlstatus, '%Y-%m-%d') AS last_modified_dlstatus, u.username
-			FROM ". BT_DLSTATUS_TABLE ." d, ". USERS_TABLE ." u
+			FROM bb_bt_dlstatus_main d, bb_users u
 			WHERE d.topic_id = $topic_id
 				AND d.user_id = u.user_id
 				AND d.user_status != ". DL_STATUS_RELEASER ."

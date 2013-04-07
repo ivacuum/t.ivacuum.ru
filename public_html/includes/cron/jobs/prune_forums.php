@@ -9,7 +9,7 @@ require_once(SITE_DIR . 'includes/functions_admin.php');
 
 if ($bb_cfg['prune_enable'])
 {
-	$sql = "SELECT forum_id, prune_days FROM ". FORUMS_TABLE ." WHERE prune_days != 0";
+	$sql = "SELECT forum_id, prune_days FROM bb_forums WHERE prune_days != 0";
 
 	foreach ($db->fetch_rowset($sql) as $row)
 	{

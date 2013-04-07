@@ -76,7 +76,7 @@ if( isset($_GET['import_pack']) || isset($_POST['import_pack']) )
 		if( !empty($clear_current)  )
 		{
 			$sql = "DELETE
-				FROM " . SMILIES_TABLE;
+				FROM bb_smilies";
 			if( !$result = $db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, "Couldn't delete current smilies", "", __LINE__, __FILE__, $sql);
@@ -85,7 +85,7 @@ if( isset($_GET['import_pack']) || isset($_POST['import_pack']) )
 		else
 		{
 			$sql = "SELECT code
-				FROM ". SMILIES_TABLE;
+				FROM bb_smilies";
 			if( !$result = $db->sql_query($sql) )
 			{
 				message_die(GENERAL_ERROR, "Couldn't get current smilies", "", __LINE__, __FILE__, $sql);
@@ -124,7 +124,7 @@ if( isset($_GET['import_pack']) || isset($_POST['import_pack']) )
 				{
 					if( !empty($replace_existing) )
 					{
-						$sql = "UPDATE " . SMILIES_TABLE . "
+						$sql = "UPDATE bb_smilies
 							SET smile_url = '" . str_replace("\'", "''", $smile_data[0]) . "', emoticon = '" . str_replace("\'", "''", $smile_data[1]) . "'
 							WHERE code = '" . str_replace("\'", "''", $smile_data[$j]) . "'";
 					}
@@ -135,7 +135,7 @@ if( isset($_GET['import_pack']) || isset($_POST['import_pack']) )
 				}
 				else
 				{
-					$sql = "INSERT INTO " . SMILIES_TABLE . " (code, smile_url, emoticon)
+					$sql = "INSERT INTO bb_smilies (code, smile_url, emoticon)
 						VALUES('" . str_replace("\'", "''", $smile_data[$j]) . "', '" . str_replace("\'", "''", $smile_data[0]) . "', '" . str_replace("\'", "''", $smile_data[1]) . "')";
 				}
 
@@ -199,7 +199,7 @@ else if( isset($_POST['export_pack']) || isset($_GET['export_pack']) )
 	if ( $_GET['export_pack'] == "send" )
 	{
 		$sql = "SELECT *
-			FROM " . SMILIES_TABLE;
+			FROM bb_smilies";
 		if( !$result = $db->sql_query($sql) )
 		{
 			message_die(GENERAL_ERROR, "Could not get smiley list", "", __LINE__, __FILE__, $sql);
@@ -271,7 +271,7 @@ else if ( $mode != "" )
 			$smiley_id = ( !empty($_POST['id']) ) ? $_POST['id'] : $_GET['id'];
 			$smiley_id = intval($smiley_id);
 
-			$sql = "DELETE FROM " . SMILIES_TABLE . "
+			$sql = "DELETE FROM bb_smilies
 				WHERE smilies_id = " . $smiley_id;
 			$result = $db->sql_query($sql);
 			if( !$result )
@@ -293,7 +293,7 @@ else if ( $mode != "" )
 			$smiley_id = intval($smiley_id);
 
 			$sql = "SELECT *
-				FROM " . SMILIES_TABLE . "
+				FROM bb_smilies
 				WHERE smilies_id = " . $smiley_id;
 			$result = $db->sql_query($sql);
 			if( !$result )
@@ -373,7 +373,7 @@ else if ( $mode != "" )
 			//
 			// Proceed with updating the smiley table.
 			//
-			$sql = "UPDATE " . SMILIES_TABLE . "
+			$sql = "UPDATE bb_smilies
 				SET code = '" . str_replace("\'", "''", $smile_code) . "', smile_url = '" . str_replace("\'", "''", $smile_url) . "', emoticon = '" . str_replace("\'", "''", $smile_emotion) . "'
 				WHERE smilies_id = $smile_id";
 			if( !($result = $db->sql_query($sql)) )
@@ -418,7 +418,7 @@ else if ( $mode != "" )
 			//
 			// Save the data to the smiley table.
 			//
-			$sql = "INSERT INTO " . SMILIES_TABLE . " (code, smile_url, emoticon)
+			$sql = "INSERT INTO bb_smilies (code, smile_url, emoticon)
 				VALUES ('" . str_replace("\'", "''", $smile_code) . "', '" . str_replace("\'", "''", $smile_url) . "', '" . str_replace("\'", "''", $smile_emotion) . "')";
 			$result = $db->sql_query($sql);
 			if( !$result )
@@ -440,7 +440,7 @@ else
 	// any options.
 	//
 	$sql = "SELECT *
-		FROM " . SMILIES_TABLE;
+		FROM bb_smilies";
 	$result = $db->sql_query($sql);
 	if( !$result )
 	{

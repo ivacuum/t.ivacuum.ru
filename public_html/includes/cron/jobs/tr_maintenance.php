@@ -17,7 +17,7 @@ $limit_sql = 3000;
 $topics_sql = $attach_sql = array();
 
 $sql = "SELECT topic_id, attach_id
-	FROM ". BT_TORRENTS_TABLE ."
+	FROM bb_bt_torrents
 	WHERE reg_time < $never_seen_time
 		AND seeder_last_seen < $last_seen_time
 	LIMIT $limit_sql";
@@ -35,24 +35,17 @@ if ($dead_tor_sql && $attach_sql)
 /*
 	// Update topic type
 	$db->query("
-		UPDATE ". TOPICS_TABLE ." SET
+		UPDATE bb_topics SET
 			topic_dl_type = ". TOPIC_DL_TYPE_NORMAL ."
 		WHERE topic_id IN($dead_tor_sql)
 	");
 */
-	// Delete torstat
-	/*
-	$db->query("
-		DELETE FROM ". BT_TORSTAT_TABLE ."
-		WHERE topic_id IN($dead_tor_sql)
-	");
-	*/
 
 	// Update attach
 	$db->query("
 		UPDATE
 			bb_attachments_desc a,
-			". BT_TORRENTS_TABLE ." tor
+			bb_bt_torrents tor
 		SET
 			a.tracker_status = 0,
 			a.download_count = tor.complete_count
@@ -61,15 +54,15 @@ if ($dead_tor_sql && $attach_sql)
 			AND tor.attach_id IN($attach_sql)
 	");
 
-	$sql = "INSERT INTO " . BT_TORRENTS_TABLE . "_del (topic_id, info_hash)
+	$sql = "INSERT INTO bb_bt_torrents_del (topic_id, info_hash)
 		SELECT topic_id, info_hash
-		FROM " . BT_TORRENTS_TABLE . "
+		FROM bb_bt_torrents
 		WHERE topic_id IN(" . $dead_tor_sql . ") ON DUPLICATE KEY UPDATE is_del=1";
 	$db->query($sql);
 
 	// Remove torrents
 	$db->query("
-		DELETE FROM ". BT_TORRENTS_TABLE ."
+		DELETE FROM bb_bt_torrents
 		WHERE topic_id IN($dead_tor_sql)
 	");
 }

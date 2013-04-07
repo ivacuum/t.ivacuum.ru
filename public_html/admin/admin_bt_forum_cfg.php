@@ -66,19 +66,19 @@ $db_fields_bool = array(
 );
 
 // Get config
-$cfg = bb_get_config(CONFIG_TABLE, true, false);
+$cfg = bb_get_config('bb_config', true, false);
 
 // Submit new config
 if ($submit && $confirm)
 {
 	foreach ($db_fields_bool as $field_name => $field_def_val)
 	{
-		update_table_bool(FORUMS_TABLE, 'forum_id', $field_name, $field_def_val);
+		update_table_bool('bb_forums', 'forum_id', $field_name, $field_def_val);
 	}
 
-	update_config_table(CONFIG_TABLE, $default_cfg_str,  $cfg, 'str');
-	update_config_table(CONFIG_TABLE, $default_cfg_bool, $cfg, 'bool');
-	update_config_table(CONFIG_TABLE, $default_cfg_num,  $cfg, 'num');
+	update_config_table('bb_config', $default_cfg_str,  $cfg, 'str');
+	update_config_table('bb_config', $default_cfg_bool, $cfg, 'bool');
+	update_config_table('bb_config', $default_cfg_num,  $cfg, 'num');
 
 	$datastore->update('cat_forums');
 
@@ -100,7 +100,7 @@ set_tpl_vars_lang ($db_fields_bool);
 
 // Get Forums list
 $sql = "SELECT f.*
-	FROM ". CATEGORIES_TABLE ." c, ". FORUMS_TABLE ." f
+	FROM bb_categories c, bb_forums f
 	WHERE f.cat_id = c.cat_id
 	ORDER BY c.cat_order, f.forum_order";
 

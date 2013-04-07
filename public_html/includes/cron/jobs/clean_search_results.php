@@ -8,7 +8,7 @@ if (!defined('SITE_DIR'))
 $search_results_expire = TIMENOW - ($bb_cfg['user_session_duration'] * 2) - 600;
 
 $db->query("
-	DELETE FROM ". SEARCH_TABLE ."
+	DELETE FROM bb_search_results
 	WHERE search_time < $search_results_expire
 ");
 

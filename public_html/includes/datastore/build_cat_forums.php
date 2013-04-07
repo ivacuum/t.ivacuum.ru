@@ -24,7 +24,7 @@ $data = array(
 	'f' => array(),                // also has $data['f']['forum_id']['subforums'] key
 );
 
-// Store only these fields from FORUMS_TABLE in $data['f']
+// Store only these fields from bb_forums in $data['f']
 $forum_store_fields = array_flip(array_keys($bf['forum_perm']));
 $forum_store_fields += array_flip(array(
   'forum_id',
@@ -38,7 +38,7 @@ $forum_store_fields += array_flip(array(
 ));
 
 // Categories
-$sql = "SELECT * FROM ". CATEGORIES_TABLE ." ORDER BY cat_order";
+$sql = "SELECT * FROM bb_categories ORDER BY cat_order";
 
 foreach($db->fetch_rowset($sql) as $row)
 {
@@ -48,7 +48,7 @@ foreach($db->fetch_rowset($sql) as $row)
 
 $sql = "
 	SELECT f.*
-	FROM ". FORUMS_TABLE ." f, ". CATEGORIES_TABLE ." c
+	FROM bb_forums f, bb_categories c
 	WHERE f.cat_id = c.cat_id
 	ORDER BY c.cat_order, f.forum_order
 ";
@@ -135,7 +135,7 @@ if ($bb_cfg['show_latest_news'] AND $news_forum_id = intval($bb_cfg['latest_news
 
 	$data = $db->fetch_rowset("
 		SELECT topic_id, topic_time, topic_title
-		FROM ". TOPICS_TABLE ."
+		FROM bb_topics
 		WHERE forum_id = $news_forum_id
 		ORDER BY topic_time DESC
 		LIMIT $news_count
@@ -162,10 +162,10 @@ if( $bb_cfg['t_last_added_num'] )
 			u.username,
 			u.user_id
 		FROM
-			' . BT_TORRENTS_TABLE . ' tr,
-			' . TOPICS_TABLE . ' t,
-			' . FORUMS_TABLE . ' f,
-			' . USERS_TABLE . ' u
+			bb_bt_torrents tr,
+			bb_topics t,
+			bb_forums f,
+			bb_users u
 		WHERE
 			tr.forum_id = f.forum_id
 		AND
@@ -185,11 +185,11 @@ if( $bb_cfg['t_last_added_num'] )
 }
 /*
 		LEFT JOIN
-			' . TOPICS_TABLE . ' t ON tr.topic_id = t.topic_id
+			bb_topics t ON tr.topic_id = t.topic_id
 		LEFT JOIN
-			' . FORUMS_TABLE . ' f ON tr.forum_id NOT IN (' . $bb_cfg['archive_hide_forum'] . ',' . $bb_cfg['hide_forums'] . ') AND tr.forum_id = f.forum_id
+			bb_forums f ON tr.forum_id NOT IN (' . $bb_cfg['archive_hide_forum'] . ',' . $bb_cfg['hide_forums'] . ') AND tr.forum_id = f.forum_id
 		LEFT JOIN
-			' . USERS_TABLE . ' u ON tr.poster_id = u.user_id
+			bb_users u ON tr.poster_id = u.user_id
 */
 // Store TopDownloaded
 if( $bb_cfg['t_top_downloaded'] )
@@ -205,13 +205,13 @@ if( $bb_cfg['t_top_downloaded'] )
 			u.username,
 			u.user_id
 		FROM
-			' . BT_TORRENTS_TABLE . ' tr
+			bb_bt_torrents tr
 		LEFT JOIN
-			' . TOPICS_TABLE . ' t ON tr.topic_id = t.topic_id
+			bb_topics t ON tr.topic_id = t.topic_id
 		LEFT JOIN
-			' . FORUMS_TABLE . ' f ON tr.forum_id = f.forum_id
+			bb_forums f ON tr.forum_id = f.forum_id
 		LEFT JOIN
-			' . USERS_TABLE . ' u ON tr.poster_id = u.user_id
+			bb_users u ON tr.poster_id = u.user_id
 		ORDER BY
 			tr.complete_count DESC
 		LIMIT
@@ -228,9 +228,9 @@ if( $bb_cfg['t_top_leechers'] )
 			u.username,
 			SUM(t.u_down_total) as sum
 		FROM
-			' . BT_USERS_TABLE . ' t
+			bb_bt_users t
 		LEFT JOIN
-			' . USERS_TABLE . ' u ON (t.user_id = u.user_id)
+			bb_users u ON (t.user_id = u.user_id)
 		GROUP BY
 			t.user_id
 		ORDER BY
@@ -249,9 +249,9 @@ if( $bb_cfg['t_top_seeders'] )
 			u.username,
 			SUM(t.u_up_total) as sum
 		FROM
-			' . BT_USERS_TABLE . ' t
+			bb_bt_users t
 		LEFT JOIN
-			' . USERS_TABLE . ' u ON (t.user_id = u.user_id)
+			bb_users u ON (t.user_id = u.user_id)
 		GROUP BY
 			t.user_id
 		ORDER BY
@@ -273,8 +273,8 @@ if( $bb_cfg['t_top_releasers'] )
 			SUM(t.size) AS total_size,
 			u.username
 		FROM
-			' . BT_TORRENTS_TABLE . ' t,
-			' . USERS_TABLE . ' u
+			bb_bt_torrents t,
+			bb_users u
 		WHERE
 			t.poster_id = u.user_id
 		GROUP BY
@@ -298,9 +298,9 @@ if( $bb_cfg['t_top_share'] )
 			SUM(t.size) AS total_size,
 			u.username
 		FROM
-			' . BT_TRACKER_TABLE . ' tr,
-			' . BT_TORRENTS_TABLE . ' t,
-			' . USERS_TABLE . ' u
+			bb_bt_tracker tr,
+			bb_bt_torrents t,
+			bb_users u
 		WHERE
 			tr.topic_id = t.topic_id
 		AND

@@ -102,7 +102,7 @@ class attach_parent
 			{
 				// Get Group Quota, if we find one, we have our quota
 				$sql = 'SELECT u.group_id
-					FROM ' . USER_GROUP_TABLE . ' u, ' . GROUPS_TABLE . ' g
+					FROM bb_user_group u, bb_groups g
 					WHERE g.group_single_user = 0
 						AND u.user_pending = 0
 						AND u.group_id = g.group_id
@@ -127,7 +127,7 @@ class attach_parent
 					}
 
 					$sql = 'SELECT l.quota_limit
-						FROM ' . QUOTA_TABLE . ' q, ' . QUOTA_LIMITS_TABLE . ' l
+						FROM bb_attach_quota q, bb_quota_limits l
 						WHERE q.group_id IN (' . implode(', ', $group_id) . ')
 							AND q.group_id <> 0
 							AND q.quota_type = ' . $quota_type . '
@@ -154,7 +154,7 @@ class attach_parent
 			{
 				// Get User Quota, if the user is not in a group or the group has no quotas
 				$sql = 'SELECT l.quota_limit
-					FROM ' . QUOTA_TABLE . ' q, ' . QUOTA_LIMITS_TABLE . ' l
+					FROM bb_attach_quota q, bb_quota_limits l
 					WHERE q.user_id = ' . $user_id . '
 						AND q.user_id <> 0
 						AND q.quota_type = ' . $quota_type . '
@@ -188,7 +188,7 @@ class attach_parent
 			else
 			{
 				$sql = 'SELECT quota_limit
-					FROM ' . QUOTA_LIMITS_TABLE . '
+					FROM bb_quota_limits
 					WHERE quota_limit_id = ' . (int) $quota_id . '
 					LIMIT 1';
 
@@ -899,8 +899,8 @@ class attach_parent
 			$this->filesize = @filesize($file);
 			$this->filesize = intval($this->filesize);
 
-			$sql = 'SELECT g.allow_group, g.max_filesize, g.cat_id, g.forum_permissions
-				FROM ' . EXTENSION_GROUPS_TABLE . ' g, ' . EXTENSIONS_TABLE . " e
+			$sql = "SELECT g.allow_group, g.max_filesize, g.cat_id, g.forum_permissions
+				FROM bb_extension_groups g, bb_extensions e
 				WHERE g.group_id = e.group_id
 					AND e.extension = '" . attach_mod_sql_escape($this->extension) . "'
 				LIMIT 1";
@@ -1368,7 +1368,7 @@ class attach_posting extends attach_parent
 
 			if ((sizeof($this->attachment_list) > 0 || $this->post_attach) && !isset($_POST['update_attachment']))
 			{
-				$sql = 'UPDATE ' . POSTS_TABLE . '
+				$sql = 'UPDATE bb_posts
 					SET post_attachment = 1
 					WHERE post_id = ' . (int) $post_id;
 
@@ -1378,7 +1378,7 @@ class attach_posting extends attach_parent
 				}
 
 				$sql = 'SELECT topic_id
-					FROM ' . POSTS_TABLE . '
+					FROM bb_posts
 					WHERE post_id = ' . (int) $post_id;
 
 				if (!($result = $db->sql_query($sql)))
@@ -1389,7 +1389,7 @@ class attach_posting extends attach_parent
 				$row = $db->sql_fetchrow($result);
 				$db->sql_freeresult($result);
 
-				$sql = 'UPDATE ' . TOPICS_TABLE . '
+				$sql = 'UPDATE bb_topics
 					SET topic_attachment = 1
 					WHERE topic_id = ' . (int) $row['topic_id'];
 

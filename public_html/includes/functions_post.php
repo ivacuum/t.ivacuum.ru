@@ -146,7 +146,7 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 
 	if ($mode == 'newtopic' || $mode == 'reply')
 	{
-		$sql = "SELECT MAX(p.post_time) AS last_post_time FROM ". POSTS_TABLE ." p WHERE $where_sql";
+		$sql = "SELECT MAX(p.post_time) AS last_post_time FROM bb_posts p WHERE $where_sql";
 
 		if ($row = $db->fetch_row($sql) AND $row['last_post_time'])
 		{
@@ -165,7 +165,7 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 	{
 		$sql = "
 			SELECT pt.post_text, pt.bbcode_uid
-			FROM ". POSTS_TABLE ." p, ". POSTS_TEXT_TABLE ." pt
+			FROM bb_posts p, bb_posts_text pt
 			WHERE
 					$where_sql
 				AND p.post_time = ". (int) $row['last_post_time'] ."
@@ -191,7 +191,7 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 
 		$topic_dl_type = (isset($_POST['topic_dl_type']) && ($post_info['allow_reg_tracker'] || $post_info['allow_dl_topic'] || $is_auth['auth_mod'])) ? TOPIC_DL_TYPE_DL : TOPIC_DL_TYPE_NORMAL;
 
-		$sql  = ($mode != "editpost") ? "INSERT INTO " . TOPICS_TABLE . " (topic_title, topic_poster, topic_time, forum_id, topic_status, topic_type, topic_dl_type, topic_vote) VALUES (" . $db->check_value($post_subject) . ", " . $userdata['user_id'] . ", $current_time, $forum_id, " . TOPIC_UNLOCKED . ", $topic_type, $topic_dl_type, $topic_vote)" : "UPDATE " . TOPICS_TABLE . " SET topic_title = " . $db->check_value($post_subject) . ", topic_type = $topic_type, topic_dl_type = $topic_dl_type " . ((@$post_data['edit_vote'] || !empty($poll_title)) ? ", topic_vote = " . $topic_vote : "") . " WHERE topic_id = $topic_id";
+		$sql  = ($mode != "editpost") ? "INSERT INTO bb_topics (topic_title, topic_poster, topic_time, forum_id, topic_status, topic_type, topic_dl_type, topic_vote) VALUES (" . $db->check_value($post_subject) . ", " . $userdata['user_id'] . ", $current_time, $forum_id, " . TOPIC_UNLOCKED . ", $topic_type, $topic_dl_type, $topic_vote)" : "UPDATE bb_topics SET topic_title = " . $db->check_value($post_subject) . ", topic_type = $topic_type, topic_dl_type = $topic_dl_type " . ((@$post_data['edit_vote'] || !empty($poll_title)) ? ", topic_vote = " . $topic_vote : "") . " WHERE topic_id = $topic_id";
 
 		if (!$db->sql_query($sql))
 		{
@@ -211,14 +211,14 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 		$edited_sql .= ", post_time = $current_time ";
 		//lpt
 		$result = $db->sql_query("
-			UPDATE ". TOPICS_TABLE ." SET
+			UPDATE bb_topics SET
 				topic_last_post_time = $current_time
 			WHERE topic_id = $topic_id
 			LIMIT 1
 		");
 	}
 
-	$sql = ($mode != "editpost") ? "INSERT INTO " . POSTS_TABLE . " (topic_id, forum_id, poster_id, post_username, post_time, poster_ip, enable_bbcode, enable_smilies, enable_sig) VALUES ($topic_id, $forum_id, " . $userdata['user_id'] . ", '$post_username', $current_time, '". USER_IP ."', $bbcode_on, $smilies_on, $attach_sig)" : "UPDATE " . POSTS_TABLE . " SET post_username = '$post_username', enable_bbcode = $bbcode_on, enable_smilies = $smilies_on, enable_sig = $attach_sig" . $edited_sql . " WHERE post_id = $post_id";
+	$sql = ($mode != "editpost") ? "INSERT INTO bb_posts (topic_id, forum_id, poster_id, post_username, post_time, poster_ip, enable_bbcode, enable_smilies, enable_sig) VALUES ($topic_id, $forum_id, " . $userdata['user_id'] . ", '$post_username', $current_time, '". USER_IP ."', $bbcode_on, $smilies_on, $attach_sig)" : "UPDATE bb_posts SET post_username = '$post_username', enable_bbcode = $bbcode_on, enable_smilies = $smilies_on, enable_sig = $attach_sig" . $edited_sql . " WHERE post_id = $post_id";
 	if (!$db->sql_query($sql))
 	{
 		message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
@@ -229,7 +229,7 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 		$post_id = $db->sql_nextid();
 	}
 
-	$sql = ($mode != 'editpost') ? "INSERT INTO " . POSTS_TEXT_TABLE . " (post_id, post_subject, bbcode_uid, post_text) VALUES ($post_id, " . $db->check_value($post_subject) . ", '$bbcode_uid', " . $db->check_value($post_message) . ")" : "UPDATE " . POSTS_TEXT_TABLE . " SET post_text = " . $db->check_value($post_message) . ", bbcode_uid = '$bbcode_uid', post_subject = " . $db->check_value($post_subject) . " WHERE post_id = $post_id";
+	$sql = ($mode != 'editpost') ? "INSERT INTO bb_posts_text (post_id, post_subject, bbcode_uid, post_text) VALUES ($post_id, " . $db->check_value($post_subject) . ", '$bbcode_uid', " . $db->check_value($post_message) . ")" : "UPDATE bb_posts_text SET post_text = " . $db->check_value($post_message) . ", bbcode_uid = '$bbcode_uid', post_subject = " . $db->check_value($post_subject) . " WHERE post_id = $post_id";
 	if (!$db->sql_query($sql))
 	{
 		message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
@@ -253,7 +253,7 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 	//
 	if (($mode == 'newtopic' || ($mode == 'editpost' && $post_data['edit_poll'])) && !empty($poll_title) && count($poll_options) >= 2)
 	{
-		$sql = (!$post_data['has_poll']) ? "INSERT INTO " . VOTE_DESC_TABLE . " (topic_id, vote_text, vote_start, vote_length) VALUES ($topic_id, '$poll_title', $current_time, " . ($poll_length * 86400) . ")" : "UPDATE " . VOTE_DESC_TABLE . " SET vote_text = '$poll_title', vote_length = " . ($poll_length * 86400) . " WHERE topic_id = $topic_id";
+		$sql = (!$post_data['has_poll']) ? "INSERT INTO bb_vote_desc (topic_id, vote_text, vote_start, vote_length) VALUES ($topic_id, '$poll_title', $current_time, " . ($poll_length * 86400) . ")" : "UPDATE bb_vote_desc SET vote_text = '$poll_title', vote_length = " . ($poll_length * 86400) . " WHERE topic_id = $topic_id";
 		if (!$db->sql_query($sql))
 		{
 			message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
@@ -264,7 +264,7 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 		if ($mode == 'editpost' && $post_data['has_poll'])
 		{
 			$sql = "SELECT vote_option_id, vote_result
-				FROM " . VOTE_RESULTS_TABLE . "
+				FROM bb_vote_results
 				WHERE vote_id = $poll_id
 				ORDER BY vote_option_id ASC";
 			if (!($result = $db->sql_query($sql)))
@@ -297,7 +297,7 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 				$option_text = str_replace("\'", "''", htmlspecialchars($option_text));
 				$poll_result = ($mode == "editpost" && isset($old_poll_result[$option_id])) ? $old_poll_result[$option_id] : 0;
 
-				$sql = ($mode != "editpost" || !isset($old_poll_result[$option_id])) ? "INSERT INTO " . VOTE_RESULTS_TABLE . " (vote_id, vote_option_id, vote_option_text, vote_result) VALUES ($poll_id, $poll_option_id, '$option_text', $poll_result)" : "UPDATE " . VOTE_RESULTS_TABLE . " SET vote_option_text = '$option_text', vote_result = $poll_result WHERE vote_option_id = $option_id AND vote_id = $poll_id";
+				$sql = ($mode != "editpost" || !isset($old_poll_result[$option_id])) ? "INSERT INTO bb_vote_results (vote_id, vote_option_id, vote_option_text, vote_result) VALUES ($poll_id, $poll_option_id, '$option_text', $poll_result)" : "UPDATE bb_vote_results SET vote_option_text = '$option_text', vote_result = $poll_result WHERE vote_option_id = $option_id AND vote_id = $poll_id";
 				if (!$db->sql_query($sql))
 				{
 					message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
@@ -308,7 +308,7 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 
 		if ($delete_option_sql != '')
 		{
-			$sql = "DELETE FROM " . VOTE_RESULTS_TABLE . "
+			$sql = "DELETE FROM bb_vote_results
 				WHERE vote_option_id IN ($delete_option_sql)
 					AND vote_id = $poll_id";
 			if (!$db->sql_query($sql))
@@ -348,7 +348,7 @@ function update_post_stats($mode, $post_data, $forum_id, $topic_id, $post_id, $u
 				$topic_update_sql .= 'topic_replies = topic_replies - 1';
 
 				$sql = "SELECT MAX(post_id) AS last_post_id, MAX(post_time) AS topic_last_post_time
-					FROM " . POSTS_TABLE . "
+					FROM bb_posts
 					WHERE topic_id = $topic_id";
 				if (!($result = $db->sql_query($sql)))
 				{
@@ -364,7 +364,7 @@ function update_post_stats($mode, $post_data, $forum_id, $topic_id, $post_id, $u
 			if ($post_data['last_topic'])
 			{
 				$sql = "SELECT MAX(post_id) AS last_post_id
-					FROM " . POSTS_TABLE . "
+					FROM bb_posts
 					WHERE forum_id = $forum_id";
 				if (!($result = $db->sql_query($sql)))
 				{
@@ -380,7 +380,7 @@ function update_post_stats($mode, $post_data, $forum_id, $topic_id, $post_id, $u
 		else if ($post_data['first_post'])
 		{
 			$sql = "SELECT MIN(post_id) AS first_post_id
-				FROM " . POSTS_TABLE . "
+				FROM bb_posts
 				WHERE topic_id = $topic_id";
 			if (!($result = $db->sql_query($sql)))
 			{
@@ -407,7 +407,7 @@ function update_post_stats($mode, $post_data, $forum_id, $topic_id, $post_id, $u
 		$topic_update_sql .= 'topic_vote = 0';
 	}
 
-	$sql = "UPDATE " . FORUMS_TABLE . " SET
+	$sql = "UPDATE bb_forums SET
 		$forum_update_sql
 		WHERE forum_id = $forum_id";
 	if (!$db->sql_query($sql))
@@ -417,7 +417,7 @@ function update_post_stats($mode, $post_data, $forum_id, $topic_id, $post_id, $u
 
 	if ($topic_update_sql != '')
 	{
-		$sql = "UPDATE " . TOPICS_TABLE . " SET
+		$sql = "UPDATE bb_topics SET
 			$topic_update_sql
 			WHERE topic_id = $topic_id";
 		if (!$db->sql_query($sql))
@@ -428,7 +428,7 @@ function update_post_stats($mode, $post_data, $forum_id, $topic_id, $post_id, $u
 
 	if ($mode != 'poll_delete')
 	{
-		$sql = "UPDATE " . USERS_TABLE . "
+		$sql = "UPDATE bb_users
 			SET user_posts = user_posts $sign
 			WHERE user_id = $user_id";
 		if (!$db->sql_query($sql))
@@ -486,7 +486,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
 		if ($mode == 'reply')
 		{
 			$sql = "SELECT ban_userid
-				FROM " . BANLIST_TABLE;
+				FROM bb_banlist";
 			if (!($result = $db->sql_query($sql)))
 			{
 				message_die(GENERAL_ERROR, 'Could not obtain banlist', '', __LINE__, __FILE__, $sql);
@@ -502,7 +502,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
 			}
 
 			$sql = "SELECT u.user_id, u.user_email, u.user_lang
-				FROM " . TOPICS_WATCH_TABLE . " tw, " . USERS_TABLE . " u
+				FROM bb_topics_watch tw, bb_users u
 				WHERE tw.topic_id = $topic_id
 					AND tw.user_id NOT IN (" . $userdata['user_id'] . ", " . ANONYMOUS . $user_id_sql . ")
 					AND tw.notify_status = " . TOPIC_WATCH_UN_NOTIFIED . "
@@ -603,7 +603,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
 
 			if ($update_watched_sql != '')
 			{
-				$sql = "UPDATE " . TOPICS_WATCH_TABLE . "
+				$sql = "UPDATE bb_topics_watch
 					SET notify_status = " . TOPIC_WATCH_NOTIFIED . "
 					WHERE topic_id = $topic_id
 						AND user_id IN ($update_watched_sql)";
@@ -612,7 +612,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
 		}
 
 		$sql = "SELECT topic_id
-			FROM " . TOPICS_WATCH_TABLE . "
+			FROM bb_topics_watch
 			WHERE topic_id = $topic_id
 				AND user_id = " . $userdata['user_id'];
 		if (!($result = $db->sql_query($sql)))
@@ -624,7 +624,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
 
 		if (!$notify_user && !empty($row['topic_id']))
 		{
-			$sql = "DELETE FROM " . TOPICS_WATCH_TABLE . "
+			$sql = "DELETE FROM bb_topics_watch
 				WHERE topic_id = $topic_id
 					AND user_id = " . $userdata['user_id'];
 			if (!$db->sql_query($sql))
@@ -634,7 +634,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
 		}
 		else if ($notify_user && empty($row['topic_id']))
 		{
-			$sql = "INSERT INTO " . TOPICS_WATCH_TABLE . " (user_id, topic_id, notify_status)
+			$sql = "INSERT INTO bb_topics_watch (user_id, topic_id, notify_status)
 				VALUES (" . $userdata['user_id'] . ", $topic_id, 0)";
 			if (!$db->sql_query($sql))
 			{
@@ -663,7 +663,7 @@ function generate_smilies($mode)
 	}
 
 	$sql = "SELECT SQL_CACHE emoticon, code, smile_url
-		FROM " . SMILIES_TABLE . "
+		FROM bb_smilies
 		ORDER BY smilies_id";
 	if ($result = $db->sql_query($sql))
 	{
@@ -774,7 +774,7 @@ function insert_post($mode, $topic_id, $forum_id = '', $old_forum_id = '', $new_
 		if (!$forum_id || !$old_forum_id) return;
 
 		$sql = "SELECT forum_id, forum_name
-			FROM ". FORUMS_TABLE ."
+			FROM bb_forums
 			WHERE forum_id IN($forum_id, $old_forum_id)";
 
 		$forum_names = array();
@@ -808,7 +808,7 @@ function insert_post($mode, $topic_id, $forum_id = '', $old_forum_id = '', $new_
 	else if ($mode == 'after_split_to_new')
 	{
 		$sql = "SELECT t.topic_title, p.post_time
-			FROM ". TOPICS_TABLE ." t, ". POSTS_TABLE ." p
+			FROM bb_topics t, bb_posts p
 			WHERE t.topic_id = $old_topic_id
 				AND p.post_id = t.topic_first_post_id";
 
@@ -835,7 +835,7 @@ function insert_post($mode, $topic_id, $forum_id = '', $old_forum_id = '', $new_
 	$post_columns = 'topic_id,  forum_id,  poster_id,   post_username,   post_time,   poster_ip,   enable_bbcode,  enable_smilies,  enable_sig';
 	$post_values = "$topic_id, $forum_id, $poster_id, '$post_username', $post_time, '$poster_ip', $enable_bbcode, $enable_smilies, $enable_sig";
 
-	$db->query("INSERT INTO ". POSTS_TABLE ." ($post_columns) VALUES ($post_values)");
+	$db->query("INSERT INTO bb_posts ($post_columns) VALUES ($post_values)");
 
 	$post_id = $db->sql_nextid();
 	$post_text = $db->escape($post_text);
@@ -843,7 +843,7 @@ function insert_post($mode, $topic_id, $forum_id = '', $old_forum_id = '', $new_
 	$post_text_columns = 'post_id,   post_subject,    bbcode_uid,    post_text';
 	$post_text_values = "$post_id, '$post_subject', '$bbcode_uid', '$post_text'";
 
-	$db->query("INSERT INTO ". POSTS_TEXT_TABLE ." ($post_text_columns) VALUES ($post_text_values)");
+	$db->query("INSERT INTO bb_posts_text ($post_text_columns) VALUES ($post_text_values)");
 }
 
 function topic_review ($topic_id)
@@ -857,9 +857,9 @@ function topic_review ($topic_id)
 			pt.post_text, pt.bbcode_uid,
 			IF(p.poster_id = ". ANONYMOUS .", p.post_username, u.username) AS username, u.user_id
 		FROM
-			". POSTS_TABLE      ." p,
-			". POSTS_TEXT_TABLE ." pt,
-			". USERS_TABLE      ." u
+			bb_posts p,
+			bb_posts_text pt,
+			bb_users u
 		WHERE
 			    p.topic_id = ". (int) $topic_id ."
 			AND pt.post_id = p.post_id

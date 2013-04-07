@@ -99,11 +99,11 @@ $sql = "
 		t.topic_id AS last_topic_id, t.topic_title AS last_topic_title,
 		u.user_id AS last_post_user_id,
 		IF(p.poster_id = $anon, p.post_username, u.username) AS last_post_username
-	FROM       ". CATEGORIES_TABLE ." c
-	INNER JOIN ". FORUMS_TABLE     ." f ON($forums_join_sql)
-$join_p_type ". POSTS_TABLE      ." p ON($posts_join_sql)
-$join_t_type ". TOPICS_TABLE     ." t ON($topics_join_sql)
-	 LEFT JOIN ". USERS_TABLE      ." u ON(u.user_id = p.poster_id)
+	FROM       bb_categories c
+	INNER JOIN bb_forums f ON($forums_join_sql)
+$join_p_type bb_posts p ON($posts_join_sql)
+$join_t_type bb_topics t ON($topics_join_sql)
+	 LEFT JOIN bb_users u ON(u.user_id = p.poster_id)
 	ORDER BY c.cat_order, f.forum_order
 ";
 $cat_forums = array();

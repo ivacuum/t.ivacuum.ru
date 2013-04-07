@@ -47,14 +47,13 @@ $title_match_sql = $title_match_q = $search_in_forums_csv = '';
 $tr_error = $poster_error = false;
 $row_num = $tor_count = 0;
 
-$torrents_tbl = BT_TORRENTS_TABLE     .' tor';
-$cat_tbl      = CATEGORIES_TABLE      .' c';
-$forums_tbl   = FORUMS_TABLE          .' f';
-$topics_tbl   = TOPICS_TABLE          .' t';
-$users_tbl    = USERS_TABLE           .' u';
-$tracker_tbl  = BT_TRACKER_TABLE      .' tr';
-$tr_snap_tbl  = BT_TRACKER_SNAP_TABLE .' sn';
-$dl_stat_tbl  = BT_DLSTATUS_TABLE     .' dl';
+$torrents_tbl = 'bb_bt_torrents tor';
+$cat_tbl      = 'bb_categories c';
+$forums_tbl   = 'bb_forums f';
+$topics_tbl   = 'bb_topics t';
+$users_tbl    = 'bb_users u';
+$tracker_tbl  = 'bb_bt_tracker tr';
+$dl_stat_tbl  = 'bb_bt_dlstatus_main dl';
 
 //
 // Search options
@@ -235,7 +234,7 @@ if( !IS_GUEST )
 			tor_search_set,
 			last_modified
 		FROM
-			' . BT_USER_SETTINGS_TABLE . '
+			bb_bt_user_settings
 		WHERE
 			user_id = ' . $user_id . '
 		LIMIT
@@ -247,7 +246,7 @@ if( !IS_GUEST )
 	// Touch "last_modified"
 	if( $bb_cfg['tr_settings_days_keep'] && ($row['last_modified'] + 86400) < TIMENOW )
 	{
-		$db->query("UPDATE ". BT_USER_SETTINGS_TABLE ." SET last_modified = ". TIMENOW ." WHERE user_id = $user_id LIMIT 1");
+		$db->query("UPDATE bb_bt_user_settings SET last_modified = ". TIMENOW ." WHERE user_id = $user_id LIMIT 1");
 	}
 	unset($row, $tmp);
 }
@@ -555,7 +554,7 @@ if ($allowed_forums)
 		$columns = 'user_id,  tor_search_set, last_modified';
 		$values = "$user_id, '$curr_set_sql', ". TIMENOW;
 
-		$db->query("REPLACE INTO ". BT_USER_SETTINGS_TABLE ." ($columns) VALUES ($values)");
+		$db->query("REPLACE INTO bb_bt_user_settings ($columns) VALUES ($values)");
 	}
 	unset($columns, $values, $curr_set, $previous_settings);
 
@@ -662,7 +661,7 @@ if ($allowed_forums)
 
 			if( $title_match_q && $userdata['user_id'] != 2 )
 			{
-				$sql = 'INSERT INTO ' . SEARCH_QUERIES_TABLE . ' (user_id, search_query, search_time, search_results) VALUES (' . $user_id . ', "' . $db->escape($title_match_q) . '", ' . time() . ', ' . $tor_count . ')';
+				$sql = 'INSERT INTO bb_search_queries (user_id, search_query, search_time, search_results) VALUES (' . $user_id . ', "' . $db->escape($title_match_q) . '", ' . time() . ', ' . $tor_count . ')';
 				$db->sql_query($sql);
 			}
 		}
@@ -692,12 +691,6 @@ if ($allowed_forums)
 			{
 				$SQL['INNER JOIN'][] = "$topics_tbl ON(t.topic_id = tor.topic_id)";
 			}
-			/*
-			if ($join_sn)
-			{
-				$SQL['LEFT JOIN'][] = "$tr_snap_tbl ON(sn.topic_id = tor.topic_id)";
-			}
-			*/
 			if ($join_dl)
 			{
 				$SQL['INNER JOIN'][] = "$dl_stat_tbl ON(
@@ -769,7 +762,7 @@ if ($allowed_forums)
 
 			if( $title_match_q )
 			{
-				$sql = 'INSERT INTO ' . SEARCH_QUERIES_TABLE . ' (user_id, search_query, search_time, search_results) VALUES (' . $user_id . ', "' . $db->escape($title_match_q) . '", ' . time() . ', ' . $tor_count . ')';
+				$sql = 'INSERT INTO bb_search_queries (user_id, search_query, search_time, search_results) VALUES (' . $user_id . ', "' . $db->escape($title_match_q) . '", ' . time() . ', ' . $tor_count . ')';
 				$db->sql_query($sql);
 			}
 		}
@@ -836,7 +829,6 @@ if ($allowed_forums)
 		$from .= (!IS_GUEST) ? "
 			LEFT JOIN $dl_stat_tbl ON(dl.topic_id = tor.topic_id AND dl.user_id = $user_id)
 		" : '';
-		// $from .= "LEFT JOIN $tr_snap_tbl ON(sn.topic_id = tor.topic_id)";
 
 		// WHERE
 		$where = "

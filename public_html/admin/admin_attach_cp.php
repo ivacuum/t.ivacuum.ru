@@ -291,7 +291,7 @@ if ($view == 'stats')
 
 	// number_of_topics
 	$row = $db->fetch_row("
-		SELECT COUNT(*) AS topics FROM ". TOPICS_TABLE ." WHERE topic_attachment = 1
+		SELECT COUNT(*) AS topics FROM bb_topics WHERE topic_attachment = 1
 	");
 	$number_of_topics = $row['topics'];
 
@@ -331,7 +331,7 @@ if ($view == 'search')
 	// Get Forums and Categories
 	//sf - add [, f.forum_parent]
 	$sql = "SELECT c.cat_title, c.cat_id, f.forum_name, f.forum_id, f.forum_parent
-	FROM " . CATEGORIES_TABLE . " c, " . FORUMS_TABLE . " f
+	FROM bb_categories c, bb_forums f
 	WHERE f.cat_id = c.cat_id
 	ORDER BY c.cat_id, f.forum_order";
 
@@ -437,7 +437,7 @@ if ($view == 'attachments')
 	if ($user_based)
 	{
 		$sql = "SELECT username
-		FROM " . USERS_TABLE . "
+		FROM bb_users
 		WHERE user_id = " . intval($uid);
 
 		if ( !($result = $db->sql_query($sql)) )
@@ -553,7 +553,7 @@ if ($view == 'attachments')
 				if ($ids[$j]['post_id'] != 0)
 				{
 					$sql = "SELECT t.topic_title
-					FROM " . TOPICS_TABLE . " t, " . POSTS_TABLE . " p
+					FROM bb_topics t, bb_posts p
 					WHERE p.post_id = " . intval($ids[$j]['post_id']) . " AND p.topic_id = t.topic_id
 					GROUP BY t.topic_id, t.topic_title";
 

@@ -39,7 +39,7 @@ if ( isset($_POST['submit']) )
 
 	$group_id = intval($_POST[POST_GROUPS_URL]);
 
-	$sql = ( $group_id != -1 ) ? "SELECT u.user_email FROM " . USERS_TABLE . " u, " . USER_GROUP_TABLE . " ug WHERE ug.group_id = $group_id AND ug.user_pending <> 1 AND u.user_id = ug.user_id" : "SELECT user_email FROM " . USERS_TABLE;
+	$sql = ( $group_id != -1 ) ? "SELECT u.user_email FROM bb_users u, bb_user_group ug WHERE ug.group_id = $group_id AND ug.user_pending <> 1 AND u.user_id = ug.user_id" : "SELECT user_email FROM bb_users";
 	if ( !($result = $db->sql_query($sql)) )
 	{
 		message_die(GENERAL_ERROR, 'Could not select group members', '', __LINE__, __FILE__, $sql);
@@ -124,7 +124,7 @@ if ( @$error )
 //
 
 $sql = "SELECT group_id, group_name
-	FROM ".GROUPS_TABLE . "
+	FROM bb_groups
 	WHERE group_single_user <> 1";
 if ( !($result = $db->sql_query($sql)) )
 {

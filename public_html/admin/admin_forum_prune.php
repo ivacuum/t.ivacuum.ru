@@ -35,7 +35,7 @@ if (isset($_REQUEST['submit']))
 
 	$where_sql = ($forum_csv != $all_forums) ? "WHERE forum_id IN($forum_csv)" : '';
 
-	$sql = "SELECT forum_id, forum_name FROM ". FORUMS_TABLE ." $where_sql";
+	$sql = "SELECT forum_id, forum_name FROM bb_forums $where_sql";
 
 	foreach ($db->fetch_rowset($sql) as $i => $row)
 	{

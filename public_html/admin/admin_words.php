@@ -51,7 +51,7 @@ if( $mode != "" )
 			if( $word_id )
 			{
 				$sql = "SELECT *
-					FROM " . WORDS_TABLE . "
+					FROM bb_words
 					WHERE word_id = $word_id";
 				if(!$result = $db->sql_query($sql))
 				{
@@ -96,14 +96,14 @@ if( $mode != "" )
 
 		if( $word_id )
 		{
-			$sql = "UPDATE " . WORDS_TABLE . "
+			$sql = "UPDATE bb_words
 				SET word = '" . str_replace("\'", "''", $word) . "', replacement = '" . str_replace("\'", "''", $replacement) . "'
 				WHERE word_id = $word_id";
 			$message = $lang['Word_updated'];
 		}
 		else
 		{
-			$sql = "INSERT INTO " . WORDS_TABLE . " (word, replacement)
+			$sql = "INSERT INTO bb_words (word, replacement)
 				VALUES ('" . str_replace("\'", "''", $word) . "', '" . str_replace("\'", "''", $replacement) . "')";
 			$message = $lang['Word_added'];
 		}
@@ -131,7 +131,7 @@ if( $mode != "" )
 
 		if( $word_id )
 		{
-			$sql = "DELETE FROM " . WORDS_TABLE . "
+			$sql = "DELETE FROM bb_words
 				WHERE word_id = $word_id";
 
 			if(!$result = $db->sql_query($sql))
@@ -152,7 +152,7 @@ if( $mode != "" )
 else
 {
 	$sql = "SELECT *
-		FROM " . WORDS_TABLE . "
+		FROM bb_words
 		ORDER BY word";
 	if( !$result = $db->sql_query($sql) )
 	{

@@ -44,7 +44,7 @@ function validate_topics ($forum_id, &$req_topics, &$topic_titles)
 
 	if ($topic_csv = get_id_csv($req_topics))
 	{
-		$sql = "SELECT topic_id, topic_title FROM ". TOPICS_TABLE ." WHERE topic_id IN($topic_csv) AND forum_id = $forum_id";
+		$sql = "SELECT topic_id, topic_title FROM bb_topics WHERE topic_id IN($topic_csv) AND forum_id = $forum_id";
 
 		foreach ($GLOBALS['db']->fetch_rowset($sql) as $row)
 		{
@@ -98,7 +98,7 @@ if ($topic_id)
 		SELECT
 			f.forum_id, f.forum_name, f.forum_topics, f.self_moderated,
 			t.topic_first_post_id, t.topic_poster
-		FROM ". TOPICS_TABLE ." t, ". FORUMS_TABLE ." f
+		FROM bb_topics t, bb_forums f
 		WHERE t.topic_id = $topic_id
 			AND f.forum_id = t.forum_id
 		LIMIT 1
@@ -115,7 +115,7 @@ if ($topic_id)
 }
 else if ($forum_id)
 {
-	$sql = "SELECT forum_name, forum_topics FROM ". FORUMS_TABLE ." WHERE forum_id = $forum_id LIMIT 1";
+	$sql = "SELECT forum_name, forum_topics FROM bb_forums WHERE forum_id = $forum_id LIMIT 1";
 
 	if (!$topic_row = $db->fetch_row($sql))
 	{
@@ -303,7 +303,7 @@ switch ($mode)
 
 		$sql = "
 			SELECT topic_id, topic_title
-			FROM ". TOPICS_TABLE ."
+			FROM bb_topics
 			WHERE topic_id IN($topic_csv)
 				AND forum_id = $forum_id
 				AND topic_status != ". TOPIC_MOVED ."
@@ -324,7 +324,7 @@ switch ($mode)
 		}
 
 		$db->query("
-			UPDATE ". TOPICS_TABLE ." SET
+			UPDATE bb_topics SET
 				topic_status = $new_topic_status
 			WHERE topic_id IN($topic_csv)
 		");
@@ -353,7 +353,7 @@ switch ($mode)
 		$new_dl_type  = ($set_download) ? TOPIC_DL_TYPE_DL : TOPIC_DL_TYPE_NORMAL;
 
 		$db->query("
-			UPDATE ". TOPICS_TABLE ." SET
+			UPDATE bb_topics SET
 				topic_dl_type = $new_dl_type
 			WHERE topic_id IN($topic_csv)
 				AND forum_id = $forum_id
@@ -392,7 +392,7 @@ switch ($mode)
 			if ($req_post_id_sql = join(',', $req_post_id_sql))
 			{
 				$sql = "SELECT post_id
-					FROM ". POSTS_TABLE ."
+					FROM bb_posts
 					WHERE post_id IN($req_post_id_sql)
 						AND post_id != $topic_first_post_id
 						AND topic_id = $topic_id
@@ -417,7 +417,7 @@ switch ($mode)
 		//mpd end
 		{
 			$sql = "SELECT post_id, poster_id, topic_id, post_time
-				FROM " . POSTS_TABLE . "
+				FROM bb_posts
 				WHERE post_id IN ($post_id_sql)
 				ORDER BY post_time ASC";
 			if (!($result = $db->sql_query($sql)))
@@ -449,7 +449,7 @@ switch ($mode)
 				$new_forum_id = intval($_POST['new_forum_id']);
 				$topic_time = time();
 
-				$sql = 'SELECT forum_id FROM ' . FORUMS_TABLE . '
+				$sql = 'SELECT forum_id FROM bb_forums
 					WHERE forum_id = ' . $new_forum_id;
 				if ( !($result = $db->sql_query($sql)) )
 				{
@@ -463,7 +463,7 @@ switch ($mode)
 
 				$db->sql_freeresult($result);
 
-				$sql  = "INSERT INTO " . TOPICS_TABLE . " (topic_title, topic_poster, topic_time, forum_id, topic_status, topic_type)
+				$sql  = "INSERT INTO bb_topics (topic_title, topic_poster, topic_time, forum_id, topic_status, topic_type)
 					VALUES ('" . str_replace("\'", "''", $post_subject) . "', $first_poster, " . $topic_time . ", $new_forum_id, " . TOPIC_UNLOCKED . ", " . POST_NORMAL . ")";
 				if (!($db->sql_query($sql)))
 				{
@@ -474,7 +474,7 @@ switch ($mode)
 
 				// Update topic watch table, switch users whose posts
 				// have moved, over to watching the new topic
-				$sql = "UPDATE " . TOPICS_WATCH_TABLE . "
+				$sql = "UPDATE bb_topics_watch
 					SET topic_id = $new_topic_id
 					WHERE topic_id = $topic_id
 						AND user_id IN ($user_id_sql)";
@@ -485,7 +485,7 @@ switch ($mode)
 
 				$sql_where = (!empty($_POST['split_type_beyond'])) ? " post_time >= $post_time AND topic_id = $topic_id" : "post_id IN ($post_id_sql)";
 
-				$sql = 	"UPDATE " . POSTS_TABLE . "
+				$sql = 	"UPDATE bb_posts
 					SET topic_id = $new_topic_id, forum_id = $new_forum_id
 					WHERE $sql_where";
 				if (!$db->sql_query($sql))
@@ -543,7 +543,7 @@ switch ($mode)
 		else
 		{
 			$sql = "SELECT u.username, p.*, pt.post_text, pt.bbcode_uid, pt.post_subject, p.post_username
-				FROM " . POSTS_TABLE . " p, " . USERS_TABLE . " u, " . POSTS_TEXT_TABLE . " pt
+				FROM bb_posts p, bb_users u, bb_posts_text pt
 				WHERE p.topic_id = $topic_id
 					AND p.poster_id = u.user_id
 					AND p.post_id = pt.post_id
@@ -639,7 +639,7 @@ switch ($mode)
 
 		// Look up relevent data for this post
 		$sql = "SELECT *
-			FROM " . POSTS_TABLE . "
+			FROM bb_posts
 			WHERE post_id = $post_id
 				AND forum_id = $forum_id";
 		if ( !($result = $db->sql_query($sql)) )
@@ -674,7 +674,7 @@ switch ($mode)
 		$where_sql = ($poster_id == $anon) ? "post_username = '{$post_row['post_username']}'" : "poster_id = $poster_id";
 
 		$sql = "SELECT poster_ip, COUNT(*) AS postings
-			FROM " . POSTS_TABLE . "
+			FROM bb_posts
 			WHERE $where_sql
 			GROUP BY poster_ip
 			ORDER BY postings DESC
@@ -719,7 +719,7 @@ switch ($mode)
 				u.user_id,
 				IF(u.user_id = $anon, p.post_username, u.username) AS username,
 				COUNT(*) as postings
-			FROM " . USERS_TABLE ." u, " . POSTS_TABLE . " p
+			FROM bb_users u, bb_posts p
 			WHERE p.poster_id = u.user_id
 				AND p.poster_ip = '" . $post_row['poster_ip'] . "'
 			GROUP BY u.user_id, p.post_username

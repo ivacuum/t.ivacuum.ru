@@ -22,7 +22,7 @@ $db->query("
 	) ENGINE = MYISAM DEFAULT CHARSET=$dbcharset
 ");
 
-$db->query("ALTER TABLE ". USERS_TABLE ." ADD INDEX user_avatar(user_avatar(10))");
+$db->query("ALTER TABLE bb_users ADD INDEX user_avatar(user_avatar(10))");
 
 $avatars_dir = SITE_DIR . $bb_cfg['avatar_path'];
 
@@ -63,7 +63,7 @@ if ($check_avatars)
 	// Delete avatars that exist in file system but not exist in DB
 	$sql = "SELECT f.user_avatar
 		FROM $tmp_tbl f
-		LEFT JOIN ". USERS_TABLE ." u USING(user_avatar)
+		LEFT JOIN bb_users u USING(user_avatar)
 		WHERE u.user_avatar IS NULL
 		LIMIT $sql_limit";
 
@@ -83,7 +83,7 @@ if ($check_avatars)
 	}
 	// Find DB records for avatars that exist in DB but not exist in file system
 	$sql = "SELECT u.user_id
-		FROM ". USERS_TABLE ." u
+		FROM bb_users u
 		LEFT JOIN $tmp_tbl f USING(user_avatar)
 		WHERE u.user_avatar_type = ". USER_AVATAR_UPLOAD ."
 			AND f.user_avatar IS NULL
@@ -99,7 +99,7 @@ if ($check_avatars)
 		if ($fix_errors)
 		{
 			$db->query("
-				UPDATE ". USERS_TABLE ." SET
+				UPDATE bb_users SET
 					user_avatar      = '',
 					user_avatar_type = ". USER_AVATAR_NONE ."
 				WHERE user_id IN($orphans_sql)
@@ -115,7 +115,7 @@ if ($debug_mode)
 }
 
 $db->query("DROP TEMPORARY TABLE $tmp_tbl");
-$db->query("ALTER TABLE ". USERS_TABLE ." DROP INDEX user_avatar");
+$db->query("ALTER TABLE bb_users DROP INDEX user_avatar");
 
 unset($fix_errors, $debug_mode);
 

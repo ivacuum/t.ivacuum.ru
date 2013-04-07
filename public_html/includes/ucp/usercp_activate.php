@@ -11,7 +11,7 @@ if (empty($_GET['u']) || empty($_GET['act_key']))
 }
 
 $sql = "SELECT user_active, user_id, username, user_email, user_newpasswd, user_lang, user_actkey
-	FROM " . USERS_TABLE . "
+	FROM bb_users
 	WHERE user_id = " . intval($_GET[POST_USERS_URL]);
 if ( !($result = $db->sql_query($sql)) )
 {
@@ -40,7 +40,7 @@ if ( $row = $db->sql_fetchrow($result) )
 
 		$sql_update_pass = ( $row['user_newpasswd'] != '' ) ? ", user_password = '" . str_replace("\'", "''", $row['user_newpasswd']) . "', user_newpasswd = ''" : '';
 
-		$sql = "UPDATE " . USERS_TABLE . "
+		$sql = "UPDATE bb_users
 			SET user_active = 1, user_actkey = ''" . $sql_update_pass . "
 			WHERE user_id = " . $row['user_id'];
 		if ( !($result = $db->sql_query($sql)) )

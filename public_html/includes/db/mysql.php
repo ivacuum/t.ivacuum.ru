@@ -519,7 +519,7 @@ class sql_db
 		if (!empty($this->shutdown['post_html']))
 		{
 			$post_html_sql = $this->build_array('MULTI_INSERT', $this->shutdown['post_html']);
-			$this->query("REPLACE INTO ". POSTS_HTML_TABLE ." $post_html_sql");
+			$this->query("REPLACE INTO bb_posts_html $post_html_sql");
 		}
 		// other
 		if (!empty($this->shutdown['__sql']))

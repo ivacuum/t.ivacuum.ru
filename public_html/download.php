@@ -267,7 +267,7 @@ for ($i = 0; $i < $num_auth_pages && $authorised == false; $i++)
 	if ($auth_pages[$i]['post_id'] != 0)
 	{
 		$sql = 'SELECT forum_id
-			FROM ' . POSTS_TABLE . '
+			FROM bb_posts
 			WHERE post_id = ' . (int) $auth_pages[$i]['post_id'];
 
 		if ( !($result = $db->sql_query($sql)) )

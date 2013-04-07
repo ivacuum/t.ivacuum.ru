@@ -39,7 +39,7 @@ if (isset($_REQUEST['cancel_button']))
 	if ($last_session_id)
 	{
 		$db->query("
-			UPDATE ". SEARCH_REBUILD_TABLE ." SET
+			UPDATE bb_search_rebuild SET
 				rebuild_session_status = ". REBUILD_SEARCH_ABORTED ."
 			WHERE rebuild_session_id = $last_session_id
 		");
@@ -171,9 +171,9 @@ if ($mode == 'submit' || $mode == 'refresh')
 			pt.post_text, pt.bbcode_uid,
 			IF(p.post_id = t.topic_first_post_id, t.topic_title, '') AS post_subject
 		FROM
-			". POSTS_TEXT_TABLE ." pt,
-			". POSTS_TABLE      ." p,
-			". TOPICS_TABLE     ." t
+			bb_posts_text pt,
+			bb_posts p,
+			bb_topics t
 		WHERE p.post_id = pt.post_id
 			AND t.topic_id = p.topic_id
 			AND p.poster_id NOT IN(". BOT_UID .")
@@ -206,7 +206,7 @@ if ($mode == 'submit' || $mode == 'refresh')
 	// Store search words
 	if ($words_sql)
 	{
-		$db->query("REPLACE INTO ". POSTS_SEARCH_TABLE . $db->build_array('MULTI_INSERT', $words_sql));
+		$db->query("REPLACE INTO bb_posts_search " . $db->build_array('MULTI_INSERT', $words_sql));
 	}
 
 	// find how much time the last cycle took
@@ -230,13 +230,13 @@ if ($mode == 'submit' || $mode == 'refresh')
 				'search_size'     => (int) $search_tables_size,
 				'rebuild_session_status' => REBUILD_SEARCH_PROCESSED,
 			));
-			$db->query("REPLACE INTO ". SEARCH_REBUILD_TABLE . $args);
+			$db->query("REPLACE INTO bb_search_rebuild " . $args);
 		}
 		else  // refresh
 		{
 			// update the last session entry
 			$db->query("
-				UPDATE ". SEARCH_REBUILD_TABLE ." SET
+				UPDATE bb_search_rebuild SET
 					end_post_id     = $end_post_id,
 					end_time        = ". time() .",
 					last_cycle_time = $last_cycle_time,
@@ -291,14 +291,14 @@ if ($mode == 'submit' || $mode == 'refresh')
 		$processing_messages .= ( $total_posts_processed == $total_posts ) ? $lang['All_posts_processed'] : $lang['All_session_posts_processed'];
 
 		// if we have processed all the db posts we need to update the rebuild_status
-		$db->query("UPDATE ". SEARCH_REBUILD_TABLE ." SET
+		$db->query("UPDATE bb_search_rebuild SET
 				rebuild_session_status = ". REBUILD_SEARCH_COMPLETED ."
 			WHERE rebuild_session_id = $last_session_id
 				AND end_post_id = $max_post_id
 		");
 
 		// optimize all search tables when finished
-		$table_ary = array(POSTS_SEARCH_TABLE);
+		$table_ary = array('bb_posts_search');
 
 		foreach ($table_ary as $table)
 		{
@@ -518,7 +518,7 @@ function get_db_sizes ()
 	global $db;
 
 	$search_data_size = $search_index_size = 0;
-	$search_table_like = $db->escape(POSTS_SEARCH_TABLE);
+	$search_table_like = $db->escape('bb_posts_search');
 
 	$sql = "SHOW TABLE STATUS FROM ". $db->selected_db ." LIKE '$search_table_like'";
 
@@ -534,7 +534,7 @@ function get_db_sizes ()
 // get the latest post_id in the forum
 function get_latest_post_id ()
 {
-	$row = $GLOBALS['db']->fetch_row("SELECT MAX(post_id) as post_id FROM ". POSTS_TEXT_TABLE);
+	$row = $GLOBALS['db']->fetch_row("SELECT MAX(post_id) as post_id FROM bb_posts_text");
 
 	return (int) $row['post_id'];
 }
@@ -565,11 +565,11 @@ function get_rebuild_session_details ($id, $details = 'all')
 
 	if ($id != 'last')
 	{
-		$sql = "SELECT * FROM ". SEARCH_REBUILD_TABLE ." WHERE rebuild_session_id = $id";
+		$sql = "SELECT * FROM bb_search_rebuild WHERE rebuild_session_id = $id";
 	}
 	else
 	{
-		$sql = "SELECT * FROM ". SEARCH_REBUILD_TABLE ." ORDER BY rebuild_session_id DESC LIMIT 1";
+		$sql = "SELECT * FROM bb_search_rebuild ORDER BY rebuild_session_id DESC LIMIT 1";
 	}
 
 	if ($row = $GLOBALS['db']->fetch_row($sql))
@@ -589,7 +589,7 @@ function get_processed_posts ($mode = 'session')
 
 	if ($mode == 'total')
 	{
-		$sql = "SELECT SUM(session_posts) as posts FROM ". SEARCH_REBUILD_TABLE;
+		$sql = "SELECT SUM(session_posts) as posts FROM bb_search_rebuild";
 		$row = $db->fetch_row($sql);
 	}
 	else
@@ -606,12 +606,12 @@ function get_total_posts ($mode = 'after', $post_id = 0)
 {
 	if ($post_id)
 	{
-		$sql = "SELECT COUNT(post_id) as total_posts FROM " . POSTS_TEXT_TABLE . "
+		$sql = "SELECT COUNT(post_id) as total_posts FROM bb_posts_text
 			WHERE post_id " . (($mode == 'after') ? '>= ' : '<= ' ) . (int) $post_id;
 	}
 	else
 	{
-		$sql = "SELECT COUNT(*) as total_posts FROM " . POSTS_TEXT_TABLE;
+		$sql = "SELECT COUNT(*) as total_posts FROM bb_posts_text";
 	}
 
 	$row = $GLOBALS['db']->fetch_row($sql);
@@ -623,11 +623,11 @@ function clear_search_tables ($mode = '')
 {
 	global $db;
 
-	$db->query("DELETE FROM ". SEARCH_REBUILD_TABLE);
+	$db->query("DELETE FROM bb_search_rebuild");
 
 	if ($mode)
 	{
-		$table_ary = array(POSTS_SEARCH_TABLE);
+		$table_ary = array('bb_posts_search');
 
 		foreach ($table_ary as $table)
 		{

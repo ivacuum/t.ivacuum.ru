@@ -38,8 +38,8 @@ $sql = '
 		s.session_time,
 		s.session_ip
 	FROM
-		' . USERS_TABLE . ' u,
-		' . SESSIONS_TABLE . ' s
+		bb_users u,
+		bb_sessions s
 	WHERE
 		u.user_id = s.session_user_id
 	AND

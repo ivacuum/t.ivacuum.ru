@@ -13,7 +13,7 @@ function validate_username($username)
 	$username = str_compact($username);
 	$username = phpbb_clean_username($username);
 
-	$sql = "SELECT username FROM ". USERS_TABLE ." WHERE username = '$username'";
+	$sql = "SELECT username FROM bb_users WHERE username = '$username'";
 
 	if ($row = $db->fetch_row($sql))
 	{
@@ -24,7 +24,7 @@ function validate_username($username)
 	}
 
 	$sql = "SELECT disallow_username
-		FROM " . DISALLOW_TABLE;
+		FROM bb_disallow";
 	if ($result = $db->sql_query($sql))
 	{
 		if ($row = $db->sql_fetchrow($result))
@@ -43,7 +43,7 @@ function validate_username($username)
 	$db->sql_freeresult($result);
 
 	$sql = "SELECT word
-		FROM  " . WORDS_TABLE;
+		FROM bb_words";
 	if ($result = $db->sql_query($sql))
 	{
 		if ($row = $db->sql_fetchrow($result))
@@ -83,7 +83,7 @@ function validate_email($email)
 		if (preg_match('/^[a-z0-9&\'\.\-_\+]+@[a-z0-9\-]+\.([a-z0-9\-]+\.)*?[a-z]+$/is', $email))
 		{
 			$sql = "SELECT ban_email
-				FROM " . BANLIST_TABLE;
+				FROM bb_banlist";
 			if ($result = $db->sql_query($sql))
 			{
 				if ($row = $db->sql_fetchrow($result))
@@ -104,7 +104,7 @@ function validate_email($email)
 			$db->sql_freeresult($result);
 
 			$sql = "SELECT user_email
-				FROM " . USERS_TABLE . "
+				FROM bb_users
 				WHERE user_email = '" . str_replace("\'", "''", $email) . "'";
 			if (!($result = $db->sql_query($sql)))
 			{

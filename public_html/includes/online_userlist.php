@@ -44,8 +44,8 @@ $sql = '
 		COUNT(s.session_id) AS sessions,
 		COUNT(DISTINCT s.session_ip) AS ips
 	FROM
-		' . SESSIONS_TABLE . ' s,
-		' . USERS_TABLE . ' u
+		bb_sessions s,
+		bb_users u
 	WHERE
 		s.session_time > ' . $time_online . '
 	AND

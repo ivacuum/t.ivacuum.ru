@@ -252,8 +252,8 @@ if ( isset($_POST['submit']) )
 				$confirm_id = '';
 			}
 
-			$sql = 'SELECT code
-				FROM ' . CONFIRM_TABLE . "
+			$sql = "SELECT code
+				FROM bb_confirm
 				WHERE confirm_id = '$confirm_id'
 					AND session_id = '" . $userdata['session_id'] . "'";
 			if (!($result = $db->sql_query($sql)))
@@ -276,7 +276,7 @@ if ( isset($_POST['submit']) )
 				}
 				else
 				{
-					$sql = 'DELETE FROM ' . CONFIRM_TABLE . "
+					$sql = "DELETE FROM bb_confirm
 						WHERE confirm_id = '$confirm_id'
 							AND session_id = '" . $userdata['session_id'] . "'";
 					if (!$db->sql_query($sql))
@@ -312,7 +312,7 @@ if ( isset($_POST['submit']) )
 			if ( $mode == 'editprofile' )
 			{
 				$sql = "SELECT user_password
-					FROM " . USERS_TABLE . "
+					FROM bb_users
 					WHERE user_id = $user_id";
 				if ( !($result = $db->sql_query($sql)) )
 				{
@@ -358,7 +358,7 @@ if ( isset($_POST['submit']) )
 		if ( $mode == 'editprofile' )
 		{
 			$sql = "SELECT user_password
-				FROM " . USERS_TABLE . "
+				FROM bb_users
 				WHERE user_id = $user_id";
 			if ( !($result = $db->sql_query($sql)) )
 			{
@@ -496,7 +496,7 @@ if ( isset($_POST['submit']) )
 				$user_lang = '';
 			}
 
-			$sql = "UPDATE " . USERS_TABLE . "
+			$sql = "UPDATE bb_users
 				SET " . $username_sql . $passwd_sql . "
 					user_opt = $user_opt,
 					user_email = '" . str_replace("\'", "''", $email) ."',
@@ -561,7 +561,7 @@ if ( isset($_POST['submit']) )
  				else if ( $bb_cfg['require_activation'] == USER_ACTIVATION_ADMIN )
  				{
  					$sql = 'SELECT user_email, user_lang
- 						FROM ' . USERS_TABLE . '
+ 						FROM bb_users
  						WHERE user_level = ' . ADMIN;
 
  					if ( !($result = $db->sql_query($sql)) )
@@ -608,7 +608,7 @@ if ( isset($_POST['submit']) )
 			$avatar_type = USER_AVATAR_NONE;
 
 			// Insert new user data
-			$sql = "INSERT INTO " . USERS_TABLE . "
+			$sql = "INSERT INTO bb_users
 			          (user_opt,                              username,         user_regdate,                               user_password,                                 user_email,                                 user_icq,                                user_website,                                    user_occ,                                     user_from,      user_from_flag,                           user_interests,                                   user_sig,           user_sig_bbcode_uid,  user_avatar, user_avatar_type,                                              user_aim,                                 user_yim,                   user_msnm,                 user_allow_viewonline, user_notify, user_notify_pm, user_timezone,                               user_dateformat,                                     user_lang,         user_level, user_allow_pm, user_active, user_actkey)
 				VALUES ($user_opt, '" . str_replace("\'", "''", $username) . "', " . time() . ", '" . str_replace("\'", "''", $new_password) . "', '" . str_replace("\'", "''", $email) . "', '" . str_replace("\'", "''", $icq) . "', '" . str_replace("\'", "''", $website) . "', '" . str_replace("\'", "''", $occupation) . "', '" . str_replace("\'", "''", $location) . "', '$user_flag', '" . str_replace("\'", "''", $interests) . "', '" . str_replace("\'", "''", $signature) . "', '$signature_bbcode_uid', '',          $avatar_type, '" . str_replace("\'", "''", str_replace(' ', '+', $aim)) . "', '" . str_replace("\'", "''", $yim) . "', '" . str_replace("\'", "''", $msn) . "', $allowviewonline,      $notifyreply, $notifypm,     '$user_timezone', '" . str_replace("\'", "''", $user_dateformat) . "', '" . str_replace("\'", "''", $user_lang) . "', 0,          1, ";
 
@@ -700,7 +700,7 @@ if ( isset($_POST['submit']) )
 			if ( $bb_cfg['require_activation'] == USER_ACTIVATION_ADMIN )
 			{
 				$sql = "SELECT user_email, user_lang
-					FROM " . USERS_TABLE . "
+					FROM bb_users
 					WHERE user_level = " . ADMIN;
 
 				if ( !($result = $db->sql_query($sql)) )
@@ -881,7 +881,7 @@ else
 // FLAGHACK-start
 	// query to get the list of flags
 	$sql = "SELECT *
-		FROM " . FLAG_TABLE . "
+		FROM bb_flags
 		ORDER BY flag_name";
 	if(!$flags_result = $db->sql_query($sql))
 	{
@@ -926,14 +926,14 @@ else
 	{
 		$db->query("
 			DELETE cfm
-			FROM ". CONFIRM_TABLE ." cfm
-			LEFT JOIN ". SESSIONS_TABLE ." s USING(session_id)
+			FROM bb_confirm cfm
+			LEFT JOIN bb_sessions s USING(session_id)
 			WHERE s.session_id IS NULL
 		");
 
 		$row = $db->fetch_row("
 			SELECT COUNT(session_id) AS attempts
-			FROM ". CONFIRM_TABLE ."
+			FROM bb_confirm
 			WHERE session_id = '{$userdata['session_id']}'
 		");
 
@@ -954,7 +954,7 @@ else
 		$confirm_id = make_rand_str(12);
 
 		$db->query("
-			INSERT INTO ". CONFIRM_TABLE ." (confirm_id, session_id, code)
+			INSERT INTO bb_confirm (confirm_id, session_id, code)
 			VALUES ('$confirm_id', '{$userdata['session_id']}', '$confirm_code')
 		");
 
@@ -1118,7 +1118,7 @@ if ($mode == 'editprofile' && $userdata['session_logged_in'])
 	$template->assign_block_vars('switch_bittorrent', array());
 
 	$sql = 'SELECT auth_key
-		FROM '. BT_USERS_TABLE .'
+		FROM bb_bt_users
 		WHERE user_id = '. $userdata['user_id'];
 
 	if (!$result = $db->sql_query($sql))

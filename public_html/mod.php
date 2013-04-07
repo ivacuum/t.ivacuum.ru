@@ -67,7 +67,7 @@ if( isset($_POST['topic_id']) )
 
 			$sql = '
 				UPDATE
-					' . TOPICS_TABLE . '
+					bb_topics
 				SET
 					topic_status = ' . $new_topic_status . '
 				WHERE
@@ -87,7 +87,7 @@ if( isset($_POST['topic_id']) )
 
 			$sql = '
 				UPDATE
-					' . TOPICS_TABLE . '
+					bb_topics
 				SET
 					topic_dl_type = ' . $new_dl_type . '
 				WHERE
@@ -116,7 +116,7 @@ if( isset($_POST['topic_id']) )
 				SELECT
 					attach_id
 				FROM
-					' . BT_TORRENTS_TABLE . '
+					bb_bt_torrents
 				WHERE
 					topic_id IN (' . $topic_ids . ')';
 			$result = $db->sql_query($sql);
@@ -136,7 +136,7 @@ if( isset($_POST['topic_id']) )
 
 			$sql = '
 				UPDATE
-					' . BT_TORRENTS_TABLE . '
+					bb_bt_torrents
 				SET
 					tor_status = ' . $status . ',
 					checked_time = ' . time() . ',
@@ -164,14 +164,14 @@ if( isset($_POST['topic_id']) )
 	}
 }
 
-$auth_table  = ($userdata['user_level'] == ADMIN) ? '' : ', ' . AUTH_ACCESS_SNAP_TABLE . ' aa';
+$auth_table  = ($userdata['user_level'] == ADMIN) ? '' : ', bb_auth_access_snap aa';
 $auth_access = ($userdata['user_level'] == ADMIN) ? '' : 'AND aa.user_id = ' . $user_id . ' AND tor.forum_id = aa.forum_id AND aa.forum_perm = 8';
 
 $sql = '
 	SELECT
 		COUNT(tor.topic_id) as tor_count
 	FROM
-		' . BT_TORRENTS_TABLE . ' tor
+		bb_bt_torrents tor
 		' . $auth_table . '
 	WHERE
 		tor.forum_id != (' . $trash_forums . ')
@@ -192,10 +192,10 @@ if( $tor_count )
 			u.username,
 			u.user_level
 		FROM
-			' . BT_TORRENTS_TABLE . ' tor,
-			' . TOPICS_TABLE . ' t,
-			' . FORUMS_TABLE . ' f,
-			' . USERS_TABLE . ' u
+			bb_bt_torrents tor,
+			bb_topics t,
+			bb_forums f,
+			bb_users u
 			' . $auth_table . '
 		WHERE
 			t.topic_id = tor.topic_id

@@ -106,7 +106,7 @@ if( isset($_POST['submit']) )
 
 			if (is_array($simple_ary))
 			{
-				$sql = "UPDATE " . FORUMS_TABLE . " SET $sql WHERE forum_id = $forum_id";
+				$sql = "UPDATE bb_forums SET $sql WHERE forum_id = $forum_id";
 			}
 		}
 		else
@@ -126,7 +126,7 @@ if( isset($_POST['submit']) )
 				$sql .= ( ( $sql != '' ) ? ', ' : '' ) .$forum_auth_fields[$i] . ' = ' . $value;
 			}
 
-			$sql = "UPDATE " . FORUMS_TABLE . " SET $sql WHERE forum_id = $forum_id";
+			$sql = "UPDATE bb_forums SET $sql WHERE forum_id = $forum_id";
 		}
 
 		if ( $sql != '' )
@@ -157,7 +157,7 @@ if( isset($_POST['submit']) )
 			$sql .= ( ( $sql != '' ) ? ', ' : '' ) .$forum_auth_fields[$i] . ' = ' . $value;
 		}
 
-		$sql = "UPDATE " . FORUMS_TABLE . " SET $sql WHERE cat_id = $cat_id";
+		$sql = "UPDATE bb_forums SET $sql WHERE cat_id = $cat_id";
 
 		if ( $sql != '' )
 		{
@@ -182,7 +182,7 @@ if( isset($_POST['submit']) )
 // or category if it was
 //
 $sql = "SELECT f.*
-	FROM " . FORUMS_TABLE . " f, " . CATEGORIES_TABLE . " c
+	FROM bb_forums f, bb_categories c
 	WHERE c.cat_id = f.cat_id
 	$forum_sql $cat_sql
 	ORDER BY c.cat_order ASC, f.forum_order ASC";
@@ -217,7 +217,7 @@ if( empty($forum_id) && empty($cat_id) )
 
 	// Obtain the category list
 	$sql = "SELECT c.cat_id, c.cat_title, c.cat_order
-		FROM " . CATEGORIES_TABLE . " c
+		FROM bb_categories c
 		ORDER BY c.cat_order";
 	if( !($result = $db->sql_query($sql)) )
 	{
@@ -286,7 +286,7 @@ else
 
 	// Obtain the category list
 	$sql = "SELECT c.cat_id, c.cat_title, c.cat_order
-		FROM " . CATEGORIES_TABLE . " c
+		FROM bb_categories c
 		WHERE c.cat_id = $cat_id
 		ORDER BY c.cat_order";
 	if( !($result = $db->sql_query($sql)) )

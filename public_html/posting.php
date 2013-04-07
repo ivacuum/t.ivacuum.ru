@@ -108,7 +108,7 @@ switch ($mode)
 		{
 			message_die(GENERAL_MESSAGE, $lang['Forum_not_exist']);
 		}
-		$sql = "SELECT * FROM ". FORUMS_TABLE ." WHERE forum_id = $forum_id LIMIT 1";
+		$sql = "SELECT * FROM bb_forums WHERE forum_id = $forum_id LIMIT 1";
 		break;
 
 	case 'reply':
@@ -118,7 +118,7 @@ switch ($mode)
 			message_die(GENERAL_MESSAGE, $lang['No_topic_id']);
 		}
 		$sql = "SELECT f.*, t.*
-			FROM ". FORUMS_TABLE ." f, ". TOPICS_TABLE ." t
+			FROM bb_forums f, bb_topics t
 			WHERE t.topic_id = $topic_id
 				AND f.forum_id = t.forum_id
 			LIMIT 1";
@@ -136,8 +136,8 @@ switch ($mode)
 		$select_sql = 'SELECT f.*, t.*, p.*';
 		$select_sql .= (!$submit) ? ', pt.*, u.username, u.user_id' : '';
 
-		$from_sql = "FROM ". POSTS_TABLE ." p, ". TOPICS_TABLE ." t, ". FORUMS_TABLE ." f";
-		$from_sql .= (!$submit) ? ", " . POSTS_TEXT_TABLE . " pt, " . USERS_TABLE . " u" : '';
+		$from_sql = "FROM bb_posts p, bb_topics t, bb_forums f";
+		$from_sql .= (!$submit) ? ", bb_posts_text pt, bb_users u" : '';
 
 		$where_sql = "
 			WHERE p.post_id = $post_id
@@ -182,8 +182,8 @@ if ($post_info = $db->fetch_row($sql))
 				t.topic_id,
 				t.topic_title
 			FROM
-				' . BT_TORRENTS_TABLE . ' bt,
-				' . TOPICS_TABLE . ' t
+				bb_bt_torrents bt,
+				bb_topics t
 			WHERE
 				bt.poster_id = ' . $userdata['user_id'] . '
 			AND
@@ -223,7 +223,7 @@ if ($post_info = $db->fetch_row($sql))
 		if ($post_data['first_post'] && $post_data['has_poll'])
 		{
 			$sql = "SELECT *
-				FROM ". VOTE_DESC_TABLE ." vd, ". VOTE_RESULTS_TABLE ." vr
+				FROM bb_vote_desc vd, bb_vote_results vr
 				WHERE vd.topic_id = $topic_id
 					AND vr.vote_id = vd.vote_id
 				ORDER BY vr.vote_option_id";
@@ -360,7 +360,7 @@ else
 	{
 		$notify_user = (int) $db->fetch_row("
 			SELECT topic_id
-			FROM ". TOPICS_WATCH_TABLE ."
+			FROM bb_topics_watch
 			WHERE topic_id = $topic_id
 			  AND user_id = ". $userdata['user_id'] ."
 		");
@@ -384,7 +384,7 @@ if (!IS_GUEST && $mode != 'newtopic' && ($submit || $preview || $mode == 'quote'
 	if ($topic_last_read = max(intval(@$tracking_topics[$topic_id]), intval(@$tracking_forums[$forum_id])))
 	{
 		$sql = "SELECT p.*, pt.post_text, pt.bbcode_uid, u.username
-			FROM ". POSTS_TABLE ." p, ". POSTS_TEXT_TABLE ." pt, ". USERS_TABLE ." u
+			FROM bb_posts p, bb_posts_text pt, bb_users u
 			WHERE p.topic_id = ". (int) $topic_id ."
 				AND u.user_id = p.poster_id
 				AND pt.post_id = p.post_id
@@ -458,7 +458,7 @@ else if ( $mode == 'vote' )
 		$vote_option_id = intval($_POST['vote_id']);
 
 		$sql = "SELECT vd.vote_id
-			FROM " . VOTE_DESC_TABLE . " vd, " . VOTE_RESULTS_TABLE . " vr
+			FROM bb_vote_desc vd, bb_vote_results vr
 			WHERE vd.topic_id = $topic_id
 				AND vr.vote_id = vd.vote_id
 				AND vr.vote_option_id = $vote_option_id
@@ -473,7 +473,7 @@ else if ( $mode == 'vote' )
 			$vote_id = $vote_info['vote_id'];
 
 			$sql = "SELECT *
-				FROM " . VOTE_USERS_TABLE . "
+				FROM bb_vote_voters
 				WHERE vote_id = $vote_id
 					AND vote_user_id = " . $userdata['user_id'];
 			if ( !($result2 = $db->sql_query($sql)) )
@@ -483,7 +483,7 @@ else if ( $mode == 'vote' )
 
 			if ( !($row = $db->sql_fetchrow($result2)) )
 			{
-				$sql = "UPDATE " . VOTE_RESULTS_TABLE . "
+				$sql = "UPDATE bb_vote_results
 					SET vote_result = vote_result + 1
 					WHERE vote_id = $vote_id
 						AND vote_option_id = $vote_option_id";
@@ -492,7 +492,7 @@ else if ( $mode == 'vote' )
 					message_die(GENERAL_ERROR, 'Could not update poll result', '', __LINE__, __FILE__, $sql);
 				}
 
-				$sql = "INSERT INTO " . VOTE_USERS_TABLE . " (vote_id, vote_user_id, vote_user_ip)
+				$sql = "INSERT INTO bb_vote_voters (vote_id, vote_user_id, vote_user_ip)
 					VALUES ($vote_id, " . $userdata['user_id'] . ", '". USER_IP ."')";
 				if ( !$db->sql_query($sql) )
 				{

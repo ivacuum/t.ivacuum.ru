@@ -97,7 +97,7 @@ foreach( $cron_jobs as $job )
 		}
 
 		$db->query("
-			UPDATE ". CRON_TABLE ." SET
+			UPDATE bb_cron SET
 				last_run = NOW(),
 				run_counter = run_counter + 1,
 				next_run =

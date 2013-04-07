@@ -563,7 +563,7 @@ function attachment_sync_topic ($topics)
 
 	// Check orphan post_attachment markers
 	$sql = "SELECT p.post_id
-		FROM ". POSTS_TABLE ." p
+		FROM bb_posts p
 		LEFT JOIN bb_attachments a USING(post_id)
 		WHERE p.topic_id IN($topics)
 			AND p.post_attachment = 1
@@ -577,13 +577,13 @@ function attachment_sync_topic ($topics)
 		}
 		if ($posts_sql = join(',', $posts_without_attach))
 		{
-			$db->query("UPDATE ". POSTS_TABLE ." SET post_attachment = 0 WHERE post_id IN($posts_sql)");
+			$db->query("UPDATE bb_posts SET post_attachment = 0 WHERE post_id IN($posts_sql)");
 		}
 	}
 
 	// Update missing topic_attachment markers
 	$db->query("
-		UPDATE ". TOPICS_TABLE ." t, ". POSTS_TABLE ." p SET
+		UPDATE bb_topics t, bb_posts p SET
 			t.topic_attachment = 1
 		WHERE p.topic_id IN($topics)
 			AND p.post_attachment = 1
@@ -592,7 +592,7 @@ function attachment_sync_topic ($topics)
 
 	// Fix orphan topic_attachment markers
 	$sql = "SELECT t.topic_id
-		FROM ". POSTS_TABLE ." p, ". TOPICS_TABLE ." t
+		FROM bb_posts p, bb_topics t
 		WHERE t.topic_id = p.topic_id
 			AND t.topic_id IN($topics)
 			AND t.topic_attachment = 1
@@ -607,7 +607,7 @@ function attachment_sync_topic ($topics)
 		}
 		if ($topics_sql = join(',', $topics_without_attach))
 		{
-			$db->query("UPDATE ". TOPICS_TABLE ." SET topic_attachment = 0 WHERE topic_id IN($topics_sql)");
+			$db->query("UPDATE bb_topics SET topic_attachment = 0 WHERE topic_id IN($topics_sql)");
 		}
 	}
 }
@@ -657,8 +657,8 @@ function user_in_group($user_id, $group_id)
 		return false;
 	}
 
-	$sql = 'SELECT u.group_id
-		FROM ' . USER_GROUP_TABLE . ' u, ' . GROUPS_TABLE . " g
+	$sql = "SELECT u.group_id
+		FROM bb_user_group u, bb_groups g
 		WHERE g.group_single_user = 0
 			AND u.group_id = g.group_id
 			AND u.user_id = $user_id

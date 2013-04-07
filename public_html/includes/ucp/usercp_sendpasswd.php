@@ -16,7 +16,7 @@ if ( isset($_POST['submit']) )
 	$email = ( !empty($_POST['email']) ) ? trim(strip_tags(htmlspecialchars($_POST['email']))) : '';
 
 	$sql = "SELECT *
-		FROM " . USERS_TABLE . "
+		FROM bb_users
 		WHERE user_email = '" . str_replace("\'", "''", $email) . "'
 			AND username = '" . str_replace("\'", "''", $username) . "'";
 	if ( $result = $db->sql_query($sql) )
@@ -38,7 +38,7 @@ if ( isset($_POST['submit']) )
 			$user_actkey = make_rand_str(12);
 			$user_password = make_rand_str(8);
 
-			$sql = "UPDATE " . USERS_TABLE . "
+			$sql = "UPDATE bb_users
 				SET user_newpasswd = '" . md5($user_password) . "', user_actkey = '$user_actkey'
 				WHERE user_id = " . $row['user_id'];
 			if ( !$db->sql_query($sql) )

@@ -20,7 +20,7 @@ $sql = '
 	SELECT
 		*
 	FROM
-		' . BT_TORRENTS_TABLE. '
+		bb_bt_torrents
 	WHERE
 		seeder_last_seen > 0
 	AND
@@ -35,7 +35,7 @@ while( $row = $db->sql_fetchrow($result) )
 
 	$sql = '
 		UPDATE
-			' . TOPICS_TABLE . '
+			bb_topics
 		SET
 			topic_type = 0
 		WHERE
@@ -50,7 +50,7 @@ $sql = '
 	SELECT
 		*
 	FROM
-		' . BT_TORRENTS_TABLE. '
+		bb_bt_torrents
 	WHERE
 		seeder_last_seen > 0
 	AND
@@ -65,7 +65,7 @@ while( $row = $db->sql_fetchrow($result) )
 
 	$sql = '
 		UPDATE
-			' . TOPICS_TABLE . '
+			bb_topics
 		SET
 			topic_type = 0
 		WHERE
@@ -79,7 +79,7 @@ $sql = '
 	SELECT
 		*
 	FROM
-		' . BT_TORRENTS_TABLE . '
+		bb_bt_torrents
 	WHERE
 		seeder_last_seen > 0
 	AND
@@ -94,7 +94,7 @@ while( $row = $db->sql_fetchrow($result) )
 
 	$sql = '
 		UPDATE
-			' . TOPICS_TABLE . '
+			bb_topics
 		SET
 			topic_type = 0
 		WHERE

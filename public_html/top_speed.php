@@ -22,8 +22,8 @@ $sql = '
 		u.username,
 		u.user_level
 	FROM
-		' . BT_TRACKER_TABLE . ' t,
-		' . USERS_TABLE . ' u
+		bb_bt_tracker t,
+		bb_users u
 	WHERE
 		t.user_id = u.user_id
 	AND

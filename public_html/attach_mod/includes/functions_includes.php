@@ -128,7 +128,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 	if ($admin_mode == 'user' && !$submit && $mode != 'save')
 	{
 		// Show the contents
-		$sql = 'SELECT quota_limit_id, quota_type FROM ' . QUOTA_TABLE . '
+		$sql = 'SELECT quota_limit_id, quota_type FROM bb_attach_quota
 			WHERE user_id = ' . (int) $user_id;
 
 		if( !($result = $db->sql_query($sql)) )
@@ -194,7 +194,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 		$group_id = get_var(POST_GROUPS_URL, 0);
 
 		// Show the contents
-		$sql = 'SELECT quota_limit_id, quota_type FROM ' . QUOTA_TABLE . '
+		$sql = 'SELECT quota_limit_id, quota_type FROM bb_attach_quota
 			WHERE group_id = ' . (int) $group_id;
 
 		if( !($result = $db->sql_query($sql)) )
@@ -297,7 +297,7 @@ function display_upload_attach_box_limits($user_id, $group_id = 0)
 	if ($group_id)
 	{
 		$sql = 'SELECT l.quota_limit
-			FROM ' . QUOTA_TABLE . ' q, ' . QUOTA_LIMITS_TABLE . ' l
+			FROM bb_attach_quota q, bb_quota_limits l
 			WHERE q.group_id = ' . (int) $group_id . '
 				AND q.quota_type = ' . QUOTA_UPLOAD_LIMIT . '
 				AND q.quota_limit_id = l.quota_limit_id
@@ -328,7 +328,7 @@ function display_upload_attach_box_limits($user_id, $group_id = 0)
 			else
 			{
 				$sql = 'SELECT quota_limit
-					FROM ' . QUOTA_LIMITS_TABLE . '
+					FROM bb_quota_limits
 					WHERE quota_limit_id = ' . (int) $quota_id . '
 					LIMIT 1';
 

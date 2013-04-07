@@ -27,7 +27,7 @@ if( isset($_POST['add_name']) )
 	}
 	else
 	{
-		$sql = "INSERT INTO " . DISALLOW_TABLE . " (disallow_username)
+		$sql = "INSERT INTO bb_disallow (disallow_username)
 			VALUES('" . str_replace("\'", "''", $disallowed_user) . "')";
 		$result = $db->sql_query( $sql );
 		if ( !$result )
@@ -45,7 +45,7 @@ else if( isset($_POST['delete_name']) )
 {
 	$disallowed_id = ( isset($_POST['disallowed_id']) ) ? intval( $_POST['disallowed_id'] ) : intval( $_GET['disallowed_id'] );
 
-	$sql = "DELETE FROM " . DISALLOW_TABLE . "
+	$sql = "DELETE FROM bb_disallow
 		WHERE disallow_id = $disallowed_id";
 	$result = $db->sql_query($sql);
 	if( !$result )
@@ -63,7 +63,7 @@ else if( isset($_POST['delete_name']) )
 // Grab the current list of disallowed usernames...
 //
 $sql = "SELECT *
-	FROM " . DISALLOW_TABLE;
+	FROM bb_disallow";
 $result = $db->sql_query($sql);
 if( !$result )
 {

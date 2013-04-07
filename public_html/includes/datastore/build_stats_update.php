@@ -34,7 +34,7 @@ $sql = '
 		ROUND(SUM(u_up_total)) AS upl,
 		ROUND(SUM(u_down_total)) AS donl
 	FROM
-		' . BT_USERS_TABLE;
+		bb_bt_users';
 $result = $db->sql_query($sql);
 $row = $db->sql_fetchrow($result);
 $db->sql_freeresult($result);
@@ -48,7 +48,7 @@ $sql = '
 	SELECT
 		COUNT(DISTINCT user_id) AS st
 	FROM
-		' . BT_TRACKER_TABLE . '
+		bb_bt_tracker
 	WHERE
 		seeder = 1';
 $result = $db->sql_query($sql);
@@ -62,7 +62,7 @@ $sql = '
 	SELECT
 		COUNT(DISTINCT user_id) AS lt
 	FROM
-		' . BT_TRACKER_TABLE . '
+		bb_bt_tracker
 	WHERE
 		seeder = 0';
 $result = $db->sql_query($sql);
@@ -76,14 +76,14 @@ $sql = '
 	SELECT
 		COUNT(*) AS peers
 	FROM
-		' . BT_TRACKER_TABLE;
+		bb_bt_tracker';
 $result = $db->sql_query($sql);
 $row = $db->sql_fetchrow($result);
 $db->sql_freeresult($result);
 $trend_peers = $row['peers'];
 
 // Speed
-$sql = "SELECT SUM(speed_up) as speed_up, SUM(speed_down) as speed_down FROM ". BT_TRACKER_TABLE;
+$sql = "SELECT SUM(speed_up) as speed_up, SUM(speed_down) as speed_down FROM bb_bt_tracker";
 $result = $db->sql_query($sql);
 $row = $db->sql_fetchrow($result);
 $db->sql_freeresult($result);
@@ -91,7 +91,7 @@ $trend_speed = max($row['speed_down'], $row['speed_up']) * 2;
 
 //active torrents begin
 $sql = 'SELECT COUNT(DISTINCT tor.topic_id) AS tt , SUM(tor.size) AS ts
-        FROM '. BT_TRACKER_TABLE .'  tr , '. BT_TORRENTS_TABLE .' tor
+        FROM bb_bt_tracker tr , bb_bt_torrents tor
         WHERE tr.topic_id = tor.topic_id';
 $result = $db->sql_query($sql);
 $row = $db->sql_fetchrow($result);
@@ -102,7 +102,7 @@ $trend_active_torrents_size = $row['ts'];
 
 //all torrents begin
 $sql = ' SELECT COUNT(*) as tn, SUM(size) AS tos
-         FROM '.BT_TORRENTS_TABLE;
+         FROM bb_bt_torrents';
 $result = $db->sql_query($sql);
 $row = $db->sql_fetchrow($result);
 $db->sql_freeresult($result);
@@ -114,7 +114,7 @@ $sql = '
 	SELECT
 		COUNT(*) as total
 	FROM
-		' . POSTS_TABLE;
+		bb_posts';
 $result = $db->sql_query($sql);
 $row = $db->sql_fetchrow($result);
 $db->sql_freeresult($result);
@@ -124,7 +124,7 @@ $sql = '
 	SELECT
 		COUNT(*) as total
 	FROM
-		' . USERS_TABLE;
+		bb_users';
 $result = $db->sql_query($sql);
 $row = $db->sql_fetchrow($result);
 $db->sql_freeresult($result);
@@ -134,8 +134,8 @@ $sql = '
 	SELECT
 		COUNT(*) AS users_online
 	FROM
-		' . SESSIONS_TABLE . ' s,
-		' . USERS_TABLE . ' u
+		bb_sessions s,
+		bb_users u
 	WHERE
 		s.session_time > ' . (time() - 300) . '
 	AND
@@ -149,7 +149,7 @@ $sql = '
 	SELECT
 		COUNT(*) AS visitors
 	FROM
-		' . USERS_TABLE . '
+		bb_users
 	WHERE
 		user_session_time >= ' . strtotime(date('Y-m-d'));
 $result = $db->sql_query($sql);

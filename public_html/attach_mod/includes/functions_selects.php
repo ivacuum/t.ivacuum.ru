@@ -12,7 +12,7 @@ function group_select($select_name, $default_group = 0)
 	global $db, $lang;
 
 	$sql = 'SELECT group_id, group_name
-		FROM ' . EXTENSION_GROUPS_TABLE . '
+		FROM bb_extension_groups
 		ORDER BY group_name';
 
 	if (!($result = $db->sql_query($sql)))
@@ -61,7 +61,7 @@ function download_select($select_name, $group_id = 0)
 	if ($group_id)
 	{
 		$sql = 'SELECT download_mode
-			FROM ' . EXTENSION_GROUPS_TABLE . '
+			FROM bb_extension_groups
 			WHERE group_id = ' . (int) $group_id;
 
 		if (!($result = $db->sql_query($sql)))
@@ -108,7 +108,7 @@ function category_select($select_name, $group_id = 0)
 	global $db, $types_category, $modes_category;
 
 	$sql = 'SELECT group_id, cat_id
-		FROM ' . EXTENSION_GROUPS_TABLE;
+		FROM bb_extension_groups';
 
 	if ( !($result = $db->sql_query($sql)) )
 	{
@@ -193,7 +193,7 @@ function quota_limit_select($select_name, $default_quota = 0)
 	global $db, $lang;
 
 	$sql = 'SELECT quota_limit_id, quota_desc
-		FROM ' . QUOTA_LIMITS_TABLE . '
+		FROM bb_quota_limits
 		ORDER BY quota_limit ASC';
 
 	if ( !($result = $db->sql_query($sql)) )
@@ -229,7 +229,7 @@ function default_quota_limit_select($select_name, $default_quota = 0)
 	global $db, $lang;
 
 	$sql = 'SELECT quota_limit_id, quota_desc
-		FROM ' . QUOTA_LIMITS_TABLE . '
+		FROM bb_quota_limits
 		ORDER BY quota_limit ASC';
 
 	if ( !($result = $db->sql_query($sql)) )

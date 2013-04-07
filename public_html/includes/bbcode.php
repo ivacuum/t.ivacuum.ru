@@ -1174,11 +1174,11 @@ function add_search_words ($post_id, $post_message, $post_title = '', $bbcode_ui
 	}
 	else
 	{
-		$db->query("DELETE FROM ". POSTS_SEARCH_TABLE ." WHERE post_id = $post_id");
+		$db->query("DELETE FROM bb_posts_search WHERE post_id = $post_id");
 
 		if ($words_sql = $db->escape(join("\n", $words)))
 		{
-			$db->query("REPLACE INTO ". POSTS_SEARCH_TABLE ." (post_id, search_words) VALUES ($post_id, '$words_sql')");
+			$db->query("REPLACE INTO bb_posts_search (post_id, search_words) VALUES ($post_id, '$words_sql')");
 		}
 	}
 }

@@ -106,7 +106,7 @@ if ($topic_id && isset($_GET['view']) && ($_GET['view'] == 'next' || $_GET['view
 	$sql_ordering = ($_GET['view'] == 'next') ? 'ASC' : 'DESC';
 
 	$sql = "SELECT t.topic_id
-		FROM ". TOPICS_TABLE ." t, ". TOPICS_TABLE ." t2
+		FROM bb_topics t, bb_topics t2
 		WHERE t2.topic_id = $topic_id
 			AND t.forum_id = t2.forum_id
 			AND t.topic_moved_id = 0
@@ -129,7 +129,7 @@ if ($topic_id && isset($_GET['view']) && ($_GET['view'] == 'next' || $_GET['view
 if ($topic_id)
 {
 	$sql = "SELECT t.*, f.*
-		FROM ". TOPICS_TABLE ." t, ". FORUMS_TABLE ." f
+		FROM bb_topics t, bb_forums f
 		WHERE t.topic_id = $topic_id
 			AND f.forum_id = t.forum_id
 		LIMIT 1";
@@ -137,7 +137,7 @@ if ($topic_id)
 else if ($post_id)
 {
 	$sql = "SELECT t.*, f.*, p.post_time
-		FROM ". TOPICS_TABLE ." t, ". FORUMS_TABLE ." f, ". POSTS_TABLE ." p
+		FROM bb_topics t, bb_forums f, bb_posts p
 		WHERE p.post_id = $post_id
 			AND t.topic_id = p.topic_id
 			AND f.forum_id = t.forum_id
@@ -178,7 +178,7 @@ if (($next_topic_id || @$_GET['view'] === 'newest') && !IS_GUEST && $topic_id)
 	$post_id_altern = ($next_topic_id) ? '' : ' OR post_id = '. $t_data['topic_last_post_id'];
 
 	$sql = "SELECT post_id, post_time
-		FROM ". POSTS_TABLE ."
+		FROM bb_posts
 		WHERE topic_id = $topic_id
 			AND ($post_time $post_id_altern)
 		ORDER BY post_time ASC
@@ -194,7 +194,7 @@ if (($next_topic_id || @$_GET['view'] === 'newest') && !IS_GUEST && $topic_id)
 if ($post_id && !empty($t_data['post_time']) && ($t_data['topic_replies'] + 1) > $posts_per_page)
 {
 	$sql = "SELECT COUNT(post_id) AS prev_posts
-		FROM ". POSTS_TABLE ."
+		FROM bb_posts
 		WHERE topic_id = $topic_id
 			AND post_time <= {$t_data['post_time']}";
 
@@ -287,7 +287,7 @@ if ($bb_cfg['topic_notify_enabled'])
 		$can_watch_topic = TRUE;
 
 		$sql = "SELECT notify_status
-			FROM " . TOPICS_WATCH_TABLE . "
+			FROM bb_topics_watch
 			WHERE topic_id = $topic_id
 				AND user_id = " . $userdata['user_id'];
 
@@ -299,7 +299,7 @@ if ($bb_cfg['topic_notify_enabled'])
 				{
 					$is_watching_topic = 0;
 
-					$sql = "DELETE FROM " . TOPICS_WATCH_TABLE . "
+					$sql = "DELETE FROM bb_topics_watch
 						WHERE topic_id = $topic_id
 							AND user_id = " . $userdata['user_id'];
 					if ( !($result = $db->sql_query($sql)) )
@@ -317,7 +317,7 @@ if ($bb_cfg['topic_notify_enabled'])
 
 				if ( $row['notify_status'] )
 				{
-					$sql = "UPDATE " . TOPICS_WATCH_TABLE . "
+					$sql = "UPDATE bb_topics_watch
 						SET notify_status = 0
 						WHERE topic_id = $topic_id
 							AND user_id = " . $userdata['user_id'];
@@ -336,7 +336,7 @@ if ($bb_cfg['topic_notify_enabled'])
 				{
 					$is_watching_topic = TRUE;
 
-					$sql = "INSERT INTO " . TOPICS_WATCH_TABLE . " (user_id, topic_id, notify_status)
+					$sql = "INSERT INTO bb_topics_watch (user_id, topic_id, notify_status)
 						VALUES (" . $userdata['user_id'] . ", $topic_id, 0)";
 					if ( !($result = $db->sql_query($sql)) )
 					{
@@ -383,7 +383,7 @@ if (!empty($_REQUEST['postdays']))
 		$min_post_time = TIMENOW - ($post_days*86400);
 
 		$sql = "SELECT COUNT(p.post_id) AS num_posts
-			FROM " . TOPICS_TABLE . " t, " . POSTS_TABLE . " p
+			FROM bb_topics t, bb_posts p
 			WHERE t.topic_id = $topic_id
 				AND p.topic_id = t.topic_id
 				AND p.post_time > $min_post_time";
@@ -407,10 +407,10 @@ $sql = "
 		p.*,
 		pt.post_subject, pt.post_text, pt.bbcode_uid,
 		bt.seeding, bt.leeching
-	FROM      ". POSTS_TABLE      ." p
-	LEFT JOIN ". USERS_TABLE      ." u  ON(u.user_id = p.poster_id)
-	LEFT JOIN ". POSTS_TEXT_TABLE ." pt ON(pt.post_id = p.post_id)
-	LEFT JOIN " . BT_USERS_TABLE . " bt ON(p.poster_id = bt.user_id)
+	FROM      bb_posts p
+	LEFT JOIN bb_users u  ON(u.user_id = p.poster_id)
+	LEFT JOIN bb_posts_text pt ON(pt.post_id = p.post_id)
+	LEFT JOIN bb_bt_users bt ON(p.poster_id = bt.user_id)
 	WHERE
 	    p.topic_id = $topic_id
 	  $limit_posts_time
@@ -625,7 +625,7 @@ if ( !empty($t_data['topic_vote']) )
 	$s_hidden_fields = '';
 
 	$sql = "SELECT vd.vote_id, vd.vote_text, vd.vote_start, vd.vote_length, vr.vote_option_id, vr.vote_option_text, vr.vote_result
-		FROM " . VOTE_DESC_TABLE . " vd, " . VOTE_RESULTS_TABLE . " vr
+		FROM bb_vote_desc vd, bb_vote_results vr
 		WHERE vd.topic_id = $topic_id
 			AND vr.vote_id = vd.vote_id
 		ORDER BY vr.vote_option_id ASC";
@@ -643,7 +643,7 @@ if ( !empty($t_data['topic_vote']) )
 		$vote_title = $vote_info[0]['vote_text'];
 
 		$sql = "SELECT vote_id
-			FROM " . VOTE_USERS_TABLE . "
+			FROM bb_vote_voters
 			WHERE vote_id = $vote_id
 				AND vote_user_id = " . intval($userdata['user_id']);
 		if ( !($result = $db->sql_query($sql)) )
@@ -754,7 +754,7 @@ if ($t_data['topic_attachment'])
 //
 // Update the topic view counter
 //
-$sql = "INSERT INTO ". BUF_TOPIC_VIEW_TABLE ."
+$sql = "INSERT INTO buf_topic_view
 	(topic_id,  topic_views) VALUES
 	($topic_id, 1)
 	ON DUPLICATE KEY UPDATE

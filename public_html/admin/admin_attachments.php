@@ -134,7 +134,7 @@ while ($row = $db->sql_fetchrow($result))
 			if ($old_size != $new_size)
 			{
 				// See, if we have a similar value of old_size in Mime Groups. If so, update these values.
-				$sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . '
+				$sql = 'UPDATE bb_extension_groups
 					SET max_filesize = ' . (int) $new_size . '
 					WHERE max_filesize = ' . (int) $old_size;
 
@@ -501,7 +501,7 @@ if ($mode == 'cats')
 	$s_assigned_group_flash = $lang['None'];
 
 	$sql = 'SELECT group_name, cat_id
-		FROM ' . EXTENSION_GROUPS_TABLE . '
+		FROM bb_extension_groups
 		WHERE cat_id > 0
 		ORDER BY cat_id';
 
@@ -511,7 +511,7 @@ if ($mode == 'cats')
 
 	if ( !($result = $db->sql_query($sql)) )
 	{
-		message_die(GENERAL_ERROR, 'Could not get Group Names from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
+		message_die(GENERAL_ERROR, 'Could not get Group Names from bb_extension_groups', '', __LINE__, __FILE__, $sql);
 	}
 
 	$row = $db->sql_fetchrowset($result);
@@ -776,7 +776,7 @@ if ($submit && $mode == 'quota')
 	{
 		$filesize_list[$i] = ( $size_select_list[$i] == 'kb' ) ? round($filesize_list[$i] * 1024) : ( ($size_select_list[$i] == 'mb') ? round($filesize_list[$i] * 1048576) : $filesize_list[$i] );
 
-		$sql = 'UPDATE ' . QUOTA_LIMITS_TABLE . "
+		$sql = "UPDATE bb_quota_limits
 			SET quota_desc = '" . attach_mod_sql_escape($quota_desc_list[$i]) . "', quota_limit = " . (int) $filesize_list[$i] . "
 			WHERE quota_limit_id = " . (int) $quota_change_list[$i];
 
@@ -794,7 +794,7 @@ if ($submit && $mode == 'quota')
 	if ($quota_id_sql != '')
 	{
 		$sql = 'DELETE
-		FROM ' . QUOTA_LIMITS_TABLE . '
+		FROM bb_quota_limits
 		WHERE quota_limit_id IN (' . $quota_id_sql . ')';
 
 		if ( !($result = $db->sql_query($sql)) )
@@ -804,7 +804,7 @@ if ($submit && $mode == 'quota')
 
 		// Delete Quotas linked to this setting
 		$sql = 'DELETE
-		FROM ' . QUOTA_TABLE . '
+		FROM bb_attach_quota
 		WHERE quota_limit_id IN (' . $quota_id_sql . ')';
 
 		if ( !($result = $db->sql_query($sql)) )
@@ -823,7 +823,7 @@ if ($submit && $mode == 'quota')
 	{
 		// check Quota Description
 		$sql = 'SELECT quota_desc
-			FROM ' . QUOTA_LIMITS_TABLE;
+			FROM bb_quota_limits';
 
 		if (!($result = $db->sql_query($sql)))
 		{
@@ -854,7 +854,7 @@ if ($submit && $mode == 'quota')
 		{
 			$filesize = ( $size_select == 'kb' ) ? round($filesize * 1024) : ( ($size_select == 'mb') ? round($filesize * 1048576) : $filesize );
 
-			$sql = "INSERT INTO " . QUOTA_LIMITS_TABLE . " (quota_desc, quota_limit)
+			$sql = "INSERT INTO bb_quota_limits (quota_desc, quota_limit)
 			VALUES ('" . attach_mod_sql_escape($quota_desc) . "', " . (int) $filesize . ")";
 
 			if ( !($db->sql_query($sql)) )
@@ -905,7 +905,7 @@ if ($mode == 'quota')
 		'S_ATTACH_ACTION' => append_sid('admin_attachments.php?mode=quota'))
 	);
 
-	$sql = "SELECT * FROM " . QUOTA_LIMITS_TABLE . " ORDER BY quota_limit DESC";
+	$sql = "SELECT * FROM bb_quota_limits ORDER BY quota_limit DESC";
 
 	if ( !($result = $db->sql_query($sql)) )
 	{
@@ -949,7 +949,7 @@ if ($mode == 'quota' && $e_mode == 'view_quota')
 
 	$template->assign_block_vars('switch_quota_limit_desc', array());
 
-	$sql = "SELECT * FROM " . QUOTA_LIMITS_TABLE . " WHERE quota_limit_id = " . (int) $quota_id . " LIMIT 1";
+	$sql = "SELECT * FROM bb_quota_limits WHERE quota_limit_id = " . (int) $quota_id . " LIMIT 1";
 
 	if ( !($result = $db->sql_query($sql)) )
 	{
@@ -966,7 +966,7 @@ if ($mode == 'quota' && $e_mode == 'view_quota')
 	));
 
 	$sql = 'SELECT q.user_id, u.username, q.quota_type
-		FROM ' . QUOTA_TABLE . ' q, ' . USERS_TABLE . ' u
+		FROM bb_attach_quota q, bb_users u
 		WHERE q.quota_limit_id = ' . (int) $quota_id . '
 			AND q.user_id <> 0
 			AND q.user_id = u.user_id';
@@ -999,7 +999,7 @@ if ($mode == 'quota' && $e_mode == 'view_quota')
 	}
 
 	$sql = 'SELECT q.group_id, g.group_name, q.quota_type
-		FROM ' . QUOTA_TABLE . ' q, ' . GROUPS_TABLE . ' g
+		FROM bb_attach_quota q, bb_groups g
 		WHERE q.quota_limit_id = ' . (int) $quota_id . '
 			AND q.group_id <> 0
 			AND q.group_id = g.group_id';

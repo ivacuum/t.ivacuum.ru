@@ -170,7 +170,7 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 		{
 			$sql = "INSERT INTO bb_bt_torrents_del (topic_id, info_hash)
 				SELECT topic_id,info_hash
-				FROM ". BT_TORRENTS_TABLE ."
+				FROM bb_bt_torrents
 				WHERE attach_id IN(". implode(',', $attach_id_array) .") ON DUPLICATE KEY UPDATE is_del=1";
 			if ( !($db->sql_query($sql)) )
 			{
@@ -178,7 +178,7 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 			}
 
 			$sql = "SELECT topic_id
-				FROM ". BT_TORRENTS_TABLE ."
+				FROM bb_bt_torrents
 				WHERE attach_id IN(". implode(',', $attach_id_array) .")";
 
 			if (!$result = $db->sql_query($sql))
@@ -196,7 +196,7 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 			if ($torrents_sql = implode(',', $torrents_sql))
 			{
 				// Remove peers from tracker
-				$sql = "DELETE FROM ". BT_TRACKER_TABLE ."
+				$sql = "DELETE FROM bb_bt_tracker
 					WHERE topic_id IN($torrents_sql)";
 
 				if (!$db->sql_query($sql))
@@ -205,7 +205,7 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 				}
 			}
 			// Delete torrents
-			$sql = "DELETE FROM ". BT_TORRENTS_TABLE ."
+			$sql = "DELETE FROM bb_bt_torrents
 				WHERE attach_id IN(". implode(',', $attach_id_array) .")";
 
 			if (!$db->sql_query($sql))
@@ -291,7 +291,7 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 		if (sizeof($post_id_array))
 		{
 			$sql = 'SELECT topic_id
-			FROM ' . POSTS_TABLE . '
+			FROM bb_posts
 			WHERE post_id IN (' . implode(', ', $post_id_array) . ')
 			GROUP BY topic_id';
 

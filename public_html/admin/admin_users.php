@@ -511,7 +511,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 				setbit($user_opt, $bf['user_opt'][$opt], !empty($_POST[$opt]));
 			}
 
-			$sql = "UPDATE " . USERS_TABLE . "
+			$sql = "UPDATE bb_users
 				SET " . $username_sql . $passwd_sql . "
 					user_email = '" . str_replace("\'", "''", $email) . "',
 					user_icq = '" . str_replace("\'", "''", $icq) . "',
@@ -820,7 +820,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 			$avatar = "";
 		}
 
-		$sql = "SELECT * FROM " . RANKS_TABLE . "
+		$sql = "SELECT * FROM bb_ranks
 			WHERE rank_special = 1
 			ORDER BY rank_title";
 		if ( !($result = $db->sql_query($sql)) )
@@ -847,7 +847,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 
 		// query to get the list of flags
 		$sql = "SELECT *
-			FROM " . FLAG_TABLE . "
+			FROM bb_flags
 			ORDER BY flag_name";
 		if(!$flags_result = $db->sql_query($sql))
 		{

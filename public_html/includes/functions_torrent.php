@@ -20,9 +20,9 @@ function get_torrent_info ($attach_id)
 		FROM
 			bb_attachments a,
 			bb_attachments_desc d,
-			". POSTS_TABLE            ." p,
-			". TOPICS_TABLE           ." t,
-			". FORUMS_TABLE           ." f
+			bb_posts p,
+			bb_topics t,
+			bb_forums f
 		WHERE
 			    a.attach_id = $attach_id
 			AND d.attach_id = $attach_id
@@ -92,7 +92,7 @@ function tracker_unregister ($attach_id, $mode = '')
 	if (!$topic_id)
 	{
 		$sql = "SELECT topic_id, info_hash
-			FROM ". BT_TORRENTS_TABLE ."
+			FROM bb_bt_torrents
 			WHERE attach_id = $attach_id";
 
 		if (!$result = $db->sql_query($sql))
@@ -109,7 +109,7 @@ function tracker_unregister ($attach_id, $mode = '')
 	// Unset DL-Type for topic
 	if ($board_config['bt_unset_dltype_on_tor_unreg'] && $topic_id)
 	{
-		$sql = "UPDATE ". TOPICS_TABLE ." SET
+		$sql = "UPDATE bb_topics SET
 				topic_dl_type = ". TOPIC_DL_TYPE_NORMAL ."
 			WHERE topic_id = $topic_id
 			LIMIT 1";
@@ -121,7 +121,7 @@ function tracker_unregister ($attach_id, $mode = '')
 	}
 
 	$sql = "SELECT topic_id, info_hash
-		FROM ". BT_TORRENTS_TABLE ."
+		FROM bb_bt_torrents
 		WHERE attach_id = $attach_id";
 	$result = $db->sql_query($sql);
 	$row = $db->sql_fetchrow($result);
@@ -131,11 +131,11 @@ function tracker_unregister ($attach_id, $mode = '')
 
 	if( $topic_id > 0 && $del_info_hash )
 	{
-		$sql = 'INSERT IGNORE INTO ' . BT_TORRENTS_TABLE . '_del (topic_id, info_hash, is_del) VALUES (' . $topic_id . ', "' . $db->escape($del_info_hash) . '", 1)';
+		$sql = 'INSERT IGNORE INTO bb_bt_torrents_del (topic_id, info_hash, is_del) VALUES (' . $topic_id . ', "' . $db->escape($del_info_hash) . '", 1)';
 		$db->sql_query($sql);
 
 		// Remove peers from tracker
-		$sql = "DELETE FROM ". BT_TRACKER_TABLE ."
+		$sql = "DELETE FROM bb_bt_tracker
 			WHERE topic_id = $topic_id";
 
 		if (!$db->sql_query($sql))
@@ -145,7 +145,7 @@ function tracker_unregister ($attach_id, $mode = '')
 	}
 
 	// Delete torrent
-	$sql = "DELETE FROM ". BT_TORRENTS_TABLE ."
+	$sql = "DELETE FROM bb_bt_torrents
 		WHERE attach_id = $attach_id";
 
 	if (!$db->sql_query($sql))
@@ -217,7 +217,7 @@ function change_tor_status ($attach_id, $new_tor_status)
 	torrent_auth_check($torrent['forum_id'], $torrent['poster_id']);
 
 	$db->query("
-		UPDATE ". BT_TORRENTS_TABLE ." SET
+		UPDATE bb_bt_torrents SET
 			tor_status = $new_tor_status
 		WHERE attach_id = $attach_id
 		LIMIT 1
@@ -326,7 +326,7 @@ function tracker_register ($attach_id, $mode = '')
 	$info_hash_sql = $db->escape($info_hash);
 
 	$sql = "SELECT topic_id
-		FROM ". BT_TORRENTS_TABLE ."
+		FROM bb_bt_torrents
 		WHERE info_hash = '$info_hash_sql'
 		LIMIT 1";
 
@@ -364,7 +364,7 @@ function tracker_register ($attach_id, $mode = '')
 	$columns = '      info_hash,  post_id,  poster_id,  topic_id,  forum_id,  attach_id,   size,   reg_time';
 	$values = "'$info_hash_sql', $post_id, $poster_id, $topic_id, $forum_id, $attach_id, '$size', $reg_time";
 
-	$sql = "INSERT INTO ". BT_TORRENTS_TABLE ." ($columns) VALUES ($values)";
+	$sql = "INSERT INTO bb_bt_torrents ($columns) VALUES ($values)";
 
 	if (!$db->sql_query($sql))
 	{
@@ -391,7 +391,7 @@ function tracker_register ($attach_id, $mode = '')
 	// set DL-Type for topic
 	if ($board_config['bt_set_dltype_on_tor_reg'])
 	{
-		$sql = 'UPDATE '. TOPICS_TABLE .' SET
+		$sql = 'UPDATE bb_topics SET
 				topic_dl_type = '. TOPIC_DL_TYPE_DL ."
 			WHERE topic_id = $topic_id
 			LIMIT 1";
@@ -487,8 +487,8 @@ function send_torrent_with_passkey ($filename)
 		{
 			$dl = $db->fetch_row("
 				SELECT dl.user_status
-				FROM ". POSTS_TABLE ." p
-				LEFT JOIN ". BT_DLSTATUS_TABLE ." dl ON dl.topic_id = p.topic_id AND dl.user_id = $user_id
+				FROM bb_posts p
+				LEFT JOIN bb_bt_dlstatus_main dl ON dl.topic_id = p.topic_id AND dl.user_id = $user_id
 				WHERE p.post_id = $post_id
 				LIMIT 1
 			");
@@ -506,7 +506,7 @@ function send_torrent_with_passkey ($filename)
 	{
 		$seeding = $db->fetch_row("
 			SELECT COUNT(DISTINCT topic_id) AS torrents, SUM(speed_up) AS sum_up
-			FROM ". BT_TRACKER_TABLE ."
+			FROM bb_bt_tracker
 			WHERE user_id = $user_id
 				AND seeder = 1
 		");
@@ -637,7 +637,7 @@ function generate_passkey ($user_id, $force_generate = false)
 	if (!$force_generate)
 	{
 		$sql = "SELECT user_allow_passkey
-			FROM ". USERS_TABLE ."
+			FROM bb_users
 			WHERE user_id = $user_id
 			LIMIT 1";
 
@@ -659,14 +659,14 @@ function generate_passkey ($user_id, $force_generate = false)
 		$passkey_val = make_rand_str(BT_AUTH_KEY_LENGTH);
 
 		// Insert new row
-		$sql = "INSERT IGNORE INTO ". BT_USERS_TABLE ." (user_id, auth_key, key_regtime) VALUES ($user_id, '$passkey_val', " . time() . ")";
+		$sql = "INSERT IGNORE INTO bb_bt_users (user_id, auth_key, key_regtime) VALUES ($user_id, '$passkey_val', " . time() . ")";
 
 		if ($db->sql_query($sql) && $db->sql_affectedrows() == 1)
 		{
 			return $passkey_val;
 		}
 		// Update
-		$sql = "UPDATE IGNORE ". BT_USERS_TABLE ." SET
+		$sql = "UPDATE IGNORE bb_bt_users SET
 				auth_key = '$passkey_val',
 				key_regtime = " . time() . "
 			WHERE user_id = $user_id
@@ -683,13 +683,13 @@ function generate_passkey ($user_id, $force_generate = false)
 function tracker_rm_torrent ($topic_id)
 {
 	global $db;
-	return $db->sql_query("DELETE FROM ". BT_TRACKER_TABLE ." WHERE topic_id = ". (int) $topic_id);
+	return $db->sql_query("DELETE FROM bb_bt_tracker WHERE topic_id = ". (int) $topic_id);
 }
 
 function tracker_rm_user ($user_id)
 {
 	global $db;
-	return $db->sql_query("DELETE FROM ". BT_TRACKER_TABLE ." WHERE user_id = ". (int) $user_id);
+	return $db->sql_query("DELETE FROM bb_bt_tracker WHERE user_id = ". (int) $user_id);
 }
 
 function get_registered_torrents ($id, $mode)
@@ -699,7 +699,7 @@ function get_registered_torrents ($id, $mode)
 	$field = ($mode == 'topic') ? 'topic_id' : 'post_id';
 
 	$sql = "SELECT topic_id
-		FROM ". BT_TORRENTS_TABLE ."
+		FROM bb_bt_torrents
 		WHERE $field = $id
 		LIMIT 1";
 
@@ -714,7 +714,7 @@ function get_registered_torrents ($id, $mode)
 			SELECT
 				info_hash
 			FROM
-				' . BT_TORRENTS_TABLE . '
+				bb_bt_torrents
 			WHERE
 				topic_id = ' . $id;
 		$result = $db->sql_query($sql);
@@ -723,7 +723,7 @@ function get_registered_torrents ($id, $mode)
 
 		if( $row && $row['info_hash'] == str_pad('', 20, chr(0)) )
 		{
-			$sql = 'DELETE FROM ' . BT_TORRENTS_TABLE . ' WHERE topic_id = ' . $id;
+			$sql = 'DELETE FROM bb_bt_torrents WHERE topic_id = ' . $id;
 			$db->sql_query($sql);
 			return false;
 		}

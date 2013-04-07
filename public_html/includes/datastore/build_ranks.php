@@ -9,7 +9,7 @@ global $db;
 
 $ranks = array();
 
-$sql = "SELECT rank_id, rank_title, rank_image FROM ". RANKS_TABLE;
+$sql = "SELECT rank_id, rank_title, rank_image FROM bb_ranks";
 
 foreach ($db->fetch_rowset($sql) as $row)
 {

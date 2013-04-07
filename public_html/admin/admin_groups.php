@@ -140,7 +140,7 @@ else if (!empty($_POST['group_update']))
 			$sql_args = $db->build_array('UPDATE', $sql_ary);
 
 			// Update group's data
-			$db->query("UPDATE ". GROUPS_TABLE ." SET $sql_args WHERE group_id = $group_id");
+			$db->query("UPDATE bb_groups SET $sql_args WHERE group_id = $group_id");
 
 			$message = $lang['Updated_group'] .'<br /><br />';
 			$message .= sprintf($lang['Click_return_groupsadmin'], '<a href="'. append_sid("admin_groups.php") .'">', '</a>') .'<br /><br />';
@@ -153,7 +153,7 @@ else if (!empty($_POST['group_update']))
 			$sql_args = $db->build_array('INSERT', $sql_ary);
 
 			// Create new group
-			$db->query("INSERT INTO ". GROUPS_TABLE ." $sql_args");
+			$db->query("INSERT INTO bb_groups $sql_args");
 			$new_group_id = $db->sql_nextid();
 
 			// Create user_group for group's moderator

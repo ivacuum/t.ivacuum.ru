@@ -145,7 +145,7 @@ if (!$tor_reged)
 else
 {
 	$sql = "SELECT *
-		FROM ". BT_TORRENTS_TABLE ."
+		FROM bb_bt_torrents
 		WHERE attach_id = $attach_id
 		LIMIT 1";
 
@@ -178,15 +178,15 @@ if ($tor_reged && $tor_info)
 	if (($min_ratio_dl || $min_ratio_warn) && $bt_user_id != $poster_id)
 	{
 		$sql = "SELECT u.*, dl.user_status
-			FROM ". BT_USERS_TABLE ." u
-			LEFT JOIN ". BT_DLSTATUS_TABLE ." dl ON dl.user_id = $bt_user_id AND dl.topic_id = $bt_topic_id
+			FROM bb_bt_users u
+			LEFT JOIN bb_bt_dlstatus_main dl ON dl.user_id = $bt_user_id AND dl.topic_id = $bt_topic_id
 			WHERE u.user_id = $bt_user_id
 			LIMIT 1";
 	}
 	else
 	{
 		$sql = "SELECT user_status
-			FROM ". BT_DLSTATUS_TABLE ."
+			FROM bb_bt_dlstatus_main
 			WHERE user_id = $bt_user_id
 				AND topic_id = $bt_topic_id
 			LIMIT 1";
@@ -222,7 +222,7 @@ if ($tor_reged && $tor_info)
 	else
 	{
 	    //torrent status mod
-	    $sql = 'SELECT t.*, u.username  FROM '. BT_TORRENTS_TABLE ." t left join ". USERS_TABLE ." u on t.checked_user_id=u.user_id WHERE t.attach_id = $attach_id";
+	    $sql = "SELECT t.*, u.username  FROM bb_bt_torrents t left join bb_users u on t.checked_user_id=u.user_id WHERE t.attach_id = $attach_id";
 	    $tor_row = $db->sql_fetchrow($db->sql_query($sql));
 	    //end torrent status mod
 		$template->assign_block_vars('postrow.attach.tor_reged', array(
@@ -319,7 +319,7 @@ if ($tor_reged && $tor_info)
 		{
 			/*
 			$sql = "SELECT seeders, leechers, speed_up, speed_down
-				FROM ". BT_TRACKER_SNAP_TABLE ."
+				FROM bb_bt_tracker_snap
 				WHERE topic_id = $tor_id
 				LIMIT 1";
 			*/
@@ -327,7 +327,7 @@ if ($tor_reged && $tor_info)
 		elseif ($s_mode == 'names')
 		{
 			$sql = "SELECT tr.user_id, tr.ip, tr.port, tr.remain, tr.seeder, u.username
-				FROM ". BT_TRACKER_TABLE ." tr, ". USERS_TABLE ." u
+				FROM bb_bt_tracker tr, bb_users u
 				WHERE tr.topic_id = $tor_id
 					AND u.user_id = tr.user_id
 				GROUP BY tr.ip, tr.user_id, tr.port, tr.seeder
@@ -340,8 +340,8 @@ if ($tor_reged && $tor_info)
 					tr.user_id, tr.ip, tr.port, tr.uploaded, tr.downloaded, tr.remain,
 					tr.seeder, tr.releaser, tr.speed_up, tr.speed_down, tr.update_time,
 					u.username
-				FROM ". BT_TRACKER_TABLE ." tr
-				LEFT JOIN ". USERS_TABLE ." u ON u.user_id = tr.user_id
+				FROM bb_bt_tracker tr
+				LEFT JOIN bb_users u ON u.user_id = tr.user_id
 				WHERE tr.topic_id = $tor_id
 				GROUP BY tr.ip, tr.user_id, tr.port, tr.seeder
 				ORDER BY $full_mode_order $full_mode_sort_dir

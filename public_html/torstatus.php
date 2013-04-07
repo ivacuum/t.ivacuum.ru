@@ -60,7 +60,7 @@ if (!empty($_POST['tor_status']) && $confirm)
 {
 		$new_tor_status = $_POST['tor_status'];
 		change_tor_status($attach_id, $new_tor_status);
-		$sql = "update ". BT_TORRENTS_TABLE ." set checked_user_id=". $userdata['user_id'] .", checked_time=". time() ." WHERE attach_id=". $attach_id;
+		$sql = "update bb_bt_torrents set checked_user_id=". $userdata['user_id'] .", checked_time=". time() ." WHERE attach_id=". $attach_id;
 		$db->sql_query($sql);
 		redirect("viewtopic.php?t=$topic_id");
 
@@ -77,7 +77,7 @@ if (!empty($_POST['tor_status']) && $confirm)
 if( $userdata['user_id'] != ANONYMOUS && is_numeric($attach_id) ) {
 
   $sql = 'SELECT p.forum_id
-	FROM bb_attachments a join '. POSTS_TABLE .' p on a.post_id=p.post_id
+	FROM bb_attachments a join bb_posts p on a.post_id=p.post_id
 	WHERE a.attach_id='. $attach_id;
 
   if( $result = $db->sql_query($sql) ) {
@@ -88,7 +88,7 @@ if( $userdata['user_id'] != ANONYMOUS && is_numeric($attach_id) ) {
     $is_auth = auth(AUTH_ALL, $forum_id, $userdata);
     if( $is_auth['auth_mod'] ) {
 
-	$sql = "update ". BT_TORRENTS_TABLE ." set checked_user_id=". $userdata['user_id'] .", checked_time=". time()
+	$sql = "update bb_bt_torrents set checked_user_id=". $userdata['user_id'] .", checked_time=". time()
 		." WHERE attach_id=". $attach_id;
 
 	if( $db->sql_query($sql) ) {

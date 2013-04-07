@@ -15,7 +15,7 @@ require(SITE_DIR . 'includes/functions_selects.php');
 // Pull all config data
 //
 $sql = "SELECT *
-	FROM " . CONFIG_TABLE;
+	FROM bb_config";
 if(!$result = $db->sql_query($sql))
 {
 	message_die(CRITICAL_ERROR, "Could not query config information in admin_board", "", __LINE__, __FILE__, $sql);

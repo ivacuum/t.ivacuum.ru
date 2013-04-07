@@ -110,8 +110,8 @@ class user_common
 
 			$SQL['SELECT'][] = "u.*, s.*";
 
-			$SQL['FROM'][] = SESSIONS_TABLE ." s";
-			$SQL['INNER JOIN'][] = USERS_TABLE ." u ON(u.user_id = s.session_user_id)";
+			$SQL['FROM'][] = "bb_sessions s";
+			$SQL['INNER JOIN'][] = "bb_users u ON(u.user_id = s.session_user_id)";
 
 			if( $session_id )
 			{
@@ -121,7 +121,7 @@ class user_common
 				if( $bb_cfg['torhelp_enabled'] )
 				{
 					$SQL['SELECT'][] = "th.topic_id_csv AS torhelp";
-					$SQL['LEFT JOIN'][] = BT_TORHELP_TABLE ." th ON(u.user_id = th.user_id)";
+					$SQL['LEFT JOIN'][] = "bb_bt_torhelp th ON(u.user_id = th.user_id)";
 				}
 				*/
 
@@ -189,7 +189,7 @@ class user_common
 				if( $update_sessions_table )
 				{
 					$db->query("
-						UPDATE ". SESSIONS_TABLE ." SET
+						UPDATE bb_sessions SET
 							session_time = ". TIMENOW ."
 						WHERE session_id = '$session_id'
 						LIMIT 1
@@ -275,7 +275,7 @@ class user_common
 			$where_sql  = "ban_ip IN('". USER_IP ."', '$ip[1]$ip[2]$ip[3]ff', '$ip[1]$ip[2]ffff', '$ip[1]ffffff')";
 			$where_sql .= ($login) ? " OR ban_userid = $user_id" : '';
 
-			$sql = "SELECT ban_id FROM ". BANLIST_TABLE ." WHERE $where_sql LIMIT 1";
+			$sql = "SELECT ban_id FROM bb_banlist WHERE $where_sql LIMIT 1";
 
 			if ($db->fetch_row($sql))
 			{
@@ -297,7 +297,7 @@ class user_common
 				'session_logged_in' => (int) $login,
 				'session_admin'     => (int) $mod_admin_session,
 			));
-			$sql = "INSERT INTO ". SESSIONS_TABLE . $args;
+			$sql = "INSERT INTO bb_sessions " . $args;
 
 			if (@$db->query($sql))
 			{
@@ -326,7 +326,7 @@ class user_common
 			if ($last_visit != $this->data['user_lastvisit'])
 			{
 				$db->query("
-					UPDATE ". USERS_TABLE ." SET
+					UPDATE bb_users SET
 						user_session_time = ". TIMENOW .",
 						user_ip = '" . decode_ip(USER_IP) . "',
 						user_lastvisit = $last_visit
@@ -378,7 +378,7 @@ class user_common
 		global $db;
 
 		$db->query("
-			DELETE FROM ". SESSIONS_TABLE ."
+			DELETE FROM bb_sessions
 			WHERE session_id = '{$this->data['session_id']}'
 		");
 
@@ -387,7 +387,7 @@ class user_common
 			if ($update_lastvisit)
 			{
 				$db->query("
-					UPDATE ". USERS_TABLE ." SET
+					UPDATE bb_users SET
 						user_session_time = ". TIMENOW .",
 						user_lastvisit = ". TIMENOW ."
 					WHERE user_id = {$this->data['user_id']}
@@ -400,7 +400,7 @@ class user_common
 				$this->create_autologin_id($this->data, false);
 
 				$db->query("
-					DELETE FROM ". SESSIONS_TABLE ."
+					DELETE FROM bb_sessions
 					WHERE session_user_id = '{$this->data['user_id']}'
 				");
 			}
@@ -429,7 +429,7 @@ class user_common
 
 			$sql = "
 				SELECT *
-				FROM ". USERS_TABLE ."
+				FROM bb_users
 				WHERE username = '$username_sql'
 				  AND user_password = '$password_sql'
 				  AND user_active = 1
@@ -448,7 +448,7 @@ class user_common
 				if ($mod_admin_login)
 				{
 					$db->query("
-						UPDATE ". SESSIONS_TABLE ." SET
+						UPDATE bb_sessions SET
 							session_admin = ". $this->data['user_level'] ."
 						WHERE session_user_id = ". $this->data['user_id'] ."
 							AND session_id = '". $this->data['session_id'] ."'
@@ -462,7 +462,7 @@ class user_common
 				{
 					// Removing guest sessions from this IP
 					$db->query("
-						DELETE FROM ". SESSIONS_TABLE ."
+						DELETE FROM bb_sessions
 						WHERE session_ip = '". USER_IP ."'
 							AND session_user_id = ". ANONYMOUS ."
 					");
@@ -606,7 +606,7 @@ class user_common
 		$autologin_id = ($create_new) ? make_rand_str(LOGIN_KEY_LENGTH) : '';
 
 		$db->query("
-			UPDATE ". USERS_TABLE ." SET
+			UPDATE bb_users SET
 				autologin_id = '$autologin_id'
 			WHERE user_id = ". (int) $userdata['user_id'] ."
 			LIMIT 1
@@ -632,7 +632,7 @@ class user_common
 		}
 		if (!$srv_overloaded && $bb_cfg['max_reg_users_online'])
 		{
-			$sql = "SELECT COUNT(DISTINCT session_user_id) AS users_count FROM ". SESSIONS_TABLE ." WHERE session_time > ". (TIMENOW - 300);
+			$sql = "SELECT COUNT(DISTINCT session_user_id) AS users_count FROM bb_sessions WHERE session_time > ". (TIMENOW - 300);
 
 			if ($row = $db->fetch_row($sql))
 			{
@@ -717,7 +717,7 @@ class user_common
 		{
 			// Update session time
 			$db->query("
-				UPDATE ". SESSIONS_TABLE ." SET
+				UPDATE bb_sessions SET
 					session_time = ". TIMENOW ."
 				WHERE session_id = '{$this->data['session_id']}'
 				LIMIT 1
@@ -921,7 +921,7 @@ function cache_rm_user_sessions ($user_id)
 	$user_id = get_id_csv($user_id);
 
 	$rowset = $db->fetch_rowset("
-		SELECT session_id FROM ". SESSIONS_TABLE ." WHERE session_user_id IN($user_id)
+		SELECT session_id FROM bb_sessions WHERE session_user_id IN($user_id)
 	");
 
 	foreach ($rowset as $row)
@@ -942,7 +942,7 @@ function db_update_userdata ($userdata, $sql_ary, $data_already_escaped = true)
 	if (!$userdata) return false;
 
 	$sql_args = $db->build_array('UPDATE', $sql_ary, $data_already_escaped);
-	$db->query("UPDATE ". USERS_TABLE ." SET $sql_args WHERE user_id = {$userdata['user_id']}");
+	$db->query("UPDATE bb_users SET $sql_args WHERE user_id = {$userdata['user_id']}");
 
 	if ($db->sql_affectedrows())
 	{
@@ -958,7 +958,7 @@ function delete_user_sessions ($user_id)
 	cache_rm_user_sessions($user_id);
 
 	$user_id = get_id_csv($user_id);
-	$db->query("DELETE FROM ". SESSIONS_TABLE ." WHERE session_user_id IN($user_id)");
+	$db->query("DELETE FROM bb_sessions WHERE session_user_id IN($user_id)");
 }
 
 function append_sid ($url, $non_html_amp = false)

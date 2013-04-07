@@ -13,7 +13,7 @@ if (!defined('SITE_DIR'))
 
 // Get cron jobs
 $cron_jobs = $db->fetch_rowset("
-	SELECT * FROM ". CRON_TABLE ."
+	SELECT * FROM bb_cron
 	WHERE cron_active = 1
 		AND next_run <= NOW()
 	ORDER BY run_order

@@ -164,7 +164,7 @@ $time_end_val = 86400 + mktime(0, 0, 0, date('m', $datetime_val), date('d', $dat
 $time_start_val = $time_end_val - 86400*$daysback_val;
 
 // First log time
-$row = $db->fetch_row("SELECT MIN(log_time) AS first_log_time FROM ". LOG_TABLE);
+$row = $db->fetch_row("SELECT MIN(log_time) AS first_log_time FROM bb_log");
 $first_log_time = (int) $row['first_log_time'];
 
 // Title match
@@ -185,7 +185,7 @@ if ($var =& $_REQUEST[$title_match_key])
 //
 $select = "SELECT *";
 
-$from = "FROM ". LOG_TABLE;
+$from = "FROM bb_log";
 
 $where = "
 	WHERE log_time BETWEEN $time_start_val AND $time_end_val

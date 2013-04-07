@@ -53,7 +53,7 @@ if ($submit && $mode == 'user')
 
 	// Get "single_user" group_id for this user
 	$sql = "SELECT g.group_id
-		FROM ". USER_GROUP_TABLE ." ug, ". GROUPS_TABLE ." g
+		FROM bb_user_group ug, bb_groups g
 		WHERE ug.user_id = $user_id
 			AND g.group_id = ug.group_id
 			AND g.group_single_user = 1";
@@ -80,7 +80,7 @@ if ($submit && $mode == 'user')
 			bb_die("Couldn't update admin status");
 		}
 
-		$db->query("UPDATE ". USERS_TABLE ." SET user_level = ". ADMIN ." WHERE user_id = $user_id LIMIT 1");
+		$db->query("UPDATE bb_users SET user_level = ". ADMIN ." WHERE user_id = $user_id LIMIT 1");
 
 		// Delete any entries in auth_access, they are not required if user is becoming an admin
 		delete_permissions($group_id, $user_id);
@@ -100,7 +100,7 @@ if ($submit && $mode == 'user')
 			bb_die("Couldn't update admin status<br /><br />Couldn't change yourself from an admin to user");
 		}
 		// Update users level, reset to USER
-		$db->query("UPDATE ". USERS_TABLE ." SET user_level = ". USER ." WHERE user_id = $user_id LIMIT 1");
+		$db->query("UPDATE bb_users SET user_level = ". USER ." WHERE user_id = $user_id LIMIT 1");
 
 		delete_permissions($group_id, $user_id);
 

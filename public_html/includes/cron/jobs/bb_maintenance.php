@@ -22,13 +22,13 @@ $lock_tables = array(
 	'bb_attachments_desc',
 	'bb_attachments a',
 	'bb_attachments',
-	BT_TORRENTS_TABLE      .' tor',
-	BT_TORRENTS_TABLE,
-	POSTS_TABLE            .' p',
-	POSTS_TABLE,
-	PRIVMSGS_TABLE         .' pm',
-	TOPICS_TABLE           .' t',
-	TOPICS_TABLE,
+	'bb_bt_torrents tor',
+	'bb_bt_torrents',
+	'bb_posts p',
+	'bb_posts',
+	'bb_privmsgs pm',
+	'bb_topics t',
+	'bb_topics',
 );
 
 $db->query("
@@ -152,7 +152,7 @@ if ($check_attachments)
 	// Attachments without post
 	$sql = "SELECT a.attach_id
 		FROM bb_attachments a
-		LEFT JOIN ". POSTS_TABLE ." p USING(post_id)
+		LEFT JOIN bb_posts p USING(post_id)
 		WHERE p.post_id IS NULL
 		LIMIT $sql_limit";
 
@@ -172,7 +172,7 @@ if ($check_attachments)
 
 	// Torrents without attachments
 	$sql = "SELECT tor.topic_id
-		FROM ". BT_TORRENTS_TABLE ." tor
+		FROM bb_bt_torrents tor
 		LEFT JOIN bb_attachments_desc d USING(attach_id)
 		WHERE d.attach_id IS NULL
 		LIMIT $sql_limit";
@@ -186,13 +186,13 @@ if ($check_attachments)
 	{
 		if ($fix_errors)
 		{
-			$db->query("DELETE FROM ". BT_TORRENTS_TABLE ." WHERE topic_id IN($orphans_sql)");
+			$db->query("DELETE FROM bb_bt_torrents WHERE topic_id IN($orphans_sql)");
 		}
 	}
 
 	// Check post_attachment markers
 	$sql = "SELECT p.post_id
-		FROM ". POSTS_TABLE ." p
+		FROM bb_posts p
 		LEFT JOIN bb_attachments a USING(post_id)
 		WHERE p.post_attachment = 1
 		AND a.post_id IS NULL";
@@ -205,12 +205,12 @@ if ($check_attachments)
 	{
 		if ($fix_errors)
 		{
-			$db->query("UPDATE ". POSTS_TABLE ." SET post_attachment = 0 WHERE post_id IN($posts_sql)");
+			$db->query("UPDATE bb_posts SET post_attachment = 0 WHERE post_id IN($posts_sql)");
 		}
 	}
 	// Check topic_attachment markers
 	$sql = "SELECT t.topic_id
-		FROM ". POSTS_TABLE ." p, ". TOPICS_TABLE ." t
+		FROM bb_posts p, bb_topics t
 		WHERE t.topic_id = p.topic_id
 			AND t.topic_attachment = 1
 		GROUP BY p.topic_id
@@ -224,7 +224,7 @@ if ($check_attachments)
 	{
 		if ($fix_errors)
 		{
-			$db->query("UPDATE ". TOPICS_TABLE ." SET topic_attachment = 0 WHERE topic_id IN($topics_sql)");
+			$db->query("UPDATE bb_topics SET topic_attachment = 0 WHERE topic_id IN($topics_sql)");
 		}
 	}
 }
@@ -252,7 +252,7 @@ sync('user_posts', 'all');
 
 // Clean "user_newpasswd"
 $db->query("
-	UPDATE ". USERS_TABLE ." SET
+	UPDATE bb_users SET
 		user_newpasswd = ''
 	WHERE user_lastvisit < ". (TIMENOW - 7*86400) ."
 ");
@@ -260,5 +260,5 @@ $db->query("
 // Clean posts cache
 // if ($posts_days = intval($bb_cfg['posts_cache_days_keep']))
 // {
-// 	$db->query("DELETE FROM ". POSTS_HTML_TABLE ." WHERE post_html_time < DATE_SUB(NOW(), INTERVAL $posts_days DAY)");
+// 	$db->query("DELETE FROM bb_posts_html WHERE post_html_time < DATE_SUB(NOW(), INTERVAL $posts_days DAY)");
 // }

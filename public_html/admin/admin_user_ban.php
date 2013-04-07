@@ -135,7 +135,7 @@ if ( isset($_POST['submit']) )
 	}
 
 	$sql = "SELECT *
-		FROM " . BANLIST_TABLE;
+		FROM bb_banlist";
 	if ( !($result = $db->sql_query($sql)) )
 	{
 		message_die(GENERAL_ERROR, "Couldn't obtain banlist information", "", __LINE__, __FILE__, $sql);
@@ -160,7 +160,7 @@ if ( isset($_POST['submit']) )
 		{
 			$kill_session_sql .= ( ( $kill_session_sql != '' ) ? ' OR ' : '' ) . "session_user_id = " . $user_list[$i];
 
-			$sql = "INSERT INTO " . BANLIST_TABLE . " (ban_userid)
+			$sql = "INSERT INTO bb_banlist (ban_userid)
 				VALUES (" . $user_list[$i] . ")";
 			if ( !$db->sql_query($sql) )
 			{
@@ -193,7 +193,7 @@ if ( isset($_POST['submit']) )
 
 			$kill_session_sql .= ( ( $kill_session_sql != '' ) ? ' OR ' : '' ) . $kill_ip_sql;
 
-			$sql = "INSERT INTO " . BANLIST_TABLE . " (ban_ip)
+			$sql = "INSERT INTO bb_banlist (ban_ip)
 				VALUES ('" . $ip_list[$i] . "')";
 			if ( !$db->sql_query($sql) )
 			{
@@ -209,7 +209,7 @@ if ( isset($_POST['submit']) )
 	//
 	if ( $kill_session_sql != '' )
 	{
-		$sql = "DELETE FROM " . SESSIONS_TABLE . "
+		$sql = "DELETE FROM bb_sessions
 			WHERE $kill_session_sql";
 		if ( !$db->sql_query($sql) )
 		{
@@ -230,7 +230,7 @@ if ( isset($_POST['submit']) )
 
 		if ( !$in_banlist )
 		{
-			$sql = "INSERT INTO " . BANLIST_TABLE . " (ban_email)
+			$sql = "INSERT INTO bb_banlist (ban_email)
 				VALUES ('" . str_replace("\'", "''", $email_list[$i]) . "')";
 			if ( !$db->sql_query($sql) )
 			{
@@ -282,7 +282,7 @@ if ( isset($_POST['submit']) )
 
 	if ( $where_sql != '' )
 	{
-		$sql = "DELETE FROM " . BANLIST_TABLE . "
+		$sql = "DELETE FROM bb_banlist
 			WHERE ban_id IN ($where_sql)";
 		if ( !$db->sql_query($sql) )
 		{
@@ -321,7 +321,7 @@ else
 	$emailban_count = 0;
 
 	$sql = "SELECT b.ban_id, u.user_id, u.username
-		FROM " . BANLIST_TABLE . " b, " . USERS_TABLE . " u
+		FROM bb_banlist b, bb_users u
 		WHERE u.user_id = b.ban_userid
 			AND b.ban_userid <> 0
 			AND u.user_id <> " . ANONYMOUS . "
@@ -350,7 +350,7 @@ else
 
 	$sql = "
 		SELECT ban_id, ban_ip, ban_email
-		FROM ". BANLIST_TABLE ."
+		FROM bb_banlist
 		ORDER BY ban_ip
 	";
 	if ( !($result = $db->sql_query($sql)) )

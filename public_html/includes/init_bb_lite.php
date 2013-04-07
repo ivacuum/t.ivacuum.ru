@@ -168,63 +168,6 @@ define('QUOTA_PM_LIMIT',     2);
 // Torrents
 define('TOR_STATUS_NORMAL', 0);
 define('TOR_STATUS_FROZEN', 1);
-
-// Table names
-$b = $buffer_prefix;
-$t = $table_prefix;
-
-define('BUF_TOPIC_VIEW_TABLE',       $b . 'topic_view');
-define('BUF_LAST_SEEDER_TABLE',      $b . 'last_seeder');
-
-define('AUTH_ACCESS_SNAP_TABLE',     $t . 'auth_access_snap');
-define('AUTH_ACCESS_TABLE',          $t . 'auth_access');
-define('BANLIST_TABLE',              $t . 'banlist');
-define('BT_DLSTATUS_MAIN_TABLE',     $t . 'bt_dlstatus_main');
-define('BT_DLSTATUS_NEW_TABLE',      $t . 'bt_dlstatus_new');
-define('BT_DLSTATUS_SNAP_TABLE',     $t . 'bt_dlstatus_snap');
-define('BT_DLSTATUS_TABLE',          $t . 'bt_dlstatus_main');   // main + new
-define('BT_LAST_TORSTAT_TABLE',      $t . 'bt_last_torstat');
-define('BT_LAST_USERSTAT_TABLE',     $t . 'bt_last_userstat');
-define('BT_TORHELP_TABLE',           $t . 'bt_torhelp');
-define('BT_TORSTAT_TABLE',           $t . 'bt_torstat');
-define('BT_TRACKER_SNAP_TABLE',      $t . 'bt_tracker_snap');
-define('BT_USER_SETTINGS_TABLE',     $t . 'bt_user_settings');
-define('CATEGORIES_TABLE',           $t . 'categories');
-define('CONFIG_TABLE',               $t . 'config');
-define('CONFIRM_TABLE',              $t . 'confirm');
-define('CRON_TABLE',                 $t . 'cron');
-define('DATASTORE_TABLE',            $t . 'datastore');
-define('DISALLOW_TABLE',             $t . 'disallow');
-define('EXTENSION_GROUPS_TABLE',     $t . 'extension_groups');
-define('EXTENSIONS_TABLE',           $t . 'extensions');
-define('FLAG_TABLE',                 $t . 'flags');
-define('FORUMS_TABLE',               $t . 'forums');
-define('GROUPS_TABLE',               $t . 'groups');
-define('LOG_TABLE',                  $t . 'log');
-define('POSTS_SEARCH_TABLE',         $t . 'posts_search');
-define('POSTS_TABLE',                $t . 'posts');
-define('POSTS_TEXT_TABLE',           $t . 'posts_text');
-define('POSTS_HTML_TABLE',           $t . 'posts_html');
-define('PRIVMSGS_TABLE',             $t . 'privmsgs');
-define('PRIVMSGS_TEXT_TABLE',        $t . 'privmsgs_text');
-define('QUOTA_LIMITS_TABLE',         $t . 'quota_limits');
-define('QUOTA_TABLE',                $t . 'attach_quota');
-define('RANKS_TABLE',                $t . 'ranks');
-define('SEARCH_REBUILD_TABLE',       $t . 'search_rebuild');
-define('SEARCH_TABLE',               $t . 'search_results');
-define('SESSIONS_TABLE',             $t . 'sessions');
-define('SMILIES_TABLE',              $t . 'smilies');
-define('TOPIC_TPL_TABLE',            $t . 'topic_templates');
-define('TOPICS_TABLE',               $t . 'topics');
-define('TOPICS_WATCH_TABLE',         $t . 'topics_watch');
-define('USER_GROUP_TABLE',           $t . 'user_group');
-define('USERS_TABLE',                $t . 'users');
-define('VOTE_DESC_TABLE',            $t . 'vote_desc');
-define('VOTE_RESULTS_TABLE',         $t . 'vote_results');
-define('VOTE_USERS_TABLE',           $t . 'vote_voters');
-define('WORDS_TABLE',                $t . 'words');
-unset($t, $b);
-
 define('TORRENT_EXT', 'torrent');
 
 define('TOPIC_DL_TYPE_NORMAL', 0);
@@ -389,7 +332,7 @@ unset($dbpasswd);
 // Setup forum wide options
 $board_config =& $bb_cfg;
 
-$bb_cfg = array_merge(bb_get_config(CONFIG_TABLE), $bb_cfg);
+$bb_cfg = array_merge(bb_get_config('bb_config'), $bb_cfg);
 
 $bb_cfg['cookie_name']      = $bb_cfg['cookie_prefix'];
 $bb_cfg['board_dateformat'] = $bb_cfg['default_dateformat'];

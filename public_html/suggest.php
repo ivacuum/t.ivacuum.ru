@@ -94,11 +94,8 @@ if( !sizeof($tor_list_ary) )
 $tor_list_sql = join(',', $tor_list_ary);
 $tor_count = sizeof($tor_list_ary);
 
-if( $userdata['user_id'] != 2 )
-{
-	$sql = 'INSERT INTO ' . SEARCH_QUERIES_TABLE . ' (user_id, search_query, search_time, search_results, search_suggest) VALUES (' . $userdata['user_id'] . ', "' . $db->escape($q) . '", ' . time() . ', ' . $tor_count . ', 1)';
-	$db->sql_query($sql);
-}
+$sql = 'INSERT INTO bb_search_queries (user_id, search_query, search_time, search_results, search_suggest) VALUES (' . $userdata['user_id'] . ', "' . $db->escape($q) . '", ' . time() . ', ' . $tor_count . ', 1)';
+$db->sql_query($sql);
 
 $sql = '
 	SELECT
@@ -106,11 +103,11 @@ $sql = '
 		t.topic_id,
 		t.topic_title
 	FROM
-		' . BT_TORRENTS_TABLE . ' tor
+		bb_bt_torrents tor
 	LEFT JOIN
-		' . TOPICS_TABLE . ' t ON (t.topic_id = tor.topic_id)
+		bb_topics t ON (t.topic_id = tor.topic_id)
 	LEFT JOIN
-		' . FORUMS_TABLE . ' f ON (f.forum_id = tor.forum_id)
+		bb_forums f ON (f.forum_id = tor.forum_id)
 	WHERE
 		tor.topic_id IN(' . $tor_list_sql . ')';
 $result = $db->sql_query($sql);

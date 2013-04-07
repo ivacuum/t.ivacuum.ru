@@ -61,7 +61,7 @@ function tpl_func_screen_shots ($item, $val)
 
 // get tpl data
 $sql = "SELECT *
-	FROM ". TOPIC_TPL_TABLE ."
+	FROM bb_topic_templates
 	WHERE tpl_id = ". (int) $post_info['topic_tpl_id'];
 
 if ($topic_tpl = $db->fetch_row($sql))

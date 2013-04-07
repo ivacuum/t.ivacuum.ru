@@ -200,8 +200,8 @@ $sql = '
 		bu.leeching,
 		IF(bu.u_down_total > ' . MIN_DL_FOR_RATIO . ', ROUND(( bu.u_up_total + bu.u_up_release + bu.u_up_bonus ) / bu.u_down_total, 2), 0) as ratio
 	FROM
-		' . USERS_TABLE . ' u,
-		' . BT_USERS_TABLE . ' bu
+		bb_users u,
+		bb_bt_users bu
 	WHERE
 		u.user_id = bu.user_id
 	AND
@@ -283,7 +283,7 @@ if ( $row = $db->sql_fetchrow($result) )
 }
 if ( $mode != 'topten' || $board_config['topics_per_page'] < 10 )
 {
-	$sql = 'SELECT COUNT(*) AS total FROM ' . BT_USERS_TABLE;
+	$sql = 'SELECT COUNT(*) AS total FROM bb_users';
 	if (!$result = $db->sql_query($sql))
 	{
 		message_die(GENERAL_ERROR, 'Error getting total users', '', __LINE__, __FILE__, $sql);

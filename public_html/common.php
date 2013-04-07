@@ -23,10 +23,6 @@ require(SITE_DIR . '../config_tracker.php');
 define('DBG_USER', (isset($_COOKIE[COOKIE_DBG]) || DEBUG === true));
 
 // Board/Tracker shared constants and functions
-define('BT_TORRENTS_TABLE', $table_prefix . 'bt_torrents');
-define('BT_TRACKER_TABLE',  $table_prefix . 'bt_tracker');
-define('BT_USERS_TABLE',    $table_prefix . 'bt_users');
-
 define('BT_AUTH_KEY_LENGTH', 10);
 
 define('DL_STATUS_RELEASER', -1);

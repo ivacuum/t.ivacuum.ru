@@ -12,8 +12,8 @@ $extensions = $db->fetch_rowset("
 	SELECT
 	  e.extension, g.cat_id, g.download_mode, g.upload_icon
 	FROM
-	  ". EXTENSIONS_TABLE       ." e,
-	  ". EXTENSION_GROUPS_TABLE ." g
+	  bb_extensions e,
+	  bb_extension_groups g
 	WHERE
 	      e.group_id = g.group_id
 	  AND g.allow_group = 1

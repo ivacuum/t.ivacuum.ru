@@ -7,15 +7,15 @@ if (!defined('SITE_DIR'))
 
 // Lock tables
 $db->lock(array(
-	TOPICS_TABLE         .' t',
-	BUF_TOPIC_VIEW_TABLE .' buf',
+	'bb_topics t',
+	'buf_topic_view buf',
 ));
 
 // Flash buffered records
 $db->query("
 	UPDATE
-		". TOPICS_TABLE         ." t,
-		". BUF_TOPIC_VIEW_TABLE ." buf
+		bb_topics t,
+		buf_topic_view buf
 	SET
 		t.topic_views = t.topic_views + buf.topic_views
 	WHERE
@@ -23,7 +23,7 @@ $db->query("
 ");
 
 // Delete buffered records
-$db->query("DELETE buf FROM ". BUF_TOPIC_VIEW_TABLE ." buf");
+$db->query("DELETE buf FROM buf_topic_view buf");
 
 // Unlock tables
 $db->unlock();

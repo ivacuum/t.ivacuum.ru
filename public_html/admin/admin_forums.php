@@ -233,7 +233,7 @@ if ($mode)
 			$columns = ' forum_name,   cat_id,   forum_desc,   forum_order,  forum_status,  prune_days,  forum_parent,  show_on_index,  forum_display_sort,  forum_display_order,    forum_icon'. $field_sql;
 			$values = "'$forum_name', $cat_id, '$forum_desc', $forum_order, $forum_status, $prune_days, $forum_parent, $show_on_index, $forum_display_sort, $forum_display_order, '$forum_icon'". $value_sql;
 
-			$db->query("INSERT INTO ". FORUMS_TABLE ." ($columns) VALUES ($values)");
+			$db->query("INSERT INTO bb_forums ($columns) VALUES ($values)");
 
 			renumber_order('forum', $cat_id);
 			$datastore->update('cat_forums');
@@ -305,7 +305,7 @@ if ($mode)
 			}
 
 			$db->query("
-				UPDATE ". FORUMS_TABLE ." SET
+				UPDATE bb_forums SET
 					forum_name    = '$forum_name',
 					cat_id        = $cat_id,
 					forum_desc    = '$forum_desc',
@@ -352,14 +352,14 @@ if ($mode)
 
 			check_name_dup('cat', $new_cat_title);
 
-			$order = $db->fetch_row("SELECT MAX(cat_order) AS max_order FROM ". CATEGORIES_TABLE);
+			$order = $db->fetch_row("SELECT MAX(cat_order) AS max_order FROM bb_categories");
 
 			$args = $db->build_array('INSERT', array(
 				'cat_title' => (string) $new_cat_title,
 				'cat_order' => (int) $order['max_order'] + 10,
 			));
 
-			$db->query("INSERT INTO ". CATEGORIES_TABLE . $args);
+			$db->query("INSERT INTO bb_categories". $args);
 
 			$datastore->update('cat_forums');
 
@@ -416,7 +416,7 @@ if ($mode)
 				$new_cat_title_sql = $db->escape($new_cat_title);
 
 				$db->query("
-					UPDATE ". CATEGORIES_TABLE ." SET
+					UPDATE bb_categories SET
 						cat_title = '$new_cat_title_sql'
 					WHERE cat_id = $cat_id
 				");
@@ -479,7 +479,7 @@ if ($mode)
 			else
 			{
 				// Move all posts
-				$sql = "SELECT * FROM ". FORUMS_TABLE ." WHERE forum_id IN($from_id, $to_id)";
+				$sql = "SELECT * FROM bb_forums WHERE forum_id IN($from_id, $to_id)";
 				$result = $db->query($sql);
 
 				if ($db->sql_numrows($result) != 2)
@@ -489,21 +489,21 @@ if ($mode)
 
 				// Update topics
 				$db->query("
-					UPDATE ". TOPICS_TABLE ." SET
+					UPDATE bb_topics SET
 						forum_id = $to_id
 					WHERE forum_id = $from_id
 				");
 
 				// Update posts
 				$db->query("
-					UPDATE ". POSTS_TABLE ." SET
+					UPDATE bb_posts SET
 						forum_id = $to_id
 					WHERE forum_id = $from_id
 				");
 
 				// Update torrents
 				$db->query("
-					UPDATE ". BT_TORRENTS_TABLE ." SET
+					UPDATE bb_bt_torrents SET
 						forum_id = $to_id
 					WHERE forum_id = $from_id
 				");
@@ -511,9 +511,9 @@ if ($mode)
 				sync('forum', $to_id);
 			}
 
-			$db->query("DELETE FROM ". FORUMS_TABLE           ." WHERE forum_id = $from_id");
-			$db->query("DELETE FROM ". AUTH_ACCESS_TABLE      ." WHERE forum_id = $from_id");
-			$db->query("DELETE FROM ". AUTH_ACCESS_SNAP_TABLE ." WHERE forum_id = $from_id");
+			$db->query("DELETE FROM bb_forums WHERE forum_id = $from_id");
+			$db->query("DELETE FROM bb_auth_access WHERE forum_id = $from_id");
+			$db->query("DELETE FROM bb_auth_access_snap WHERE forum_id = $from_id");
 
 			$cat_forums = get_cat_forums();
 			fix_orphan_sf();
@@ -535,7 +535,7 @@ if ($mode)
 
 			if ($categories_count == 1)
 			{
-				$row = $db->fetch_row("SELECT COUNT(*) AS forums_count FROM ". FORUMS_TABLE);
+				$row = $db->fetch_row("SELECT COUNT(*) AS forums_count FROM bb_forums");
 
 				if ($row['forums_count'] > 0)
 				{
@@ -586,13 +586,13 @@ if ($mode)
 			$order_shear = get_max_forum_order($to_id) + 10;
 
 			$db->query("
-				UPDATE ". FORUMS_TABLE ." SET
+				UPDATE bb_forums SET
 					cat_id = $to_id,
 					forum_order = forum_order + $order_shear
 				WHERE cat_id = $from_id
 			");
 
-			$db->query("DELETE FROM ". CATEGORIES_TABLE ." WHERE cat_id = $from_id");
+			$db->query("DELETE FROM bb_categories WHERE cat_id = $from_id");
 
 			renumber_order('forum', $to_id);
 			$cat_forums = get_cat_forums();
@@ -662,7 +662,7 @@ if ($mode)
 
 			if ($forum_info['forum_parent'])
 			{
-				$sql = 'UPDATE ' . FORUMS_TABLE . " SET
+				$sql = "UPDATE bb_forums SET
 						forum_order = forum_order + $move
 					WHERE forum_id = $forum_id";
 
@@ -673,7 +673,7 @@ if ($mode)
 			}
 			else if ($move_down_forum_id)
 			{
-				$sql = 'UPDATE '. FORUMS_TABLE ." SET
+				$sql = "UPDATE bb_forums SET
 						forum_order = forum_order + $move_down_ord_val
 					WHERE cat_id = $cat_id
 						AND forum_order >= $move_down_forum_order";
@@ -683,7 +683,7 @@ if ($mode)
 					message_die(GENERAL_ERROR, "Couldn't change forum order", '', __LINE__, __FILE__, $sql);
 				}
 
-				$sql = 'UPDATE '. FORUMS_TABLE ." SET
+				$sql = "UPDATE bb_forums SET
 						forum_order = forum_order - $move_up_ord_val
 					WHERE forum_id = $move_up_forum_id
 						 OR forum_parent = $move_up_forum_id";
@@ -705,7 +705,7 @@ if ($mode)
 			$cat_id = (int) $_GET['c'];
 
 			$db->query("
-				UPDATE ". CATEGORIES_TABLE ." SET
+				UPDATE bb_categories SET
 					cat_order = cat_order + $move
 				WHERE cat_id = $cat_id
 			");
@@ -747,7 +747,7 @@ if (!$mode || $show_main_page)
 	));
 
 	$sql = "SELECT cat_id, cat_title, cat_order
-		FROM " . CATEGORIES_TABLE . "
+		FROM bb_categories
 		ORDER BY cat_order";
 	if( !$q_categories = $db->sql_query($sql) )
 	{
@@ -778,7 +778,7 @@ if (!$mode || $show_main_page)
 		}
 
 		$sql = "SELECT *
-			FROM ". FORUMS_TABLE ."
+			FROM bb_forums
 				$where_cat_sql
 			ORDER BY cat_id, forum_order";
 		if(!$q_forums = $db->sql_query($sql))
@@ -876,13 +876,13 @@ function get_info($mode, $id)
 	switch($mode)
 	{
 		case 'category':
-			$table = CATEGORIES_TABLE;
+			$table = 'bb_categories';
 			$idfield = 'cat_id';
 			$namefield = 'cat_title';
 			break;
 
 		case 'forum':
-			$table = FORUMS_TABLE;
+			$table = 'bb_forums';
 			$idfield = 'forum_id';
 			$namefield = 'forum_name';
 			break;
@@ -926,14 +926,14 @@ function get_list($mode, $id, $select)
 	switch($mode)
 	{
 		case 'category':
-			$table = CATEGORIES_TABLE;
+			$table = 'bb_categories';
 			$idfield = 'cat_id';
 			$namefield = 'cat_title';
 			$order = 'cat_order';
 			break;
 
 		case 'forum':
-			$table = FORUMS_TABLE;
+			$table = 'bb_forums';
 			$idfield = 'forum_id';
 			$namefield = 'forum_name';
 			$order = 'cat_id, forum_order';
@@ -979,14 +979,14 @@ function renumber_order($mode, $cat = 0)
 	switch($mode)
 	{
 		case 'category':
-			$table = CATEGORIES_TABLE;
+			$table = 'bb_categories';
 			$idfield = 'cat_id';
 			$orderfield = 'cat_order';
 			$cat = 0;
 			break;
 
 		case 'forum':
-			$table = FORUMS_TABLE;
+			$table = 'bb_forums';
 			$idfield = 'forum_id';
 			$orderfield = 'forum_order';
 			$catfield = 'cat_id';
@@ -1044,8 +1044,8 @@ function get_cat_forums ($cat_id = FALSE)
 		$where_sql = "AND f.cat_id = $cat_id";
 	}
 
-	$sql = 'SELECT c.cat_title, f.*
-		FROM '. FORUMS_TABLE .' f, '. CATEGORIES_TABLE ." c
+	$sql = "SELECT c.cat_title, f.*
+		FROM bb_forums f, bb_categories c
 		WHERE f.cat_id = c.cat_id
 			$where_sql
 		ORDER BY c.cat_order, f.cat_id, f.forum_order";
@@ -1162,7 +1162,7 @@ function fix_orphan_sf ($orphan_sf_sql = '', $show_mess = FALSE)
 
 	if ($orphan_sf_sql)
 	{
-		$sql = "UPDATE ". FORUMS_TABLE ." SET
+		$sql = "UPDATE bb_forums SET
 				forum_parent = 0,
 				show_on_index = 1
 			WHERE forum_id IN($orphan_sf_sql)";
@@ -1240,7 +1240,7 @@ function get_max_forum_order ($cat_id)
 
 	$row = $db->fetch_row("
 		SELECT MAX(forum_order) AS max_forum_order
-		FROM ". FORUMS_TABLE ."
+		FROM bb_forums
 		WHERE cat_id = $cat_id
 	");
 
@@ -1256,12 +1256,12 @@ function check_name_dup ($mode, $name, $die_on_error = true)
 	if ($mode == 'cat')
 	{
 		$what_checked = 'Category';
-		$sql = "SELECT cat_id FROM ". CATEGORIES_TABLE ." WHERE cat_title = '$name_sql'";
+		$sql = "SELECT cat_id FROM bb_categories WHERE cat_title = '$name_sql'";
 	}
 	else
 	{
 		$what_checked = 'Forum';
-		$sql = "SELECT forum_id FROM ". FORUMS_TABLE ." WHERE forum_name = '$name_sql'";
+		$sql = "SELECT forum_id FROM bb_forums WHERE forum_name = '$name_sql'";
 	}
 
 	$name_is_dup = $db->fetch_row($sql);
@@ -1282,7 +1282,7 @@ function change_sf_cat ($parent_id, $new_cat_id, $order_shear)
 	global $db;
 
 	$db->query("
-		UPDATE ". FORUMS_TABLE ." SET
+		UPDATE bb_forums SET
 			cat_id      = $new_cat_id,
 			forum_order = forum_order + $order_shear
 		WHERE forum_parent = $parent_id

@@ -255,7 +255,7 @@ else
 // Setup forum wide options
 $board_config =& $bb_cfg;
 
-$bb_cfg = array_merge(bb_get_config(CONFIG_TABLE), $bb_cfg);
+$bb_cfg = array_merge(bb_get_config('bb_config'), $bb_cfg);
 
 $bb_cfg['cookie_name']      = $bb_cfg['cookie_prefix'];
 $bb_cfg['board_dateformat'] = $bb_cfg['default_dateformat'];

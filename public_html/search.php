@@ -50,18 +50,17 @@ $session_id = $userdata['session_id'];
 $items_found = $items_display = $previous_settings = null;
 $text_match_sql = '';
 
-$cat_tbl        = CATEGORIES_TABLE      .' c';
-$dl_stat_tbl    = BT_DLSTATUS_TABLE     .' dl';
-$forums_tbl     = FORUMS_TABLE          .' f';
-$posts_tbl      = POSTS_TABLE           .' p';
-$posts_text_tbl = POSTS_TEXT_TABLE      .' pt';
-$posts_html_tbl = POSTS_HTML_TABLE      .' h';
-$search_tbl     = POSTS_SEARCH_TABLE    .' ps';
-$tr_snap_tbl    = BT_TRACKER_SNAP_TABLE .' sn';
-$topics_tbl     = TOPICS_TABLE          .' t';
-$torrents_tbl   = BT_TORRENTS_TABLE     .' tor';
-$tracker_tbl    = BT_TRACKER_TABLE      .' tr';
-$users_tbl      = USERS_TABLE           .' u';
+$cat_tbl        = 'bb_categories c';
+$dl_stat_tbl    = 'bb_bt_dlstatus_main dl';
+$forums_tbl     = 'bb_forums f';
+$posts_tbl      = 'bb_posts p';
+$posts_text_tbl = 'bb_posts_text pt';
+$posts_html_tbl = 'bb_posts_html h';
+$search_tbl     = 'bb_posts_search ps';
+$topics_tbl     = 'bb_topics t';
+$torrents_tbl   = 'bb_bt_torrents tor';
+$tracker_tbl    = 'bb_bt_tracker tr';
+$users_tbl      = 'bb_users u';
 
 // Cat/forum data
 $forums = $datastore->get('cat_forums');
@@ -668,17 +667,17 @@ else
 	";
 	if ($join_dl) $SQL['SELECT'][] = "dl.user_status AS dl_status";
 
-	$SQL['FROM'][]      = TOPICS_TABLE ." t";
-	// $SQL['FROM'][]      = BT_TORRENTS_TABLE . ' tor';
-	$SQL['LEFT JOIN'][] = POSTS_TABLE  ." p1 ON(t.topic_first_post_id = p1.post_id)";
-	$SQL['LEFT JOIN'][] = USERS_TABLE  ." u1 ON(t.topic_poster = u1.user_id)";
-	$SQL['LEFT JOIN'][] = POSTS_TABLE  ." p2 ON(t.topic_last_post_id = p2.post_id)";
-	$SQL['LEFT JOIN'][] = USERS_TABLE  ." u2 ON(p2.poster_id = u2.user_id)";
+	$SQL['FROM'][]      = "bb_topics t";
+	// $SQL['FROM'][]      = 'bb_bt_torrents tor';
+	$SQL['LEFT JOIN'][] = "bb_posts p1 ON(t.topic_first_post_id = p1.post_id)";
+	$SQL['LEFT JOIN'][] = "bb_users u1 ON(t.topic_poster = u1.user_id)";
+	$SQL['LEFT JOIN'][] = "bb_posts p2 ON(t.topic_last_post_id = p2.post_id)";
+	$SQL['LEFT JOIN'][] = "bb_users u2 ON(p2.poster_id = u2.user_id)";
 	if( $join_dl )
 	{
-		$SQL['LEFT JOIN'][] = BT_DLSTATUS_TABLE ." dl ON(dl.user_id = $user_id AND dl.topic_id = t.topic_id)";
+		$SQL['LEFT JOIN'][] = "bb_bt_dlstatus_main dl ON(dl.user_id = $user_id AND dl.topic_id = t.topic_id)";
 	}
-	$SQL['LEFT JOIN'][] = BT_TORRENTS_TABLE . ' tor ON(tor.topic_id = t.topic_id)';
+	$SQL['LEFT JOIN'][] = 'bb_bt_torrents tor ON(tor.topic_id = t.topic_id)';
 
 	$SQL['WHERE'][]	= "t.topic_id IN(". join(',', $items_display) .")";
 	if( $excluded_forums_csv )
@@ -815,7 +814,7 @@ function fetch_search_ids($sql, $search_type = SEARCH_TYPE_POST, $redirect_to_re
 		$columns =  'session_id,   search_type,   search_id,   search_time,    search_settings,    search_array';
 		$values = "'$session_id', $search_type, '$search_id', ". TIMENOW .", '$search_settings', '$search_array'";
 
-		// $db->query("REPLACE INTO ". SEARCH_TABLE ." ($columns) VALUES ($values)");
+		// $db->query("REPLACE INTO bb_search_results ($columns) VALUES ($values)");
 
 		$bb_cache->set(sprintf('search_%d_%s', SEARCH_TYPE_POST, $session_id), array(
 			'search_id'       => $search_id,
@@ -871,7 +870,7 @@ function username_search($search_match)
 
 		$sql = "
 			SELECT username
-			FROM ". USERS_TABLE ."
+			FROM bb_users
 			WHERE username LIKE '". str_replace("\'", "''", $username_search) . "'
 				AND user_id <> ". ANONYMOUS ."
 			ORDER BY username

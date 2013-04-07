@@ -85,7 +85,7 @@ if ($mode == 'dl_delete' && $topic_id)
 	if (!IS_ADMIN)
 	{
 		$sql = "SELECT forum_id
-			FROM ". TOPICS_TABLE ."
+			FROM bb_topics
 				WHERE topic_id = $topic_id
 			LIMIT 1";
 
@@ -147,7 +147,7 @@ else if ($mode == 'set_dl_status')
 // Get existing topics
 if ($req_topics_sql = join(',', $req_topics_ary))
 {
-	$sql = "SELECT topic_id FROM ". TOPICS_TABLE ." WHERE topic_id IN($req_topics_sql)";
+	$sql = "SELECT topic_id FROM bb_topics WHERE topic_id IN($req_topics_sql)";
 
 	foreach ($db->fetch_rowset($sql) as $row)
 	{
@@ -169,10 +169,10 @@ if ($topics_ary && ($mode == 'set_dl_status' || $mode == 'set_topics_dl_status')
 	}
 	$new_dlstatus_sql = $db->build_array('MULTI_INSERT', $new_dlstatus_ary);
 
-	$db->query("REPLACE INTO ". BT_DLSTATUS_MAIN_TABLE ." $new_dlstatus_sql");
+	$db->query("REPLACE INTO bb_bt_dlstatus_main $new_dlstatus_sql");
 
 	/*$db->query("
-		DELETE FROM ". BT_DLSTATUS_MAIN_TABLE ."
+		DELETE FROM bb_bt_dlstatus_main
 		WHERE user_id = {$user->id}
 			AND topic_id IN(". join(',', $topics_ary) .")
 	");*/

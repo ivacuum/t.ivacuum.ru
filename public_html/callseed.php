@@ -17,7 +17,7 @@ function topic_info($topic_id)
 	global $db;
 
 	$query = "  SELECT tor.poster_id, tor.forum_id, tor.attach_id, t.topic_title, f.forum_name
-				FROM ". BT_TORRENTS_TABLE ." tor , ". TOPICS_TABLE ." t, ". FORUMS_TABLE ." f
+				FROM bb_bt_torrents tor , bb_topics t, bb_forums f
 				WHERE tor.topic_id = $topic_id
 					AND t.topic_id = tor.topic_id
 					AND f.forum_id = tor.forum_id
@@ -40,7 +40,7 @@ function send_pm($topic_id, $t_info, $to_user_id)
 
 	$enc_ip = encode_ip($_SERVER['REMOTE_ADDR']);
 
-	$query = "UPDATE ". BT_TORRENTS_TABLE ." SET call_seed_time=". $cur_time ." WHERE topic_id=$topic_id";
+	$query = "UPDATE bb_bt_torrents SET call_seed_time=". $cur_time ." WHERE topic_id=$topic_id";
 	$rez_T = $db->sql_query($query);
 	if ($rez_T === false) $msg_error = "TIME";
 
@@ -48,7 +48,7 @@ function send_pm($topic_id, $t_info, $to_user_id)
 	$text = sprintf ($lang['Callseed_text'], $topic_id, $t_info['forum_title'], $t_info['topic_title'], $t_info['attach_id']);
 	$text = $db->escape($text);
 
-	$query = "INSERT INTO ". PRIVMSGS_TABLE ."
+	$query = "INSERT INTO bb_privmsgs
 	(privmsgs_type, privmsgs_subject, privmsgs_from_userid, privmsgs_to_userid, privmsgs_date, privmsgs_ip) VALUES
 	(" . PRIVMSGS_UNREAD_MAIL . ",'" . $subj . "'," . $userdata['user_id'] ."," . $to_user_id. "," . $cur_time . ",'" . $enc_ip . "')";
 	$rez_a = $db->sql_query($query);
@@ -56,11 +56,11 @@ function send_pm($topic_id, $t_info, $to_user_id)
 
 	$id = $db->sql_nextid();
 
-	$query = "INSERT INTO ". PRIVMSGS_TEXT_TABLE ." VALUES($id, '" . make_bbcode_uid() . "', '$text')";
+	$query = "INSERT INTO bb_privmsgs_text VALUES($id, '" . make_bbcode_uid() . "', '$text')";
 	$rez_b = $db->sql_query($query);
  	if ($rez_b === false) $msg_error = "MSG_TEXT";
 
-	$query = "UPDATE ". USERS_TABLE ." SET
+	$query = "UPDATE bb_users SET
 		user_new_privmsg = user_new_privmsg + 1,
 		user_last_privmsg = $cur_time,
 		user_newest_pm_id = $id
@@ -76,7 +76,7 @@ $cur_time = time();
 
 $msg_error = "OK";
 
-$query = "SELECT call_seed_time FROM ". BT_TORRENTS_TABLE ." WHERE topic_id = $topic_id LIMIT 1";
+$query = "SELECT call_seed_time FROM bb_bt_torrents WHERE topic_id = $topic_id LIMIT 1";
 $row = $db->fetch_row($query);
 
 if(!empty($row))
@@ -93,7 +93,7 @@ if(!empty($row))
 	}
 }
 
-$query = "SELECT user_id FROM ". BT_DLSTATUS_TABLE ." WHERE topic_id=" . $topic_id;
+$query = "SELECT user_id FROM bb_bt_dlstatus_main WHERE topic_id=" . $topic_id;
 /*$row = $db->fetch_rowset($query);*/
 
 foreach($db->fetch_rowset($query) as $row)

@@ -90,7 +90,7 @@ if ($logged_in && empty($gen_simple_header) && !defined('IN_ADMIN'))
 		{
 			$row = $db->fetch_row("
 				SELECT COUNT(*) AS pm_count
-				FROM ". PRIVMSGS_TABLE ."
+				FROM bb_privmsgs
 				WHERE privmsgs_to_userid = ". $userdata['user_id'] ."
 					AND privmsgs_type = ". PRIVMSGS_UNREAD_MAIL ."
 				GROUP BY privmsgs_to_userid
@@ -246,7 +246,7 @@ if (!empty($page_cfg['show_torhelp'][BB_SCRIPT]) && !empty($userdata['torhelp'])
 
 		$sql = "
 			SELECT topic_id, topic_title
-			FROM ". TOPICS_TABLE ."
+			FROM bb_topics
 			WHERE topic_id IN(". $userdata['torhelp'] .")
 			LIMIT 8
 		";

@@ -94,7 +94,7 @@ if( isset($_POST['submit']) )
 
 			if (is_array($simple_ary))
 			{
-			$sql = "UPDATE " . FORUMS_TABLE . " SET $sql WHERE forum_id = $forum_id";
+			$sql = "UPDATE bb_forums SET $sql WHERE forum_id = $forum_id";
 			}
 		}
 		else
@@ -114,7 +114,7 @@ if( isset($_POST['submit']) )
 				$sql .= ( ( $sql != '' ) ? ', ' : '' ) .$forum_auth_fields[$i] . ' = ' . $value;
 			}
 
-			$sql = "UPDATE " . FORUMS_TABLE . " SET $sql WHERE forum_id = $forum_id";
+			$sql = "UPDATE bb_forums SET $sql WHERE forum_id = $forum_id";
 		}
 
 		if ( $sql != '' )
@@ -140,7 +140,7 @@ if( isset($_POST['submit']) )
 // no id was specified or just the requsted if it
 // was
 //
-$forum_rows = $db->fetch_rowset("SELECT * FROM ". FORUMS_TABLE ." $forum_sql");
+$forum_rows = $db->fetch_rowset("SELECT * FROM bb_forums $forum_sql");
 
 if (empty($forum_id))
 {

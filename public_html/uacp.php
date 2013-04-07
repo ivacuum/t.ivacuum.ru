@@ -256,7 +256,7 @@ if (sizeof($attachments) > 0)
 			if ($ids[$j]['post_id'] != 0)
 			{
 				$sql = "SELECT t.topic_title
-					FROM " . TOPICS_TABLE . " t, " . POSTS_TABLE . " p
+					FROM bb_topics t, bb_posts p
 					WHERE p.post_id = " . (int) $ids[$j]['post_id'] . " AND p.topic_id = t.topic_id
 					GROUP BY t.topic_id, t.topic_title";
 

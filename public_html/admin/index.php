@@ -265,7 +265,7 @@ else if( isset($_GET['pane']) && $_GET['pane'] == 'right' )
 		// Get users online information.
 		//
 		$sql = "SELECT u.user_id, u.username, s.session_time AS user_session_time, u.user_allow_viewonline, s.session_logged_in, s.session_ip, s.session_start
-			FROM " . USERS_TABLE . " u, " . SESSIONS_TABLE . " s
+			FROM bb_users u, bb_sessions s
 			WHERE s.session_logged_in = 1
 				AND u.user_id = s.session_user_id
 				AND u.user_id <> " . ANONYMOUS . "
@@ -278,7 +278,7 @@ else if( isset($_GET['pane']) && $_GET['pane'] == 'right' )
 		$onlinerow_reg = $db->sql_fetchrowset($result);
 
 		$sql = "SELECT session_logged_in, session_time, session_ip, session_start
-			FROM " . SESSIONS_TABLE . "
+			FROM bb_sessions
 			WHERE session_logged_in = 0
 				AND session_time >= " . ( time() - 300 ) . "
 			ORDER BY session_ip ASC, session_time DESC";
@@ -289,7 +289,7 @@ else if( isset($_GET['pane']) && $_GET['pane'] == 'right' )
 		$onlinerow_guest = $db->sql_fetchrowset($result);
 
 		$sql = "SELECT forum_name, forum_id
-			FROM " . FORUMS_TABLE;
+			FROM bb_forums";
 		if($forums_result = $db->sql_query($sql))
 		{
 			while($forumsrow = $db->sql_fetchrow($forums_result))

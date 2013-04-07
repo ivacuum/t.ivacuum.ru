@@ -87,7 +87,7 @@ if ($submit && $mode == 'extensions')
 	}
 
 	$sql = 'SELECT *
-		FROM ' . EXTENSIONS_TABLE . '
+		FROM bb_extensions
 		ORDER BY ext_id';
 
 	if ( !($result = $db->sql_query($sql)) )
@@ -110,7 +110,7 @@ if ($submit && $mode == 'extensions')
 					'group_id'		=> (int) $extensions['_' . $extension_row[$i]['ext_id']]['group_id']
 				);
 
-				$sql = 'UPDATE ' . EXTENSIONS_TABLE . ' SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
+				$sql = 'UPDATE bb_extensions SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
 					WHERE ext_id = ' . (int) $extension_row[$i]['ext_id'];
 
 				if (!$db->sql_query($sql))
@@ -129,7 +129,7 @@ if ($submit && $mode == 'extensions')
 	if ($extension_id_sql != '')
 	{
 		$sql = 'DELETE
-		FROM ' . EXTENSIONS_TABLE . '
+		FROM bb_extensions
 		WHERE ext_id IN (' . $extension_id_sql . ')';
 
 		if( !$result = $db->sql_query($sql) )
@@ -155,7 +155,7 @@ if ($submit && $mode == 'extensions')
 		{
 			// check extension
 			$sql = 'SELECT extension
-				FROM ' . EXTENSIONS_TABLE;
+				FROM bb_extensions';
 
 			if (!($result = $db->sql_query($sql)))
 			{
@@ -190,7 +190,7 @@ if ($submit && $mode == 'extensions')
 					'comment'		=> (string) $extension_explain
 				);
 
-				$sql = 'INSERT INTO ' . EXTENSIONS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
+				$sql = 'INSERT INTO bb_extensions ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
 				if (!$db->sql_query($sql))
 				{
@@ -240,7 +240,7 @@ if ($mode == 'extensions')
 	}
 
 	$sql = 'SELECT *
-		FROM ' . EXTENSIONS_TABLE . '
+		FROM bb_extensions
 		ORDER BY group_id';
 
 	if (!($result = $db->sql_query($sql)))
@@ -322,7 +322,7 @@ if ($submit && $mode == 'groups')
 			'max_filesize'		=> (int) $filesize_list[$i]
 		);
 
-		$sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . ' SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
+		$sql = 'UPDATE bb_extension_groups SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
 			WHERE group_id = ' . (int) $group_change_list[$i];
 
 		if (!($db->sql_query($sql)))
@@ -339,7 +339,7 @@ if ($submit && $mode == 'groups')
 	if ($group_id_sql != '')
 	{
 		$sql = 'DELETE
-		FROM ' . EXTENSION_GROUPS_TABLE . '
+		FROM bb_extension_groups
 		WHERE group_id IN (' . $group_id_sql . ')';
 
 		if (!($result = $db->sql_query($sql)))
@@ -348,7 +348,7 @@ if ($submit && $mode == 'groups')
 		}
 
 		// Set corresponding Extensions to a pending Group
-		$sql = 'UPDATE ' . EXTENSIONS_TABLE . '
+		$sql = 'UPDATE bb_extensions
 			SET group_id = 0
 			WHERE group_id IN (' . $group_id_sql . ')';
 
@@ -373,7 +373,7 @@ if ($submit && $mode == 'groups')
 	{
 		// check Extension Group
 		$sql = 'SELECT group_name
-			FROM ' . EXTENSION_GROUPS_TABLE;
+			FROM bb_extension_groups';
 
 		if (!($result = $db->sql_query($sql)))
 		{
@@ -414,7 +414,7 @@ if ($submit && $mode == 'groups')
 				'forum_permissions'	=> ''
 			);
 
-			$sql = 'INSERT INTO ' . EXTENSION_GROUPS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
+			$sql = 'INSERT INTO bb_extension_groups ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
 			if (!($db->sql_query($sql)))
 			{
@@ -479,7 +479,7 @@ if ($mode == 'groups')
 	);
 
 	$sql = 'SELECT *
-		FROM ' . EXTENSION_GROUPS_TABLE;
+		FROM bb_extension_groups';
 
 	if (!($result = $db->sql_query($sql)))
 	{
@@ -530,7 +530,7 @@ if ($mode == 'groups')
 		if ($viewgroup && $viewgroup == $extension_group[$i]['group_id'])
 		{
 			$sql = 'SELECT comment, extension
-				FROM ' . EXTENSIONS_TABLE . '
+				FROM bb_extensions
 				WHERE group_id = ' . (int) $viewgroup;
 
 			if (!$result = $db->sql_query($sql))
@@ -583,7 +583,7 @@ if (@$add_forum && $e_mode == 'perm' && $group)
 	// If we add ALL FORUMS, we are able to overwrite the Permissions
 	if ($add_all_forums)
 	{
-		$sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . " SET forum_permissions = '' WHERE group_id = " . (int) $group;
+		$sql = "UPDATE bb_extension_groups SET forum_permissions = '' WHERE group_id = " . (int) $group;
 		if (!($result = $db->sql_query($sql)))
 		{
 			message_die(GENERAL_ERROR, 'Could not update Permissions', '', __LINE__, __FILE__, $sql);
@@ -594,13 +594,13 @@ if (@$add_forum && $e_mode == 'perm' && $group)
 	if (!$add_all_forums)
 	{
 		$sql = 'SELECT forum_permissions
-			FROM ' . EXTENSION_GROUPS_TABLE . '
+			FROM bb_extension_groups
 			WHERE group_id = ' . intval($group) . '
 			LIMIT 1';
 
 		if (!($result = $db->sql_query($sql)))
 		{
-			message_die(GENERAL_ERROR, 'Could not get Group Permissions from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
+			message_die(GENERAL_ERROR, 'Could not get Group Permissions from bb_extension_groups', '', __LINE__, __FILE__, $sql);
 		}
 
 		$row = $db->sql_fetchrow($result);
@@ -626,7 +626,7 @@ if (@$add_forum && $e_mode == 'perm' && $group)
 
 		$auth_bitstream = auth_pack($auth_p);
 
-		$sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . " SET forum_permissions = '" . attach_mod_sql_escape($auth_bitstream) . "' WHERE group_id = " . (int) $group;
+		$sql = "UPDATE bb_extension_groups SET forum_permissions = '" . attach_mod_sql_escape($auth_bitstream) . "' WHERE group_id = " . (int) $group;
 
 		if (!($result = $db->sql_query($sql)))
 		{
@@ -643,13 +643,13 @@ if (@$delete_forum && $e_mode == 'perm' && $group)
 
 	// Get the current Forums
 	$sql = 'SELECT forum_permissions
-		FROM ' . EXTENSION_GROUPS_TABLE . '
+		FROM bb_extension_groups
 		WHERE group_id = ' . intval($group) . '
 		LIMIT 1';
 
 	if (!($result = $db->sql_query($sql)))
 	{
-		message_die(GENERAL_ERROR, 'Could not get Group Permissions from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
+		message_die(GENERAL_ERROR, 'Could not get Group Permissions from bb_extension_groups', '', __LINE__, __FILE__, $sql);
 	}
 
 	$row = $db->sql_fetchrow($result);
@@ -669,7 +669,7 @@ if (@$delete_forum && $e_mode == 'perm' && $group)
 
 	$auth_bitstream = (sizeof($auth_p) > 0) ? auth_pack($auth_p) : '';
 
-	$sql = 'UPDATE ' . EXTENSION_GROUPS_TABLE . " SET forum_permissions = '" . attach_mod_sql_escape($auth_bitstream) . "' WHERE group_id = " . (int) $group;
+	$sql = "UPDATE bb_extension_groups SET forum_permissions = '" . attach_mod_sql_escape($auth_bitstream) . "' WHERE group_id = " . (int) $group;
 
 	if (!($result = $db->sql_query($sql)))
 	{
@@ -681,13 +681,13 @@ if (@$delete_forum && $e_mode == 'perm' && $group)
 if ($e_mode == 'perm' && $group)
 {
 	$sql = 'SELECT group_name, forum_permissions
-		FROM ' . EXTENSION_GROUPS_TABLE . '
+		FROM bb_extension_groups
 		WHERE group_id = ' . intval($group) . '
 		LIMIT 1';
 
 	if (!($result = $db->sql_query($sql)))
 	{
-		message_die(GENERAL_ERROR, 'Could not get Group Name from ' . EXTENSION_GROUPS_TABLE, '', __LINE__, __FILE__, $sql);
+		message_die(GENERAL_ERROR, 'Could not get Group Name from bb_extension_groups', '', __LINE__, __FILE__, $sql);
 	}
 
 	$row = $db->sql_fetchrow($result);
@@ -708,7 +708,7 @@ if ($e_mode == 'perm' && $group)
 		$forum_p = array();
 		$act_id = 0;
 		$forum_p = auth_unpack($allowed_forums);
-		$sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE . " WHERE forum_id IN (" . implode(', ', $forum_p) . ")";
+		$sql = "SELECT forum_id, forum_name FROM bb_forums WHERE forum_id IN (" . implode(', ', $forum_p) . ")";
 		if ( !($result = $db->sql_query($sql)) )
 		{
 			message_die(GENERAL_ERROR, 'Could not get Forum Names', '', __LINE__, __FILE__, $sql);
@@ -742,7 +742,7 @@ if ($e_mode == 'perm' && $group)
 
 	$forum_option_values = array(GPERM_ALL => $lang['Perm_all_forums']);
 
-	$sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE;
+	$sql = "SELECT forum_id, forum_name FROM bb_forums";
 
 	if ( !($result = $db->sql_query($sql)) )
 	{
@@ -766,7 +766,7 @@ if ($e_mode == 'perm' && $group)
 	$empty_perm_forums = array();
 
 
-	$sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE . " WHERE auth_attachments < " . AUTH_ADMIN;
+	$sql = "SELECT forum_id, forum_name FROM bb_forums WHERE auth_attachments < " . AUTH_ADMIN;
 
 	if ( !($f_result = $db->sql_query($sql)) )
 	{
@@ -778,7 +778,7 @@ if ($e_mode == 'perm' && $group)
 		$forum_id = $row['forum_id'];
 
 		$sql = "SELECT forum_permissions
-		FROM " . EXTENSION_GROUPS_TABLE . "
+		FROM bb_extension_groups
 		WHERE allow_group = 1
 		ORDER BY group_name ASC";
 

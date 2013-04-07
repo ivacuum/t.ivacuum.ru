@@ -19,15 +19,15 @@ function process_quota_settings($mode, $id, $quota_type, $quota_limit_id = 0)
 	{
 		if (!$quota_limit_id)
 		{
-			$sql = 'DELETE FROM ' . QUOTA_TABLE . "
+			$sql = "DELETE FROM bb_attach_quota
 				WHERE user_id = $id
 					AND quota_type = $quota_type";
 		}
 		else
 		{
 			// Check if user is already entered
-			$sql = 'SELECT user_id
-				FROM ' . QUOTA_TABLE . "
+			$sql = "SELECT user_id
+				FROM bb_attach_quota
 				WHERE user_id = $id
 					AND quota_type = $quota_type";
 
@@ -45,11 +45,11 @@ function process_quota_settings($mode, $id, $quota_type, $quota_limit_id = 0)
 					'quota_limit_id'=> (int) $quota_limit_id
 				);
 
-				$sql = 'INSERT INTO ' . QUOTA_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
+				$sql = 'INSERT INTO bb_attach_quota ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 			}
 			else
 			{
-				$sql = 'UPDATE ' . QUOTA_TABLE . "
+				$sql = "UPDATE bb_attach_quota
 					SET quota_limit_id = $quota_limit_id
 					WHERE user_id = $id
 						AND quota_type = $quota_type";
@@ -67,7 +67,7 @@ function process_quota_settings($mode, $id, $quota_type, $quota_limit_id = 0)
 	{
 		if (!$quota_limit_id)
 		{
-			$sql = 'DELETE FROM ' . QUOTA_TABLE . "
+			$sql = "DELETE FROM bb_attach_quota
 				WHERE group_id = $id
 					AND quota_type = $quota_type";
 
@@ -79,8 +79,8 @@ function process_quota_settings($mode, $id, $quota_type, $quota_limit_id = 0)
 		else
 		{
 			// Check if user is already entered
-			$sql = 'SELECT group_id
-				FROM ' . QUOTA_TABLE . "
+			$sql = "SELECT group_id
+				FROM bb_attach_quota
 				WHERE group_id = $id
 					AND quota_type = $quota_type";
 
@@ -91,12 +91,12 @@ function process_quota_settings($mode, $id, $quota_type, $quota_limit_id = 0)
 
 			if ($db->sql_numrows($result) == 0)
 			{
-				$sql = 'INSERT INTO ' . QUOTA_TABLE . " (user_id, group_id, quota_type, quota_limit_id)
+				$sql = "INSERT INTO bb_attach_quota (user_id, group_id, quota_type, quota_limit_id)
 					VALUES (0, $id, $quota_type, $quota_limit_id)";
 			}
 			else
 			{
-				$sql = 'UPDATE ' . QUOTA_TABLE . " SET quota_limit_id = $quota_limit_id
+				$sql = "UPDATE bb_attach_quota SET quota_limit_id = $quota_limit_id
 					WHERE group_id = $id AND quota_type = $quota_type";
 			}
 
@@ -270,8 +270,8 @@ function search_attachments($order_by, &$total_rows)
 		$search_author = str_replace('*', '%', attach_mod_sql_escape($search_author));
 
 		// We need the post_id's, because we want to query the Attachment Table
-		$sql = 'SELECT user_id
-			FROM ' . USERS_TABLE . "
+		$sql = "SELECT user_id
+			FROM bb_users
 			WHERE username LIKE '$search_author'";
 
 		if (!($result = $db->sql_query($sql)))
@@ -352,7 +352,7 @@ function search_attachments($order_by, &$total_rows)
 	// Search Cat... nope... sorry :(
 
 	$sql = 'SELECT a.*, t.post_id, p.post_time, p.topic_id
-		FROM bb_attachments t, bb_attachments_desc a, ' . POSTS_TABLE . ' p WHERE ';
+		FROM bb_attachments t, bb_attachments_desc a, bb_posts p WHERE ';
 
 	if (sizeof($where_sql) > 0)
 	{

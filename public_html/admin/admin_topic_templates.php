@@ -13,7 +13,7 @@ require(LANG_DIR .'lang_admin_bt.php');
 
 $forums = $db->fetch_rowset("
 	SELECT f.forum_id, f.forum_parent, f.topic_tpl_id, f.forum_name
-	FROM ". CATEGORIES_TABLE ." c, ". FORUMS_TABLE ." f
+	FROM bb_categories c, bb_forums f
 	WHERE f.cat_id = c.cat_id
 	ORDER BY c.cat_order, f.forum_order
 ");
@@ -22,7 +22,7 @@ $tpl_ary = array();
 $available_tpl_id = array(0);
 $tpl_select = array($lang['tpl_none'] => 0);
 
-$sql = "SELECT * FROM ". TOPIC_TPL_TABLE ." ORDER BY tpl_name";
+$sql = "SELECT * FROM bb_topic_templates ORDER BY tpl_name";
 
 foreach ($db->fetch_rowset($sql) as $row)
 {
@@ -53,7 +53,7 @@ if (isset($_POST['submit']) && @is_array($_POST['forum_tpl']))
 		foreach ($new_settings as $forum_id => $tpl_id)
 		{
 			$db->query("
-				UPDATE ". FORUMS_TABLE ." SET
+				UPDATE bb_forums SET
 					topic_tpl_id = ". (int) $tpl_id ."
 				WHERE forum_id = ". (int) $forum_id ."
 			");

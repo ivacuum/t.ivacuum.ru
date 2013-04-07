@@ -60,7 +60,7 @@ $sql = '
 	SELECT
 		SUM(size) as released_size
 	FROM
-		' . BT_TORRENTS_TABLE . '
+		bb_bt_torrents
 	WHERE
 		poster_id = ' . $profile_user_id;
 $result = $db->sql_query($sql);
@@ -83,10 +83,10 @@ $sql = '
 		tr.seeder,
 		tr.remain
 	FROM
-		' . FORUMS_TABLE . ' f,
-		' . TOPICS_TABLE . ' t,
-		' . BT_TRACKER_TABLE . ' tr,
-		' . BT_TORRENTS_TABLE . ' tor
+		bb_forums f,
+		bb_topics t,
+		bb_bt_tracker tr,
+		bb_bt_torrents tor
 	WHERE
 		tr.user_id = ' . $profile_user_id . '
 	AND
@@ -237,7 +237,7 @@ $sql = '
 		SUM(speed_up) as speed_up,
 		SUM(speed_down) as speed_down
 	FROM
-		' . BT_TRACKER_TABLE . '
+		bb_bt_tracker
 	WHERE
 		user_id = ' . $profile_user_id;
 

@@ -22,10 +22,10 @@ $sql = "
 	SELECT
 		aa.forum_id, u.user_id, u.username
 	FROM
-		". AUTH_ACCESS_TABLE ." aa,
-		". USER_GROUP_TABLE  ." ug,
-		". GROUPS_TABLE      ." g,
-		". USERS_TABLE       ." u
+		bb_auth_access aa,
+		bb_user_group ug,
+		bb_groups g,
+		bb_users u
 	WHERE
 				aa.forum_perm & ". BF_AUTH_MOD ."
 		AND ug.group_id = aa.group_id
@@ -51,8 +51,8 @@ $sql = "
 	SELECT
 		aa.forum_id, g.group_id, g.group_name
 	FROM
-		". AUTH_ACCESS_TABLE ." aa,
-		". GROUPS_TABLE      ." g
+		bb_auth_access aa,
+		bb_groups g
 	WHERE
 				aa.forum_perm & ". BF_AUTH_MOD ."
 		AND g.group_id = aa.group_id
@@ -75,10 +75,10 @@ $sql = "
 	SELECT
 		u.user_id, u.username
 	FROM
-		". AUTH_ACCESS_TABLE ." aa,
-		". USER_GROUP_TABLE  ." ug,
-		". GROUPS_TABLE      ." g,
-		". USERS_TABLE       ." u
+		bb_auth_access aa,
+		bb_user_group ug,
+		bb_groups g,
+		bb_users u
 	WHERE
 				aa.forum_perm & ". BF_AUTH_MOD ."
 		AND ug.group_id = aa.group_id
@@ -99,7 +99,7 @@ foreach ($db->fetch_rowset($sql) as $row)
 // admins
 $sql = "
 	SELECT user_id, username
-	FROM ". USERS_TABLE ."
+	FROM bb_users
 	WHERE user_level = ". ADMIN ."
 	ORDER BY username
 ";

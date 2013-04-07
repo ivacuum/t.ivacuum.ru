@@ -9,7 +9,7 @@ global $db, $bb_cfg, $static_path;
 
 $smilies = array();
 
-$rowset = $db->fetch_rowset("SELECT * FROM ". SMILIES_TABLE);
+$rowset = $db->fetch_rowset("SELECT * FROM bb_smilies");
 usort($rowset, 'smiley_sort');
 
 foreach ($rowset as $smile)

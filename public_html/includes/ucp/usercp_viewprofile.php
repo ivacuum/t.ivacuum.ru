@@ -124,8 +124,8 @@ $sql = '
 		g.group_name,
 		g.group_type
 	FROM
-		' . GROUPS_TABLE . ' as g,
-		' . USER_GROUP_TABLE . ' as ug
+		bb_groups as g,
+		bb_user_group as ug
 	WHERE
 		ug.user_pending = 0
 	AND
@@ -155,7 +155,7 @@ while( $row = $db->sql_fetchrow($result) )
 			SELECT
 				*
 			FROM
-				' . USER_GROUP_TABLE . '
+				bb_user_group
 			WHERE
 				group_id = ' . $row['group_id'] . '
 			AND

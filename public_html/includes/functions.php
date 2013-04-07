@@ -538,7 +538,7 @@ function auth($type, $forum_id, $ug_data, $f_access = array(), $group_perm = UG_
 		$is_admin = false;
 
 		$sql = "SELECT aa.forum_id, aa.forum_perm
-			FROM ". AUTH_ACCESS_TABLE ." aa
+			FROM bb_auth_access aa
 			WHERE aa.group_id = ". (int) $ug_data['group_id'] ."
 				$forum_match_sql";
 
@@ -561,9 +561,9 @@ function auth($type, $forum_id, $ug_data, $f_access = array(), $group_perm = UG_
 				SELECT
 					aa.forum_id, BIT_OR(aa.forum_perm) AS forum_perm
 				FROM
-					". USER_GROUP_TABLE  ." ug,
-					". GROUPS_TABLE      ." g,
-					". AUTH_ACCESS_TABLE ." aa
+					bb_user_group ug,
+					bb_groups g,
+					bb_auth_access aa
 				WHERE
 					    ug.user_id = ". (int) $ug_data['user_id'] ."
 					AND ug.user_pending = 0
@@ -584,7 +584,7 @@ function auth($type, $forum_id, $ug_data, $f_access = array(), $group_perm = UG_
 			if( !$is_guest && !$is_admin )
 			{
 				$sql = "SELECT SQL_CACHE aa.forum_id, aa.forum_perm
-					FROM ". AUTH_ACCESS_SNAP_TABLE ." aa
+					FROM bb_auth_access_snap aa
 					WHERE aa.user_id = ". (int) $ug_data['user_id'] ."
 						$forum_match_sql";
 
@@ -812,7 +812,7 @@ function get_select($type)
 		case 'groups':
 
 			$sql = "SELECT group_id, group_name
-				FROM ". GROUPS_TABLE ."
+				FROM bb_groups
 				WHERE group_single_user = 0
 				ORDER BY group_name";
 
@@ -1294,7 +1294,7 @@ function get_username($user_id)
 		return false;
 	}
 
-	$row = $GLOBALS['db']->fetch_row("SELECT username FROM ". USERS_TABLE ." WHERE user_id = $user_id LIMIT 1");
+	$row = $GLOBALS['db']->fetch_row("SELECT username FROM bb_users WHERE user_id = $user_id LIMIT 1");
 
 	return $row['username'];
 }
@@ -1306,7 +1306,7 @@ function get_user_id($username)
 		return false;
 	}
 
-	$row = $GLOBALS['db']->fetch_row("SELECT user_id FROM ". USERS_TABLE ." WHERE username = '$username' LIMIT 1");
+	$row = $GLOBALS['db']->fetch_row("SELECT user_id FROM bb_users WHERE username = '$username' LIMIT 1");
 
 	return $row['user_id'];
 }
@@ -1340,7 +1340,7 @@ function wbr($text, $max_word_length = HTML_WBR_LENGTH)
 
 function get_bt_userdata($user_id)
 {
-	return $GLOBALS['db']->fetch_row("SELECT * FROM " . BT_USERS_TABLE . " WHERE user_id = " . (int) $user_id . " LIMIT 1");
+	return $GLOBALS['db']->fetch_row("SELECT * FROM bb_bt_users WHERE user_id = " . (int) $user_id . " LIMIT 1");
 }
 
 function get_bt_ratio($btu, $raw = false)
@@ -1438,7 +1438,7 @@ function bb_get_config($table, $from_db = false, $update_cache = true)
 	return $cfg;
 }
 
-function bb_update_config($params, $table = CONFIG_TABLE)
+function bb_update_config($params, $table = 'bb_config')
 {
 	global $db, $bb_cache;
 
@@ -1469,13 +1469,13 @@ function get_db_stat($mode)
 		case 'usercount':
 
 			$sql = "SELECT COUNT(user_id) AS total
-				FROM " . USERS_TABLE;
+				FROM bb_users";
 
 		break;
 		case 'newestuser':
 
 			$sql = "SELECT user_id, username
-				FROM " . USERS_TABLE . "
+				FROM bb_users
 				WHERE user_id <> " . ANONYMOUS . "
 				ORDER BY user_id DESC
 				LIMIT 1";
@@ -1485,7 +1485,7 @@ function get_db_stat($mode)
 		case 'topiccount':
 
 			$sql = "SELECT SUM(forum_topics) AS topic_total, SUM(forum_posts) AS post_total
-				FROM " . FORUMS_TABLE;
+				FROM bb_forums";
 
 		break;
 	}
@@ -1623,14 +1623,14 @@ function get_userdata($u, $force_name = false, $allow_anon = false)
 		$where_sql = "WHERE user_id = ". (int) $u;
 	}
 
-	$sql = "SELECT * FROM ". USERS_TABLE ." $where_sql $anon_sql LIMIT 1";
+	$sql = "SELECT * FROM bb_users $where_sql $anon_sql LIMIT 1";
 
 	if( !$userdata = $db->fetch_row($sql) )
 	{
 		if( !is_int($u) && !$name_search )
 		{
 			$where_sql = "WHERE username = '". phpbb_clean_username($u) ."'";
-			$sql = "SELECT * FROM ". USERS_TABLE ." $where_sql $anon_sql LIMIT 1";
+			$sql = "SELECT * FROM bb_users $where_sql $anon_sql LIMIT 1";
 			$userdata = $db->fetch_row($sql);
 		}
 	}
@@ -1908,7 +1908,7 @@ function obtain_word_list(&$orig_word, &$replacement_word)
 	// Define censored word matches
 	//
 	$sql = "SELECT SQL_CACHE word, replacement
-		FROM  " . WORDS_TABLE;
+		FROM bb_words";
 	if( !($result = $db->sql_query($sql)) )
 	{
 		message_die(GENERAL_ERROR, 'Could not get censored words from database', '', __LINE__, __FILE__, $sql);
@@ -2320,8 +2320,8 @@ if (!function_exists('array_intersect_key')) {
 
 function clear_dl_list ($topics_csv)
 {
-	$GLOBALS['db']->query("DELETE FROM ". BT_DLSTATUS_TABLE ." WHERE topic_id IN($topics_csv)");
-	// $GLOBALS['db']->query("DELETE FROM ". BT_DLSTATUS_SNAP_TABLE ." WHERE topic_id IN($topics_csv)");
+	$GLOBALS['db']->query("DELETE FROM bb_bt_dlstatus_main WHERE topic_id IN($topics_csv)");
+	// $GLOBALS['db']->query("DELETE FROM bb_bt_dlstatus_snap WHERE topic_id IN($topics_csv)");
 }
 
 // $ids - array(id1,id2,..) or (string) id
@@ -2343,19 +2343,19 @@ function get_id_ary ($ids)
 function get_topic_title ($topic_id)
 {
 	$row = $GLOBALS['db']->fetch_row("
-		SELECT topic_title FROM ". TOPICS_TABLE ." WHERE topic_id = ". (int) $topic_id ."
+		SELECT topic_title FROM bb_topics WHERE topic_id = ". (int) $topic_id ."
 	");
 	return $row['topic_title'];
 }
 
 function forum_exists ($forum_id)
 {
-	return $GLOBALS['db']->fetch_row("SELECT forum_id FROM ". FORUMS_TABLE ." WHERE forum_id = $forum_id LIMIT 1");
+	return $GLOBALS['db']->fetch_row("SELECT forum_id FROM bb_forums WHERE forum_id = $forum_id LIMIT 1");
 }
 
 function cat_exists ($cat_id)
 {
-	return $GLOBALS['db']->fetch_row("SELECT cat_id FROM ". CATEGORIES_TABLE ." WHERE cat_id = $cat_id LIMIT 1");
+	return $GLOBALS['db']->fetch_row("SELECT cat_id FROM bb_categories WHERE cat_id = $cat_id LIMIT 1");
 }
 
 //
@@ -2437,7 +2437,7 @@ class log_action
 		);
 		$sql_args = $db->build_array('INSERT', $sql_ary);
 
-		$db->query("INSERT INTO ". LOG_TABLE ." $sql_args");
+		$db->query("INSERT INTO bb_log $sql_args");
 	}
 
 	function admin ($type_name, $args = array())

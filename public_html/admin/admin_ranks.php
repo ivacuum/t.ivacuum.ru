@@ -58,7 +58,7 @@ if( $mode != "" )
 				message_die(GENERAL_MESSAGE, $lang['Must_select_rank']);
 			}
 
-			$sql = "SELECT * FROM " . RANKS_TABLE . "
+			$sql = "SELECT * FROM bb_ranks
 				WHERE rank_id = $rank_id";
 			if(!$result = $db->sql_query($sql))
 			{
@@ -140,7 +140,7 @@ if( $mode != "" )
 		{
 			if (!$special_rank)
 			{
-				$sql = "UPDATE " . USERS_TABLE . "
+				$sql = "UPDATE bb_users
 					SET user_rank = 0
 					WHERE user_rank = $rank_id";
 
@@ -149,7 +149,7 @@ if( $mode != "" )
 					message_die(GENERAL_ERROR, $lang['No_update_ranks'], "", __LINE__, __FILE__, $sql);
 				}
 			}
-			$sql = "UPDATE " . RANKS_TABLE . "
+			$sql = "UPDATE bb_ranks
 				SET rank_title = '" . str_replace("\'", "''", $rank_title) . "', rank_special = $special_rank, rank_min = $min_posts, rank_image = '" . str_replace("\'", "''", $rank_image) . "'
 				WHERE rank_id = $rank_id";
 
@@ -157,7 +157,7 @@ if( $mode != "" )
 		}
 		else
 		{
-			$sql = "INSERT INTO " . RANKS_TABLE . " (rank_title, rank_special, rank_min, rank_image)
+			$sql = "INSERT INTO bb_ranks (rank_title, rank_special, rank_min, rank_image)
 				VALUES ('" . str_replace("\'", "''", $rank_title) . "', $special_rank, $min_posts, '" . str_replace("\'", "''", $rank_image) . "')";
 
 			$message = $lang['Rank_added'];
@@ -190,7 +190,7 @@ if( $mode != "" )
 
 		if( $rank_id )
 		{
-			$sql = "DELETE FROM " . RANKS_TABLE . "
+			$sql = "DELETE FROM bb_ranks
 				WHERE rank_id = $rank_id";
 
 			if( !$result = $db->sql_query($sql) )
@@ -198,7 +198,7 @@ if( $mode != "" )
 				message_die(GENERAL_ERROR, "Couldn't delete rank data", "", __LINE__, __FILE__, $sql);
 			}
 
-			$sql = "UPDATE " . USERS_TABLE . "
+			$sql = "UPDATE bb_users
 				SET user_rank = 0
 				WHERE user_rank = $rank_id";
 
@@ -227,7 +227,7 @@ else
 	//
 	// Show the default page
 	//
-	$sql = "SELECT * FROM " . RANKS_TABLE . "
+	$sql = "SELECT * FROM bb_ranks
 		ORDER BY rank_min, rank_title";
 	if( !$result = $db->sql_query($sql) )
 	{

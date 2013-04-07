@@ -10,7 +10,7 @@ $sql = '
 		COUNT(*) as online,
 		CURRENT_DATE() as date
 	FROM
-		' . USERS_TABLE . '
+		bb_users
 	WHERE
 		user_session_time >= UNIX_TIMESTAMP(CURRENT_DATE())';
 $result = $db->sql_query($sql);
