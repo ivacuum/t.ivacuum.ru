@@ -1,6 +1,5 @@
 <?php
 
-define('NO_GZIP', true);
 require('common.php');
 require(SITE_DIR . 'attach_mod/attachment_mod.php');
 

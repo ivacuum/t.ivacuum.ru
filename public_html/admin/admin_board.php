@@ -248,7 +248,6 @@ $template->assign_vars(array(
 	"SESSION_LENGTH" => "$bb_cfg[user_session_duration]<br />$bb_cfg[admin_session_duration]",
 	"S_COOKIE_SECURE_ENABLED" => $cookie_secure_yes,
 	"S_COOKIE_SECURE_DISABLED" => $cookie_secure_no,
-	"GZIP" => $bb_cfg['gzip_compress'],
 	"PRUNE_YES" => $prune_yes,
 	"PRUNE_NO" => $prune_no,
 	"BBCODE_YES" => $bbcode_yes,

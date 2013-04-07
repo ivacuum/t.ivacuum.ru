@@ -42,8 +42,6 @@ if ($show_dbg_info)
 
 	$gen_time = microtime(true) - TIMESTART;
 	$gen_time_txt = sprintf('%.3f', $gen_time);
-	$gzip_text = (UA_GZIP_SUPPORTED) ? 'GZIP' : '<s>GZIP</s>';
-	$gzip_text .= ($bb_cfg['gzip_compress']) ? ' ON' : ' OFF';
 	$debug_text = (DEBUG) ? 'Debug ON' : 'Debug OFF';
 
 	$stat = '[&nbsp; ';
@@ -54,8 +52,6 @@ if ($show_dbg_info)
 		$sql_time = ($db->sql_timetotal) ? sprintf('%.3f sec (%d%%) in ', $db->sql_timetotal, round($db->sql_timetotal*100/$gen_time)) : '';
 		$stat .= "&nbsp;|&nbsp; MySQL: {$sql_time}{$db->num_queries} queries";
 	}
-
-	$stat .= "&nbsp;|&nbsp; $gzip_text";
 
 	if (MEM_USAGE)
 	{

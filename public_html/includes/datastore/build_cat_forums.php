@@ -114,8 +114,8 @@ $data = array(
 
 $this->store('jumpbox', $data);
 
-file_write(ajax_encode($data['guest']), SITE_DIR . 'ajax/html/jumpbox_guest.html', false, true, true);
-file_write(ajax_encode($data['user']), SITE_DIR . 'ajax/html/jumpbox_user.html', false, true, true);
+file_write($data['guest'], SITE_DIR . 'ajax/html/jumpbox_guest.html', false, true, true);
+file_write($data['user'], SITE_DIR . 'ajax/html/jumpbox_user.html', false, true, true);
 
 //
 // viewtopic_forum_select

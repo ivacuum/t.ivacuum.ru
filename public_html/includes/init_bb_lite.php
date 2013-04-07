@@ -425,7 +425,7 @@ $datastore->enqueue(array(
 );
 
 // Cron
-if( empty($_POST) && !defined('IN_ADMIN') && !defined('IN_AJAX') && !defined('IN_SERVICE') && !file_exists(CRON_RUNNING) && $bb_cfg['cron_enabled'] )
+if( empty($_POST) && !defined('IN_ADMIN') && !defined('IN_AJAX') && && !file_exists(CRON_RUNNING) && $bb_cfg['cron_enabled'] )
 {
 	if( TIMENOW - $bb_cfg['cron_last_check'] > $bb_cfg['cron_check_interval'] )
 	{

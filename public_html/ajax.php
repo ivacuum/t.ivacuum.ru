@@ -179,11 +179,6 @@ class ajax_common
 			$this->request = $_POST;
 		}
 
-		if( AJAX_CHARSET )
-		{
-			array_deep($this->request, 'ajax_decode');
-		}
-
 		$this->action =& $this->request['action'];
 	}
 
@@ -204,31 +199,15 @@ class ajax_common
 	*/
 	function ob_handler($contents)
 	{
-		if( DBG_USER )
+		if (DBG_USER)
 		{
-			if( $contents )
+			if ($contents)
 			{
 				$this->response['raw_output'] = $contents;
 			}
 		}
 
-		if( AJAX_CHARSET )
-		{
-			array_deep($this->response, 'ajax_encode');
-		}
-
-		$response_js = json_encode($this->response);
-
-		if( GZIP_OUTPUT_ALLOWED && !defined('NO_GZIP') )
-		{
-			if( UA_GZIP_SUPPORTED && strlen($response_js) > 2000 )
-			{
-				header('Content-Encoding: gzip');
-				$response_js = gzencode($response_js, 1);
-			}
-		}
-
-		return $response_js;
+		return json_encode($this->response);
 	}
 
 	/**

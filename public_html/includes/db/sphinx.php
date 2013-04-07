@@ -4,11 +4,6 @@
 * @copyright (c) 2011
 */
 
-if( !defined('IN_SITE') && !defined('BB_SCRIPT') )
-{
-	exit;
-}
-
 /**
 * Класс работы со Sphinx по протоколу MySQL версии 4.1
 */

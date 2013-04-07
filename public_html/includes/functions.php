@@ -2598,22 +2598,6 @@ function caching_output ($enabled, $mode, $cache_var_name, $ttl = 300)
 // Ajax
 //
 /**
- *  Encode from $from_charset to UTF-8
- */
-function ajax_encode ($data, $from_charset = AJAX_CHARSET)
-{
-	return ($from_charset && is_string($data)) ? iconv($from_charset, 'UTF-8', $data) : $data;
-}
-
-/**
- *  Decode from UTF-8 to $to_charset
- */
-function ajax_decode ($data, $to_charset = AJAX_CHARSET)
-{
-	return ($to_charset && is_string($data)) ? iconv('UTF-8', $to_charset, $data) : $data;
-}
-
-/**
  *  Decode JSON to PHP (JS -> PHP)
  */
 function bb_json_decode ($data)

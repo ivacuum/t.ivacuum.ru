@@ -252,8 +252,7 @@ else if( isset($_GET['pane']) && $_GET['pane'] == 'right' )
 		"USERS_PER_DAY" => $users_per_day,
 		"AVATAR_DIR_SIZE" => $avatar_dir_size,
 		"DB_SIZE" => $dbsize,
-		"GZIP_COMPRESSION" => ( $bb_cfg['gzip_compress'] ) ? $lang['ON'] : $lang['OFF'])
-	);
+	));
 	//
 	// End forum statistics
 	//

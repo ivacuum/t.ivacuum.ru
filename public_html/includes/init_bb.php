@@ -15,9 +15,9 @@ if( !defined('BB_SCRIPT') )
 }
 
 // Exit if board is disabled via ON/OFF trigger
-if( !defined('IN_ADMIN') && !defined('IN_INSTALL') && !defined('IN_AJAX') && !defined('IN_SERVICE') )
+if (!defined('IN_ADMIN') && !defined('IN_AJAX'))
 {
-	if( file_exists(BB_DISABLED) )
+	if (file_exists(BB_DISABLED))
 	{
 		cron_release_deadlock();
 
@@ -78,10 +78,8 @@ function send_page($contents)
 	return $contents;
 }
 
-define('UA_GZIP_SUPPORTED', (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false));
-
 // Start output buffering
-if( !defined('IN_INSTALL') && !defined('IN_AJAX') )
+if (!defined('IN_AJAX'))
 {
 	ob_start('send_page');
 }
@@ -164,7 +162,7 @@ function bb_exit($output = '')
 }
 
 // Exit if server overloaded
-if( !(defined('IN_PROFILE') || defined('IN_LOGIN') || defined('IN_ADMIN') || defined('IN_AJAX') || defined('IN_SERVICE')) && SITE_DIR == '/srv/www/vhosts/t.ivacuum.ru/public_html/' )
+if (!(defined('IN_PROFILE') || defined('IN_LOGIN') || defined('IN_ADMIN') || defined('IN_AJAX') || SITE_DIR == '/srv/www/vhosts/t.ivacuum.ru/public_html/')
 {
 	if( $bb_cfg['max_srv_load'] && empty($_POST['message']) && !empty($_COOKIE[COOKIE_LOAD]) && LOADAVG )
 	{

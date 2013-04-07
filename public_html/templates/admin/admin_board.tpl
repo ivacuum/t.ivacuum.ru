@@ -104,10 +104,6 @@
 	<td>{TIMEZONE_SELECT}</td>
 </tr>
 <tr>
-	<td><h4>{L_ENABLE_GZIP}</h4><h5>$bb_cfg['gzip_compress']</h5></td>
-	<td><!-- IF GZIP -->{L_YES}<!-- ELSE -->{L_NO}<!-- ENDIF --></td>
-</tr>
-<tr>
 	<td><h4>{L_ENABLE_PRUNE}</h4></td>
 	<td><input type="radio" name="prune_enable" value="1" {PRUNE_YES} /> {L_YES}&nbsp;&nbsp;<input type="radio" name="prune_enable" value="0" {PRUNE_NO} /> {L_NO}</td>
 </tr>
