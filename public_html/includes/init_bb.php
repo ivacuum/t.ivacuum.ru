@@ -162,7 +162,7 @@ function bb_exit($output = '')
 }
 
 // Exit if server overloaded
-if (!(defined('IN_PROFILE') || defined('IN_LOGIN') || defined('IN_ADMIN') || defined('IN_AJAX') || SITE_DIR == '/srv/www/vhosts/t.ivacuum.ru/public_html/')
+if (!(defined('IN_PROFILE') || defined('IN_LOGIN') || defined('IN_ADMIN') || defined('IN_AJAX')) && SITE_DIR == '/srv/www/vhosts/t.ivacuum.ru/public_html/')
 {
 	if( $bb_cfg['max_srv_load'] && empty($_POST['message']) && !empty($_COOKIE[COOKIE_LOAD]) && LOADAVG )
 	{
