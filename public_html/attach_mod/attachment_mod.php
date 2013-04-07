@@ -60,8 +60,7 @@ function get_config()
 
 	$attach_config = array();
 
-	$sql = 'SELECT *
-		FROM ' . ATTACH_CONFIG_TABLE;
+	$sql = 'SELECT * FROM bb_attachments_config';
 
 	if ( !($result = $db->sql_query($sql)) )
 	{

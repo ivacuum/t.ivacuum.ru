@@ -118,7 +118,7 @@ if ($confirm && sizeof($delete_id_list) > 0)
 	for ($i = 0; $i < sizeof($delete_id_list); $i++)
 	{
 		$sql = 'SELECT post_id
-			FROM ' . ATTACHMENTS_TABLE . '
+			FROM bb_attachments
 			WHERE attach_id = ' . intval($delete_id_list[$i]) . '
 				AND user_id_1 = ' . intval($profiledata['user_id']);
 		$result = $db->sql_query($sql);
@@ -187,7 +187,7 @@ $template->assign_vars(array(
 );
 
 $sql = "SELECT attach_id
-	FROM " . ATTACHMENTS_TABLE . "
+	FROM bb_attachments
 	WHERE user_id_1 = " . intval($profiledata['user_id']) . "
 	GROUP BY attach_id";
 
@@ -214,7 +214,7 @@ if ($num_attach_ids > 0)
 	}
 
 	$sql = "SELECT a.*
-		FROM " . ATTACHMENTS_DESC_TABLE . " a
+		FROM bb_attachments_desc a
 		WHERE a.attach_id IN (" . join(', ', $attach_id) . ") " .
 		$order_by;
 
@@ -239,7 +239,7 @@ if (sizeof($attachments) > 0)
 		$post_titles = array();
 
 		$sql = 'SELECT *
-			FROM ' . ATTACHMENTS_TABLE . '
+			FROM bb_attachments
 			WHERE attach_id = ' . (int) $attachments[$i]['attach_id'];
 
 		if (!($result = $db->sql_query($sql)))

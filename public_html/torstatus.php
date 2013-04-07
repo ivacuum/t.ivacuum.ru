@@ -77,7 +77,7 @@ if (!empty($_POST['tor_status']) && $confirm)
 if( $userdata['user_id'] != ANONYMOUS && is_numeric($attach_id) ) {
 
   $sql = 'SELECT p.forum_id
-	FROM '. ATTACHMENTS_TABLE .' a join '. POSTS_TABLE .' p on a.post_id=p.post_id
+	FROM bb_attachments a join '. POSTS_TABLE .' p on a.post_id=p.post_id
 	WHERE a.attach_id='. $attach_id;
 
   if( $result = $db->sql_query($sql) ) {

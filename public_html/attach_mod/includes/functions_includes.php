@@ -395,7 +395,7 @@ function display_upload_attach_box_limits($user_id, $group_id = 0)
 
 	// Get all attach_id's the specific user posted, but only uploads to the board and not Private Messages
 	$sql = 'SELECT attach_id
-		FROM ' . ATTACHMENTS_TABLE . '
+		FROM bb_attachments
 		WHERE user_id_1 = ' . (int) $user_id . '
 		GROUP BY attach_id';
 

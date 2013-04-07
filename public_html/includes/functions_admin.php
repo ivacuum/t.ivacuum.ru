@@ -99,7 +99,7 @@ function sync($type, $id)
 					IF(MAX(a.attach_id), 1, 0) AS topic_attachment
 				FROM      ". TOPICS_TABLE      ." t
 				LEFT JOIN ". POSTS_TABLE       ." p ON(p.topic_id = t.topic_id)
-				LEFT JOIN ". ATTACHMENTS_TABLE ." a ON(a.post_id = p.post_id)
+				LEFT JOIN bb_attachments a ON(a.post_id = p.post_id)
 				WHERE t.topic_status != ". TOPIC_MOVED ."
 					$where_sql
 				GROUP BY t.topic_id
@@ -312,8 +312,8 @@ function topic_delete($mode_or_topic_id, $forum_id = null, $prune_time = 0, $pru
 		FROM
 			". $tmp_delete_topics     ." del,
 			". POSTS_TABLE            ." p,
-			". ATTACHMENTS_TABLE      ." a,
-			". ATTACHMENTS_DESC_TABLE ." d
+			bb_attachments a,
+			bb_attachments_desc d
 		WHERE
 			    p.topic_id = del.topic_id
 			AND a.post_id = p.post_id
@@ -337,9 +337,9 @@ function topic_delete($mode_or_topic_id, $forum_id = null, $prune_time = 0, $pru
 		LEFT JOIN ". POSTS_TABLE            ." p  ON(p.topic_id = del.topic_id)
 		LEFT JOIN ". POSTS_TEXT_TABLE       ." pt ON(pt.post_id = p.post_id)
 		LEFT JOIN ". POSTS_SEARCH_TABLE     ." ps ON(ps.post_id = p.post_id)
-		LEFT JOIN ". ATTACHMENTS_TABLE      ." a  ON(a.post_id = p.post_id)
-		LEFT JOIN ". ATTACHMENTS_DESC_TABLE ." d  ON(d.attach_id = a.attach_id)
-		LEFT JOIN ". ATTACHMENTS_THANKS_TABLE ." at ON(at.attach_id = a.attach_id)
+		LEFT JOIN bb_attachments a  ON(a.post_id = p.post_id)
+		LEFT JOIN bb_attachments_desc d  ON(d.attach_id = a.attach_id)
+		LEFT JOIN bb_attachments_thanks at ON(at.attach_id = a.attach_id)
 	");
 
 	// Delete topics, topics watch
@@ -635,8 +635,8 @@ function post_delete ($mode_or_post_id, $user_id = null)
 			d.physical_filename
 		FROM
 			". $tmp_delete_posts      ." del,
-			". ATTACHMENTS_TABLE      ." a,
-			". ATTACHMENTS_DESC_TABLE ." d
+			bb_attachments a,
+			bb_attachments_desc d
 		WHERE
 			    a.post_id = del.post_id
 			AND d.attach_id = a.attach_id
@@ -660,8 +660,8 @@ function post_delete ($mode_or_post_id, $user_id = null)
 		LEFT JOIN ". POSTS_TEXT_TABLE       ." pt  ON(pt.post_id  = del.post_id)
 		LEFT JOIN ". POSTS_SEARCH_TABLE     ." ps  ON(ps.post_id  = del.post_id)
 		LEFT JOIN ". BT_TORRENTS_TABLE      ." tor ON(tor.post_id = del.post_id)
-		LEFT JOIN ". ATTACHMENTS_TABLE      ." a   ON(a.post_id   = del.post_id)
-		LEFT JOIN ". ATTACHMENTS_DESC_TABLE ." d   ON(d.attach_id = a.attach_id)
+		LEFT JOIN bb_attachments a   ON(a.post_id   = del.post_id)
+		LEFT JOIN bb_attachments_desc d   ON(d.attach_id = a.attach_id)
 	");
 
 	// Log action

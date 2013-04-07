@@ -352,7 +352,7 @@ function search_attachments($order_by, &$total_rows)
 	// Search Cat... nope... sorry :(
 
 	$sql = 'SELECT a.*, t.post_id, p.post_time, p.topic_id
-		FROM ' . ATTACHMENTS_TABLE . ' t, ' . ATTACHMENTS_DESC_TABLE . ' a, ' . POSTS_TABLE . ' p WHERE ';
+		FROM bb_attachments t, bb_attachments_desc a, ' . POSTS_TABLE . ' p WHERE ';
 
 	if (sizeof($where_sql) > 0)
 	{

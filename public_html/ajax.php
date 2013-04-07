@@ -812,7 +812,7 @@ class ajax_common
 					u.user_id,
 					u.username
 				FROM
-					' . ATTACHMENTS_THANKS_TABLE . ' a,
+					bb_attachments_thanks a,
 					' . USERS_TABLE . ' u
 				WHERE
 					a.user_id = u.user_id
@@ -850,7 +850,7 @@ class ajax_common
 
 			if( $row && $row['poster_id'] != $userdata['user_id'] )
 			{
-				$sql = 'INSERT IGNORE INTO ' . ATTACHMENTS_THANKS_TABLE . ' (attach_id, user_id) VALUES (' . $attach_id . ', ' . $userdata['user_id'] . ')';
+				$sql = 'INSERT IGNORE INTO bb_attachments_thanks (attach_id, user_id) VALUES (' . $attach_id . ', ' . $userdata['user_id'] . ')';
 				$db->sql_query($sql);
 			}
 
@@ -858,7 +858,7 @@ class ajax_common
 				SELECT
 					COUNT(*) as total_thanks
 				FROM
-					' . ATTACHMENTS_THANKS_TABLE . '
+					bb_attachments_thanks
 				WHERE
 					attach_id = ' . $attach_id;
 			$result = $db->sql_query($sql);
@@ -872,7 +872,7 @@ class ajax_common
 
 			$sql = '
 				UPDATE
-					' . ATTACHMENTS_DESC_TABLE . '
+					bb_attachments_desc
 				SET
 					thanks = ' . $row['total_thanks'] . '
 				WHERE

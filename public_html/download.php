@@ -228,7 +228,7 @@ if ($attach_config['disable_mod'] && !IS_ADMIN)
 }
 
 $sql = 'SELECT *
-	FROM ' . ATTACHMENTS_DESC_TABLE . '
+	FROM bb_attachments_desc
 	WHERE attach_id = ' . (int) $download_id;
 
 if (!($result = $db->sql_query($sql)))
@@ -249,7 +249,7 @@ $db->sql_freeresult($result);
 $authorised = false;
 
 $sql = 'SELECT *
-	FROM ' . ATTACHMENTS_TABLE . '
+	FROM bb_attachments
 	WHERE attach_id = ' . (int) $attachment['attach_id'];
 
 if (!($result = $db->sql_query($sql)))
@@ -326,7 +326,7 @@ if ($thumbnail)
 // Update download count
 if (!$thumbnail)
 {
-	$sql = 'UPDATE ' . ATTACHMENTS_DESC_TABLE . '
+	$sql = 'UPDATE bb_attachments_desc
 	SET download_count = download_count + 1
 	WHERE attach_id = ' . (int) $attachment['attach_id'];
 

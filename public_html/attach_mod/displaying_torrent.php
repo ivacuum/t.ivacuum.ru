@@ -159,7 +159,7 @@ else
 
 if ($tor_reged && !$tor_info)
 {
-	$db->query("UPDATE ". ATTACHMENTS_DESC_TABLE ." SET tracker_status = 0 WHERE attach_id = $attach_id");
+	$db->query("UPDATE bb_attachments_desc SET tracker_status = 0 WHERE attach_id = $attach_id");
 
 	bb_die('Torrent status fixed');
 }

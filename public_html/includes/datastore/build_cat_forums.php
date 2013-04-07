@@ -144,40 +144,6 @@ if ($bb_cfg['show_latest_news'] AND $news_forum_id = intval($bb_cfg['latest_news
 	$this->store('latest_news', $data);
 }
 
-//
-// Ads
-//
-/*
-$ad_html = $ad_block_assignment = array();
-
-if ($bb_cfg['show_ads'])
-{
-	$active_ads = $db->fetch_rowset("
-		SELECT *
-		FROM ". ADS_TABLE ."
-		WHERE ad_status = 1
-		  AND ad_start_time < NOW()
-		  AND DATE_ADD(ad_start_time, INTERVAL ad_active_days DAY) > NOW()
-	");
-
-	foreach ($active_ads as $ad)
-	{
-		if ($ad['ad_block_ids'])
-		{
-			foreach(explode(',', $ad['ad_block_ids']) as $block_id)
-			{
-				$ad_block_assignment[$block_id][] = $ad['ad_id'];
-			}
-		}
-
-		$ad_html[$ad['ad_id']] = $ad['ad_html'];
-	}
-}
-
-$this->store('ads', $ad_html);
-bb_update_config(array('active_ads' => serialize($ad_block_assignment)));
-*/
-
 // Store LastAdded
 if( $bb_cfg['t_last_added_num'] )
 {

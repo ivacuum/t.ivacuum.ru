@@ -432,8 +432,8 @@ function physical_filename_already_stored($filename)
 
 	$filename = basename($filename);
 
-	$sql = 'SELECT attach_id
-		FROM ' . ATTACHMENTS_DESC_TABLE . "
+	$sql = "SELECT attach_id
+		FROM bb_attachments_desc
 		WHERE physical_filename = '" . attach_mod_sql_escape($filename) . "'
 		LIMIT 1";
 
@@ -478,8 +478,8 @@ function get_attachments_from_post($post_id_array)
 
 	$display_order = (intval($attach_config['display_order']) == 0) ? 'DESC' : 'ASC';
 
-	$sql = 'SELECT a.post_id, d.*
-		FROM ' . ATTACHMENTS_TABLE . ' a, ' . ATTACHMENTS_DESC_TABLE . " d
+	$sql = "SELECT a.post_id, d.*
+		FROM bb_attachments a, bb_attachments_desc d
 		WHERE a.post_id IN ($post_id_array)
 			AND a.attach_id = d.attach_id
 		ORDER BY d.filetime $display_order";
@@ -520,8 +520,8 @@ function get_total_attach_filesize($attach_ids)
 		return 0;
 	}
 
-	$sql = 'SELECT filesize
-		FROM ' . ATTACHMENTS_DESC_TABLE . "
+	$sql = "SELECT filesize
+		FROM bb_attachments_desc
 		WHERE attach_id IN ($attach_ids)";
 
 	if ( !($result = $db->sql_query($sql)) )
@@ -564,7 +564,7 @@ function attachment_sync_topic ($topics)
 	// Check orphan post_attachment markers
 	$sql = "SELECT p.post_id
 		FROM ". POSTS_TABLE ." p
-		LEFT JOIN ". ATTACHMENTS_TABLE ." a USING(post_id)
+		LEFT JOIN bb_attachments a USING(post_id)
 		WHERE p.topic_id IN($topics)
 			AND p.post_attachment = 1
 			AND a.post_id IS NULL";

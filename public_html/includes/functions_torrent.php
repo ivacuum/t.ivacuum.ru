@@ -18,8 +18,8 @@ function get_torrent_info ($attach_id)
 			p.poster_id, p.topic_id, p.forum_id,
 			f.allow_reg_tracker
 		FROM
-			". ATTACHMENTS_TABLE      ." a,
-			". ATTACHMENTS_DESC_TABLE ." d,
+			bb_attachments a,
+			bb_attachments_desc d,
 			". POSTS_TABLE            ." p,
 			". TOPICS_TABLE           ." t,
 			". FORUMS_TABLE           ." f
@@ -154,7 +154,7 @@ function tracker_unregister ($attach_id, $mode = '')
 	}
 
 	// Update tracker_status
-	$sql = "UPDATE ". ATTACHMENTS_DESC_TABLE ." SET
+	$sql = "UPDATE bb_attachments_desc SET
 			tracker_status = 0
 		WHERE attach_id = $attach_id
 		LIMIT 1";
@@ -378,7 +378,7 @@ function tracker_register ($attach_id, $mode = '')
 	}
 
 	// update tracker status for this attachment
-	$sql = 'UPDATE '. ATTACHMENTS_DESC_TABLE ." SET
+	$sql = "UPDATE bb_attachments_desc SET
 			tracker_status = 1
 		WHERE attach_id = $attach_id
 		LIMIT 1";

@@ -450,13 +450,13 @@ class attach_parent
 							}
 							else
 							{
-								$sql = 'UPDATE ' . ATTACHMENTS_DESC_TABLE . '
+								$sql = 'UPDATE bb_attachments_desc
 									SET thumbnail = 0
 									WHERE attach_id = ' . (int) $actual_id_list[$i];
 
 								if (!($db->sql_query($sql)))
 								{
-									message_die(GENERAL_ERROR, 'Unable to update ' . ATTACHMENTS_DESC_TABLE . ' Table.', '', __LINE__, __FILE__, $sql);
+									message_die(GENERAL_ERROR, 'Unable to update bb_attachments_desc Table.', '', __LINE__, __FILE__, $sql);
 								}
 							}
 						}
@@ -510,7 +510,7 @@ class attach_parent
 
 						// Get current informations to delete the Old Attachment
 						$sql = 'SELECT physical_filename, comment, thumbnail
-							FROM ' . ATTACHMENTS_DESC_TABLE . '
+							FROM bb_attachments_desc
 							WHERE attach_id = ' . (int) $attachment_id;
 
 						if (!($result = $db->sql_query($sql)))
@@ -545,7 +545,7 @@ class attach_parent
 							'thumbnail'				=> (int) $this->thumbnail
 						);
 
-						$sql = 'UPDATE ' . ATTACHMENTS_DESC_TABLE . ' SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
+						$sql = 'UPDATE bb_attachments_desc SET ' . attach_mod_sql_build_array('UPDATE', $sql_ary) . '
 							WHERE attach_id = ' . (int) $attachment_id;
 
 						if (!($db->sql_query($sql)))
@@ -650,7 +650,7 @@ class attach_parent
 				if ($this->attachment_id_list[$i])
 				{
 					// update entry in db if attachment already stored in db and filespace
-					$sql = 'UPDATE ' . ATTACHMENTS_DESC_TABLE . "
+					$sql = "UPDATE bb_attachments_desc
 						SET comment = '" . @attach_mod_sql_escape($this->attachment_comment_list[$i]) . "'
 						WHERE attach_id = " . $this->attachment_id_list[$i];
 
@@ -673,7 +673,7 @@ class attach_parent
 						'thumbnail'				=> (int) $this->attachment_thumbnail_list[$i]
 					);
 
-					$sql = 'INSERT INTO ' . ATTACHMENTS_DESC_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
+					$sql = 'INSERT INTO bb_attachments_desc ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
 					if (!($db->sql_query($sql)))
 					{
@@ -695,7 +695,7 @@ class attach_parent
 						'user_id_1'		=> (int) $user_id_1,
 					);
 
-					$sql = 'INSERT INTO ' . ATTACHMENTS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
+					$sql = 'INSERT INTO bb_attachments ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
 					if ( !($db->sql_query($sql)) )
 					{
@@ -723,7 +723,7 @@ class attach_parent
 					'thumbnail'				=> (int) $this->thumbnail
 				);
 
-				$sql = 'INSERT INTO ' . ATTACHMENTS_DESC_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
+				$sql = 'INSERT INTO bb_attachments_desc ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
 				// Inform the user that his post has been created, but nothing is attached
 				if (!($db->sql_query($sql)))
@@ -739,7 +739,7 @@ class attach_parent
 					'user_id_1'		=> (int) $user_id_1,
 				);
 
-				$sql = 'INSERT INTO ' . ATTACHMENTS_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
+				$sql = 'INSERT INTO bb_attachments ' . attach_mod_sql_build_array('INSERT', $sql_ary);
 
 				if (!($db->sql_query($sql)))
 				{
@@ -1155,7 +1155,7 @@ class attach_parent
 			// Check our complete quota
 			if ($attach_config['attachment_quota'])
 			{
-				$sql = 'SELECT sum(filesize) as total FROM ' . ATTACHMENTS_DESC_TABLE;
+				$sql = 'SELECT sum(filesize) as total FROM bb_attachments_desc';
 
 				if (!($result = $db->sql_query($sql)))
 				{
@@ -1185,7 +1185,7 @@ class attach_parent
 			if ($attach_config['upload_filesize_limit'])
 			{
 				$sql = 'SELECT attach_id
-					FROM ' . ATTACHMENTS_TABLE . '
+					FROM bb_attachments
 					WHERE user_id_1 = ' . (int) $userdata['user_id'] . '
 					GROUP BY attach_id';
 
@@ -1209,7 +1209,7 @@ class attach_parent
 				{
 					// Now get the total filesize
 					$sql = 'SELECT sum(filesize) as total
-						FROM ' . ATTACHMENTS_DESC_TABLE . '
+						FROM bb_attachments_desc
 						WHERE attach_id IN (' . implode(', ', $attach_id) . ')';
 
 					if (!($result = $db->sql_query($sql)))

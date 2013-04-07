@@ -52,8 +52,7 @@ $check_image_cat = (isset($_POST['cat_settings'])) ? TRUE : FALSE;
 $search_imagick = (isset($_POST['search_imagick'])) ? TRUE : FALSE;
 
 // Re-evaluate the Attachment Configuration
-$sql = 'SELECT *
-FROM ' . ATTACH_CONFIG_TABLE;
+$sql = 'SELECT * FROM bb_attachments_config';
 
 if(!$result = $db->sql_query($sql))
 {
@@ -146,13 +145,13 @@ while ($row = $db->sql_fetchrow($result))
 
 			}
 
-			$sql = "UPDATE " . ATTACH_CONFIG_TABLE . "
+			$sql = "UPDATE bb_attachments_config
 				SET	config_value = '" . attach_mod_sql_escape($new_attach[$config_name]) . "'
 				WHERE config_name = '" . attach_mod_sql_escape($config_name) . "'";
 		}
 		else
 		{
-			$sql = "UPDATE " . ATTACH_CONFIG_TABLE . "
+			$sql = "UPDATE bb_attachments_config
 				SET	config_value = '" . attach_mod_sql_escape($new_attach[$config_name]) . "'
 				WHERE config_name = '" . attach_mod_sql_escape($config_name) . "'";
 		}
@@ -241,8 +240,7 @@ if ($check_upload)
 	// Some tests...
 	$attach_config = array();
 
-	$sql = 'SELECT *
-	FROM ' . ATTACH_CONFIG_TABLE;
+	$sql = 'SELECT * FROM bb_attachments_config';
 
 	if ( !($result = $db->sql_query($sql)) )
 	{
@@ -610,8 +608,7 @@ if ($check_image_cat)
 	// Some tests...
 	$attach_config = array();
 
-	$sql = 'SELECT *
-	FROM ' . ATTACH_CONFIG_TABLE;
+	$sql = 'SELECT * FROM bb_attachments_config';
 
 	if ( !($result = $db->sql_query($sql)) )
 	{

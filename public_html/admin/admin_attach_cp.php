@@ -235,7 +235,7 @@ if ($submit_change && $view == 'attachments')
 	}
 
 	$sql = 'SELECT *
-		FROM ' . ATTACHMENTS_DESC_TABLE . '
+		FROM bb_attachments_desc
 		ORDER BY attach_id';
 
 	if ( !($result = $db->sql_query($sql)) )
@@ -249,7 +249,7 @@ if ($submit_change && $view == 'attachments')
 		{
 			if ($attachrow['comment'] != $attachments['_' . $attachrow['attach_id']]['comment'] || $attachrow['download_count'] != $attachments['_' . $attachrow['attach_id']]['download_count'])
 			{
-				$sql = "UPDATE " . ATTACHMENTS_DESC_TABLE . "
+				$sql = "UPDATE bb_attachments_desc
 					SET comment = '" . attach_mod_sql_escape($attachments['_' . $attachrow['attach_id']]['comment']) . "', download_count = " . (int) $attachments['_' . $attachrow['attach_id']]['download_count'] . "
 					WHERE attach_id = " . (int) $attachrow['attach_id'];
 
@@ -283,7 +283,7 @@ if ($view == 'stats')
 
 	// number_of_attachments
 	$row = $db->fetch_row("
-		SELECT COUNT(*) AS total FROM ". ATTACHMENTS_DESC_TABLE ."
+		SELECT COUNT(*) AS total FROM bb_attachments_desc
 	");
 	$number_of_attachments = $number_of_posts = $row['total'];
 
@@ -297,7 +297,7 @@ if ($view == 'stats')
 
 	// number_of_users
 	$row = $db->fetch_row("
-		SELECT COUNT(DISTINCT user_id_1) AS users FROM ". ATTACHMENTS_TABLE ." WHERE post_id != 0
+		SELECT COUNT(DISTINCT user_id_1) AS users FROM bb_attachments WHERE post_id != 0
 	");
 	$number_of_users = $row['users'];
 
@@ -459,7 +459,7 @@ if ($view == 'attachments')
 		);
 
 		$sql = "SELECT attach_id
-		FROM " . ATTACHMENTS_TABLE . "
+		FROM bb_attachments
 		WHERE user_id_1 = " . intval($uid) . "
 		GROUP BY attach_id";
 
@@ -487,7 +487,7 @@ if ($view == 'attachments')
 		}
 
 		$sql = "SELECT a.*
-		FROM " . ATTACHMENTS_DESC_TABLE . " a
+		FROM bb_attachments_desc a
 		WHERE a.attach_id IN (" . implode(', ', $attach_id) . ") " .
 		$order_by;
 
@@ -536,7 +536,7 @@ if ($view == 'attachments')
 			$post_titles = array();
 
 			$sql = "SELECT *
-			FROM " . ATTACHMENTS_TABLE . "
+			FROM bb_attachments
 			WHERE attach_id = " . intval($attachments[$i]['attach_id']);
 
 			if ( !($result = $db->sql_query($sql)) )
@@ -610,7 +610,7 @@ if ($view == 'attachments')
 	{
 		if ($total_attachments == 0)
 		{
-			$sql = "SELECT attach_id FROM " . ATTACHMENTS_DESC_TABLE;
+			$sql = "SELECT attach_id FROM bb_attachments_desc";
 
 			if ( !($result = $db->sql_query($sql)) )
 			{

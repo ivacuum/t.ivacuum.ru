@@ -43,8 +43,8 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 		$p_id = 'post_id';
 
 		$sql = "SELECT $p_id
-			FROM " . ATTACHMENTS_TABLE . '
-				WHERE attach_id IN (' . implode(', ', $attach_id_array) . ")
+			FROM bb_attachments
+			WHERE attach_id IN (" . implode(', ', $attach_id_array) . ")
 			GROUP BY $p_id";
 
 		if ( !($result = $db->sql_query($sql)) )
@@ -104,8 +104,8 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 		// Get the attach_ids to fill the array
 		$whereclause = 'WHERE post_id IN (' . implode(', ', $post_id_array) . ')';
 
-		$sql = 'SELECT attach_id
-			FROM ' . ATTACHMENTS_TABLE . " $whereclause
+		$sql = "SELECT attach_id
+			FROM bb_attachments $whereclause
 			GROUP BY attach_id";
 
 		if ( !($result = $db->sql_query($sql)) )
@@ -156,7 +156,7 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 
 	if (sizeof($post_id_array) && sizeof($attach_id_array))
 	{
-		$sql = 'DELETE FROM ' . ATTACHMENTS_TABLE . '
+		$sql = 'DELETE FROM bb_attachments
 			WHERE attach_id IN (' . implode(', ', $attach_id_array) . ")
 				AND $sql_id IN (" . implode(', ', $post_id_array) . ')';
 
@@ -217,7 +217,7 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 			$sql = '
 				DELETE
 				FROM
-					' . ATTACHMENTS_THANKS_TABLE . '
+					bb_attachments_thanks
 				WHERE
 					attach_id IN(' . implode(',', $attach_id_array) . ')';
 
@@ -231,8 +231,8 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 		for ($i = 0; $i < sizeof($attach_id_array); $i++)
 		{
 			$sql = 'SELECT attach_id
-				FROM ' . ATTACHMENTS_TABLE . '
-						WHERE attach_id = ' . (int) $attach_id_array[$i];
+				FROM bb_attachments
+				WHERE attach_id = ' . (int) $attach_id_array[$i];
 
 			if ( !($result = $db->sql_query($sql)) )
 			{
@@ -245,8 +245,8 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 				if ($num_rows == 0)
 				{
 					$sql = 'SELECT attach_id, physical_filename, thumbnail
-						FROM ' . ATTACHMENTS_DESC_TABLE . '
-							WHERE attach_id = ' . (int) $attach_id_array[$i];
+						FROM bb_attachments_desc
+						WHERE attach_id = ' . (int) $attach_id_array[$i];
 
 					if ( !($result = $db->sql_query($sql)) )
 					{
@@ -270,7 +270,7 @@ function delete_attachment($post_id_array = 0, $attach_id_array = 0, $page = 0, 
 								unlink_attach($attachments[$j]['physical_filename'], MODE_THUMBNAIL);
 							}
 
-							$sql = 'DELETE FROM ' . ATTACHMENTS_DESC_TABLE . '
+							$sql = 'DELETE FROM bb_attachments_desc
 								WHERE attach_id = ' . (int) $attachments[$j]['attach_id'];
 
 							if ( !($db->sql_query($sql)) )

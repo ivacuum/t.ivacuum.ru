@@ -176,11 +176,6 @@ $t = $table_prefix;
 define('BUF_TOPIC_VIEW_TABLE',       $b . 'topic_view');
 define('BUF_LAST_SEEDER_TABLE',      $b . 'last_seeder');
 
-define('ADS_TABLE',                  $t . 'ads');
-define('ATTACH_CONFIG_TABLE',        $t . 'attachments_config');
-define('ATTACHMENTS_DESC_TABLE',     $t . 'attachments_desc');
-define('ATTACHMENTS_THANKS_TABLE',   $t . 'attachments_thanks');
-define('ATTACHMENTS_TABLE',          $t . 'attachments');
 define('AUTH_ACCESS_SNAP_TABLE',     $t . 'auth_access_snap');
 define('AUTH_ACCESS_TABLE',          $t . 'auth_access');
 define('BANLIST_TABLE',              $t . 'banlist');

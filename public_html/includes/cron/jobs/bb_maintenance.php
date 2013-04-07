@@ -18,10 +18,10 @@ $posts_without_attach = $topics_without_attach = array();
 
 $lock_tables = array(
 	$tmp_attach_tbl        .' f',
-	ATTACHMENTS_DESC_TABLE .' d',
-	ATTACHMENTS_DESC_TABLE,
-	ATTACHMENTS_TABLE      .' a',
-	ATTACHMENTS_TABLE,
+	'bb_attachments_desc d',
+	'bb_attachments_desc',
+	'bb_attachments a',
+	'bb_attachments',
 	BT_TORRENTS_TABLE      .' tor',
 	BT_TORRENTS_TABLE,
 	POSTS_TABLE            .' p',
@@ -81,8 +81,8 @@ if ($check_attachments)
 	// Delete bad records
 	$db->query("
 		DELETE a, d
-		FROM      ". ATTACHMENTS_DESC_TABLE ." d
-		LEFT JOIN ". ATTACHMENTS_TABLE      ." a USING(attach_id)
+		FROM      bb_attachments_desc d
+		LEFT JOIN bb_attachments a USING(attach_id)
 		WHERE (
 		     d.physical_filename = ''
 		  OR d.real_filename = ''
@@ -97,7 +97,7 @@ if ($check_attachments)
 	// Delete attachments that exist in file system but not exist in DB
 	$sql = "SELECT f.physical_filename
 		FROM $tmp_attach_tbl f
-		LEFT JOIN ". ATTACHMENTS_DESC_TABLE ." d USING(physical_filename)
+		LEFT JOIN bb_attachments_desc d USING(physical_filename)
 		WHERE d.physical_filename IS NULL
 		LIMIT $sql_limit";
 
@@ -118,7 +118,7 @@ if ($check_attachments)
 	}
 	// Find DB records for attachments that exist in DB but not exist in file system
 	$sql = "SELECT d.attach_id
-		FROM ". ATTACHMENTS_DESC_TABLE ." d
+		FROM bb_attachments_desc d
 		LEFT JOIN $tmp_attach_tbl f USING(physical_filename)
 		WHERE f.physical_filename IS NULL
 		LIMIT $sql_limit";
@@ -129,8 +129,8 @@ if ($check_attachments)
 	}
 	// Attachment exist in DESC_TABLE but not exist in ATTACH_TABLE
 	$sql = "SELECT d.attach_id
-		FROM ". ATTACHMENTS_DESC_TABLE ." d
-		LEFT JOIN ". ATTACHMENTS_TABLE ." a USING(attach_id)
+		FROM bb_attachments_desc d
+		LEFT JOIN bb_attachments a USING(attach_id)
 		WHERE a.attach_id IS NULL
 		LIMIT $sql_limit";
 
@@ -140,8 +140,8 @@ if ($check_attachments)
 	}
 	// Attachment exist in ATTACH_TABLE but not exist in DESC_TABLE
 	$sql = "SELECT a.attach_id
-		FROM ". ATTACHMENTS_TABLE ." a
-		LEFT JOIN ". ATTACHMENTS_DESC_TABLE ." d USING(attach_id)
+		FROM bb_attachments a
+		LEFT JOIN bb_attachments_desc d USING(attach_id)
 		WHERE d.attach_id IS NULL
 		LIMIT $sql_limit";
 
@@ -151,7 +151,7 @@ if ($check_attachments)
 	}
 	// Attachments without post
 	$sql = "SELECT a.attach_id
-		FROM ". ATTACHMENTS_TABLE ." a
+		FROM bb_attachments a
 		LEFT JOIN ". POSTS_TABLE ." p USING(post_id)
 		WHERE p.post_id IS NULL
 		LIMIT $sql_limit";
@@ -165,15 +165,15 @@ if ($check_attachments)
 	{
 		if ($fix_errors)
 		{
-			$db->query("DELETE FROM ". ATTACHMENTS_DESC_TABLE ." WHERE attach_id IN($orphans_sql)");
-			$db->query("DELETE FROM ". ATTACHMENTS_TABLE ." WHERE attach_id IN($orphans_sql)");
+			$db->query("DELETE FROM bb_attachments_desc WHERE attach_id IN($orphans_sql)");
+			$db->query("DELETE FROM bb_attachments WHERE attach_id IN($orphans_sql)");
 		}
 	}
 
 	// Torrents without attachments
 	$sql = "SELECT tor.topic_id
 		FROM ". BT_TORRENTS_TABLE ." tor
-		LEFT JOIN ". ATTACHMENTS_DESC_TABLE ." d USING(attach_id)
+		LEFT JOIN bb_attachments_desc d USING(attach_id)
 		WHERE d.attach_id IS NULL
 		LIMIT $sql_limit";
 
@@ -193,7 +193,7 @@ if ($check_attachments)
 	// Check post_attachment markers
 	$sql = "SELECT p.post_id
 		FROM ". POSTS_TABLE ." p
-		LEFT JOIN ". ATTACHMENTS_TABLE ." a USING(post_id)
+		LEFT JOIN bb_attachments a USING(post_id)
 		WHERE p.post_attachment = 1
 		AND a.post_id IS NULL";
 

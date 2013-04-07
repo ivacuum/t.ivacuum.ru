@@ -1396,7 +1396,7 @@ function get_attachments_dir($cfg = null)
 {
 	if( !$cfg AND !$cfg = $GLOBALS['attach_config'] )
 	{
-		$cfg = bb_get_config(ATTACH_CONFIG_TABLE, true, false);
+		$cfg = bb_get_config('bb_attachments_config', true, false);
 	}
 
 	if( !$cfg['allow_ftp_upload'] )

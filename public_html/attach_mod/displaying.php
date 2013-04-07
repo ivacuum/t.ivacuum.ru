@@ -342,7 +342,7 @@ function display_attachments($post_id)
 				// Directly Viewed Image ... update the download count
 				if (!$download_link)
 				{
-					$sql = 'UPDATE ' . ATTACHMENTS_DESC_TABLE . '
+					$sql = 'UPDATE bb_attachments_desc
 						SET download_count = download_count + 1
 						WHERE attach_id = ' . (int) $attachments['_' . $post_id][$i]['attach_id'];
 
@@ -406,7 +406,7 @@ function display_attachments($post_id)
 				);
 
 				// Viewed/Heared File ... update the download count (download.php is not called here)
-				$sql = 'UPDATE ' . ATTACHMENTS_DESC_TABLE . '
+				$sql = 'UPDATE bb_attachments_desc
 					SET download_count = download_count + 1
 					WHERE attach_id = ' . (int) $attachments['_' . $post_id][$i]['attach_id'];
 
@@ -435,7 +435,7 @@ function display_attachments($post_id)
 				);
 
 				// Viewed/Heared File ... update the download count (download.php is not called here)
-				$sql = 'UPDATE ' . ATTACHMENTS_DESC_TABLE . '
+				$sql = 'UPDATE bb_attachments_desc
 				SET download_count = download_count + 1
 					WHERE attach_id = ' . (int) $attachments['_' . $post_id][$i]['attach_id'];
 
