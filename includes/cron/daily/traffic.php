@@ -27,7 +27,7 @@ class daily_traffic extends task
 				u_up_bonus_today = 0,
 				u_up_release_yday = u_up_release_today,
 				u_up_release_today = 0,
-				timebonus = GREATEST(0, LEAST(50000, timebonus + LEAST(1000, timebonus_today) - timebonus_spent_today)),
+				timebonus = GREATEST(0, LEAST(50000, CAST(timebonus AS SIGNED) + LEAST(1000, timebonus_today) - CAST(timebonus_spent_today AS SIGNED))),
 				timebonus_yday = LEAST(1000, timebonus_today),
 				timebonus_today = 0,
 				timebonus_spent_yday = timebonus_spent_today,
