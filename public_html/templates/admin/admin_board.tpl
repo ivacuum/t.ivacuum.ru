@@ -218,10 +218,6 @@
 	<th colspan="2">{L_COPPA_SETTINGS}</th>
 </tr>
 <tr>
-	<td><h4>{L_COPPA_FAX}</h4></td>
-	<td><input class="post" type="text" size="25" maxlength="100" name="coppa_fax" value="{COPPA_FAX}" /></td>
-</tr>
-<tr>
 	<td><h4>{L_COPPA_MAIL}</h4><h6>{L_COPPA_MAIL_EXPLAIN}</h6></td>
 	<td><textarea name="coppa_mail" rows="5" cols="30">{COPPA_MAIL}</textarea></td>
 </tr>

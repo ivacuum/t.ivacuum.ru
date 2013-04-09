@@ -282,7 +282,6 @@ $template->assign_vars(array(
 	"SMTP_USERNAME" => $new['smtp_username'],
 	"SMTP_PASSWORD" => $new['smtp_password'],
 	"COPPA_MAIL" => $new['coppa_mail'],
-	"COPPA_FAX" => $new['coppa_fax'])
-);
+));
 
 print_page('admin_board.tpl', 'admin');

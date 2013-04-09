@@ -7,8 +7,6 @@ In compliance with the COPPA act your account is currently inactive.
 
 Please print this message out and have your parent or guardian sign and date it. Then fax it to:
 
-{FAX_INFO}
-
 OR mail it to:
 
 {MAIL_INFO}

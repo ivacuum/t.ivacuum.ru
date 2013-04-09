@@ -668,7 +668,6 @@ if ( isset($_POST['submit']) )
 					'PASSWORD' => $password_confirm,
 					'EMAIL_SIG' => str_replace('<br />', "\n", "-- \n" . $bb_cfg['board_email_sig']),
 
-					'FAX_INFO' => $bb_cfg['coppa_fax'],
 					'MAIL_INFO' => $bb_cfg['coppa_mail'],
 					'EMAIL_ADDRESS' => $email,
 					'ICQ' => $icq,
