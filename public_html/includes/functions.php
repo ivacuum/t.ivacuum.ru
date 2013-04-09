@@ -1981,7 +1981,6 @@ function message_die ($msg_code, $msg_text = '', $msg_title = '', $err_line = ''
 		trigger_error(__FUNCTION__ .' was called multiple times', E_USER_ERROR);
 	}
 	define('HAS_DIED', 1);
-	define('DISABLE_CACHING_OUTPUT', true);
 	$sql_store = $sql;
 	$debug_text = '';
 
@@ -2568,43 +2567,6 @@ function print_page ($args, $type = '', $mode = '')
 	{
 		require(PAGE_FOOTER);
 	}
-}
-
-function caching_output ($enabled, $mode, $cache_var_name, $ttl = 300)
-{
-	global $bb_cache;
-
-	if (!$enabled || !$bb_cache->used)
-	{
-		return;
-	}
-
-	if ($mode == 'send')
-	{
-		if ($cached_contents = $bb_cache->get($cache_var_name))
-		{
-			bb_exit($cached_contents);
-		}
-	}
-	else if ($mode == 'store')
-	{
-		if ($output = ob_get_contents())
-		{
-			$bb_cache->set($cache_var_name, $output, $ttl);
-		}
-	}
-}
-
-//
-// Ajax
-//
-/**
- *  Decode JSON to PHP (JS -> PHP)
- */
-function bb_json_decode ($data)
-{
-	if (!is_string($data)) trigger_error('invalid argument for '. __FUNCTION__, E_USER_ERROR);
-	return json_decode($data, true);
 }
 
 function clean_text_match ($text, $all_words, $remove_stopwords = true, $die_if_empty = true)

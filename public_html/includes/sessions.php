@@ -750,7 +750,7 @@ class user_common
 	{
 		if (!IS_GUEST && !empty($_COOKIE['opt_js']))
 		{
-			$opt_js = bb_json_decode($_COOKIE['opt_js']);
+			$opt_js = json_decode($_COOKIE['opt_js'], true);
 
 			if (is_array($opt_js))
 			{

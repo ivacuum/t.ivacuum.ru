@@ -90,12 +90,4 @@ echo '
 	</html>
 ';
 
-if (defined('REQUESTED_PAGE') && !defined('DISABLE_CACHING_OUTPUT'))
-{
-	if (IS_GUEST === true)
-	{
-		caching_output(true, 'store', REQUESTED_PAGE .'_guest');
-	}
-}
-
 bb_exit();

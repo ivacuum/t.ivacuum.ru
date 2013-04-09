@@ -42,11 +42,6 @@ $lastvisit = (IS_GUEST) ? TIMENOW : $userdata['user_lastvisit'];
 $req_page = 'index_page';
 $req_page .= ($viewcat) ? "_c{$viewcat}" : '';
 
-/*
-define('REQUESTED_PAGE', $req_page);
-caching_output(IS_GUEST, 'send', REQUESTED_PAGE . '_guest');
-*/
-
 // Topics read tracks
 $tracking_topics = get_tracks('topic');
 $tracking_forums = get_tracks('forum');

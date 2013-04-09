@@ -55,11 +55,6 @@ if( $forum_id == 191 )
 $req_page = "forum_f{$forum_id}";
 $req_page .= ($start) ? "_start{$start}" : '';
 
-/*
-define('REQUESTED_PAGE', $req_page);
-caching_output(IS_GUEST, 'send', REQUESTED_PAGE .'_guest');
-*/
-
 // Check if the user has actually sent a forum ID
 $sql = "SELECT * FROM bb_forums WHERE forum_id = $forum_id LIMIT 1";
 
