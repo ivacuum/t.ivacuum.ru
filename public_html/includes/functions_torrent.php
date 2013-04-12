@@ -535,17 +535,32 @@ function send_torrent_with_passkey ($filename)
 	// 	message_die(GENERAL_ERROR, 'Недостаточно таймбонусов для скачивания торрент-файла.');
 	// }
 	
-	/* Расход таймбонусов */
-	if ($user_id != $poster_id)
+	$dl = $db->fetch_row("
+		SELECT dl.user_status
+		FROM bb_posts p
+		LEFT JOIN bb_bt_dlstatus_main dl ON dl.topic_id = p.topic_id AND dl.user_id = $user_id
+		WHERE p.post_id = $post_id
+		LIMIT 1
+	");
+
+	/**
+	* Расход таймбонусов
+	* В тестовом форуме таймбонусы не списываются
+	*/
+	if ($user_id != $poster_id && $attachment['forum_id'] !== 1)
 	{
-		$sql = '
-			UPDATE
-				bb_bt_users
-			SET
-				timebonus_spent_today = timebonus_spent_today + 10
-			WHERE
-				user_id = ' . (int) $user_id;
-		$db->sql_query($sql);
+		/* Торрент можно скачивать повторно без расхода таймбонусов, если был сидом */
+		if (!isset($dl['user_status']) || $dl['user_status'] != DL_STATUS_COMPLETE)
+		{
+			$sql = '
+				UPDATE
+					bb_bt_users
+				SET
+					timebonus_spent_today = timebonus_spent_today + 10
+				WHERE
+					user_id = ' . (int) $user_id;
+			$db->sql_query($sql);
+		}
 	}
 
 	// Announce URL

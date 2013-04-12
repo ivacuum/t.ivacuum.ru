@@ -209,6 +209,7 @@ for ($i = 0; $i < $num_auth_pages && $authorised == false; $i++)
 		$row = $db->sql_fetchrow($result);
 
 		$forum_id = $row['forum_id'];
+		$attachment['forum_id'] = (int) $row['forum_id'];
 
 		$is_auth = array();
 		$is_auth = auth(AUTH_ALL, $forum_id, $userdata);
