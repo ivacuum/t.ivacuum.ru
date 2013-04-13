@@ -31,7 +31,8 @@ class daily_traffic extends task
 				timebonus_yday = LEAST(1000, timebonus_today),
 				timebonus_today = 0,
 				timebonus_spent_yday = timebonus_spent_today,
-				timebonus_spent_today = 0';
+				timebonus_spent_today = 0,
+				daily_bonus_granted = 0';
 		$this->db->query($sql);
 		
 		return true;

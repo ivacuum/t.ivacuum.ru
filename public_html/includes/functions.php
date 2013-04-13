@@ -1357,9 +1357,22 @@ function get_bt_ratio($btu, $raw = false)
 	return '<span title="Рейтинг не учитывается. Можно качать всё">&#8734;</span>';
 }
 
-function show_bt_userdata($user_id)
+function show_bt_userdata($user_id, $grant_bonus = false)
 {
 	$btu = get_bt_userdata($user_id);
+	
+	if ($grant_bonus && !$btu['daily_bonus_granted'])
+	{
+		$sql = '
+			UPDATE
+				bb_bt_users
+			SET
+				timebonus_today = timebonus_today + 10,
+				daily_bonus_granted = 1
+			WHERE
+				user_id = ' . (int) $user_id;
+		$GLOBALS['db']->sql_query($sql);
+	}
 
 	$GLOBALS['template']->assign_vars(array(
 		'SHOW_BT_USERDATA'      => true,

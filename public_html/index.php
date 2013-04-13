@@ -309,7 +309,7 @@ foreach ($cat_forums as $cid => $c)
 // Set tpl vars for bt_userdata
 if( $bb_cfg['bt_show_dl_stat_on_index'] && !IS_GUEST )
 {
-	show_bt_userdata($userdata['user_id']);
+	show_bt_userdata($userdata['user_id'], true);
 }
 
 /**
