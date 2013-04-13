@@ -84,6 +84,31 @@
 	<td colspan="2" class="row2 small">{L_PROFILE_INFO_NOTICE}</td>
 </tr>
 <tr>
+	<td>Лычка:</td>
+	<td>
+		<select name="badge" id="badge_selector">
+			<option data-image="/images/spacer.gif" value="0">нет</option>
+			<!-- BEGIN available_badges -->
+				<option data-image="/{available_badges.IMAGE}" value="{available_badges.ID}" <!-- IF RANK_ID == available_badges.ID -->selected<!-- ENDIF -->>{available_badges.TITLE}</option>
+			<!-- END available_badges -->
+		</select>
+		<div style="margin-top: 0.5em;">
+			<!-- IF RANK_IMAGE -->
+				<img id="badge_selector_image" src="{RANK_IMAGE}" alt="">
+			<!-- ELSE -->
+				<img id="badge_selector_image" src="/images/spacer.gif" alt="">
+			<!-- ENDIF -->
+		</div>
+		<script>
+		$(function() {
+			$('#badge_selector').bind('change', function() {
+				$('#badge_selector_image').attr('src', $(':selected', this).data('image'));
+			});
+		});
+		</script>
+	</td>
+</tr>
+<tr>
 	<td>{L_ICQ}:</td>
 	<td><input type="text" name="icq" size="30" maxlength="15" value="{ICQ}" /></td>
 </tr>
@@ -180,14 +205,6 @@
 	<td>{L_TIMEZONE}:</td>
 	<td>{TIMEZONE_SELECT}</td>
 </tr>
-<!-- IF EDIT_PROFILE -->
-	<!-- IF DEVELOPER -->
-		<tr>
-			<td>Лычка:</td>
-			<td></td>
-		</tr>
-	<!-- ENDIF -->
-<!-- ENDIF -->
 
 <!-- IF EDIT_PROFILE -->
 

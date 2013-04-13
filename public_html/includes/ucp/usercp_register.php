@@ -205,6 +205,44 @@ if ($mode == 'register' && ($userdata['session_logged_in'] || $username == $user
 	message_die(GENERAL_MESSAGE, $lang['Username_taken'], '', __LINE__, __FILE__);
 }
 
+$available_badges = [];
+
+if ($mode == 'editprofile' && $userdata['session_logged_in'])
+{
+	/* Выбор лычки */
+	$sql = '
+		SELECT DISTINCT
+			r.rank_id,
+			r.rank_title,
+			r.rank_image
+		FROM
+			bb_user_group ug
+		LEFT JOIN
+			bb_groups g ON (g.group_id = ug.group_id)
+		LEFT JOIN
+			bb_ranks r ON (r.rank_id = g.rank_id)
+		WHERE
+			ug.user_id = ' . $userdata['user_id'] . '
+		AND
+			g.rank_id > 0
+		AND
+			r.rank_image != ""';
+	$result = $db->sql_query($sql);
+	
+	while ($row = $db->sql_fetchrow($result))
+	{
+		$available_badges[$row['rank_id']] = 1;
+		
+		$template->assign_block_vars('available_badges', [
+			'ID'    => $row['rank_id'],
+			'TITLE' => $row['rank_title'],
+			'IMAGE' => $row['rank_image'],
+		]);
+	}
+	
+	$db->sql_freeresult($result);
+}
+
 //
 // Did the user submit? In this case build a query to update the users profile in the DB
 //
@@ -495,6 +533,13 @@ if ( isset($_POST['submit']) )
 			{
 				$user_lang = '';
 			}
+			
+			$user_rank = intval(trim(htmlspecialchars($_POST['badge'])));
+			
+			if ($user_rank > 0)
+			{
+				$user_rank = $user_rank != $userdata['user_rank'] && isset($available_badges[$user_rank]) ? $user_rank : $userdata['user_rank'];
+			}
 
 			$sql = "UPDATE bb_users
 				SET " . $username_sql . $passwd_sql . "
@@ -511,6 +556,7 @@ if ( isset($_POST['submit']) )
 					user_aim = '" . str_replace("\'", "''", str_replace(' ', '+', $aim)) . "',
 					user_yim = '" . str_replace("\'", "''", $yim) . "',
 					user_msnm = '" . str_replace("\'", "''", $msn) . "',
+					user_rank = $user_rank,
 
 					user_allow_viewonline = $allowviewonline,
 					user_notify = $notifyreply,
@@ -1136,6 +1182,23 @@ if ($mode == 'editprofile' && $userdata['session_logged_in'])
 		'L_CURR_PASSKEY'          => $lang['Curr_passkey'],
 		'CURR_PASSKEY'            => $curr_passkey,
 	));
+	
+	if ($userdata['user_rank'])
+	{
+		$sql = '
+			SELECT
+				rank_image
+			FROM
+				bb_ranks
+			WHERE
+				rank_id = ' . $userdata['user_rank'];
+		$result = $db->sql_query($sql);
+		$row = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+		$template->assign_vars(['RANK_IMAGE' => $row ? '/' . $row['rank_image'] : '']);
+	}
+	
+	$template->assign_vars(['RANK_ID' => $userdata['user_rank']]);
 }
 //bt end
 
@@ -1144,4 +1207,3 @@ require(PAGE_HEADER);
 $template->pparse('body');
 
 require(PAGE_FOOTER);
-
