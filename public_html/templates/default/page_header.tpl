@@ -91,10 +91,15 @@ function initSpoilers(context) {
     var $sp_body = $(this);
     var name = this.title || 'скрытый текст';
     this.title = '';
-    $('<div class="sp-head folded clickable"></div>').text(name).insertBefore($sp_body).click(function(e) {
-      if( !$sp_body.hasClass('inited') ) {
+    var $sp_head = $('<div class="sp-head folded clickable"></div>');
+    $sp_head.text(name).insertBefore($sp_body).click(function(e) {
+      if (!$sp_body.hasClass('inited')) {
         initPostImages($sp_body);
-        $sp_body.prepend('<div class="clear"></div>').append('<div class="clear"></div>').addClass('inited');
+        var $sp_fold_btn = $('<div class="sp-fold clickable">[свернуть]</div>').click(function(){
+          $.scrollTo($sp_head, { duration: 200, axis: 'y', offset: -200 });
+          $sp_head.click().animate({ opacity: 0.1 }, 500).animate({ opacity: 1 }, 700);
+        });
+        $sp_body.prepend('<div class="clear"></div>').append('<div class="clear"></div>').append($sp_fold_btn).addClass('inited');
       }
       if( e.shiftKey ) {
         e.stopPropagation();
