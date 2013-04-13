@@ -50,7 +50,7 @@ class badges extends task
 				user_id = ?
 			AND
 				group_id = ?';
-		$this->query($sql, [(int) $user_id, (int) $group_id]);
+		$this->db->query($sql, [(int) $user_id, (int) $group_id]);
 	}
 	
 	protected function get_groups()
@@ -151,16 +151,16 @@ class badges extends task
 				}
 			}
 			
-			/* Добавление в новую группу */
-			if (!empty($row['new_group_id']))
-			{
-				$this->add_to_group($row['new_group_id'], $user_id);
-			}
-			
 			/* Удаление из прежней группы */
 			if (!empty($row['delete_group_id']))
 			{
 				$this->delete_from_group($row['delete_group_id'], $user_id);
+			}
+
+			/* Добавление в новую группу */
+			if (!empty($row['new_group_id']))
+			{
+				$this->add_to_group($row['new_group_id'], $user_id);
 			}
 		}
 	}
