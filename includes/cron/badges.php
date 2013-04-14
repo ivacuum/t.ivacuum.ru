@@ -142,11 +142,13 @@ class badges extends task
 						/* Пользователь будет переведен в другую группу */
 						$row['new_group_id'] = $badge['group'];
 						$row['delete_group_id'] = $row['group_id'];
+						$this->log("{$row['username']} переведен из группы {$this->groups[$row['group_id']]} в группу {$this->groups[$badge['group']]} (" . floor($row['upload'] / 1073741824) . " GB)");
 						break;
 					}
 
 					/* Пользователь будет добавлен в группу */
 					$row['new_group_id'] = $badge['group'];
+					$this->log("{$row['username']} добавлен в группу {$this->groups[$badge['group']]} (" . floor($row['upload'] / 1073741824) . " GB)");
 					break;
 				}
 			}
@@ -254,11 +256,13 @@ class badges extends task
 						/* Пользователь будет переведен в другую группу */
 						$row['new_group_id'] = $badge['group'];
 						$row['delete_group_id'] = $row['group_id'];
+						$this->log("{$row['username']} переведен из группы {$this->groups[$row['group_id']]} в группу {$this->groups[$badge['group']]} ({$row['releases']}, " . floor($row['size'] / 1073741824) . " GB)");
 						break;
 					}
 
 					/* Пользователь будет добавлен в группу */
 					$row['new_group_id'] = $badge['group'];
+					$this->log("{$row['username']} добавлен в группу {$this->groups[$badge['group']]} ({$row['releases']}, " . floor($row['size'] / 1073741824) . " GB)");
 					break;
 				}
 			}
@@ -350,11 +354,13 @@ class badges extends task
 						/* Пользователь будет переведен в другую группу */
 						$row['new_group_id'] = $badge['group'];
 						$row['delete_group_id'] = $row['group_id'];
+						$this->log("{$row['username']} переведен из группы {$this->groups[$row['group_id']]} в группу {$this->groups[$badge['group']]} (" . floor($row['upload'] / 1099511627776) . " TB)");
 						break;
 					}
 
 					/* Пользователь будет добавлен в группу */
 					$row['new_group_id'] = $badge['group'];
+					$this->log("{$row['username']} добавлен в группу {$this->groups[$badge['group']]} (" . floor($row['upload'] / 1099511627776) . " TB)");
 					break;
 				}
 			}
