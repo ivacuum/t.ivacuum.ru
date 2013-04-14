@@ -386,7 +386,7 @@ if ($mode)
 				'CAT_TITLE'       => htmlCHR($cat_info['cat_title']),
 				'L_EDIT_CAT'      => $lang['Edit_Category'],
 				'L_EDIT_CAT_EXPL' => $lang['Edit_Category_explain'],
-				'S_HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
+				'S_HIDDEN_FIELDS' => build_hidden_fields_tracker($hidden_fields),
 				'S_SUBMIT_VALUE'  => $lang['UPDATE'],
 				'S_FORUM_ACTION'  => "admin_forums.php",
 			));
@@ -454,7 +454,7 @@ if ($mode)
 				'L_MOVE_CONTENTS'  => $lang['Move_contents'],
 				'CAT_FORUM_NAME'   => $lang['FORUM_NAME'],
 
-				'S_HIDDEN_FIELDS'  => build_hidden_fields($hidden_fields),
+				'S_HIDDEN_FIELDS'  => build_hidden_fields_tracker($hidden_fields),
 				'S_FORUM_ACTION'   => "admin_forums.php",
 				'MOVE_TO_OPTIONS'  => $move_to_options,
 				'S_SUBMIT_VALUE'   => $lang['Move_and_Delete'],
@@ -561,7 +561,7 @@ if ($mode)
 				'L_MOVE_CONTENTS'  => $lang['Move_contents'],
 				'CAT_FORUM_NAME'   => $lang['CATEGORY'],
 
-				'S_HIDDEN_FIELDS'  => build_hidden_fields($hidden_fields),
+				'S_HIDDEN_FIELDS'  => build_hidden_fields_tracker($hidden_fields),
 				'S_FORUM_ACTION'   => "admin_forums.php",
 				'MOVE_TO_OPTIONS'  => get_list('category', $cat_id, 0),
 				'S_SUBMIT_VALUE'   => $lang['Move_and_Delete'],

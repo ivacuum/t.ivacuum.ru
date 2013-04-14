@@ -526,7 +526,7 @@ else if ( ( $delete && $mark_list ) || $delete_all )
 		print_confirmation(array(
 			'QUESTION'      => (count($mark_list) == 1) ? $lang['Confirm_delete_pm'] : $lang['Confirm_delete_pms'],
 			'FORM_ACTION'   => "privmsg.php?folder=$folder",
-			'HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
+			'HIDDEN_FIELDS' => build_hidden_fields_tracker($hidden_fields),
 		));
 	}
 	else if ( $confirmed )

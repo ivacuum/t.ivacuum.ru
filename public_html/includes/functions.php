@@ -953,7 +953,7 @@ function replace_quote($str, $double = true, $single = true)
 /**
 * Build simple hidden fields from array
 */
-function build_hidden_fields($fields_ary)
+function build_hidden_fields_tracker($fields_ary)
 {
 	$out = "\n";
 

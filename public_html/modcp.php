@@ -246,7 +246,7 @@ switch ($mode)
 				'QUESTION'      => $lang['Confirm_delete_topic'],
 				'ITEMS_LIST'    => join("\n</li>\n<li>\n", $topic_titles),
 				'FORM_ACTION'   => "modcp.php",
-				'HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
+				'HIDDEN_FIELDS' => build_hidden_fields_tracker($hidden_fields),
 			));
 		}
 		break;
@@ -289,7 +289,7 @@ switch ($mode)
 
 				'S_FORUM_SELECT'  => $forum_select,
 				'S_MODCP_ACTION'  => "modcp.php",
-				'S_HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
+				'S_HIDDEN_FIELDS' => build_hidden_fields_tracker($hidden_fields),
 			));
 
 			$template->set_filenames(array('body' => 'modcp.tpl'));

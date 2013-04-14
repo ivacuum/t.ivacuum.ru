@@ -445,7 +445,7 @@ if ( ( $delete || $poll_delete || $mode == 'delete' ) && !$confirm )
 	print_confirmation(array(
 		'QUESTION'      => ($delete || $mode == 'delete') ? $lang['Confirm_delete'] : $lang['Confirm_delete_poll'],
 		'FORM_ACTION'   => "posting.php",
-		'HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
+		'HIDDEN_FIELDS' => build_hidden_fields_tracker($hidden_fields),
 	));
 }
 else if ( $mode == 'vote' )

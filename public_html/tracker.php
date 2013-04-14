@@ -1046,7 +1046,7 @@ $tor_colspan = $tor_colspan - $hide_cat - $hide_forum - $hide_author - $hide_spe
 
 $template->assign_vars(array(
 	'PAGE_TITLE'        => $lang['TRACKER'],
-	'S_HIDDEN_FIELDS'   => build_hidden_fields($hidden_fields),
+	'S_HIDDEN_FIELDS'   => build_hidden_fields_tracker($hidden_fields),
 	'CAT_FORUM_SELECT'  => $cat_forum_select,
 	'ORDER_SELECT'      => build_select($order_key, $order_select, $order_val),
 	'TIME_SELECT'       => build_select($time_key, $time_select, $time_val),

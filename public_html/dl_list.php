@@ -112,7 +112,7 @@ if ($mode == 'dl_delete' && $topic_id)
 		print_confirmation(array(
 			'QUESTION'      => $lang['DL_List_Del_Confirm'],
 			'FORM_ACTION'   => "dl_list.php",
-			'HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
+			'HIDDEN_FIELDS' => build_hidden_fields_tracker($hidden_fields),
 		));
 	}
 
