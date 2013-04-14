@@ -776,7 +776,7 @@ function exit_redirect ($message, $post_id, $forum_id)
 {
 	global $template, $lang;
 
-	meta_refresh(3, append_sid("viewtopic.php?". POST_POST_URL ."=". $post_id));
+	meta_refresh_tracker(3, append_sid("viewtopic.php?". POST_POST_URL ."=". $post_id));
 	$exit_message = $message .'<br /><br />'. sprintf($lang['Click_return_topic'], '<a href="'. append_sid("viewtopic.php?". POST_POST_URL ."=". $post_id) .'#'. $post_id .'">', '</a>') .'<br /><br />'. sprintf($lang['Click_return_forum'], '<a href="'. append_sid("viewforum.php?". POST_FORUM_URL ."=$forum_id") .'">', '</a>');
 	message_die(GENERAL_MESSAGE, $exit_message);
 }

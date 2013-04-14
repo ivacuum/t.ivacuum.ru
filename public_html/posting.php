@@ -513,7 +513,7 @@ else if ( $mode == 'vote' )
 		}
 		$db->sql_freeresult($result);
 
-		meta_refresh(1, append_sid('viewtopic.php?' . POST_TOPIC_URL . '=' . $topic_id));
+		meta_refresh_tracker(1, append_sid('viewtopic.php?' . POST_TOPIC_URL . '=' . $topic_id));
 		$message .=  '<br /><br />' . sprintf($lang['Click_return_topic'], '<a href="' . append_sid("viewtopic.php?" . POST_TOPIC_URL . "=$topic_id") . '">', '</a>');
 		message_die(GENERAL_MESSAGE, $message);
 	}

@@ -22,13 +22,13 @@ function return_msg_mcp ($status_msg)
 
 	if ($topic_id && $mode != 'delete')
 	{
-		meta_refresh(1, TOPIC_URL . $topic_id);
+		meta_refresh_tracker(1, TOPIC_URL . $topic_id);
 		$message .= sprintf($lang['Click_return_topic'], '<a href="'. TOPIC_URL . $topic_id .'">', '</a>');
 		$message .= '<br /><br />';
 	}
 	else if (count($req_topics) != 1)
 	{
-		meta_refresh(1, FORUM_URL ."$forum_id&amp;mod=1");
+		meta_refresh_tracker(1, FORUM_URL ."$forum_id&amp;mod=1");
 		$message .= sprintf($lang['Click_return_modcp'], '<a href="'. FORUM_URL ."$forum_id&amp;mod=1".'">', '</a>');
 		$message .= '<br /><br />';
 	}

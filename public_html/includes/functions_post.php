@@ -320,7 +320,7 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 
 	$meta = ''; //'<meta http-equiv="refresh" content="10;url=' . append_sid("viewtopic.php?" . POST_POST_URL . "=" . $post_id) . '#' . $post_id . '">';
 
-	meta_refresh((( $mode == 'newtopic' ) ? 3 : 1 ), append_sid('viewtopic.php?' . POST_POST_URL . '=' . $post_id . '#' . $post_id));
+	meta_refresh_tracker((( $mode == 'newtopic' ) ? 3 : 1 ), append_sid('viewtopic.php?' . POST_POST_URL . '=' . $post_id . '#' . $post_id));
 	$message = $lang['Stored'] . '<br /><br />' . sprintf($lang['Click_view_message'], '<a href="' . append_sid("viewtopic.php?" . POST_POST_URL . "=" . $post_id) . '#' . $post_id . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_sid("viewforum.php?" . POST_FORUM_URL . "=$forum_id") . '">', '</a>');
 }
 

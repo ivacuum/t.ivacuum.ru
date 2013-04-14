@@ -40,7 +40,7 @@ $where_status = 'AND tor.tor_status = ' . $status;
 
 if( $userdata['user_level'] == USER || $userdata['user_level'] == GROUP_MEMBER )
 {
-	meta_refresh(2, './');
+	meta_refresh_tracker(2, './');
 	bb_die($lang['Not_Moderator']);
 }
 
@@ -75,7 +75,7 @@ if( isset($_POST['topic_id']) )
 			$db->sql_query($sql);
 
 			$status_text = ($lock) ? $lang['Topics_Locked'] : $lang['Topics_Unlocked'];
-			meta_refresh(2, $url);
+			meta_refresh_tracker(2, $url);
 			message_die(GENERAL_MESSAGE, sprintf($lang['MODERATE_PANEL_TEXT'], $status_text, '<a class="gen" href="'. $url .'">', '</a>'));
 
 		break;
@@ -95,7 +95,7 @@ if( isset($_POST['topic_id']) )
 			$db->sql_query($sql);
 
 			$status_text = ($lock) ? $lang['Topics_Down_Sets'] : $lang['Topics_Down_Unsets'];
-			meta_refresh(2, $url);
+			meta_refresh_tracker(2, $url);
 			message_die(GENERAL_MESSAGE, sprintf($lang['MODERATE_PANEL_TEXT'], $status_text, '<a class="gen" href="'. $url .'">', '</a>'));
 
 		break;
@@ -104,7 +104,7 @@ if( isset($_POST['topic_id']) )
 			require_once SITE_DIR . 'includes/functions_admin.php';
 
 			topic_delete($topic_ids);
-			meta_refresh(2, $url);
+			meta_refresh_tracker(2, $url);
 			message_die(GENERAL_MESSAGE, sprintf($lang['MODERATE_PANEL_TEXT'], $lang['Topics_Removed'], '<a class="gen" href="'. $url .'">', '</a>'));
 
 		break;
@@ -128,7 +128,7 @@ if( isset($_POST['topic_id']) )
 
 			$db->sql_freeresult($result);
 
-			meta_refresh(2, $url);
+			meta_refresh_tracker(2, $url);
 			message_die(GENERAL_MESSAGE, sprintf($lang['MODERATE_PANEL_TOR_DEL'], $lang['Topics_Removed'], '<a class="gen" href="'. $url .'">', '</a>'));
 
 		break;
@@ -157,7 +157,7 @@ if( isset($_POST['topic_id']) )
 				case 7: $status_text = '<span class="tor-closed-cp">' . $lang['TOR_STATUS_COPY'] . '</span>'; break;
 			}
 
-			meta_refresh(2, $url);
+			meta_refresh_tracker(2, $url);
 			message_die(GENERAL_MESSAGE, sprintf($lang['MODERATE_PANEL_TYPE'], $status_text, '<a class="gen" href="'. $url .'">', '</a>'));
 
 		break;

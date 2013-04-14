@@ -114,7 +114,7 @@ foreach($u_id as $i=>$user_id)
 }
 
 $msg = '';
-meta_refresh(8, append_sid('viewtopic.php?t=' . $topic_id));
+meta_refresh_tracker(8, append_sid('viewtopic.php?t=' . $topic_id));
 $return_to = sprintf ($lang['Callseed_RETURN'], $topic_id);
 
 switch($msg_error) {

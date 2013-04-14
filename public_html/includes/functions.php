@@ -2114,7 +2114,7 @@ function login_redirect ($url = '')
 	redirect('login.php?redirect='. (($url) ? $url : $_SERVER['REQUEST_URI']));
 }
 
-function meta_refresh($time, $url)
+function meta_refresh_tracker($time, $url)
 {
 	global $template;
 
