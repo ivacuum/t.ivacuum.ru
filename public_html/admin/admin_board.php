@@ -6,10 +6,10 @@ if (!empty($setmodules))
 	$module['General']['Configuration'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
-require(SITE_DIR . 'includes/functions_selects.php');
+require SITE_DIR . 'includes/functions_selects.php';
 
 //
 // Pull all config data

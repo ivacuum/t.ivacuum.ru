@@ -5,7 +5,7 @@
 */
 
 define('IN_LOGIN', true);
-require('common.php');
+require 'common.php';
 
 $redirect_url = "/";
 $login_error = $login_err_msg = false;

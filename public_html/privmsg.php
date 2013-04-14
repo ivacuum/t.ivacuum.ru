@@ -6,9 +6,9 @@
 
 define('BB_SCRIPT', 'pm');
 define('IN_PM',     true);
-require('common.php');
-require(SITE_DIR . 'includes/bbcode.php');
-require(SITE_DIR . 'includes/functions_post.php');
+require 'common.php';
+require SITE_DIR . 'includes/bbcode.php';
+require SITE_DIR . 'includes/functions_post.php';
 
 $privmsg_sent_id = $l_box_name = $to_username = $privmsg_subject = $privmsg_message = $error_msg = '';
 
@@ -1145,7 +1145,7 @@ else if ( $submit || $refresh || $mode != '' )
 				$server_protocol = ( $bb_cfg['cookie_secure'] ) ? 'https://' : 'http://';
 				$server_port = ( $bb_cfg['server_port'] <> 80 ) ? ':' . trim($bb_cfg['server_port']) . '/' : '/';
 
-				include(SITE_DIR . 'includes/emailer.php');
+				require SITE_DIR . 'includes/emailer.php';
 				$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 				$emailer->from($bb_cfg['board_email']);
@@ -1914,11 +1914,11 @@ else
 
 $template->assign_vars(array('PAGE_TITLE' => @$page_title));
 
-require(PAGE_HEADER);
+require PAGE_HEADER;
 
 $template->pparse('body');
 
-require(PAGE_FOOTER);
+require PAGE_FOOTER;
 
 //
 // Functions

@@ -6,10 +6,10 @@ if (!empty($setmodules))
 	$module['TorrentPier']['Release_Templates'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
-require(LANG_DIR .'lang_admin_bt.php');
+require LANG_DIR .'lang_admin_bt.php';
 
 $forums = $db->fetch_rowset("
 	SELECT f.forum_id, f.forum_parent, f.topic_tpl_id, f.forum_name

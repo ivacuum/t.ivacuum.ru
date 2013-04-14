@@ -1,6 +1,6 @@
 <?php	
 
-require('common.php');
+require 'common.php';
 
 // Start Session Management
 $user->session_start();
@@ -13,7 +13,7 @@ if ($do == 'attach_rules')
 	{
 		bb_die('invalid forum_id');
 	}
-	require(SITE_DIR . 'attach_mod/attachment_mod.php');
+	require SITE_DIR . 'attach_mod/attachment_mod.php';
 	// Display the allowed Extension Groups and Upload Size
 	$auth = auth(AUTH_ALL, $forum_id, $userdata);
 	$_max_filesize = $attach_config['max_filesize'];
@@ -133,7 +133,7 @@ elseif ($do == 'info')
 	</style>
 
 	<br />
-				<?php require($require) ?>
+				<?php require $require; ?>
 	</body>
 	</html>
 	<?php

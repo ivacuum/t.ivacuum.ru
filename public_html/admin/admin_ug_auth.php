@@ -9,10 +9,10 @@ if (!empty($setmodules))
 	$module['Groups']['Permissions'] = basename(__FILE__) .'?mode=group';
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
-require(SITE_DIR . 'includes/functions_group.php');
+require SITE_DIR . 'includes/functions_group.php';
 
 $yes_sign = '&radic;';
 $no_sign  = 'x';

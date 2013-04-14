@@ -72,9 +72,9 @@ if (
 	isset($_POST['cancelavatar']) ||
 	$mode == 'register' )
 {
-	include(SITE_DIR . 'includes/functions_validate.php');
-	include(SITE_DIR . 'includes/bbcode.php');
-	include(SITE_DIR . 'includes/functions_post.php');
+	require SITE_DIR . 'includes/functions_validate.php';
+	require SITE_DIR . 'includes/bbcode.php';
+	require SITE_DIR . 'includes/functions_post.php';
 
 	if ( $mode == 'editprofile' )
 	{
@@ -248,7 +248,7 @@ if ($mode == 'editprofile' && $userdata['session_logged_in'])
 //
 if ( isset($_POST['submit']) )
 {
-	include(SITE_DIR . 'includes/ucp/usercp_avatar.php');
+	require SITE_DIR . 'includes/ucp/usercp_avatar.php';
 
 	// session id check
 	if ($sid == '' || $sid != $userdata['session_id'])
@@ -582,7 +582,7 @@ if ( isset($_POST['submit']) )
 				//
 				// The users account has been deactivated, send them an email with a new activation key
 				//
-				include(SITE_DIR . 'includes/emailer.php');
+				require SITE_DIR . 'includes/emailer.php';
 				$emailer = new emailer($bb_cfg['smtp_delivery']);
 
  				if ( $bb_cfg['require_activation'] != USER_ACTIVATION_ADMIN )
@@ -671,7 +671,7 @@ if ( isset($_POST['submit']) )
 			$db->query($sql);
 			$user_id = $db->sql_nextid();
 
-			include(SITE_DIR . 'includes/functions_torrent.php');
+			require SITE_DIR . 'includes/functions_torrent.php';
 			generate_passkey($user_id, 1);
 
 			if ( $coppa )
@@ -695,7 +695,7 @@ if ( isset($_POST['submit']) )
 				$email_template = 'user_welcome';
 			}
 
-			include(SITE_DIR . 'includes/emailer.php');
+			require SITE_DIR . 'includes/emailer.php';
 			$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 			$emailer->from($bb_cfg['board_email']);
@@ -845,7 +845,7 @@ if ( $mode == 'editprofile' )
 
 if( isset($_POST['avatargallery']) && !$error )
 {
-	include(SITE_DIR . 'includes/ucp/usercp_avatar.php');
+	require SITE_DIR . 'includes/ucp/usercp_avatar.php';
 
 	$avatar_category = ( !empty($_POST['avatarcategory']) ) ? htmlspecialchars($_POST['avatarcategory']) : '';
 
@@ -859,7 +859,7 @@ if( isset($_POST['avatargallery']) && !$error )
 }
 else
 {
-	include(SITE_DIR . 'includes/functions_selects.php');
+	require SITE_DIR . 'includes/functions_selects.php';
 
 	if ( !isset($coppa) )
 	{
@@ -1202,8 +1202,8 @@ if ($mode == 'editprofile' && $userdata['session_logged_in'])
 }
 //bt end
 
-require(PAGE_HEADER);
+require PAGE_HEADER;
 
 $template->pparse('body');
 
-require(PAGE_FOOTER);
+require PAGE_FOOTER;

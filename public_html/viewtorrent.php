@@ -5,9 +5,9 @@
 */
 
 define('IN_AJAX', TRUE);
-require('common.php');
-require(SITE_DIR . 'attach_mod/attachment_mod.php');
-require(SITE_DIR . 'includes/functions_torrent.php');
+require 'common.php';
+require SITE_DIR . 'attach_mod/attachment_mod.php';
+require SITE_DIR . 'includes/functions_torrent.php';
 
 $attach_id = request_var('t', 0);
 

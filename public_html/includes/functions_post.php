@@ -54,7 +54,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$smilies_on, &$error_ms
 
 		if (!$userdata['session_logged_in'] || ($userdata['session_logged_in'] && $username != $userdata['username']))
 		{
-			require(SITE_DIR . 'includes/functions_validate.php');
+			require SITE_DIR . 'includes/functions_validate.php';
 
 			$result = validate_username($username);
 			if ($result['error'])
@@ -548,7 +548,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
 
 				if (sizeof($bcc_list_ary))
 				{
-					include(SITE_DIR . 'includes/emailer.php');
+					require SITE_DIR . 'includes/emailer.php';
 					$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 					$script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($bb_cfg['script_path']));
@@ -747,7 +747,7 @@ function insert_post($mode, $topic_id, $forum_id = '', $old_forum_id = '', $new_
 	global $bb_cfg, $lang, $db;
 	global $userdata, $is_auth;
 
-	require(DEFAULT_LANG_DIR .'lang_bot.php');
+	require DEFAULT_LANG_DIR .'lang_bot.php';
 
 	if (!$topic_id) return;
 

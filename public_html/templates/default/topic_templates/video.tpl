@@ -75,8 +75,8 @@ function form_validate (f)
 	<div class="clear"></div>
 </div>
 
-<?php require($GLOBALS['bb_cfg']['topic_tpl']['overall_header']) ?>
-<?php /*require($GLOBALS['bb_cfg']['topic_tpl']['rules_video'])*/ ?>
+<?php require $GLOBALS['bb_cfg']['topic_tpl']['overall_header']; ?>
+<?php /*require $GLOBALS['bb_cfg']['topic_tpl']['rules_video'];*/ ?>
 
 <form action="{S_ACTION}" method="post" name="post" onsubmit="return form_validate(this);" enctype="multipart/form-data">
 <input type="hidden" name="preview" value="1">

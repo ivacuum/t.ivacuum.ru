@@ -7,7 +7,7 @@ if (!defined('SITE_DIR'))
 
 $users_per_cycle = 1000;
 
-require_once(SITE_DIR . 'includes/functions_admin.php');
+require_once SITE_DIR . 'includes/functions_admin.php';
 
 $excluded_users = join(',', array(
 	ANONYMOUS,

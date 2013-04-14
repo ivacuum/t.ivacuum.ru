@@ -10,7 +10,7 @@ if (!empty($setmodules))
 function update_smilies () { $GLOBALS['datastore']->update('smile_replacements'); }
 register_shutdown_function('update_smilies');
 
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
 //

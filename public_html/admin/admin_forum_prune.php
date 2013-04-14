@@ -6,7 +6,7 @@ if (!empty($setmodules))
 	$module['Forums']['Prune'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
 $all_forums = -1;

@@ -4,7 +4,7 @@
 * @copyright (c) 2011
 */
 
-require('common.php');
+require 'common.php';
 
 // Start session management
 $user->session_start();
@@ -34,8 +34,8 @@ else
 	$lang_file = 'lang_faq';
 	$l_title = $lang['FAQ'];
 }
-include(SITE_DIR . 'language/lang_' . $board_config['default_lang'] . '/' . $lang_file . '.php');
-include(SITE_DIR . "language/lang_{$board_config['default_lang']}/lang_faq_attach.php");
+require SITE_DIR . 'language/lang_' . $board_config['default_lang'] . '/' . $lang_file . '.php';
+require SITE_DIR . "language/lang_{$board_config['default_lang']}/lang_faq_attach.php";
 
 
 //

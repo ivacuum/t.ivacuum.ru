@@ -21,7 +21,7 @@ if (!defined('IN_ADMIN') && !defined('IN_AJAX'))
 	{
 		cron_release_deadlock();
 
-		require(SITE_DIR . 'templates/board_disabled_exit.php');
+		require SITE_DIR . 'templates/board_disabled_exit.php';
 	}
 }
 
@@ -99,7 +99,7 @@ define('UA_IE',      strpos(USER_AGENT, 'msie'));
 
 define('HTML_WBR_TAG', (UA_OPERA || strpos(USER_AGENT, 'afari')) ? '<wbr></wbr>&#8203;' : '<wbr>');
 
-require(SITE_DIR . 'includes/constants.php');
+require SITE_DIR . 'includes/constants.php';
 
 function bb_setcookie($name, $val, $lifetime = COOKIE_PERSIST, $httponly = false)
 {
@@ -168,7 +168,7 @@ if (!(defined('IN_PROFILE') || defined('IN_LOGIN') || defined('IN_ADMIN') || def
 	{
 		if( LOADAVG > $bb_cfg['max_srv_load'] && (TIMENOW - $_COOKIE[COOKIE_LOAD]) > $bb_cfg['user_session_duration'] )
 		{
-			require(SITE_DIR . 'templates/limit_load_exit.php');
+			require SITE_DIR . 'templates/limit_load_exit.php';
 		}
 	}
 }
@@ -221,13 +221,13 @@ function make_url($path)
 	return $server_protocol . $bb_cfg['server_name'] . $server_port . $bb_cfg['script_path'] . $path;
 }
 
-require(SITE_DIR . 'includes/functions.php');
-require(SITE_DIR . 'includes/sessions.php');
-require(SITE_DIR . 'includes/template.php');
+require SITE_DIR . 'includes/functions.php';
+require SITE_DIR . 'includes/sessions.php';
+require SITE_DIR . 'includes/template.php';
 
 if( $_SERVER['REMOTE_ADDR'] == '192.168.1.1' )
 {
-	require(SITE_DIR . 'includes/db/mysqli.php');
+	require SITE_DIR . 'includes/db/mysqli.php';
 
 	$db = new db_mysqli();
 
@@ -236,7 +236,7 @@ if( $_SERVER['REMOTE_ADDR'] == '192.168.1.1' )
 }
 else
 {
-	require(SITE_DIR . 'includes/db/mysql.php');
+	require SITE_DIR . 'includes/db/mysql.php';
 
 	// Make the database connection.
 	$db = new sql_db(array(

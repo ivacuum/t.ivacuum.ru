@@ -8,11 +8,11 @@ if (!empty($setmodules))
 	$module['General']['Rebuild_Search_Index'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
-require(SITE_DIR . 'includes/bbcode.php');
-require(DEFAULT_LANG_DIR .'lang_admin_rebuild_search.php');
+require SITE_DIR . 'includes/bbcode.php';
+require DEFAULT_LANG_DIR .'lang_admin_rebuild_search.php';
 
 define('REBUILD_SEARCH_ABORTED',   0);  // when the user aborted the processing
 define('REBUILD_SEARCH_PROCESSED', 1);  // when a batch of posts has been processed

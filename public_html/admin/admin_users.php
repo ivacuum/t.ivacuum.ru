@@ -6,14 +6,14 @@ if (!empty($setmodules))
 	$module['Users']['Manage'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
-require(SITE_DIR . 'includes/bbcode.php');
-require(SITE_DIR . 'includes/functions_post.php');
-require(SITE_DIR . 'includes/functions_selects.php');
-require(SITE_DIR . 'includes/functions_validate.php');
-require(SITE_DIR . 'includes/functions_group.php');
+require SITE_DIR . 'includes/bbcode.php';
+require SITE_DIR . 'includes/functions_post.php';
+require SITE_DIR . 'includes/functions_selects.php';
+require SITE_DIR . 'includes/functions_validate.php';
+require SITE_DIR . 'includes/functions_group.php';
 
 array_deep($_POST, 'trim');
 
@@ -157,7 +157,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 
 	if( isset( $_POST['submit'] ) )
 	{
-		include(SITE_DIR . 'includes/ucp/usercp_avatar.php');
+		require SITE_DIR . 'includes/ucp/usercp_avatar.php';
 
 		$error = FALSE;
 

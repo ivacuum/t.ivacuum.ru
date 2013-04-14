@@ -4,8 +4,11 @@
 * @copyright (c) 2013
 */
 
-define('SITE_DIR', __DIR__ . '/');
-require(SITE_DIR . 'includes/profiler.php');
+if (!defined('SITE_DIR'))
+{
+	define('SITE_DIR', __DIR__ . '/');
+}
+require SITE_DIR . 'includes/profiler.php';
 $profiler = new profiler();
 
 define('TIMESTART', microtime(true));
@@ -17,7 +20,7 @@ $s_provider  = isset($_SERVER['HTTP_PROVIDER']) ? $_SERVER['HTTP_PROVIDER'] : 'i
 $static_path = $s_provider == 'local' ? '//0.ivacuum.org' : '//ivacuum.org';
 
 // Get initial config
-require(SITE_DIR . '../config_tracker.php');
+require SITE_DIR . '../config_tracker.php';
 
 // Debug options
 define('DBG_USER', (isset($_COOKIE[COOKIE_DBG]) || DEBUG === true));
@@ -37,7 +40,7 @@ define('ANONYMOUS', -1);
 define('PEER_HASH_PREFIX',  'peer_');
 define('PEERS_LIST_PREFIX', 'peers_list_');
 
-require(SITE_DIR . 'includes/cache.php');
+require SITE_DIR . 'includes/cache.php';
 
 switch ($bb_cfg['bb_cache_type'])
 {
@@ -291,4 +294,4 @@ function get_loadavg()
 }
 
 // Board init
-require(SITE_DIR . 'includes/init_bb' . (PHP_SAPI == 'cli' ? '_lite' : '') . '.php');
+require SITE_DIR . 'includes/init_bb' . (PHP_SAPI == 'cli' ? '_lite' : '') . '.php';

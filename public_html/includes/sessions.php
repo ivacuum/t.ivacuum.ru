@@ -641,7 +641,7 @@ class user_common
 		}
 		if ($srv_overloaded)
 		{
-			require(TPL_LIMIT_LOAD_EXIT);
+			require TPL_LIMIT_LOAD_EXIT;
 		}
 	}
 
@@ -685,12 +685,12 @@ class user_common
 			define('LANG_DIR', DEFAULT_LANG_DIR);
 		}
 
-		require(LANG_DIR .'lang_main.php');
+		require LANG_DIR .'lang_main.php';
 
 		if (defined('IN_ADMIN'))
 		{
-			require(LANG_DIR .'lang_admin.php');
-			require(LANG_DIR .'lang_admin_attach.php');
+			require LANG_DIR .'lang_admin.php';
+			require LANG_DIR .'lang_admin_attach.php';
 		}
 
 		$theme = setup_style();

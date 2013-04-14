@@ -5,7 +5,7 @@
 */
 
 define('BB_SCRIPT', 'index');
-require('common.php');
+require 'common.php';
 
 $page_cfg['load_tpl_vars'] = array(
 	'post_icons'

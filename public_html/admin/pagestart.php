@@ -2,10 +2,10 @@
 
 define('IN_ADMIN', true);
 
-require('../common.php');
-require(SITE_DIR . 'attach_mod/attachment_mod.php');
-require(SITE_DIR . 'attach_mod/includes/functions_admin.php');
-require_once(SITE_DIR . 'includes/functions_admin.php');
+require '../common.php';
+require SITE_DIR . 'attach_mod/attachment_mod.php';
+require SITE_DIR . 'attach_mod/includes/functions_admin.php';
+require_once SITE_DIR . 'includes/functions_admin.php';
 
 $user->session_start();
 

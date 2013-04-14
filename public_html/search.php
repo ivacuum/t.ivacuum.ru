@@ -5,8 +5,8 @@
 */
 
 define('BB_SCRIPT', 'search');
-require('common.php');
-require(SITE_DIR . 'includes/bbcode.php');
+require 'common.php';
+require SITE_DIR . 'includes/bbcode.php';
 
 $page_cfg['load_tpl_vars'] = array(
 	'post_buttons',

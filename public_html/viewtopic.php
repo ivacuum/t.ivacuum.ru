@@ -5,8 +5,8 @@
 */
 
 define('BB_SCRIPT', 'topic');
-require('common.php');
-require(SITE_DIR . 'includes/bbcode.php');
+require 'common.php';
+require SITE_DIR . 'includes/bbcode.php';
 
 $datastore->enqueue(array(
 	'ranks',
@@ -615,7 +615,7 @@ $template->assign_vars(array(
 	'PEERS_FULL_LINK' => false,
 	'DL_LIST_HREF'    => TOPIC_URL ."$topic_id&amp;dl=names&amp;spmode=full",
 ));
-require(SITE_DIR . 'includes/torrent_show_dl_list.php');
+require SITE_DIR . 'includes/torrent_show_dl_list.php';
 
 //
 // Does this topic contain a poll?
@@ -747,7 +747,7 @@ if ( !empty($t_data['topic_vote']) )
 
 if ($t_data['topic_attachment'])
 {
-	require(SITE_DIR . 'attach_mod/attachment_mod.php');
+	require SITE_DIR . 'attach_mod/attachment_mod.php';
 	init_display_post_attachments($t_data['topic_attachment']);
 }
 

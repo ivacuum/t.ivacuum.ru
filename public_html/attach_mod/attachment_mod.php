@@ -5,11 +5,11 @@ if (!defined('SITE_DIR'))
 	exit;
 }
 
-require(SITE_DIR . 'attach_mod/includes/functions_includes.php');
-require(SITE_DIR . 'attach_mod/includes/functions_attach.php');
-require(SITE_DIR . 'attach_mod/includes/functions_delete.php');
-require(SITE_DIR . 'attach_mod/includes/functions_thumbs.php');
-require(SITE_DIR . 'attach_mod/includes/functions_filetypes.php');
+require SITE_DIR . 'attach_mod/includes/functions_includes.php';
+require SITE_DIR . 'attach_mod/includes/functions_attach.php';
+require SITE_DIR . 'attach_mod/includes/functions_delete.php';
+require SITE_DIR . 'attach_mod/includes/functions_thumbs.php';
+require SITE_DIR . 'attach_mod/includes/functions_filetypes.php';
 
 if (defined('ATTACH_INSTALL'))
 {
@@ -87,7 +87,7 @@ if (file_exists($cache_dir) && is_dir($cache_dir) && is_writable($cache_dir))
 {
 	if (file_exists($cache_file))
 	{
-		include($cache_file);
+		include $cache_file;
 	}
 	else
 	{
@@ -125,9 +125,9 @@ else
 
 // Please do not change the include-order, it is valuable for proper execution.
 // Functions for displaying Attachment Things
-include(SITE_DIR . 'attach_mod/displaying.php');
+require SITE_DIR . 'attach_mod/displaying.php';
 // Posting Attachments Class (HAVE TO BE BEFORE PM)
-include(SITE_DIR . 'attach_mod/posting_attachments.php');
+require SITE_DIR . 'attach_mod/posting_attachments.php';
 
 if (!intval($attach_config['allow_ftp_upload']))
 {

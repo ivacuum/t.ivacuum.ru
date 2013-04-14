@@ -7,7 +7,7 @@ if (!defined('SITE_DIR'))
 
 if (!$post_info) die('$post_info missing');
 
-require(DEFAULT_LANG_DIR .'lang_topic_templates.php');
+require DEFAULT_LANG_DIR .'lang_topic_templates.php';
 
 function build_tpl_item ($item, $val)
 {
@@ -70,10 +70,10 @@ if ($topic_tpl = $db->fetch_row($sql))
 	$tpl_script = basename($topic_tpl['tpl_script']);
 
 	// this include() should return $message and $subject on submit
-	require(SITE_DIR . "includes/topic_templates/$tpl_script.php");
+	require SITE_DIR . "includes/topic_templates/$tpl_script.php";
 
 	$lang['tpl']['guide'] = array();
-	@include(SITE_DIR . "includes/topic_templates/{$tpl_script}_guide.php");
+	@include SITE_DIR . "includes/topic_templates/{$tpl_script}_guide.php";
 
 	if (isset($_REQUEST['preview']))
 	{
@@ -82,7 +82,7 @@ if ($topic_tpl = $db->fetch_row($sql))
 	}
 	else
 	{
-		require(SITE_DIR . 'includes/topic_templates/tpl_selects.php');
+		require SITE_DIR . 'includes/topic_templates/tpl_selects.php';
 
 		$template->assign_vars(array(
 			'PAGE_TITLE'        => $lang['bt_new_release'],

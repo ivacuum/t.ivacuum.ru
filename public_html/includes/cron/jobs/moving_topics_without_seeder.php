@@ -5,8 +5,8 @@ if (!defined('SITE_DIR'))
 	exit;
 }
 
-require(SITE_DIR . 'includes/functions_admin.php');
-require(SITE_DIR . 'includes/functions_post.php');
+require SITE_DIR . 'includes/functions_admin.php';
+require SITE_DIR . 'includes/functions_post.php';
 
 if( !defined('DEFAULT_LANG_DIR') )
 {

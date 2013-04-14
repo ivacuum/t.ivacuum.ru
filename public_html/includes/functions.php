@@ -284,7 +284,7 @@ class datastore_common
 		//	print $title;
 		//	exit;
 		}*/
-			require(SITE_DIR . 'includes/' . $this->ds_dir . $this->known_items[$title] . '.php');
+			require SITE_DIR . 'includes/' . $this->ds_dir . $this->known_items[$title] . '.php';
 		}
 		else
 		{
@@ -1751,7 +1751,7 @@ function setup_style()
 		'EXT_LINK_NEW_WIN' => $bb_cfg['ext_link_new_win'],
 	));
 
-	require(SITE_DIR . 'templates/' . $tpl_dir_name .'/tpl_config.php');
+	require SITE_DIR . 'templates/' . $tpl_dir_name .'/tpl_config.php';
 
 	$theme = array('template_name' => $tpl_dir_name);
 
@@ -2018,7 +2018,7 @@ function message_die ($msg_code, $msg_text = '', $msg_title = '', $err_line = ''
 
 	if (empty($lang))
 	{
-		require($bb_cfg['default_lang_dir'] .'lang_main.php');
+		require $bb_cfg['default_lang_dir'] .'lang_main.php';
 	}
 	if (empty($userdata) && ($msg_code == GENERAL_MESSAGE || $msg_code == GENERAL_ERROR))
 	{
@@ -2035,7 +2035,7 @@ function message_die ($msg_code, $msg_text = '', $msg_title = '', $err_line = ''
 		{
 			$theme = setup_style();
 		}
-		require(PAGE_HEADER);
+		require PAGE_HEADER;
 	}
 
 	switch ($msg_code)
@@ -2088,7 +2088,7 @@ function message_die ($msg_code, $msg_text = '', $msg_title = '', $err_line = ''
 		$template->set_filenames(array('message_die' => 'common.tpl'));
 		$template->pparse('message_die');
 
-		require(PAGE_FOOTER);
+		require PAGE_FOOTER;
 	}
 	else
 	{
@@ -2233,7 +2233,7 @@ function transliterate ($str)
 
 	if (!isset($translit_table))
 	{
-		require(DEFAULT_LANG_DIR .'translit_table.php');
+		require DEFAULT_LANG_DIR .'translit_table.php';
 	}
 	return strtr($str, $translit_table);
 }
@@ -2397,7 +2397,7 @@ class log_action
 
 		if (empty($lang['log_action']))
 		{
-			require($bb_cfg['default_lang_dir'] .'lang_log_action.php');
+			require $bb_cfg['default_lang_dir'] .'lang_log_action.php';
 		}
 
 		foreach ($lang['log_action']['log_type'] as $log_type => $log_desc)
@@ -2570,7 +2570,7 @@ function print_page ($args, $type = '', $mode = '')
 
 	if ($mode !== 'no_header')
 	{
-		require(PAGE_HEADER);
+		require PAGE_HEADER;
 	}
 
 	$template->set_filenames(array('body' => $tpl));
@@ -2578,7 +2578,7 @@ function print_page ($args, $type = '', $mode = '')
 
 	if ($mode !== 'no_footer')
 	{
-		require(PAGE_FOOTER);
+		require PAGE_FOOTER;
 	}
 }
 

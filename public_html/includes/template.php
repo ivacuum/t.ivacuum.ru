@@ -295,7 +295,7 @@ class Template {
 		}
 		if ($filename)
 		{
-			include($filename);
+			include $filename;
 		}
 		else
 		{

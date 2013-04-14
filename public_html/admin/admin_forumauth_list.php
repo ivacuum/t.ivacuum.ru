@@ -6,7 +6,7 @@ if (!empty($setmodules))
 	$module['Forums']['Permissions_List'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
 

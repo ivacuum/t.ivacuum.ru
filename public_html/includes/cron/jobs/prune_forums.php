@@ -5,7 +5,7 @@ if (!defined('SITE_DIR'))
 	exit;
 }
 
-require_once(SITE_DIR . 'includes/functions_admin.php');
+require_once SITE_DIR . 'includes/functions_admin.php';
 
 if ($bb_cfg['prune_enable'])
 {

@@ -186,7 +186,7 @@ class emailer
 		{
 			if ( !defined('SMTP_INCLUDED') )
 			{
-				include(SITE_DIR . 'includes/smtp.php');
+				require SITE_DIR . 'includes/smtp.php';
 			}
 
 			$result = smtpmail($to, $this->subject, $this->msg, $this->extra_headers);

@@ -311,10 +311,10 @@ function make_url($path)
 	return $server_protocol . $bb_cfg['server_name'] . $server_port . $bb_cfg['script_path'] . $path;
 }
 
-require(SITE_DIR . 'includes/functions.php');
-require(SITE_DIR . 'includes/sessions.php');
-require(SITE_DIR . 'includes/template.php');
-require(SITE_DIR . 'includes/db/mysql.php');
+require SITE_DIR . 'includes/functions.php';
+require SITE_DIR . 'includes/sessions.php';
+require SITE_DIR . 'includes/template.php';
+require SITE_DIR . 'includes/db/mysql.php';
 
 // Make the database connection.
 $db = new sql_db(array(
@@ -370,7 +370,7 @@ if (empty($_POST) && !defined('IN_ADMIN') && !defined('IN_AJAX') && !file_exists
 		// Update cron_last_check
 		bb_update_config(array('cron_last_check' => TIMENOW));
 
-		require(SITE_DIR . 'config/cron_cfg.php');
+		require SITE_DIR . 'config/cron_cfg.php';
 
 		// bb_log(date('H:i:s - ') . getmypid() .' -x-- DB-LOCK try'. LOG_LF, CRON_LOG_DIR .'cron_check');
 
@@ -379,7 +379,7 @@ if (empty($_POST) && !defined('IN_ADMIN') && !defined('IN_AJAX') && !file_exists
 			// bb_log(date('H:i:s - ') . getmypid() .' --x- DB-LOCK OBTAINED !!!!!!!!!!!!!!!!!'. LOG_LF, CRON_LOG_DIR .'cron_check');
 
 			sleep(2);
-			require(SITE_DIR . 'includes/cron/cron_init.php');
+			require SITE_DIR . 'includes/cron/cron_init.php';
 			$db->release_lock('cron');
 		}
 	}

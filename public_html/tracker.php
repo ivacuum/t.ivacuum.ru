@@ -5,7 +5,7 @@
 */
 
 define('BB_SCRIPT', 'tracker');
-require('common.php');
+require 'common.php';
 
 // Page config
 $page_cfg['include_bbcode_js'] = true;
@@ -580,7 +580,7 @@ if ($allowed_forums)
 
 		if( empty($tor_list_ary) && $bb_cfg['sphinx']['enabled'] )
 		{
-			require(SITE_DIR . 'includes/db/sphinx.php');
+			require SITE_DIR . 'includes/db/sphinx.php';
 
 			$sphinx = new db_sphinx();
 			$sphinx->connect($bb_cfg['sphinx']['host'], $bb_cfg['sphinx']['port'], $bb_cfg['sphinx']['socket']);

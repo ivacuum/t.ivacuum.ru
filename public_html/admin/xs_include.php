@@ -24,7 +24,7 @@ if(!defined('XS_LANG_INCLUDED'))
 	{	// load english version if there is no translation to current language
 		$xs_lang_file = SITE_DIR . 'language/lang_english/lang_xs.php';
 	}
-	include($xs_lang_file);
+	include $xs_lang_file;
 	define('XS_LANG_INCLUDED', true);
 }
 
@@ -292,7 +292,7 @@ function xs_tpl_name($name)
 // close database and maybe do some other stuff
 function xs_exit()
 {
-	require(PAGE_FOOTER);
+	require PAGE_FOOTER;
 }
 
 // check directory name/filename

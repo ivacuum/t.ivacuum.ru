@@ -4,9 +4,9 @@
 * @copyright (c) 2011
 */
 
-require('common.php');
-require(SITE_DIR . 'attach_mod/attachment_mod.php');
-require(SITE_DIR . 'includes/functions_torrent.php');
+require 'common.php';
+require SITE_DIR . 'attach_mod/attachment_mod.php';
+require SITE_DIR . 'includes/functions_torrent.php';
 
 // Start session management
 $user->session_start();

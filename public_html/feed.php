@@ -5,7 +5,7 @@
 */
 
 define('BB_SCRIPT', 'stats');
-require('common.php');
+require 'common.php';
 
 // Session start
 $user->session_start();

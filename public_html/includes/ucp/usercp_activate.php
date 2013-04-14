@@ -50,7 +50,7 @@ if ( $row = $db->sql_fetchrow($result) )
 
 		if ( intval($board_config['require_activation']) == USER_ACTIVATION_ADMIN && $sql_update_pass == '' )
 		{
-			include(SITE_DIR . 'includes/emailer.php');
+			require SITE_DIR . 'includes/emailer.php';
 			$emailer = new emailer($board_config['smtp_delivery']);
 
 			$emailer->from($board_config['board_email']);

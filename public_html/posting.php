@@ -4,10 +4,10 @@
 * @copyright (c) 2011
 */
 
-require('common.php');
-require(SITE_DIR . 'includes/bbcode.php');
-require(SITE_DIR . 'includes/functions_post.php');
-require(SITE_DIR . 'attach_mod/attachment_mod.php');
+require 'common.php';
+require SITE_DIR . 'includes/bbcode.php';
+require SITE_DIR . 'includes/functions_post.php';
+require SITE_DIR . 'attach_mod/attachment_mod.php';
 
 $page_cfg['load_tpl_vars'] = array(
 	'post_icons',
@@ -326,7 +326,7 @@ if (!$is_auth[$is_auth_type])
 
 if ($mode == 'newtopic' && $topic_tpl && $post_info['topic_tpl_id'])
 {
-	require(SITE_DIR . 'includes/topic_templates.php');
+	require SITE_DIR . 'includes/topic_templates.php';
 }
 
 // BBCode
@@ -558,7 +558,7 @@ else if ( ($submit || $confirm) && !$topic_has_new_posts )
 
 		case 'delete':
 		case 'poll_delete':
-			require_once(SITE_DIR . 'includes/functions_admin.php');
+			require_once SITE_DIR . 'includes/functions_admin.php';
 			delete_post($mode, $post_data, $return_message, $return_meta, $forum_id, $topic_id, $post_id, $poll_id);
 			break;
 	}
@@ -587,7 +587,7 @@ else if ( ($submit || $confirm) && !$topic_has_new_posts )
 
 		if ($torrent_attach && $bb_cfg['bt_newtopic_auto_reg'] && $mode == 'newtopic' && !$error_msg)
 		{
-			include_once(SITE_DIR . 'includes/functions_torrent.php');
+			require_once SITE_DIR . 'includes/functions_torrent.php';
 			tracker_register(TORRENT_ATTACH_ID, 'newtopic');
 		}
 
@@ -1027,9 +1027,9 @@ if( $mode == 'reply' && $is_auth['auth_read'] )
 	topic_review($topic_id);
 }
 
-require(PAGE_HEADER);
+require PAGE_HEADER;
 
 $template->pparse('body');
 
-require(PAGE_FOOTER);
+require PAGE_FOOTER;
 

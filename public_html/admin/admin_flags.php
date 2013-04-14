@@ -6,7 +6,7 @@ if (!empty($setmodules))
 	$module['Users']['Flags'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
 if( isset($_GET['mode']) || isset($_POST['mode']) )

@@ -4,7 +4,7 @@
 * @copyright (c) 2011
 */
 
-require('common.php');
+require 'common.php';
 
 $page_cfg['load_tpl_vars'] = array(
 	'post_icons',
@@ -101,7 +101,7 @@ if( isset($_POST['topic_id']) )
 		break;
 		case 'delete':
 
-			require_once(SITE_DIR . 'includes/functions_admin.php');
+			require_once SITE_DIR . 'includes/functions_admin.php';
 
 			topic_delete($topic_ids);
 			meta_refresh(2, $url);
@@ -110,7 +110,7 @@ if( isset($_POST['topic_id']) )
 		break;
 		case 'tor_delete':
 
-			require_once(SITE_DIR . 'includes/functions_torrent.php');
+			require_once SITE_DIR . 'includes/functions_torrent.php';
 
 			$sql = '
 				SELECT

@@ -6,7 +6,7 @@ if (!empty($setmodules))
 	$module['Actions_log']['Actions_log'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
 $datastore->enqueue(array(

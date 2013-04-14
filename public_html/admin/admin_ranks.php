@@ -10,7 +10,7 @@ if (!empty($setmodules))
 function update_ranks () { $GLOBALS['datastore']->update('ranks'); }
 register_shutdown_function('update_ranks');
 
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
 $_POST['special_rank'] = 1;

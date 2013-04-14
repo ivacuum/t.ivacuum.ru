@@ -5,7 +5,7 @@
 */
 
 define('IN_PROFILE', true);
-require('common.php');
+require 'common.php';
 
 // Start session management
 $user->session_start();
@@ -35,7 +35,7 @@ if( $mode )
 {
 	if ( $mode == 'viewprofile' )
 	{
-		require(SITE_DIR . 'includes/ucp/usercp_viewprofile.php');
+		require SITE_DIR . 'includes/ucp/usercp_viewprofile.php';
 		exit;
 	}
 	else if ( $mode == 'editprofile' || $mode == 'register' )
@@ -45,7 +45,7 @@ if( $mode )
 			login_redirect();
 		}
 
-		require(SITE_DIR . 'includes/ucp/usercp_register.php');
+		require SITE_DIR . 'includes/ucp/usercp_register.php';
 		exit;
 	}
 	else if ( $mode == 'confirm' )
@@ -56,22 +56,22 @@ if( $mode )
 			exit;
 		}
 
-		require(SITE_DIR . 'includes/ucp/usercp_confirm.php');
+		require SITE_DIR . 'includes/ucp/usercp_confirm.php';
 		exit;
 	}
 	else if ( $mode == 'sendpassword' )
 	{
-		require(SITE_DIR . 'includes/ucp/usercp_sendpasswd.php');
+		require SITE_DIR . 'includes/ucp/usercp_sendpasswd.php';
 		exit;
 	}
 	else if ( $mode == 'activate' )
 	{
-		require(SITE_DIR . 'includes/ucp/usercp_activate.php');
+		require SITE_DIR . 'includes/ucp/usercp_activate.php';
 		exit;
 	}
 	else if ( $mode == 'email' )
 	{
-		require(SITE_DIR . 'includes/ucp/usercp_email.php');
+		require SITE_DIR . 'includes/ucp/usercp_email.php';
 		exit;
 	}
 }

@@ -1,9 +1,9 @@
 <?php
 
-require('common.php');
-require(SITE_DIR . 'includes/bbcode.php');
-require(SITE_DIR . 'includes/functions_post.php');
-require_once(SITE_DIR . 'includes/functions_admin.php');
+require 'common.php';
+require SITE_DIR . 'includes/bbcode.php';
+require SITE_DIR . 'includes/functions_post.php';
+require_once SITE_DIR . 'includes/functions_admin.php';
 
 //
 // Functions
@@ -762,9 +762,9 @@ switch ($mode)
 
 $template->assign_vars(array('PAGE_TITLE' => $lang['Mod_CP']));
 
-require(PAGE_HEADER);
+require PAGE_HEADER;
 
 $template->pparse('body');
 
-require(PAGE_FOOTER);
+require PAGE_FOOTER;
 

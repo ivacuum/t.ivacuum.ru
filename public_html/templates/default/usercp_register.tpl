@@ -281,7 +281,7 @@
 			<fieldset class="pad_6">
 			<legend class="med bold mrg_2 warnColor1">{L_USER_AGREEMENT_HEAD}</legend>
 				<div class="bCenter">
-					<?php include($bb_cfg['user_agreement_html_path']) ?>
+					<?php include $bb_cfg['user_agreement_html_path']; ?>
 				</div>
 				<p class="med bold mrg_4 tCenter"><label><input type="checkbox" value="" onclick="$('#submit-buttons').slideToggle();"> {L_USER_AGREEMENT_AGREE}</label></p>
 			</fieldset>

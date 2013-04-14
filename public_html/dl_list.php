@@ -4,7 +4,7 @@
 * @copyright (c) 2011
 */
 
-require('common.php');
+require 'common.php';
 
 $forum_id  = (@$_REQUEST[POST_FORUM_URL]) ? (int) $_REQUEST[POST_FORUM_URL] : 0;
 $topic_id  = (@$_REQUEST[POST_TOPIC_URL]) ? (int) $_REQUEST[POST_TOPIC_URL] : 0;

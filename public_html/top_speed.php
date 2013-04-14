@@ -5,7 +5,7 @@
 */
 
 define('BB_SCRIPT', 'stats');
-require('common.php');
+require 'common.php';
 
 // Session start
 $user->session_start(array('req_login' => $bb_cfg['bt_tor_browse_only_reg']));

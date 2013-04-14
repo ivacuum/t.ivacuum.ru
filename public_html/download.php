@@ -1,7 +1,7 @@
 <?php
 
-require('common.php');
-require(SITE_DIR . 'attach_mod/attachment_mod.php');
+require 'common.php';
+require SITE_DIR . 'attach_mod/attachment_mod.php';
 
 $datastore->enqueue(array(
 	'attach_extensions',
@@ -65,7 +65,7 @@ function send_file_to_browser($attachment, $upload_dir)
 
 	if (!(isset($_GET['original']) && !IS_USER))
 	{
-		include_once(SITE_DIR . 'includes/functions_torrent.php');
+		require_once SITE_DIR . 'includes/functions_torrent.php';
 		send_torrent_with_passkey($filename);
 	}
 	//bt end

@@ -4,7 +4,7 @@
 * @copyright (c) 2011
 */
 
-require('common.php');
+require 'common.php';
 
 // Start session management
 $user->session_start(array('req_login' => true));

@@ -6,14 +6,14 @@ if (!empty($setmodules))
 	$module['Users']['Disallow'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
 $message = '';
 
 if( isset($_POST['add_name']) )
 {
-	include(SITE_DIR . 'includes/functions_validate.php');
+	require SITE_DIR . 'includes/functions_validate.php';
 
 	$disallowed_user = ( isset($_POST['disallowed_user']) ) ? trim($_POST['disallowed_user']) : trim($_GET['disallowed_user']);
 

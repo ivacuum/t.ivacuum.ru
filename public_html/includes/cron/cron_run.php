@@ -68,7 +68,7 @@ foreach( $cron_jobs as $job )
 		}
 
 		set_time_limit(600);
-		require($job_script);
+		require $job_script;
 
 		if( $job['log_sql_queries'] )
 		{

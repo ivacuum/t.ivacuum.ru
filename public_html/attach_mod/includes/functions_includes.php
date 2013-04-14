@@ -19,7 +19,7 @@ function attach_faq_include($lang_file)
 	if ($lang_file == 'lang_faq')
 	{
 		$language = attach_mod_get_lang('lang_faq_attach');
-		include(SITE_DIR . 'language/lang_' . $language . '/lang_faq_attach.php');
+		require SITE_DIR . 'language/lang_' . $language . '/lang_faq_attach.php';
 	}
 }
 
@@ -82,8 +82,8 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 		$upload_dir = $attach_config['download_path'];
 	}
 
-	include_once(SITE_DIR . 'attach_mod/includes/functions_selects.php');
-	include_once(SITE_DIR . 'attach_mod/includes/functions_admin.php');
+	require_once SITE_DIR . 'attach_mod/includes/functions_selects.php';
+	require_once SITE_DIR . 'attach_mod/includes/functions_admin.php';
 
 	$user_id = 0;
 

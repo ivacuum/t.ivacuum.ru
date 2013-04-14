@@ -288,7 +288,7 @@ function tracker_register ($attach_id, $mode = '')
 
 	if ($board_config['bt_check_announce_url'])
 	{
-		include_once(SITE_DIR .'includes/torrent_announce_urls.php');
+		require_once SITE_DIR .'includes/torrent_announce_urls.php';
 
 		$ann = (@$tor['announce']) ? $tor['announce'] : '';
 		$announce_urls['main_url'] = $board_config['bt_announce_url'];

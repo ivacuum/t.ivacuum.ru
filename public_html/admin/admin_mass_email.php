@@ -6,7 +6,7 @@ if (!empty($setmodules))
 	$module['General']['Mass_Email'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
 @set_time_limit(1200);
@@ -66,7 +66,7 @@ if ( isset($_POST['submit']) )
 
 	if ( !$error )
 	{
-		include(SITE_DIR . 'includes/emailer.php');
+		require SITE_DIR . 'includes/emailer.php';
 
 		//
 		// Let's do some checking to make sure that mass mail functions
@@ -145,7 +145,7 @@ $select_list .= '</select>';
 //
 // Generate page
 //
-require(PAGE_HEADER);
+require PAGE_HEADER;
 
 $template->assign_vars(array(
 	'MESSAGE' => $message,

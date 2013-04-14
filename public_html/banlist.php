@@ -25,4 +25,4 @@
 */
 
 define('BB_SCRIPT', 'banlist');
-require('common.php');
+require 'common.php';

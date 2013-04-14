@@ -539,7 +539,7 @@ var display_forecast = 'none';
 <img src="{STATIC_PATH}/i/_/macosx.png" alt="" style="vertical-align: text-top;"> <a href="//dl.local.ivacuum.ru/151/">Transmission 2.41</a>
 </span><br>
 
-		<?php if (!empty($bb_cfg['sidebar1_static_content_path'])) include($bb_cfg['sidebar1_static_content_path']); ?>
+		<?php if (!empty($bb_cfg['sidebar1_static_content_path'])) include $bb_cfg['sidebar1_static_content_path']; ?>
 
 		<img width="210" class="spacer" src="{SPACER}" alt="">
 

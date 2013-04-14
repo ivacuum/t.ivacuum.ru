@@ -4,7 +4,7 @@
 * @copyright (c) 2011
 */
 
-require('common.php');
+require 'common.php';
 
 $user->session_start();
 
@@ -45,7 +45,7 @@ $ary[] = array(
 
 $excluded_forums_csv = $user->get_excluded_forums(AUTH_READ);
 
-require(SITE_DIR . 'includes/db/sphinx.php');
+require SITE_DIR . 'includes/db/sphinx.php';
 
 $sphinx = new db_sphinx();
 $sphinx->connect($bb_cfg['sphinx']['host'], $bb_cfg['sphinx']['port'], $bb_cfg['sphinx']['socket']);

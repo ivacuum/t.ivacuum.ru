@@ -6,11 +6,11 @@ if (!empty($setmodules))
 	$module['Users']['Search'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
-require(SITE_DIR . 'includes/functions_selects.php');
-include(SITE_DIR . 'language/lang_' . $board_config['default_lang'] . '/lang_user_search.php');
+require SITE_DIR . 'includes/functions_selects.php';
+require SITE_DIR . 'language/lang_' . $board_config['default_lang'] . '/lang_user_search.php';
 
 $total_sql = '';
 

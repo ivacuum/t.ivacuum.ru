@@ -12,7 +12,7 @@ if (!empty($setmodules))
 function update_attach_extensions () { $GLOBALS['datastore']->update('attach_extensions'); }
 register_shutdown_function('update_attach_extensions');
 
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
 if (!intval($attach_config['allow_ftp_upload']))
@@ -31,7 +31,7 @@ else
 	$upload_dir = $attach_config['download_path'];
 }
 
-include(SITE_DIR . 'attach_mod/includes/functions_selects.php');
+require SITE_DIR . 'attach_mod/includes/functions_selects.php';
 
 // Check if the language got included
 if (!isset($lang['Test_settings_successful']))

@@ -4,13 +4,13 @@
 * @copyright (c) 2011
 */
 
-require('common.php');
+require 'common.php';
 
 // Init userdata
 $user->session_start();
 
-require(SITE_DIR . 'includes/bbcode.php');
-require(LANG_DIR . 'lang_callseed.php');
+require SITE_DIR . 'includes/bbcode.php';
+require LANG_DIR . 'lang_callseed.php';
 
 function topic_info($topic_id)
 {

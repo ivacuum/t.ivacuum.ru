@@ -6,10 +6,10 @@ if (!empty($setmodules))
 	$module['Forums']['Manage'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
-require(SITE_DIR . 'includes/functions_group.php');
+require SITE_DIR . 'includes/functions_group.php';
 
 $s = '';
 

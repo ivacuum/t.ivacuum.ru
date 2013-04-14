@@ -6,7 +6,7 @@ if (!empty($setmodules))
 	$module['Attachments']['Control_Panel'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
 $total_attachments = 0;
@@ -27,7 +27,7 @@ else
 	$upload_dir = $attach_config['download_path'];
 }
 
-include(SITE_DIR . 'attach_mod/includes/functions_selects.php');
+require SITE_DIR . 'attach_mod/includes/functions_selects.php';
 
 // Check if the language got included
 if (!isset($lang['Test_settings_successful']))

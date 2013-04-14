@@ -5,7 +5,7 @@
 */
 
 define('BB_SCRIPT', 'forum');
-require('common.php');
+require 'common.php';
 
 $show_last_topic     = true;
 $last_topic_max_len  = 40;

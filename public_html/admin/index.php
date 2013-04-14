@@ -1,6 +1,6 @@
 <?php
 
-require('./pagestart.php');
+require './pagestart.php';
 
 //
 // Generate relevant output
@@ -14,7 +14,7 @@ if( isset($_GET['pane']) && $_GET['pane'] == 'left' )
 	{
 		if( preg_match("/^admin_.*?\.php$/", $file) )
 		{
-			include('./' . $file);
+			include './' . $file;
 		}
 	}
 
@@ -474,12 +474,12 @@ else if (isset($_REQUEST['clear_datastore']))
 }
 else if (isset($_REQUEST['update_net_news']))
 {
-	require(SITE_DIR . 'includes/cron/jobs/update_net_news.php');
+	require SITE_DIR . 'includes/cron/jobs/update_net_news.php';
 	bb_die('Net news updated');
 }
 else if (isset($_REQUEST['update_user_level']))
 {
-	require(SITE_DIR . 'includes/functions_group.php');
+	require SITE_DIR . 'includes/functions_group.php';
 	update_user_level('all');
 	bb_die('User levels updated');
 }

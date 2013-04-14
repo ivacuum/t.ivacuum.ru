@@ -1,7 +1,7 @@
 <?php
 
-require('common.php');
-require(SITE_DIR . 'attach_mod/attachment_mod.php');
+require 'common.php';
+require SITE_DIR . 'attach_mod/attachment_mod.php';
 
 // session id check
 $sid = request_var('sid', '');
@@ -31,7 +31,7 @@ if (!file_exists(SITE_DIR . 'language/lang_' . $language . '/lang_admin_attach.p
 	$language = $attach_config['board_lang'];
 }
 
-include(SITE_DIR . 'language/lang_' . $language . '/lang_admin_attach.php');
+require SITE_DIR . 'language/lang_' . $language . '/lang_admin_attach.php';
 
 $start = request_var('start', 0);
 $sort_order = request_var('order', 'ASC');

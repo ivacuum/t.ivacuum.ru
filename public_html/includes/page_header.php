@@ -43,7 +43,7 @@ if (defined('SHOW_ONLINE') && SHOW_ONLINE)
 
 		if (!${$online_list} = $bb_cache->get($online_list))
 		{
-			require(SITE_DIR . 'includes/online_userlist.php');
+			require SITE_DIR . 'includes/online_userlist.php';
 		}
 /*	}*/
 

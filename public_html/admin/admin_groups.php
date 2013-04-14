@@ -6,10 +6,10 @@ if (!empty($setmodules))
 	$module['Groups']['Manage'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
-require(SITE_DIR . 'includes/functions_group.php');
+require SITE_DIR . 'includes/functions_group.php';
 
 $group_id = (@$_REQUEST[POST_GROUPS_URL]) ? intval($_REQUEST[POST_GROUPS_URL]) : 0;
 $mode     = (@$_REQUEST['mode']) ? strval($_REQUEST['mode']) : '';

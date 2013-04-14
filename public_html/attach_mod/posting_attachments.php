@@ -564,7 +564,7 @@ class attach_parent
 						//bt
 						if ($this->attachment_extension_list[$actual_element] === TORRENT_EXT && $attachments[$actual_element]['tracker_status'])
 						{
-							include_once(SITE_DIR . 'includes/functions_torrent.php');
+							require_once SITE_DIR . 'includes/functions_torrent.php';
 							tracker_unregister($attachment_id);
 						}
 						//bt end

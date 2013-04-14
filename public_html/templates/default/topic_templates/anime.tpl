@@ -1,4 +1,4 @@
-<?php require($GLOBALS['bb_cfg']['topic_tpl']['header']); ?>
+<?php require $GLOBALS['bb_cfg']['topic_tpl']['header']; ?>
 
 <h1 class="maintitle"><a href="{U_VIEW_FORUM}">{FORUM_NAME}</a></h1>
 
@@ -8,7 +8,7 @@
 	<div class="clear"></div>
 </div>
 
-<?php require($GLOBALS['bb_cfg']['topic_tpl']['shared_header']); ?>
+<?php require $GLOBALS['bb_cfg']['topic_tpl']['shared_header']; ?>
 
 <div style="display: none;">
 <form id="tpl-post-form" method="post" action="{S_ACTION}" name="post" class="tokenized">
@@ -44,7 +44,7 @@
 </table>
 </div>
 
-<?php require($GLOBALS['bb_cfg']['topic_tpl']['shared_footer']); ?>
+<?php require $GLOBALS['bb_cfg']['topic_tpl']['shared_footer']; ?>
 
 <div style="display: none;">
 	<!-- исходные значения всех #tpl-src -->

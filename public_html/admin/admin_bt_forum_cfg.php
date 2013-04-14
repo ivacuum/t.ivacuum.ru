@@ -6,14 +6,14 @@ if (!empty($setmodules))
 	$module['TorrentPier']['Forum_Config'] = basename(__FILE__);
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
 $max_forum_name_len = 30;
 $max_forum_rows     = 35;
 
-require(SITE_DIR . 'includes/functions_admin_torrent.php');
-require(LANG_DIR .'lang_admin_bt.php');
+require SITE_DIR . 'includes/functions_admin_torrent.php';
+require LANG_DIR .'lang_admin_bt.php';
 
 $submit  = isset($_POST['submit']);
 $confirm = isset($_POST['confirm']);

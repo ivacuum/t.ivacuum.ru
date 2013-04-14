@@ -46,7 +46,7 @@ if ( isset($_POST['submit']) )
 				message_die(GENERAL_ERROR, 'Could not update new password information', '', __LINE__, __FILE__, $sql);
 			}
 
-			include(SITE_DIR . 'includes/emailer.php');
+			require SITE_DIR . 'includes/emailer.php';
 			$emailer = new emailer($board_config['smtp_delivery']);
 
 			$emailer->from($board_config['board_email']);

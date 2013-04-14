@@ -9,7 +9,7 @@ if (!empty($setmodules))
 	$module['Attachments']['Quota_limits'] = $filename . '?mode=quota';
 	return;
 }
-require('./pagestart.php');
+require './pagestart.php';
 // ACP Header - END
 
 $error = false;
@@ -30,7 +30,7 @@ else
 	$upload_dir = $attach_config['download_path'];
 }
 
-include(SITE_DIR . 'attach_mod/includes/functions_selects.php');
+require SITE_DIR . 'attach_mod/includes/functions_selects.php';
 
 // Check if the language got included
 if (!isset($lang['Test_settings_successful']))

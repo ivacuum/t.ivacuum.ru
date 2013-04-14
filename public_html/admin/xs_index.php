@@ -1,6 +1,6 @@
 <?php
 
-require('./pagestart.php');
+require './pagestart.php';
 
 // check if mod is installed
 if(empty($template->xs_version) || $template->xs_version !== 8)
@@ -9,7 +9,7 @@ if(empty($template->xs_version) || $template->xs_version !== 8)
 }
 
 define('IN_XS', true);
-include_once('xs_include.php');
+require_once 'xs_include.php';
 
 if(isset($_GET['showwarning']))
 {
