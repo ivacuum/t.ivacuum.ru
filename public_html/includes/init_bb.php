@@ -148,6 +148,12 @@ function bb_exit($output = '')
 
 	if ($app['profiler']->is_enabled() && $app['profiler']->is_permitted() && !$app['request']->is_ajax && !defined('IN_SQL_ERROR'))
 	{
+		$app['template']->add_filter('declension', [$app['user'], 'plural'])
+			->add_filter('duration', [$app['user'], 'create_time'])
+			->add_filter('humn_size', [$app['user'], 'humn_size'])
+			->add_filter('i18n', [$app['user'], 'lang'])
+			->add_filter('number_format', [$app['user'], 'num_format']);
+
 		$app['user']->load_language('profiler');
 		$app['template']->assign($app['profiler']->get_stats());
 		$app['template']->display('profiler.html');
