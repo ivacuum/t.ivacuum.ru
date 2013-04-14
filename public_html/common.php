@@ -4,10 +4,7 @@
 * @copyright (c) 2013
 */
 
-if (!defined('SITE_DIR'))
-{
-	define('SITE_DIR', __DIR__ . '/');
-}
+require '../bootstrap.php';
 require SITE_DIR . 'includes/profiler.php';
 $profiler = new profiler();
 
