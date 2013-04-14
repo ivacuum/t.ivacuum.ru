@@ -226,33 +226,20 @@ function make_url($path)
 require SITE_DIR . 'includes/functions.php';
 require SITE_DIR . 'includes/sessions.php';
 require SITE_DIR . 'includes/template.php';
+require SITE_DIR . 'includes/db/mysql.php';
 
-if( $_SERVER['REMOTE_ADDR'] == '192.168.1.1' )
-{
-	require SITE_DIR . 'includes/db/mysqli.php';
-
-	$db = new db_mysqli();
-
-	/* Подключение к БД */
-	$db->connect('localhost', $dbuser, $dbpasswd, $dbname, false, $dbsock);
-}
-else
-{
-	require SITE_DIR . 'includes/db/mysql.php';
-
-	// Make the database connection.
-	$db = new sql_db(array(
-		'dbms'      => $dbms,
-		'dbhost'    => $dbhost,
-		'dbname'    => $dbname,
-		'dbuser'    => $dbuser,
-		'dbpasswd'  => $dbpasswd,
-		'charset'   => $dbcharset,
-		'collation' => $dbcollation,
-		'persist'   => $pconnect,
-	));
-	unset($dbpasswd);
-}
+// Make the database connection.
+$db = new sql_db(array(
+	'dbms'      => $dbms,
+	'dbhost'    => $dbhost,
+	'dbname'    => $dbname,
+	'dbuser'    => $dbuser,
+	'dbpasswd'  => $dbpasswd,
+	'charset'   => $dbcharset,
+	'collation' => $dbcollation,
+	'persist'   => $pconnect,
+));
+unset($dbpasswd);
 
 // Setup forum wide options
 $board_config =& $bb_cfg;
