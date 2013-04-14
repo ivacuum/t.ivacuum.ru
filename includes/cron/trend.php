@@ -24,8 +24,8 @@ class trend extends task
 		$result = $this->db->query($sql);
 		$row = $this->db->fetchrow($result);
 		$this->db->freeresult($result);
-		$download = $row['total_download'];
-		$upload = $row['total_upload'];
+		$download = (int) $row['total_download'];
+		$upload = (int) $row['total_upload'];
 		$total_dl_ul = $row['total_download'] * 2;
 
 		$sql = '
@@ -36,7 +36,7 @@ class trend extends task
 			WHERE
 				seeder = 1';
 		$result = $this->db->query($sql);
-		$active_seeders = $this->db->fetchfield('seeders', false, $result);
+		$active_seeders = (int) $this->db->fetchfield('seeders', false, $result);
 		$this->db->freeresult($result);
 
 		$sql = '
@@ -47,7 +47,7 @@ class trend extends task
 			WHERE
 				seeder = 0';
 		$result = $this->db->query($sql);
-		$active_leechers = $this->db->fetchrow('leechers', false, $result);
+		$active_leechers = (int) $this->db->fetchfield('leechers', false, $result);
 		$this->db->freeresult($result);
 
 		$sql = '
@@ -56,7 +56,7 @@ class trend extends task
 			FROM
 				bb_bt_tracker';
 		$result = $this->db->query($sql);
-		$peers = $this->db->fetchrow('peers', false, $result);
+		$peers = (int) $this->db->fetchfield('peers', false, $result);
 		$this->db->freeresult($result);
 
 		$sql = '
@@ -81,8 +81,8 @@ class trend extends task
 		$result = $this->db->query($sql);
 		$row = $this->db->fetchrow($result);
 		$this->db->freeresult($result);
-		$active_tor = $row['torrents'];
-		$active_tor_size = $row['size'];
+		$active_tor = (int) $row['torrents'];
+		$active_tor_size = (int) $row['size'];
 
 		$sql = '
 			SELECT
@@ -93,8 +93,8 @@ class trend extends task
 		$result = $this->db->query($sql);
 		$row = $this->db->fetchrow($result);
 		$this->db->freeresult($result);
-		$all_tor = $row['torrents'];
-		$all_tor_size = $row['size'];
+		$all_tor = (int) $row['torrents'];
+		$all_tor_size = (int) $row['size'];
 
 		$sql = '
 			SELECT
@@ -102,7 +102,7 @@ class trend extends task
 			FROM
 				bb_posts';
 		$result = $this->db->query($sql);
-		$posts = $this->db->fetchfield('posts', false, $result);
+		$posts = (int) $this->db->fetchfield('posts', false, $result);
 		$this->db->freeresult($result);
 
 		$sql = '
@@ -113,7 +113,7 @@ class trend extends task
 			WHERE
 				user_id > 0';
 		$result = $this->db->query($sql);
-		$users = $this->db->fetchfield('users', false, $result);
+		$users = (int) $this->db->fetchfield('users', false, $result);
 		$this->db->freeresult($result);
 
 		$sql = '
@@ -126,7 +126,7 @@ class trend extends task
 			WHERE
 				s.session_time > ?';
 		$result = $this->db->query($sql, [$this->ctime - 300]);
-		$users_online = $this->db->fetchfield('users_online', false, $result);
+		$users_online = (int) $this->db->fetchfield('users_online', false, $result);
 		$this->db->freeresult($result);
 
 		$sql = '
@@ -137,7 +137,7 @@ class trend extends task
 			WHERE
 				user_session_time >= ?';
 		$result = $this->db->query($sql, [strtotime(date('Y-m-d'))]);
-		$visitors = $this->db->fetchfield('visitors', false, $result);
+		$visitors = (int) $this->db->fetchfield('visitors', false, $result);
 		$this->db->freeresult($result);
 		
 		$sql_ary = [
