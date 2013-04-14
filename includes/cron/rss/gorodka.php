@@ -20,7 +20,7 @@ class gorodka extends rss
 			return false;
 		}
 		
-		$data = array();
+		$data = [];
 		$n    = 0;
 
 		foreach ($xml->channel->item as $entry)
@@ -30,15 +30,15 @@ class gorodka extends rss
 				break;
 			}
 			
-			$text = (string) str_replace(array("\n", "\r", "\t", '  '), ' ', trim(strip_tags($entry->description)));
+			$text = (string) str_replace(["\n", "\r", "\t", '  '], ' ', trim(strip_tags($entry->description)));
 			$text = mb_strlen($text) > 200 ? mb_substr($text, 0, 200) . '...' : $text;
 			
-			$data[] = array(
+			$data[] = [
 				'link'  => (string) $entry->link,
 				'text'  => $text,
 				'time'  => (int) strtotime($entry->pubDate),
-				'title' => (string) $entry->title
-			);
+				'title' => (string) $entry->title,
+			];
 			
 			$n++;
 		}

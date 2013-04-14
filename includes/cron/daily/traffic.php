@@ -34,6 +34,7 @@ class daily_traffic extends task
 				timebonus_spent_today = 0,
 				daily_bonus_granted = 0';
 		$this->db->query($sql);
+		$this->log("Затронуто пользователей: " . $this->db->affected_rows());
 		
 		return true;
 	}

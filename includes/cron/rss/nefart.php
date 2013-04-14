@@ -20,7 +20,7 @@ class nefart extends rss
 			return false;
 		}
 		
-		$data = array();
+		$data = [];
 		$n    = 0;
 
 		foreach ($xml->channel->item as $entry)
@@ -30,12 +30,12 @@ class nefart extends rss
 				break;
 			}
 
-			$data[] = array(
+			$data[] = [
 				'link'  => (string) $entry->link,
 				'text'  => (string) $entry->description,
 				'time'  => (int) strtotime($entry->pubDate),
-				'title' => (string) $entry->title
-			);
+				'title' => (string) $entry->title,
+			];
 
 			$n++;
 		}

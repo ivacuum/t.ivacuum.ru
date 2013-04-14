@@ -20,16 +20,16 @@ class bash extends rss
 			return false;
 		}
 		
-		$data = array();
+		$data = [];
 
 		foreach ($xml->channel->item as $entry)
 		{
-			$data[] = array(
+			$data[] = [
 				'link'  => (string) $entry->link,
 				'text'  => (string) $entry->description,
 				'time'  => (int) strtotime($entry->pubDate),
-				'title' => (string) $entry->title
-			);
+				'title' => (string) $entry->title,
+			];
 		}
 
 		$this->cache->set('rss_bash.im', $data);

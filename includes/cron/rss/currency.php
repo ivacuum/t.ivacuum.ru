@@ -20,15 +20,15 @@ class currency extends rss
 			return false;
 		}
 		
-		$data = array();
+		$data = [];
 		
 		foreach ($xml->Valute as $entry)
 		{
-			$data[(string) $entry->CharCode] = array(
+			$data[(string) $entry->CharCode] = [
 				'name'    => (string) $entry->Name,
 				'nominal' => (int) $entry->Nominal,
-				'value'   => (string) $entry->Value
-			);
+				'value'   => (string) $entry->Value,
+			];
 		}
 
 		$this->cache->set('rss_currency', $data);

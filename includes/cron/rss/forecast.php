@@ -20,7 +20,7 @@ class forecast extends rss
 			return false;
 		}
 		
-		$data = array();
+		$data = [];
 
 		foreach ($xml->REPORT->TOWN->FORECAST as $entry)
 		{
@@ -57,49 +57,7 @@ class forecast extends rss
 				default: $tod = ''; break;
 			}
 
-			$icon = 'weather';
-
-			if ($precipitation == 'дождь' || $precipitation == 'ливень')
-			{
-				$icon = 'weather_rain';
-			}
-			elseif ($precipitation == 'гроза')
-			{
-				$icon = 'weather_lightning';
-			}
-			elseif ($precipitation == 'снег')
-			{
-				$icon = 'weather_snow';
-			}
-			else
-			{
-				if ($tod == 'ночь')
-				{
-					if ($cloudiness == 'ясно')
-					{
-						$icon = 'weather_moon';
-					}
-					else
-					{
-						$icon = 'weather_moon_clouds';
-					}
-				}
-				else
-				{
-					if ($cloudiness == 'малооблачно')
-					{
-						$icon = 'weather_cloudy';
-					}
-					elseif ($cloudiness == 'облачно')
-					{
-						$icon = 'weather_cloud';
-					}
-					elseif ($cloudiness == 'пасмурно')
-					{
-						$icon = 'weather_clouds';
-					}
-				}
-			}
+			$icon = $this->get_icon($precipitation, $tod, $cloudiness);
 
 			switch ((int) $entry->WIND['direction'])
 			{
@@ -165,7 +123,7 @@ class forecast extends rss
 				default: $month = ''; break;
 			}
 
-			$data[] = array(
+			$data[] = [
 				'cloudiness'    => $cloudiness,
 				'day'           => (int) $entry['day'],
 				'icon'          => $icon,
@@ -181,12 +139,59 @@ class forecast extends rss
 				'wet'           => intval(((int) $entry->RELWET['min'] + (int) $entry->RELWET['max']) / 2),
 				'wind'          => intval(((int) $entry->WIND['min'] + (int) $entry->WIND['max']) / 2),
 				'winddeg'       => $winddeg,
-				'winddir'       => $winddir
-			);
+				'winddir'       => $winddir,
+			];
 		}
 
 		$this->cache->set('rss_forecast', $data);
 		
 		return true;
+	}
+	
+	protected function get_icon($precipitation, $tod, $cloudiness)
+	{
+		if ($precipitation == 'дождь' || $precipitation == 'ливень')
+		{
+			return 'weather_rain';
+		}
+		elseif ($precipitation == 'гроза')
+		{
+			return 'weather_lightning';
+		}
+		elseif ($precipitation == 'снег')
+		{
+			return 'weather_snow';
+		}
+		else
+		{
+			if ($tod == 'ночь')
+			{
+				if ($cloudiness == 'ясно')
+				{
+					return 'weather_moon';
+				}
+				else
+				{
+					return 'weather_moon_clouds';
+				}
+			}
+			else
+			{
+				if ($cloudiness == 'малооблачно')
+				{
+					return 'weather_cloudy';
+				}
+				elseif ($cloudiness == 'облачно')
+				{
+					return 'weather_cloud';
+				}
+				elseif ($cloudiness == 'пасмурно')
+				{
+					return 'weather_clouds';
+				}
+			}
+		}
+		
+		return 'weather';
 	}
 }

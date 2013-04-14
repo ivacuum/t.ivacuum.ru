@@ -20,7 +20,7 @@ class horoscope extends rss
 			return false;
 		}
 		
-		$data = array();
+		$data = [];
 		$i    = 0;
 
 		foreach ($xml->channel->item as $entry)
@@ -43,13 +43,13 @@ class horoscope extends rss
 				default: $icon = '';
 			}
 			
-			$data[] = array(
+			$data[] = [
 				'icon'  => $icon,
 				'link'  => (string) $entry->link,
 				'text'  => (string) $entry->description,
 				'time'  => 0,
-				'title' => (string) $entry->title
-			);
+				'title' => (string) $entry->title,
+			];
 
 			$i++;
 		}
