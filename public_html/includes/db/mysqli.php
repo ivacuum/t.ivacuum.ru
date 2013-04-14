@@ -133,7 +133,7 @@ class db_mysqli
 	*/
 	function query($query = '')
 	{
-		global $profiler;
+		global $app;
 
 		if( is_array($query) )
 		{
@@ -154,7 +154,7 @@ class db_mysqli
 				}
 			}
 
-			$profiler->log_query($query, microtime(true) - $start_time);
+			$app['profiler']->log_query($query, $start_time);
 		}
 		else
 		{

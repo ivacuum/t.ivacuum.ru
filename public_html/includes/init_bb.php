@@ -144,16 +144,18 @@ function send_no_cache_headers()
 
 function bb_exit($output = '')
 {
-	global $profiler;
+	global $app;
 
-	if( $_SERVER['REMOTE_ADDR'] == '192.168.1.1' )
+	if ($app['profiler']->is_enabled() && $app['profiler']->is_permitted() && !$app['request']->is_ajax && !defined('IN_SQL_ERROR'))
 	{
-		// $profiler->display();
+		$app['user']->load_language('profiler');
+		$app['template']->assign($app['profiler']->get_stats());
+		$app['template']->display('profiler.html');
 	}
+	
+	// $app['profiler']->send_stats($app['request']->hostname, $app['request']->url);
 
-	// $profiler->send_stats('10.171.5.156', 2780);
-
-	if( $output )
+	if ($output)
 	{
 		echo $output;
 	}

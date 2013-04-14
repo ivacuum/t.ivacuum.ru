@@ -117,7 +117,7 @@ class sql_db
 	*/
 	function sql_query ($query, $type = DEFAULT_QUERY_TYPE)
 	{
-		global $profiler;
+		global $app;
 
 		if (!is_resource($this->link))
 		{
@@ -131,24 +131,14 @@ class sql_db
 		$this->debug('start');
 
 		$query_function = ($type === 'unbuffered') ? 'mysql_unbuffered_query' : 'mysql_query';
-
-		if( !empty($profiler) )
-		{
-			$start_time = explode(' ', microtime());
-			$start_time = $start_time[1] + $start_time[0];
-			// $profiler->log_speed('Запрос #' . $this->total_queries);
-		}
+		$start_time = microtime(true);
 
 		if (!$this->result = $query_function($query, $this->link))
 		{
 			$this->log_error();
 		}
 
-		if( !empty($profiler) )
-		{
-			$time = explode(' ', microtime());
-			$profiler->log_query($query, $time[1] + $time[0] - $start_time);
-		}
+		$app['profiler']->log_query($query, $start_time);
 
 		$this->debug('stop');
 		$this->cur_query = null;

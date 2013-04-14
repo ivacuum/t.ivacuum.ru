@@ -5,8 +5,6 @@
 */
 
 require '../bootstrap.php';
-require SITE_DIR . 'includes/profiler.php';
-$profiler = new profiler();
 
 define('TIMESTART', microtime(true));
 define('TIMENOW', time());
