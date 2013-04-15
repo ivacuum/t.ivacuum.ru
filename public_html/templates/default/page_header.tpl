@@ -443,7 +443,8 @@ var display_forecast = 'none';
 <tr><td>{L_UPLOADED}</td><td class="seedmed"><b>{UP_TOTAL}</b></td></tr>
 <tr><td><i>{L_RELEASED}</i></td><td class="seedmed">{RELEASED}</td></tr>
 <tr><td><i>{L_BT_BONUS_UP}</i></td><td class="seedmed">{UP_BONUS}</td></tr>
-<tr><td><i>торренты</i></td><td class="med"><img src="{STATIC_PATH}/i/tracker/icon_up.gif" alt="" style="vertical-align: text-top;"> {USER_SEEDING} &nbsp;<img src="{STATIC_PATH}/i/tracker/icon_down.gif" alt="" style="vertical-align: text-top;"> {USER_LEECHING}</td></tr>
+<tr><td>таймбонусы</td><td class="seedmed">{TIMEBONUS}</td></tr>
+<tr><td>торренты</td><td class="med"><img src="{STATIC_PATH}/i/tracker/icon_up.gif" alt="" style="vertical-align: text-top;"> {USER_SEEDING} &nbsp;<img src="{STATIC_PATH}/i/tracker/icon_down.gif" alt="" style="vertical-align: text-top;"> {USER_LEECHING}</td></tr>
 </table>
 </div>
 </div>
