@@ -54,7 +54,7 @@ switch( $mode )
 
 		$select_what = 'trend_peers, trend_time * 1000 AS date';
 		
-		// if( false !== $trend_peers = $bb_cache->get('trend_peers') )
+		// if( false !== $trend_peers = $app['cache']->get('trend_peers') )
 		// {
 		// 	$template->assign_vars(array(
 		// 		'TREND_PEERS' => $trend_peers
@@ -137,7 +137,7 @@ $db->sql_freeresult($result);
 
 $trend_peers = substr($trend_peers, 1);
 
-$bb_cache->set('trend_peers', $trend_peers, 1440);
+$app['cache']->set('trend_peers', $trend_peers, 1440);
 
 if( $points_count == 31 )
 {

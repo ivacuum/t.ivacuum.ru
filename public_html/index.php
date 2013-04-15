@@ -386,7 +386,7 @@ $template->assign_vars(array(
 	'U_TOP_SPEED' => append_sid('top_speed.php'))
 );
 
-$forecast = $bb_cache->get('rss_forecast');
+$forecast = $app['cache']->get('rss_forecast');
 
 if( !empty($forecast) )
 {
@@ -396,7 +396,7 @@ if( !empty($forecast) )
 	}
 }
 
-$currency = $bb_cache->get('rss_currency');
+$currency = $app['cache']->get('rss_currency');
 
 if( !empty($currency) )
 {
@@ -410,7 +410,7 @@ if( !empty($currency) )
 /**
 * Афиша "Синема Стар"
 */
-$afisha = array();// $bb_cache->get('rss_cinemastar');
+$afisha = array();// $app['cache']->get('rss_cinemastar');
 
 if( !empty($afisha) )
 {
@@ -438,7 +438,7 @@ $template->assign_vars(array(
 /**
 * Новости Калуги
 */
-$city_news = $bb_cache->get('rss_gorodka.ru');
+$city_news = $app['cache']->get('rss_gorodka.ru');
 
 if( !empty($city_news) )
 {

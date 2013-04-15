@@ -317,7 +317,7 @@ $tor_list_sql = '';
 
 if( $search_id )
 {
-	$row = $bb_cache->get(sprintf('search_%d_%s', SEARCH_TYPE_TRACKER, $session_id));
+	$row = $app['cache']->get(sprintf('search_%d_%s', SEARCH_TYPE_TRACKER, $session_id));
 
 	if( !$row || $row['search_id'] != $search_id )
 	{
@@ -575,7 +575,7 @@ if ($allowed_forums)
 		/* Иначе берем кэшированный список 500 последних раздач */
 		if( $empty_request )
 		{
-			$tor_list_ary = $bb_cache->get('tracker_last');
+			$tor_list_ary = $app['cache']->get('tracker_last');
 		}
 
 		if( empty($tor_list_ary) && $bb_cfg['sphinx']['enabled'] )
@@ -656,7 +656,7 @@ if ($allowed_forums)
 
 			if( $empty_request )
 			{
-				$bb_cache->set('tracker_last', $tor_list_ary, 300);
+				$app['cache']->set('tracker_last', $tor_list_ary, 300);
 			}
 
 			if( $title_match_q && $userdata['user_id'] != 2 )
@@ -757,7 +757,7 @@ if ($allowed_forums)
 
 			if( $empty_request )
 			{
-				$bb_cache->set('tracker_last', $tor_list_ary, 300);
+				$app['cache']->set('tracker_last', $tor_list_ary, 300);
 			}
 
 			if( $title_match_q )
@@ -788,7 +788,7 @@ if ($allowed_forums)
 			$search_id = make_rand_str(SEARCH_ID_LENGTH);
 			$search_type = SEARCH_TYPE_TRACKER;
 
-			$bb_cache->set(sprintf('search_%d_%s', SEARCH_TYPE_TRACKER, $session_id), array(
+			$app['cache']->set(sprintf('search_%d_%s', SEARCH_TYPE_TRACKER, $session_id), array(
 				'search_id'       => $search_id,
 				'search_settings' => $curr_set_sph,
 				'search_array'    => $tor_list_sql

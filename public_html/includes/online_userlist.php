@@ -189,5 +189,5 @@ $online['cnt'] = $online_short['cnt'] = <<<HTML
 ]
 HTML;
 
-$bb_cache->set('online', $online, 60);
-$bb_cache->set('online_short', $online_short, 60);
+$app['cache']->set('online', $online, 60);
+$app['cache']->set('online_short', $online_short, 60);

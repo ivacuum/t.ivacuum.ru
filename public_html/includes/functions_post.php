@@ -135,7 +135,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$smilies_on, &$error_ms
 //
 function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_id, &$post_id, &$poll_id, &$topic_type, &$bbcode_on, &$smilies_on, &$attach_sig, &$bbcode_uid, $post_username, $post_subject, $post_message, $poll_title, &$poll_options, &$poll_length, $update_post_time)
 {
-	global $bb_cache, $bb_cfg, $lang, $db;
+	global $app, $bb_cfg, $lang, $db;
 	global $userdata, $post_info, $is_auth;
 
 	$current_time = time();
@@ -246,7 +246,7 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 	// 	'bbcode_uid'     => $bbcode_uid,
 	// 	'enable_smilies' => $smilies_on,
 	// ));
-	$bb_cache->rm('post_html_' . $post_id);
+	$app['cache']->delete("post_html_{$post_id}");
 
 	//
 	// Add poll

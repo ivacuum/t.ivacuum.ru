@@ -9,7 +9,7 @@ if (!defined('SITE_DIR'))
 
 if (defined('PAGE_HEADER_SENT')) return;
 
-global $page_cfg, $db, $bb_cache, $userdata, $user, $ads, $bb_cfg, $template, $lang, $images, $static_path;
+global $app, $page_cfg, $db, $userdata, $user, $ads, $bb_cfg, $template, $lang, $images, $static_path;
 
 $logged_in = (int) !empty($userdata['session_logged_in']);
 $is_admin  = ($logged_in && IS_ADMIN);
@@ -41,7 +41,7 @@ if (defined('SHOW_ONLINE') && SHOW_ONLINE)
 	{*/
 		$template->assign_var('SHOW_ONLINE_LIST');
 
-		if (!${$online_list} = $bb_cache->get($online_list))
+		if (!${$online_list} = $app['cache']->get($online_list))
 		{
 			require SITE_DIR . 'includes/online_userlist.php';
 		}

@@ -675,9 +675,9 @@ class sql_db
 	*/
 	function expect_slow_query ($ignoring_time = 60, $new_priority = 10)
 	{
-		global $bb_cache;
+		global $app;
 
-		if ($old_priority = $bb_cache->get('dont_log_slow_query'))
+		if ($old_priority = $app['cache']->get('dont_log_slow_query'))
 		{
 			if ($old_priority > $new_priority)
 			{
@@ -686,7 +686,7 @@ class sql_db
 		}
 
 		@define('IN_FIRST_SLOW_QUERY', true);
-		$bb_cache->set('dont_log_slow_query', $new_priority, $ignoring_time);
+		$app['cache']->set('dont_log_slow_query', $new_priority, $ignoring_time);
 	}
 
 	/**

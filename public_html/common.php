@@ -28,18 +28,6 @@ define('ANONYMOUS', -1);
 
 require SITE_DIR . 'includes/cache.php';
 
-switch ($bb_cfg['bb_cache_type'])
-{
-	case 'memcached':
-
-		$bb_cache = new cache_memcached($bb_cfg['memcached']);
-
-	break;
-	default:
-
-		$bb_cache = new cache_common();
-}
-
 function bb_log($msg, $file_name)
 {
 	if( is_array($msg) )

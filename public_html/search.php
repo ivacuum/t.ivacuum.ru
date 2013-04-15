@@ -288,7 +288,7 @@ $datastore->rm('cat_forums');
 // Restore previously found items list and search settings if we have valid $search_id
 if( $search_id )
 {
-	$row = $bb_cache->get(sprintf('search_%d_%s', SEARCH_TYPE_POST, $session_id));
+	$row = $app['cache']->get(sprintf('search_%d_%s', SEARCH_TYPE_POST, $session_id));
 
 	if( !$row || $row['search_id'] != $search_id )
 	{
@@ -772,7 +772,7 @@ redirect(basename(__FILE__));
 //
 function fetch_search_ids($sql, $search_type = SEARCH_TYPE_POST, $redirect_to_result = UA_IE)
 {
-	global $bb_cache, $db, $lang, $search_id, $session_id;
+	global $app, $db, $lang, $search_id, $session_id;
 	global $items_found, $per_page;
 
 	$items_found = array();
@@ -816,7 +816,7 @@ function fetch_search_ids($sql, $search_type = SEARCH_TYPE_POST, $redirect_to_re
 
 		// $db->query("REPLACE INTO bb_search_results ($columns) VALUES ($values)");
 
-		$bb_cache->set(sprintf('search_%d_%s', SEARCH_TYPE_POST, $session_id), array(
+		$app['cache']->set(sprintf('search_%d_%s', SEARCH_TYPE_POST, $session_id), array(
 			'search_id'       => $search_id,
 			'search_settings' => serialize($curr_set),
 			'search_array'    => $search_array

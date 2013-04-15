@@ -29,4 +29,4 @@ if( $online > $bb_cfg['maximum_visitors'] )
 	);
 }
 
-$bb_cache->rm('config_bb_config');
+$app['cache']->delete('config_bb_config');

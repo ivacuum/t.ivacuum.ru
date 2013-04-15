@@ -903,9 +903,9 @@ function smilies_pass($message)
 // last version: http://trac.torrentpier.com/trac/browser/torrentpier/trunk/forum/includes/bbcode.php?rev=559#L868
 function get_parsed_post ($postrow, $mode = 'full', $return_chars = 600)
 {
-	global $bb_cache, $bb_cfg, $db;
+	global $app, $bb_cfg, $db;
 
-	if( $bb_cfg['use_posts_cache'] && false != $post_html = $bb_cache->get('post_html_' . $postrow['post_id']) )
+	if( $bb_cfg['use_posts_cache'] && false != $post_html = $app['cache']->get("post_html_{$postrow['post_id']}") )
 	{
 		return $post_html;
 	}
@@ -930,7 +930,7 @@ function get_parsed_post ($postrow, $mode = 'full', $return_chars = 600)
 	// Posts cache
 	if ($bb_cfg['use_posts_cache'])
 	{
-		$bb_cache->set('post_html_' . $postrow['post_id'], $message, $bb_cfg['posts_cache_days_keep'] * 86400);
+		$app['cache']->set("post_html_{$postrow['post_id']}", $message, $bb_cfg['posts_cache_days_keep'] * 86400);
 	}
 
 	return $message;

@@ -1431,9 +1431,9 @@ function get_attachments_dir($cfg = null)
 
 function bb_get_config($table, $from_db = false, $update_cache = true)
 {
-	global $db, $bb_cache;
+	global $app, $db;
 
-	if( $from_db or !$cfg = $bb_cache->get("config_{$table}") )
+	if( $from_db or !$cfg = $app['cache']->get("config_{$table}") )
 	{
 		$cfg = array();
 
@@ -1444,7 +1444,7 @@ function bb_get_config($table, $from_db = false, $update_cache = true)
 
 		if( $update_cache )
 		{
-			$bb_cache->set("config_{$table}", $cfg);
+			$app['cache']->set("config_{$table}", $cfg);
 		}
 	}
 
@@ -1453,7 +1453,7 @@ function bb_get_config($table, $from_db = false, $update_cache = true)
 
 function bb_update_config($params, $table = 'bb_config')
 {
-	global $db, $bb_cache;
+	global $db;
 
 	$updates = array();
 
@@ -1607,7 +1607,7 @@ function phpbb_rtrim($str, $charlist = false)
 //
 function get_userdata($u, $force_name = false, $allow_anon = false)
 {
-	global $db, $bb_cache;
+	global $app, $db;
 
 	if( !$u )
 	{
@@ -1616,7 +1616,7 @@ function get_userdata($u, $force_name = false, $allow_anon = false)
 
 	if( intval($u) == ANONYMOUS && $allow_anon )
 	{
-		if( $userdata = $bb_cache->get('anonymous_userdata') )
+		if( $userdata = $app['cache']->get('anonymous_userdata') )
 		{
 			return $userdata;
 		}
@@ -1650,7 +1650,7 @@ function get_userdata($u, $force_name = false, $allow_anon = false)
 
 	if( $userdata['user_id'] == ANONYMOUS )
 	{
-		$bb_cache->set('anonymous_userdata', $userdata);
+		$app['cache']->set('anonymous_userdata', $userdata);
 	}
 
 	return $userdata;
