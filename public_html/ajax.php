@@ -199,14 +199,6 @@ class ajax_common
 	*/
 	function ob_handler($contents)
 	{
-		if (DBG_USER)
-		{
-			if ($contents)
-			{
-				$this->response['raw_output'] = $contents;
-			}
-		}
-
 		return json_encode($this->response);
 	}
 
@@ -333,7 +325,7 @@ class ajax_common
 	*/
 	function chat_message()
 	{
-		global $bb_cache, $bb_cfg, $db, $static_path, $userdata;
+		global $bb_cfg, $db, $static_path, $userdata;
 
 		$message = isset($this->request['message']) ? (string) $this->request['message'] : '';
 

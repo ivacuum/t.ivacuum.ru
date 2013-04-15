@@ -515,7 +515,6 @@ class user_common
 			$delete_cookies = array(
 				COOKIE_DATA,
 				COOKIE_LOAD,
-				COOKIE_DBG,
 				COOKIE_TEST,
 				'torhelp',
 				'phpbb2mysql_data',
@@ -561,10 +560,6 @@ class user_common
 				{
 					bb_setcookie(COOKIE_LOAD, $c_isl_curr);
 				}
-			}
-			if (isset($bb_cfg['dbg_users'][$this->data['user_id']]) && !isset($_COOKIE[COOKIE_DBG]))
-			{
-				bb_setcookie(COOKIE_DBG, 1, COOKIE_SESSION);
 			}
 		}
 	}

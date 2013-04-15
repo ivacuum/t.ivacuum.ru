@@ -108,13 +108,6 @@ function bb_setcookie($name, $val, $lifetime = COOKIE_PERSIST, $httponly = false
 	return setcookie($name, $val, $lifetime, $bb_cfg['cookie_path'], $bb_cfg['cookie_domain'], $bb_cfg['cookie_secure'], $httponly);
 }
 
-// Debug options
-if( DBG_USER )
-{
-	error_reporting(E_ALL);
-	ini_set('display_errors', 1);
-}
-
 if( !empty($banned_user_agents) )
 {
 	foreach( $banned_user_agents as $agent )
@@ -191,19 +184,6 @@ function prn_r($var, $title = '', $print = true)
 	}
 
 	return $r;
-}
-
-function prn()
-{
-	if( !DBG_USER )
-	{
-		return;
-	}
-
-	foreach( func_get_args() as $var )
-	{
-		prn_r($var);
-	}
 }
 
 function vdump($var, $title = '')

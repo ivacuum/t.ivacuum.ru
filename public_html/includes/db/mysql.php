@@ -41,7 +41,7 @@ class sql_db
 	*/
 	function sql_db ($cfg)
 	{
-		$this->dbg_enabled = (SQL_DEBUG && DBG_USER && (!empty($_COOKIE['sql_log']) || !empty($_COOKIE['explain'])));
+		$this->dbg_enabled = false;
 		$this->do_explain  = ($this->dbg_enabled && !empty($_COOKIE['explain']));
 		$this->pconnect    = $cfg['persist'];
 		$this->cfg         = $cfg;
@@ -80,8 +80,7 @@ class sql_db
 
 		if (!$link = @$connect_type($this->cfg['dbhost'], $this->cfg['dbuser'], $this->cfg['dbpasswd']))
 		{
-			$server = (DBG_USER) ? $this->cfg['dbhost'] : '';
-			die("Could not connect to the server $server");
+			die("Could not connect to the server");
 		}
 
 		register_shutdown_function(array(&$this, 'sql_close'));
@@ -102,8 +101,7 @@ class sql_db
 
 		if (!@mysql_select_db($this->cfg['dbname'], $this->link))
 		{
-			$database = (DBG_USER) ? $this->cfg['dbhost'] : '';
-			die("Could not select database $database");
+			die("Could not select database");
 		}
 
 		$this->debug('stop');

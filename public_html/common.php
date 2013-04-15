@@ -9,16 +9,11 @@ require '../bootstrap.php';
 define('TIMESTART', microtime(true));
 define('TIMENOW', time());
 
-date_default_timezone_set('Europe/Moscow');
-
 $s_provider  = isset($_SERVER['HTTP_PROVIDER']) ? $_SERVER['HTTP_PROVIDER'] : 'internet';
 $static_path = $s_provider == 'local' ? '//0.ivacuum.org' : '//ivacuum.org';
 
 // Get initial config
 require SITE_DIR . '../config_tracker.php';
-
-// Debug options
-define('DBG_USER', (isset($_COOKIE[COOKIE_DBG]) || DEBUG === true));
 
 // Board/Tracker shared constants and functions
 define('BT_AUTH_KEY_LENGTH', 10);
@@ -30,10 +25,6 @@ define('DL_STATUS_CANCEL',    3);
 define('DL_STATUS_WILL',      4);
 
 define('ANONYMOUS', -1);
-
-// Cache
-define('PEER_HASH_PREFIX',  'peer_');
-define('PEERS_LIST_PREFIX', 'peers_list_');
 
 require SITE_DIR . 'includes/cache.php';
 

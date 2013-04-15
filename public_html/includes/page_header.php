@@ -263,15 +263,6 @@ if (!empty($page_cfg['show_torhelp'][BB_SCRIPT]) && !empty($userdata['torhelp'])
 	}
 }
 
-/*if (DBG_USER)
-{
-	$template->assign_vars(array(
-		'INCLUDE_DEVELOP_JS' => true,
-		'EDITOR_PATH'        => @addslashes($bb_cfg['dbg']['editor_path']),
-		'EDITOR_ARGS'        => @addslashes($bb_cfg['dbg']['editor_args']),
-	));
-}*/
-
 // Ads
 if ($user->show_ads)
 {

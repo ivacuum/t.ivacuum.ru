@@ -78,14 +78,6 @@ if ($show_dbg_info)
 
 echo '
 	</div><!--/body_container-->
-';
-
-if (!empty($GLOBALS['timer_markers']) && DBG_USER)
-{
-	$GLOBALS['timer']->display();
-}
-
-echo '
 	</body>
 	</html>
 ';

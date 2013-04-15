@@ -275,19 +275,6 @@ function prn_r($var, $title = '', $print = true)
 	return $r;
 }
 
-function prn()
-{
-	if( !DBG_USER )
-	{
-		return;
-	}
-
-	foreach( func_get_args() as $var )
-	{
-		prn_r($var);
-	}
-}
-
 function vdump($var, $title = '')
 {
 	echo '<pre>'. (($title) ? "<b>$title</b>\n\n" : '');
