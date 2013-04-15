@@ -144,53 +144,6 @@ if ($bb_cfg['show_latest_news'] AND $news_forum_id = intval($bb_cfg['latest_news
 	$this->store('latest_news', $data);
 }
 
-// Store LastAdded
-if( $bb_cfg['t_last_added_num'] )
-{
-	$sql = '
-		SELECT
-			tr.topic_id,
-			tr.forum_id,
-			tr.attach_id,
-			tr.reg_time,
-			tr.seeders,
-			tr.leechers,
-			tr.speed_up + tr.speed_down AS speed_up,
-			t.topic_title,
-			f.forum_name,
-			f.forum_icon,
-			u.username,
-			u.user_id
-		FROM
-			bb_bt_torrents tr,
-			bb_topics t,
-			bb_forums f,
-			bb_users u
-		WHERE
-			tr.forum_id = f.forum_id
-		AND
-			tr.topic_id = t.topic_id
-		AND
-			tr.poster_id = u.user_id
-		ORDER BY
-			tr.reg_time DESC
-		LIMIT
-			0, ' . $bb_cfg['t_last_added_num'];
-	$data = $db->fetch_rowset($sql);
-	$this->store('last_added', $data);
-	/*
-			tr.forum_id NOT IN(' . $bb_cfg['archive_hide_forum'] . ',' . $bb_cfg['hide_forums'] . ')
-		AND
-	*/
-}
-/*
-		LEFT JOIN
-			bb_topics t ON tr.topic_id = t.topic_id
-		LEFT JOIN
-			bb_forums f ON tr.forum_id NOT IN (' . $bb_cfg['archive_hide_forum'] . ',' . $bb_cfg['hide_forums'] . ') AND tr.forum_id = f.forum_id
-		LEFT JOIN
-			bb_users u ON tr.poster_id = u.user_id
-*/
 // Store TopDownloaded
 if( $bb_cfg['t_top_downloaded'] )
 {

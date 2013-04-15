@@ -167,7 +167,6 @@ class datastore_common
 		'viewtopic_forum_select'  => 'build_cat_forums',
 		'latest_news'             => 'build_cat_forums',
 		'ads'                     => 'build_cat_forums',
-		'last_added'              => 'build_cat_forums',
 		'top_downloaded'          => 'build_cat_forums',
 		'top_leechers'            => 'build_cat_forums',
 		'top_seeders'             => 'build_cat_forums',

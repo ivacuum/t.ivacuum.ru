@@ -26,10 +26,6 @@ if( $bb_cfg['show_latest_news'] )
 {
 	$datastore->enqueue('latest_news');
 }
-if( $bb_cfg['t_last_added_num'] )
-{
-	$datastore->enqueue('last_added');
-}
 
 // Init userdata
 $user->session_start();
@@ -214,30 +210,57 @@ $template->assign_vars(array(
 */
 if( $bb_cfg['t_last_added_num'] )
 {
-	$template->assign_vars(array(
-		'LAST_ADDED_ON' => true)
-	);
-
-	$last_added = $datastore->get('last_added');
-	foreach( $last_added as $last_add )
+	$sql = '
+		SELECT
+			tr.topic_id,
+			tr.forum_id,
+			tr.attach_id,
+			tr.reg_time,
+			tr.seeders,
+			tr.leechers,
+			tr.speed_up + tr.speed_down AS speed_up,
+			t.topic_title,
+			f.forum_name,
+			f.forum_icon,
+			u.username,
+			u.user_id
+		FROM
+			bb_bt_torrents tr,
+			bb_topics t,
+			bb_forums f,
+			bb_users u
+		WHERE
+			tr.forum_id = f.forum_id
+		AND
+			tr.topic_id = t.topic_id
+		AND
+			tr.poster_id = u.user_id
+		ORDER BY
+			tr.reg_time DESC';
+	$app['db']->query_limit($sql, [], 20);
+	
+	while ($row = $app['db']->fetchrow())
 	{
-		$template->assign_block_vars('t_last_added', array(
-			'LEECHERS'    => $last_add['leechers'],
-			'SEEDERS'     => $last_add['seeders'],
-			'SPEED'       => ( $last_add['speed_up'] ) ? humn_size($last_add['speed_up']) . '/сек' : 0,
-			'SHORT_TITLE' => ( mb_strlen($last_add['topic_title']) >= 88 ) ? mb_substr($last_add['topic_title'], 0, 88) . '...' : $last_add['topic_title'],
-			'TIME'        => delta_time($last_add['reg_time']),
-			'IMAGE'       => ( $last_add['forum_icon'] ) ? $last_add['forum_icon'] : 'film',
-			'TITLE'       => $last_add['topic_title'],
-			'TOPIC_ID'    => $last_add['topic_id'],
-			'FORUM'       => $last_add['forum_name'],
-			'FORUM_ID'    => $last_add['forum_id'],
-			'POSTER'      => $last_add['username'],
-			'POSTER_ID'   => $last_add['user_id'],
+		$template->assign_block_vars('t_last_added', [
+			'LEECHERS'    => $row['leechers'],
+			'SEEDERS'     => $row['seeders'],
+			'SPEED'       => $row['speed_up'] ? humn_size($row['speed_up']) . '/сек' : 0,
+			'SHORT_TITLE' => mb_strlen($row['topic_title']) >= 88 ? mb_substr($row['topic_title'], 0, 88) . '...' : $row['topic_title'],
+			'TIME'        => delta_time($row['reg_time']),
+			'IMAGE'       => $row['forum_icon'] ? $row['forum_icon'] : 'film',
+			'TITLE'       => $row['topic_title'],
+			'TOPIC_ID'    => $row['topic_id'],
+			'FORUM'       => $row['forum_name'],
+			'FORUM_ID'    => $row['forum_id'],
+			'POSTER'      => $row['username'],
+			'POSTER_ID'   => $row['user_id'],
 
-			'U_DOWNLOAD' => append_sid('download.php?id=' . $last_add['attach_id']))
-		);
+			'U_DOWNLOAD' => append_sid('download.php?id=' . $row['attach_id']),
+		]);
 	}
+	
+	$app['db']->freeresult();
+	$template->assign_vars(['LAST_ADDED_ON' => true]);
 }
 
 // Build index page
