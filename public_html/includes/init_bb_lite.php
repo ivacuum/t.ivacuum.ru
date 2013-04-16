@@ -275,13 +275,6 @@ function prn_r($var, $title = '', $print = true)
 	return $r;
 }
 
-function vdump($var, $title = '')
-{
-	echo '<pre>'. (($title) ? "<b>$title</b>\n\n" : '');
-	var_dump($var);
-	echo '</pre>';
-}
-
 function htmlCHR($txt, $replace_space = false)
 {
 	return ($replace_space) ? str_replace(' ', '&nbsp;', htmlspecialchars($txt, ENT_QUOTES)) : htmlspecialchars($txt, ENT_QUOTES);

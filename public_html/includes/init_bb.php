@@ -56,7 +56,7 @@ function cron_enable_board()
 	@rename(BB_DISABLED, BB_ENABLED);
 }
 
-function cron_disable_board ()
+function cron_disable_board()
 {
 	@rename(BB_ENABLED, BB_DISABLED);
 }
@@ -184,13 +184,6 @@ function prn_r($var, $title = '', $print = true)
 	}
 
 	return $r;
-}
-
-function vdump($var, $title = '')
-{
-	echo '<pre>'. (($title) ? "<b>$title</b>\n\n" : '');
-	var_dump($var);
-	echo '</pre>';
 }
 
 function htmlCHR($txt, $replace_space = false)
