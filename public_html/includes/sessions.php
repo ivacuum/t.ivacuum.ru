@@ -141,6 +141,8 @@ class user_common
 						WHERE session_id = '$session_id'
 						LIMIT 1
 					");
+					
+					register_shutdown_function('db_update_userdata', $this->data, ['user_session_time' => $this->data['session_time']]);
 				}
 				$this->set_session_cookies($this->data['user_id']);
 			}
