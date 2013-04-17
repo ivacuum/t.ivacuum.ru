@@ -35,44 +35,23 @@ if (!$q || mb_strlen($q) < 2)
 	bb_exit();
 }
 
-$ary[] = [
+$suggestions[] = [
 	'icon'  => $static_path . '/i/_/magnifier.png',
 	'label' => $q,
 ];
 
 $excluded_forums_csv = $user->get_excluded_forums(AUTH_READ);
+$excluded_forums_csv = $excluded_forums_csv ? " AND forum_id NOT IN ({$excluded_forums_csv})" : '';
 
-// require SITE_DIR . 'includes/db/sphinx.php';
+$query = false === strpos($q, ' ') && false === strpos($q, '*') ? $q . '*' : $q;
 
-// $sphinx = new db_sphinx();
-// $sphinx->connect($bb_cfg['sphinx']['host'], $bb_cfg['sphinx']['port'], $bb_cfg['sphinx']['socket']);
-
-if (false === strpos($q, ' ') && false === strpos($q, '*'))
-{
-	$query = $q . '*';
-}
-else
-{
-	$query = $q;
-}
-
-$sql = "
-	SELECT
-		id
-	FROM
-		" . $bb_cfg['sphinx']['db_torrents'] . "
-	WHERE
-		MATCH('" . $query . "')";
-if( $excluded_forums_csv )
-{
-	$sql .= ' AND forum_id NOT IN(' . $excluded_forums_csv . ')';
-}
-$sql .= ' ORDER BY seeders DESC';
-$sql .= ' LIMIT 0, 10';
-$sql .= ' OPTION ranker = none';
-$app['sphinx']->query($sql);
-
-$tor_list_ary = [];
+$sql = 'SELECT id
+	FROM torrents
+	WHERE MATCH (?) :excluded
+	ORDER BY seeders DESC
+	LIMIT 0, 10
+	OPTION ranker = none';
+$app['sphinx']->query($sql, [$query, ':excluded' => $excluded_forums_csv]);
 
 while ($row = $app['sphinx']->fetchrow())
 {
@@ -81,19 +60,16 @@ while ($row = $app['sphinx']->fetchrow())
 
 $app['sphinx']->freeresult();
 
-if (!sizeof($tor_list_ary))
+if (empty($tor_list_ary))
 {
-	bb_exit(json_encode($ary));
+	bb_exit(json_encode($suggestions));
 }
-
-$tor_list_sql = join(',', $tor_list_ary);
-$tor_count = sizeof($tor_list_ary);
 
 $sql_ary = [
 	'user_id'        => $userdata['user_id'],
 	'search_query'   => $q,
 	'search_time'    => time(),
-	'search_results' => $tor_count,
+	'search_results' => sizeof($tor_list_ary),
 	'search_suggest' => 1,
 ];
 
@@ -112,12 +88,12 @@ $sql = '
 	LEFT JOIN
 		bb_forums f ON (f.forum_id = tor.forum_id)
 	WHERE
-		tor.topic_id IN (' . $tor_list_sql . ')';
-$app['db']->query($sql);
+		:topic_id';
+$app['db']->query($sql, [':topic_id' => $app['db']->in_set('tor.topic_id', $tor_list_ary)]);
 
 while ($row = $app['db']->fetchrow())
 {
-	$ary[] = [
+	$suggestions[] = [
 		'icon'  => $static_path . '/i/_/' . ($row['forum_icon'] ?: 'question_balloon') . '.png',
 		'label' => $row['topic_title'],
 		'link'  => '/viewtopic.php?t=' . $row['topic_id'],
@@ -126,4 +102,4 @@ while ($row = $app['db']->fetchrow())
 
 $app['db']->freeresult();
 
-bb_exit(json_encode($ary));
+bb_exit(json_encode($suggestions));
