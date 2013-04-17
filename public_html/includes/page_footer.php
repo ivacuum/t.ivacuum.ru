@@ -6,7 +6,7 @@ if (!defined('SITE_DIR'))
 }
 
 global $bb_cfg, $lang, $userdata, $gen_simple_header, $template, $db;
-global $datastore, $session_cache;
+global $datastore;
 
 $logged_in = !empty($userdata['session_logged_in']);
 $is_admin  = (IS_ADMIN === true);

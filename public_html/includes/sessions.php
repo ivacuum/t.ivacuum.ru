@@ -7,31 +7,6 @@
 define('ONLY_NEW_POSTS',  1);
 define('ONLY_NEW_TOPICS', 2);
 
-switch( $bb_cfg['session_cache_type'] )
-{
-	case 'memcached':
-
-		$session_cache = new cache_memcached($bb_cfg['memcached']);
-
-	break;
-	case 'sqlite':
-
-		$session_cache = new cache_sqlite($bb_cfg['session_cache']['sqlite']);
-
-	break;
-
-	case 'filecache':
-
-		$session_cache = new cache_file(SITE_DIR . 'cache/' . $bb_cfg['session_cache']['filecache']['path']);
-
-	break;
-	default:
-
-		$session_cache = new cache_common();
-
-	break;
-}
-
 class user_common
 {
 	/**
@@ -96,7 +71,7 @@ class user_common
 	*/
 	function session_start($cfg = array())
 	{
-		global $db, $bb_cfg, $session_cache;
+		global $db, $bb_cfg;
 
 		$update_sessions_table = false;
 		$this->cfg = array_merge($this->cfg, $cfg);
@@ -124,49 +99,21 @@ class user_common
 					$SQL['LEFT JOIN'][] = "bb_bt_torhelp th ON(u.user_id = th.user_id)";
 				}
 				*/
-
-				$userdata_cache_id = $session_id;
 			}
 			else
 			{
 				$SQL['WHERE'][]	= "s.session_ip = '". USER_IP ."'";
 				$SQL['WHERE'][]	= "s.session_user_id = ". ANONYMOUS;
-
-				$userdata_cache_id = USER_IP;
 			}
 
-			if( !$this->data = cache_get_userdata($userdata_cache_id) )
+			$this->data = $db->fetch_row($SQL);
+
+			if ($this->data && (TIMENOW - $this->data['session_time']) > $bb_cfg['session_update_intrv'])
 			{
-				$this->data = $db->fetch_row($SQL);
-
-				if( $this->data && (TIMENOW - $this->data['session_time']) > $bb_cfg['session_update_intrv'] )
-				{
-					$this->data['session_time'] = TIMENOW;
-					$update_sessions_table = true;
-				}
-
-				cache_set_userdata($this->data);
+				$this->data['session_time'] = TIMENOW;
+				$update_sessions_table = true;
 			}
 		}
-
-		##### LOG #####
-		global $log_ip_req;
-
-		if (isset($log_ip_req[USER_IP]) || isset($log_ip_req[CLIENT_IP]))
-		{
-			$file = 'sessions/'. date('m-d') .'_{'. USER_IP .'}_'. CLIENT_IP;
-			$str = array();
-			$str[] = date('H:i:s');
-			$str[] = (@$this->sessiondata['uid']) ? sprintf('%06d', strval($this->sessiondata['uid'])) : 'guest ';
-			$str[] = (@$this->data['session_start']) ? gmdate('H:i:s', $this->data['session_start']) : 'guest   ';
-			$str[] = (@$this->sessiondata['sid']) ? sprintf('%-12s', strval($this->sessiondata['sid'])) : 'none        ';
-			$str[] = $_SERVER['REQUEST_URI'];
-		#	$str[] = 'REFERER: '. $_SERVER['HTTP_REFERER'];
-			$str[] = @$_SERVER['HTTP_USER_AGENT'];
-			$str = join(LOG_SEPR, $str) . LOG_LF;
-			bb_log($str, $file);
-		}
-		### LOG END ###
 
 		// Did the session exist in the DB?
 		if( $this->data )
@@ -365,8 +312,6 @@ class user_common
 			define('SID_GET', "sid=$session_id");
 		}
 
-		cache_set_userdata($this->data);
-
 		return $this->data;
 	}
 
@@ -415,7 +360,7 @@ class user_common
 	/**
 	*  Login
 	*/
-	function login ($args, $mod_admin_login = false)
+	function login($args, $mod_admin_login = false)
 	{
 		global $db, $bb_cfg;
 
@@ -454,7 +399,6 @@ class user_common
 							AND session_id = '". $this->data['session_id'] ."'
 					");
 					$this->data['session_admin'] = $this->data['user_level'];
-					cache_update_userdata($this->data);
 
 					return $this->data;
 				}
@@ -482,7 +426,7 @@ class user_common
 	/**
 	*  Initialize sessiondata stored in cookies
 	*/
-	function get_sessiondata ()
+	function get_sessiondata()
 	{
 		$sd_resv = !empty($_COOKIE[COOKIE_DATA]) ? @unserialize($_COOKIE[COOKIE_DATA]) : array();
 
@@ -506,7 +450,7 @@ class user_common
 	/**
 	*  Store sessiondata in cookies
 	*/
-	function set_session_cookies ($user_id)
+	function set_session_cookies($user_id)
 	{
 		global $bb_cfg;
 
@@ -567,7 +511,7 @@ class user_common
 	/**
 	*  Verify autologin_id
 	*/
-	function verify_autologin_id ($userdata, $expire_check = false, $create_new = true)
+	function verify_autologin_id($userdata, $expire_check = false, $create_new = true)
 	{
 		global $bb_cfg;
 
@@ -594,7 +538,7 @@ class user_common
 	/**
 	*  Create autologin_id
 	*/
-	function create_autologin_id ($userdata, $create_new = true)
+	function create_autologin_id($userdata, $create_new = true)
 	{
 		global $db;
 
@@ -613,7 +557,7 @@ class user_common
 	/**
 	*  Limit server load
 	*/
-	function limit_srv_load ()
+	function limit_srv_load()
 	{
 		global $db, $bb_cfg;
 
@@ -643,7 +587,7 @@ class user_common
 	/**
 	*  Initialise user settings
 	*/
-	function init_userprefs ()
+	function init_userprefs()
 	{
 		global $bb_cfg, $theme, $lang, $DeltaTime;
 
@@ -704,7 +648,7 @@ class user_common
 	/**
 	*  Mark read
 	*/
-	function mark_read ($type)
+	function mark_read($type)
 	{
 		global $db, $template, $lang;
 
@@ -741,7 +685,7 @@ class user_common
 	/**
 	*  Load misc options
 	*/
-	function load_opt_js ()
+	function load_opt_js()
 	{
 		if (!IS_GUEST && !empty($_COOKIE['opt_js']))
 		{
@@ -757,7 +701,7 @@ class user_common
 	/**
 	*  Set shortcuts
 	*/
-	function set_shortcuts ()
+	function set_shortcuts()
 	{
 		$this->id  =& $this->data['user_id'];
 		$this->opt =& $this->data['user_opt'];
@@ -766,7 +710,7 @@ class user_common
 	/**
 	*  Get not auth forums
 	*/
-	function get_not_auth_forums ($auth_type)
+	function get_not_auth_forums($auth_type)
 	{
 		global $datastore;
 
@@ -822,7 +766,7 @@ class user_common
 	/**
 	*  Exclude porn forums
 	*/
-	function exclude_porn_forums ()
+	function exclude_porn_forums()
 	{
 		global $bb_cfg;
 
@@ -832,7 +776,7 @@ class user_common
 	/**
 	*  Get excluded forums
 	*/
-	function get_excluded_forums ($auth_type)
+	function get_excluded_forums($auth_type)
 	{
 		$excluded = array();
 
@@ -851,7 +795,7 @@ class user_common
 	/**
 	*  Check if user can hide ads
 	*/
-	function hide_ads ()
+	function hide_ads()
 	{
 		return (bf($this->opt, 'user_opt', 'can_hide_ads') && bf($this->opt, 'user_opt', 'hide_ads'));
 	}
@@ -859,7 +803,7 @@ class user_common
 	/**
 	*  Enqueue ads
 	*/
-	function enqueue_ads ()
+	function enqueue_ads()
 	{
 		global $datastore, $bb_cfg;
 
@@ -874,89 +818,26 @@ class user_common
 //
 // userdata cache
 //
-function ignore_cached_userdata ()
+function db_update_userdata($userdata, $sql_ary, $data_already_escaped = true)
 {
-	return (defined('IN_PM')) ? true : false;
-}
-
-function cache_get_userdata ($id)
-{
-	global $session_cache;
-
-	if (ignore_cached_userdata()) return false;
-
-	return $session_cache->get('user_' . $id);
-}
-
-function cache_set_userdata ($userdata, $force = false)
-{
-	global $session_cache, $bb_cfg;
-
-	if (!$userdata || (ignore_cached_userdata() && !$force)) return false;
-
-	$id = ($userdata['user_id'] == ANONYMOUS) ? $userdata['session_ip'] : $userdata['session_id'];
-	return $session_cache->set('user_' . $id, $userdata, $bb_cfg['session_update_intrv']);
-}
-
-function cache_rm_userdata ($userdata)
-{
-	global $session_cache;
-
-	if (!$userdata) return false;
-
-	$id = ($userdata['user_id'] == ANONYMOUS) ? $userdata['session_ip'] : $userdata['session_id'];
-	return $session_cache->rm('user_' . $id);
-}
-
-// $user_id - array(id1,id2,..) or (string) id
-function cache_rm_user_sessions ($user_id)
-{
-	global $session_cache, $db;
-
-	$user_id = get_id_csv($user_id);
-
-	$rowset = $db->fetch_rowset("
-		SELECT session_id FROM bb_sessions WHERE session_user_id IN($user_id)
-	");
-
-	foreach ($rowset as $row)
-	{
-		$session_cache->rm('user_' . $row['session_id']);
-	}
-}
-
-function cache_update_userdata ($userdata)
-{
-	return cache_set_userdata($userdata, true);
-}
-
-function db_update_userdata ($userdata, $sql_ary, $data_already_escaped = true)
-{
-	global $db, $session_cache;
+	global $db;
 
 	if (!$userdata) return false;
 
 	$sql_args = $db->build_array('UPDATE', $sql_ary, $data_already_escaped);
 	$db->query("UPDATE bb_users SET $sql_args WHERE user_id = {$userdata['user_id']}");
-
-	if ($db->sql_affectedrows())
-	{
-		cache_rm_userdata($userdata);
-	}
 }
 
 // $user_id - array(id1,id2,..) or (string) id
-function delete_user_sessions ($user_id)
+function delete_user_sessions($user_id)
 {
 	global $db;
-
-	cache_rm_user_sessions($user_id);
 
 	$user_id = get_id_csv($user_id);
 	$db->query("DELETE FROM bb_sessions WHERE session_user_id IN($user_id)");
 }
 
-function append_sid ($url, $non_html_amp = false)
+function append_sid($url, $non_html_amp = false)
 {
 	if (defined('SID_GET') && !strpos($url, SID_GET))
 	{
@@ -966,17 +847,7 @@ function append_sid ($url, $non_html_amp = false)
 }
 
 // deprecated
-function session_begin ($userdata, $page_id = 0, $enable_autologin = false, $auto_created = false)
-{
-	global $user;
-
-	$user->session_create($userdata, $auto_created);
-
-	return $user->data;
-}
-
-// deprecated
-function session_pagestart ($user_ip = USER_IP, $page_id = 0, $req_login = false)
+function session_pagestart($user_ip = USER_IP, $page_id = 0, $req_login = false)
 {
 	global $user;
 
