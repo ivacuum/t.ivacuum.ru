@@ -572,10 +572,6 @@ if ( isset($_POST['submit']) )
 			{
 				message_die(GENERAL_ERROR, 'Could not update users table', '', __LINE__, __FILE__, $sql);
 			}
-			if ($db->sql_affectedrows())
-			{
-				cache_rm_userdata($userdata);
-			}
 
 			if ( !$user_active )
 			{

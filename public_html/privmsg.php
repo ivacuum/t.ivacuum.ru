@@ -222,10 +222,6 @@ if ( $mode == 'read' )
 		{
 			message_die(GENERAL_ERROR, 'Could not update private message read status for user', '', __LINE__, __FILE__, $sql);
 		}
-		if ($db->sql_affectedrows())
-		{
-			cache_rm_userdata($userdata);
-		}
 
 		$sql = "UPDATE bb_privmsgs
 			SET privmsgs_type = " . PRIVMSGS_READ_MAIL . "
