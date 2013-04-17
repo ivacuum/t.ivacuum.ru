@@ -5,11 +5,11 @@ require 'common.php';
 // Start Session Management
 $user->session_start();
 
-$do = request_var('do', '');
+$do = $app['request']->variable('do', '');
 
 if ($do == 'attach_rules')
 {
-	if (!$forum_id = @intval(request_var('f', '')) OR !forum_exists($forum_id))
+	if (!$forum_id = @intval($app['request']->variable('f', '')) OR !forum_exists($forum_id))
 	{
 		bb_die('invalid forum_id');
 	}
@@ -107,7 +107,7 @@ if ($do == 'attach_rules')
 }
 elseif ($do == 'info')
 {
-	$req_mode = (string) request_var('show', 'not_found');
+	$req_mode = (string) $app['request']->variable('show', 'not_found');
 
 	$html_dir = SITE_DIR . 'misc/html/';
 	$require = file_exists($html_dir . $req_mode .'.html') ? $html_dir . $req_mode .'.html' : $html_dir . 'not_found.html';

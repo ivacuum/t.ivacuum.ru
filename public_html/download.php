@@ -7,8 +7,8 @@ $datastore->enqueue(array(
 	'attach_extensions',
 ));
 
-$download_id = request_var('id', 0);
-$thumbnail = request_var('thumb', 0);
+$download_id = $app['request']->variable('id', 0);
+$thumbnail = $app['request']->variable('thumb', 0);
 
 // Send file to browser
 function send_file_to_browser($attachment, $upload_dir)

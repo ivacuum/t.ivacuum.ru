@@ -22,9 +22,9 @@ $page_cfg['load_tpl_vars'] = array(
 );
 
 // Init request vars
-$forum_id  = request_var('f', 0);
-$start     = abs(request_var('start', 0));
-$mark_read = ( request_var('mark', '') === 'topics' );
+$forum_id  = $app['request']->variable('f', 0);
+$start     = abs($app['request']->variable('start', 0));
+$mark_read = ( $app['request']->variable('mark', '') === 'topics' );
 
 $anon = ANONYMOUS;
 

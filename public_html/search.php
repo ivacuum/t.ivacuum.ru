@@ -359,7 +359,7 @@ if( !$items_found )
 	}
 
 	// Poster id (from requested name or id)
-	if( $var = request_var($poster_id_key, 0) )
+	if( $var = $app['request']->variable($poster_id_key, 0) )
 	{
 		$poster_id_val = $var;
 

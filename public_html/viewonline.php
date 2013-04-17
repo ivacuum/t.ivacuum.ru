@@ -17,7 +17,7 @@ $template->assign_vars(array(
 	'L_LAST_UPDATE' => $lang['Last_updated'])
 );
 
-$mode = request_var('mode', '');
+$mode = $app['request']->variable('mode', '');
 
 //
 // Get auth data

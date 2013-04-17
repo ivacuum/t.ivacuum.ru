@@ -10,8 +10,8 @@ require 'common.php';
 // Start session management
 $user->session_start();
 
-$mode = request_var('mode', '');
-$sid  = request_var('sid', '');
+$mode = $app['request']->variable('mode', '');
+$sid  = $app['request']->variable('sid', '');
 
 //
 // Set default email variables

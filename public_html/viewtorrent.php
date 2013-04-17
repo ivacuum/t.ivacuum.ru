@@ -9,7 +9,7 @@ require 'common.php';
 require SITE_DIR . 'attach_mod/attachment_mod.php';
 require SITE_DIR . 'includes/functions_torrent.php';
 
-$attach_id = request_var('t', 0);
+$attach_id = $app['request']->variable('t', 0);
 
 $torrent = get_torrent_info($attach_id);
 

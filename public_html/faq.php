@@ -11,7 +11,7 @@ $user->session_start();
 
 // Set vars to prevent naughtiness
 $faq = array();
-$mode = request_var('mode', '');
+$mode = $app['request']->variable('mode', '');
 //
 // Load the appropriate faq file
 //

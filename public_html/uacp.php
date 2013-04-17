@@ -4,13 +4,13 @@ require 'common.php';
 require SITE_DIR . 'attach_mod/attachment_mod.php';
 
 // session id check
-$sid = request_var('sid', '');
+$sid = $app['request']->variable('sid', '');
 
 // Start session management
 $user->session_start(array('req_login' => true));
 
 // Obtain initial var settings
-$user_id = request_var(POST_USERS_URL, 0);
+$user_id = $app['request']->variable(POST_USERS_URL, 0);
 
 if (!$user_id)
 {
@@ -33,10 +33,10 @@ if (!file_exists(SITE_DIR . 'language/lang_' . $language . '/lang_admin_attach.p
 
 require SITE_DIR . 'language/lang_' . $language . '/lang_admin_attach.php';
 
-$start = request_var('start', 0);
-$sort_order = request_var('order', 'ASC');
+$start = $app['request']->variable('start', 0);
+$sort_order = $app['request']->variable('order', 'ASC');
 $sort_order = ($sort_order == 'ASC') ? 'ASC' : 'DESC';
-$mode = request_var('mode', '');
+$mode = $app['request']->variable('mode', '');
 
 $mode_types_text = array($lang['Sort_Filename'], $lang['Sort_Comment'], $lang['Sort_Extension'], $lang['Sort_Size'], $lang['Sort_Downloads'], $lang['Sort_Posttime'], /*$lang['Sort_Posts']*/);
 $mode_types = array('real_filename', 'comment', 'extension', 'filesize', 'downloads', 'post_time'/*, 'posts'*/);

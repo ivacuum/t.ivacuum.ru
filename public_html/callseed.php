@@ -70,7 +70,7 @@ function send_pm($topic_id, $t_info, $to_user_id)
 }
 
 $u_id = array();
-$topic_id = request_var('t', 0);
+$topic_id = $app['request']->variable('t', 0);
 $t_info = topic_info($topic_id);
 $cur_time = time();
 

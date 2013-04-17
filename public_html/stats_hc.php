@@ -15,8 +15,8 @@ require 'common.php';
 // Session start
 $user->session_start();
 
-$mode = request_var('mode', 'peers');
-$time = request_var('time', 'day');
+$mode = $app['request']->variable('mode', 'peers');
+$time = $app['request']->variable('time', 'day');
 
 /**
 * Определяем переменные

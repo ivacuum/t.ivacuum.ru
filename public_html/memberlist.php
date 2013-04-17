@@ -8,10 +8,10 @@ require 'common.php';
 
 $user->session_start(array('req_login' => true));
 
-$start		= abs(request_var('start', 0));
-$mode		= request_var('mode', 'joined');
-$sort_order = ( request_var('order', 'ASC') == 'ASC' ) ? 'ASC' : 'DESC';
-$username	= request_var('username', '');
+$start		= abs($app['request']->variable('start', 0));
+$mode		= $app['request']->variable('mode', 'joined');
+$sort_order = ( $app['request']->variable('order', 'ASC') == 'ASC' ) ? 'ASC' : 'DESC';
+$username	= $app['request']->variable('username', '');
 
 //
 // Auth check

@@ -13,7 +13,7 @@ if (!$userdata['session_logged_in'])
 	redirect(append_sid('login.php?redirect=/', true));
 }
 
-$sid = request_var('sid', '');
+$sid = $app['request']->variable('sid', '');
 $confirm = isset($_POST['status_confirm']);
 
 // Set received variables

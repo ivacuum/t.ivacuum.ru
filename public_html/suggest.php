@@ -1,14 +1,14 @@
 <?php
 /**
 * @package t.ivacuum.ru
-* @copyright (c) 2011
+* @copyright (c) 2013
 */
 
 require 'common.php';
 
 $user->session_start();
 
-$q         = request_var('term', '');
+$q         = $app['request']->variable('term', '');
 $q_max_len = 60;
 
 if( $q == 'поиск...' || !$q || mb_strlen($q) < 2 )

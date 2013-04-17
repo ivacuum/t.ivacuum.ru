@@ -30,16 +30,16 @@ $html_entities_replace = array('&amp;', '&lt;', '&gt;', '&quot;');
 //
 // Parameters
 //
-$submit = request_var('post', false);
-$submit_search = request_var('usersubmit', false);
-$submit_msgdays = request_var('submit_msgdays', false);
-$cancel = request_var('cancel', false);
-$preview = request_var('preview', false);
-$confirmed = request_var('confirm', false);
-$delete = request_var('delete', false);
-$delete_all = request_var('deleteall', false);
-$save = request_var('save', false);
-$mode = request_var('mode', '');
+$submit = $app['request']->variable('post', false);
+$submit_search = $app['request']->variable('usersubmit', false);
+$submit_msgdays = $app['request']->variable('submit_msgdays', false);
+$cancel = $app['request']->variable('cancel', false);
+$preview = $app['request']->variable('preview', false);
+$confirmed = $app['request']->variable('confirm', false);
+$delete = $app['request']->variable('delete', false);
+$delete_all = $app['request']->variable('deleteall', false);
+$save = $app['request']->variable('save', false);
+$mode = $app['request']->variable('mode', '');
 
 $refresh = $preview || $submit_search;
 

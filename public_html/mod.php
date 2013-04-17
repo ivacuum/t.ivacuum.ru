@@ -33,7 +33,7 @@ foreach( $bb_cfg['allowed_posts_per_page'] as $tpp )
 }
 
 $start   = isset($_GET['start']) ? abs(intval($_GET['start'])) : '0';
-$status  = request_var('st', 0);
+$status  = $app['request']->variable('st', 0);
 $user_id = $userdata['user_id'];
 
 $where_status = 'AND tor.tor_status = ' . $status;
@@ -55,7 +55,7 @@ if( isset($_POST['topic_id']) )
 	// print implode(',', $_POST['topic_id']);
 	// exit;
 	$topic_ids = implode(',', $_POST['topic_id']);
-	$status    = request_var('status', 0);
+	$status    = $app['request']->variable('status', 0);
 
 	switch( $status )
 	{
