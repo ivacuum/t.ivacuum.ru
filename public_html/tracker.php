@@ -580,10 +580,10 @@ if ($allowed_forums)
 
 		if( empty($tor_list_ary) && $bb_cfg['sphinx']['enabled'] )
 		{
-			require SITE_DIR . 'includes/db/sphinx.php';
+			// require SITE_DIR . 'includes/db/sphinx.php';
 
-			$sphinx = new db_sphinx();
-			$sphinx->connect($bb_cfg['sphinx']['host'], $bb_cfg['sphinx']['port'], $bb_cfg['sphinx']['socket']);
+			// $sphinx = new db_sphinx();
+			// $sphinx->connect($bb_cfg['sphinx']['host'], $bb_cfg['sphinx']['port'], $bb_cfg['sphinx']['socket']);
 
 			if( $title_match_q != '' && false === strpos($title_match_q, ' ') && false === strpos($title_match_q, '*') )
 			{
@@ -641,15 +641,14 @@ if ($allowed_forums)
 			$sql .= ' LIMIT 0, ' . $tor_search_limit;
 			$sql .= ' OPTION ranker = none';
 
-			$result = $sphinx->query($sql);
+			$app['sphinx']->query($sql);
 
-			while( $row = $sphinx->fetchrow($result) )
+			while ($row = $app['sphinx']->fetchrow())
 			{
 				$tor_list_ary[] = $row['id'];
 			}
 
-			$sphinx->freeresult($result);
-			$sphinx->close();
+			$app['sphinx']->freeresult();
 
 			$tor_list_sql = join(',', $tor_list_ary);
 			$tor_count = sizeof($tor_list_ary);
