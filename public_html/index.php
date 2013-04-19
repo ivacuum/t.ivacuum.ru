@@ -151,31 +151,7 @@ foreach ($db->fetch_rowset($sql) as $row)
 unset($forums);
 $datastore->rm('cat_forums');
 
-// Obtain list of moderators
-/*
-$moderators = array();
-$mod = $datastore->get('moderators');
-
-foreach ($mod['mod_users'] as $forum_id => $user_ids)
-{
-	foreach ($user_ids as $user_id)
-	{
-		$moderators[$forum_id][] = '<a href="'. (PROFILE_URL . $user_id) .'">'. $mod['name_users'][$user_id] .'</a>';
-	}
-}
-foreach ($mod['mod_groups'] as $forum_id => $group_ids)
-{
-	foreach ($group_ids as $group_id)
-	{
-		$moderators[$forum_id][] = '<a href="'. (GROUP_URL . $group_id) .'">'. $mod['name_groups'][$group_id] .'</a>';
-	}
-}
-
-unset($mod);
-$datastore->rm('moderators');
-*/
-
-if( !$forums_count = count($cat_forums) AND $viewcat )
+if (!$forums_count = count($cat_forums) and $viewcat)
 {
 	redirect('/');
 }
