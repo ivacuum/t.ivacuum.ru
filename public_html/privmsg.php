@@ -1150,29 +1150,6 @@ else if ( $submit || $refresh || $mode != '' )
 
 					'U_INBOX' => $server_protocol . $server_name . $server_port . $script_name . '?folder=inbox&mode=read&p=' . $privmsg_sent_id,
 				]);
-
-				// require SITE_DIR . 'includes/emailer.php';
-				// $emailer = new emailer($bb_cfg['smtp_delivery']);
-				// 
-				// $emailer->from($bb_cfg['board_email']);
-				// $emailer->replyto($bb_cfg['board_email']);
-				// 
-				// $emailer->use_template('privmsg_notify', $to_userdata['user_lang']);
-				// $emailer->email_address($to_userdata['user_email']);
-				// $emailer->set_subject($lang['Notification_subject']);
-				// 
-				// $emailer->assign_vars(array(
-				// 	'USERNAME' => $to_username,
-				// 	'NAME_FROM' => $userdata['username'],
-				// 	'MSG_SUBJECT' => $privmsg_subject,
-				// 	'SITENAME' => $bb_cfg['sitename'],
-				// 	'EMAIL_SIG' => (!empty($bb_cfg['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $bb_cfg['board_email_sig']) : '',
-				// 
-				// 	'U_INBOX' => $server_protocol . $server_name . $server_port . $script_name . '?folder=inbox&mode=read&p=' . $privmsg_sent_id)
-				// );
-				// 
-				// $emailer->send();
-				// $emailer->reset();
 			}
 		}
 
