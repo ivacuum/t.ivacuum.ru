@@ -27,10 +27,10 @@ if ( isset($_POST['submit']) )
 			{
 				bb_die($lang['No_send_account_inactive']);
 			}
-			if (in_array($row['user_level'], array(MOD, ADMIN)))
-			{
-				bb_die($lang['No_send_account']);
-			}
+			// if (in_array($row['user_level'], array(MOD, ADMIN)))
+			// {
+			// 	bb_die($lang['No_send_account']);
+			// }
 
 			$username = $row['username'];
 			$user_id = $row['user_id'];
@@ -46,26 +46,14 @@ if ( isset($_POST['submit']) )
 				message_die(GENERAL_ERROR, 'Could not update new password information', '', __LINE__, __FILE__, $sql);
 			}
 
-			require SITE_DIR . 'includes/emailer.php';
-			$emailer = new emailer($board_config['smtp_delivery']);
-
-			$emailer->from($board_config['board_email']);
-			$emailer->replyto($board_config['board_email']);
-
-			$emailer->use_template('user_activate_passwd', $row['user_lang']);
-			$emailer->email_address($row['user_email']);
-			$emailer->set_subject($lang['New_password_activation']);
-
-			$emailer->assign_vars(array(
+			$app['mailer']->set_to($row['user_email'])->postpone('Активация нового пароля', 'user_activate_passwd.html');
+			$app['template']->assign([
 				'SITENAME' => $board_config['sitename'],
 				'USERNAME' => $username,
 				'PASSWORD' => $user_password,
-				'EMAIL_SIG' => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '',
 
-				'U_ACTIVATE' => $server_url . '?mode=activate&' . POST_USERS_URL . '=' . $user_id . '&act_key=' . $user_actkey)
-			);
-			$emailer->send();
-			$emailer->reset();
+				'U_ACTIVATE' => $server_url . '?mode=activate&' . POST_USERS_URL . '=' . $user_id . '&act_key=' . $user_actkey,
+			]);
 
 			$message = $lang['Password_updated'] . '<br /><br />' . sprintf($lang['Click_return_index'],  '<a href="' . append_sid("/") . '">', '</a>');
 
