@@ -36,6 +36,9 @@ class badges extends task
 		
 		$sql = 'INSERT INTO bb_user_group ' . $this->db->build_array('INSERT', $sql_ary);
 		$this->db->query($sql);
+		
+		$sql = 'UPDATE bb_users SET user_level = 20 WHERE user_id = ? AND user_level = 0';
+		$this->db->query($sql, [$user_id]);
 
 		$this->send_pm($user_id, "Вам присвоена лычка {$this->groups[$group_id]}", "Здравствуйте!\n\nПоздравляем с получением лычки {$this->groups[$group_id]}! Включить ее отображение вы можете в настройках своего профиля.\n\nБольшое спасибо за вклад в развитие трекера!");
 	}
