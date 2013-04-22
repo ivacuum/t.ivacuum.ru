@@ -218,20 +218,8 @@ $(document).ready(function() {
   $('#currency').css('display', display_currency);
   $('#afisha').css('display', display_afisha);
 
-  var top_leechers_loaded = false;
   var top_releasers_loaded = false;
   var top_share_loaded = false;
-
-  ajax.view_top_leechers = function() {
-    ajax.exec({
-      action: 'view_top_leechers'
-    });
-  };
-
-  ajax.callback.view_top_leechers = function(data) {
-    $('#top_leechers').append(data.html);
-    top_leechers_loaded = true;
-  };
 
   ajax.view_top_releasers = function() {
     ajax.exec({
@@ -254,14 +242,6 @@ $(document).ready(function() {
     $('#top_share').append(data.html);
     top_share_loaded = true;
   };
-
-  $('h3[rel="toggle_top_leechers"]').click(function() {
-    if( top_leechers_loaded == false ) {
-      ajax.view_top_leechers();
-    }
-
-    $('#top_leechers').slideToggle('slow');
-  });
 
   $('h3[rel="toggle_top_releasers"]').click(function() {
     if( top_releasers_loaded == false ) {

@@ -354,7 +354,6 @@ $template->assign_vars(array(
 	'SU_SPEED'           => isset($data_stats['speed']) ? humn_size($data_stats['speed']) . '/сек' : 0,
 	'SU_VISITORS'        => isset($data_stats['visitors']) ? $data_stats['visitors'] : 0,
 
-	'TOP_LEECHERS'  => ( $bb_cfg['t_top_leechers'] ) ? true : false,
 	'TOP_RELEASERS' => ( $bb_cfg['t_top_releasers'] ) ? true : false,
 	'TOP_SHARE'     => ( $bb_cfg['t_top_share'] ) ? true : false,
 

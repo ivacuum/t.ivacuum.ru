@@ -511,11 +511,7 @@ var display_forecast = 'none';
 </table>
 <!-- ENDIF -->
 <h3><a href="memberlist.php?mode=uploaded&order=DESC">Топ сидеров</a></h3>
-<!-- IF TOP_LEECHERS -->
-<h3 rel="toggle_top_leechers" style="cursor: pointer;">Топ личеров</h3>
-<table cellpadding="2" cellspacing="0" id="top_leechers" style="display: none;" width="100%">
-</table>
-<!-- ENDIF -->
+<h3><a href="memberlist.php?mode=downloaded&order=DESC">Топ личеров</a></h3>
 <!-- IF TOP_SHARE -->
 <h3 rel="toggle_top_share" style="cursor: pointer;">Топ шар</h3>
 <table cellpadding="2" cellspacing="0" id="top_share" style="display: none;" width="100%">

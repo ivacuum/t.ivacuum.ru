@@ -173,27 +173,6 @@ if( $bb_cfg['t_top_downloaded'] )
 	$this->store('top_downloaded', $data);
 }
 
-if( $bb_cfg['t_top_leechers'] )
-{
-	$sql = '
-		SELECT
-			t.user_id,
-			u.username,
-			SUM(t.u_down_total) as sum
-		FROM
-			bb_bt_users t
-		LEFT JOIN
-			bb_users u ON (t.user_id = u.user_id)
-		GROUP BY
-			t.user_id
-		ORDER BY
-			sum DESC
-		LIMIT
-			0, ' . $bb_cfg['t_top_leechers'];
-	$data = $db->fetch_rowset($sql);
-	$this->store('top_leechers', $data);
-}
-
 /**
 * Лучшие по вкладу (объему собственных раздач)
 */

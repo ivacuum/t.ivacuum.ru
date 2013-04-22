@@ -60,7 +60,6 @@ class ajax_common
 		'thumb_up'            => array('user'),
 		'view_post'           => array('guest'),
 		'view_today_visitors' => array('user'),
-		'view_top_leechers'   => array('guest'),
 		'view_top_releasers'  => array('guest'),
 		'view_top_share'      => array('guest')
 	);
@@ -984,29 +983,6 @@ class ajax_common
 		$db->sql_freeresult($result);
 
 		$this->response['html'] = ( $users > 0 ) ? '<hr class="dashed" /><p>' . $online_userlist . '.</p>' : '';
-	}
-
-	/**
-	* Топ личеров
-	*/
-	function view_top_leechers()
-	{
-		global $bb_cfg, $datastore;
-
-		if( !$bb_cfg['t_top_leechers'] )
-		{
-			$this->ajax_die('method is not available');
-		}
-
-		$data = $datastore->get('top_leechers');
-		$html = '';
-
-		foreach( $data as $row )
-		{
-			$html .= '<tr><td align="right" width="48%"><a href="profile.php?mode=viewprofile&u=' . $row['user_id'] . '"><b>' . ( ( mb_strlen($row['username']) >= 12 ) ? mb_substr($row['username'], 0, 10) . '...' : $row['username'] ) . '</b></a></td><td align="center" width="4%">:</td><td width="48%"><span class="leech">' . humn_size($row['sum']) . '</span></td></tr>';
-		}
-
-		$this->response['html'] = $html . '<tr><td align="center" colspan="3"><hr class="dashed" /><a href="memberlist.php?mode=downloaded&order=DESC"><b>полный список &raquo;</b></a></td></tr>';
 	}
 
 	/**
