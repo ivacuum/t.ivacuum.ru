@@ -511,9 +511,7 @@ var display_forecast = 'none';
 </table>
 <!-- ENDIF -->
 <!-- IF TOP_SEEDERS -->
-<h3 rel="toggle_top_seeders" style="cursor: pointer;">Топ сидеров</h3>
-<table cellpadding="2" cellspacing="0" id="top_seeders" style="display: none;" width="100%">
-</table>
+<h3><a href="memberlist.php?mode=uploaded&order=DESC">Топ сидеров</a></h3>
 <!-- ENDIF -->
 <!-- IF TOP_LEECHERS -->
 <h3 rel="toggle_top_leechers" style="cursor: pointer;">Топ личеров</h3>

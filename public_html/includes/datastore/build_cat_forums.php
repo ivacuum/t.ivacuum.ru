@@ -194,27 +194,6 @@ if( $bb_cfg['t_top_leechers'] )
 	$this->store('top_leechers', $data);
 }
 
-if( $bb_cfg['t_top_seeders'] )
-{
-	$sql = '
-		SELECT
-			t.user_id,
-			u.username,
-			SUM(t.u_up_total) as sum
-		FROM
-			bb_bt_users t
-		LEFT JOIN
-			bb_users u ON (t.user_id = u.user_id)
-		GROUP BY
-			t.user_id
-		ORDER BY
-			sum DESC
-		LIMIT
-			0, ' . $bb_cfg['t_top_seeders'];
-	$data = $db->fetch_rowset($sql);
-	$this->store('top_seeders', $data);
-}
-
 /**
 * Лучшие по вкладу (объему собственных раздач)
 */

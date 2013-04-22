@@ -220,7 +220,6 @@ $(document).ready(function() {
 
   var top_leechers_loaded = false;
   var top_releasers_loaded = false;
-  var top_seeders_loaded = false;
   var top_share_loaded = false;
 
   ajax.view_top_leechers = function() {
@@ -243,17 +242,6 @@ $(document).ready(function() {
   ajax.callback.view_top_releasers = function(data) {
     $('#top_releasers').append(data.html);
     top_releasers_loaded = true;
-  };
-
-  ajax.view_top_seeders = function() {
-    ajax.exec({
-      action: 'view_top_seeders'
-    });
-  };
-
-  ajax.callback.view_top_seeders = function(data) {
-    $('#top_seeders').append(data.html);
-    top_seeders_loaded = true;
   };
 
   ajax.view_top_share = function() {
@@ -281,14 +269,6 @@ $(document).ready(function() {
     }
 
     $('#top_releasers').slideToggle('slow');
-  });
-
-  $('h3[rel="toggle_top_seeders"]').click(function() {
-    if( top_seeders_loaded == false ) {
-      ajax.view_top_seeders();
-    }
-
-    $('#top_seeders').slideToggle('slow');
   });
 
   $('h3[rel="toggle_top_share"]').click(function() {

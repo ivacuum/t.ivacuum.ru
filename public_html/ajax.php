@@ -62,7 +62,6 @@ class ajax_common
 		'view_today_visitors' => array('user'),
 		'view_top_leechers'   => array('guest'),
 		'view_top_releasers'  => array('guest'),
-		'view_top_seeders'    => array('guest'),
 		'view_top_share'      => array('guest')
 	);
 
@@ -1031,29 +1030,6 @@ class ajax_common
 		}
 
 		$this->response['html'] = $html;
-	}
-
-	/**
-	* Топ сидеров
-	*/
-	function view_top_seeders()
-	{
-		global $bb_cfg, $datastore;
-
-		if( !$bb_cfg['t_top_seeders'] )
-		{
-			$this->ajax_die('method is not available');
-		}
-
-		$data = $datastore->get('top_seeders');
-		$html = '';
-
-		foreach( $data as $row )
-		{
-			$html .= '<tr><td align="right" width="48%"><a href="profile.php?mode=viewprofile&u=' . $row['user_id'] . '"><b>' . ( ( mb_strlen($row['username']) >= 12 ) ? mb_substr($row['username'], 0, 10) . '...' : $row['username'] ) . '</b></a></td><td align="center" width="4%">:</td><td width="48%"><span class="seed">' . humn_size($row['sum']) . '</span></td></tr>';
-		}
-
-		$this->response['html'] = $html . '<tr><td align="center" colspan="3"><hr class="dashed" /><a href="memberlist.php?mode=uploaded&order=DESC"><b>полный список &raquo;</b></a></td></tr>';
 	}
 
 	/**

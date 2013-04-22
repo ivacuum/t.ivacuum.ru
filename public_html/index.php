@@ -356,7 +356,6 @@ $template->assign_vars(array(
 
 	'TOP_LEECHERS'  => ( $bb_cfg['t_top_leechers'] ) ? true : false,
 	'TOP_RELEASERS' => ( $bb_cfg['t_top_releasers'] ) ? true : false,
-	'TOP_SEEDERS'   => ( $bb_cfg['t_top_seeders'] ) ? true : false,
 	'TOP_SHARE'     => ( $bb_cfg['t_top_share'] ) ? true : false,
 
 	'U_TOP_SPEED' => append_sid('top_speed.php'))
