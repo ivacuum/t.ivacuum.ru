@@ -510,9 +510,7 @@ var display_forecast = 'none';
 <table cellpadding="2" cellspacing="0" id="top_releasers" style="display: none;" width="100%">
 </table>
 <!-- ENDIF -->
-<!-- IF TOP_SEEDERS -->
 <h3><a href="memberlist.php?mode=uploaded&order=DESC">Топ сидеров</a></h3>
-<!-- ENDIF -->
 <!-- IF TOP_LEECHERS -->
 <h3 rel="toggle_top_leechers" style="cursor: pointer;">Топ личеров</h3>
 <table cellpadding="2" cellspacing="0" id="top_leechers" style="display: none;" width="100%">
