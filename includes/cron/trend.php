@@ -76,7 +76,7 @@ class trend extends task
 				SUM(tor.size) AS size
 			FROM
 				bb_bt_torrents tor
-			LEFT JOIN
+			INNER JOIN
 				bb_bt_tracker tr ON (tr.topic_id = tor.topic_id)';
 		$result = $this->db->query($sql);
 		$row = $this->db->fetchrow($result);
