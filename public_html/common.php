@@ -6,6 +6,13 @@
 
 require '../bootstrap.php';
 
+if (PHP_SAPI == 'cli')
+{
+	/* Установка недостающих переменных для крона */
+	$_SERVER['DOCUMENT_ROOT'] = __DIR__ . '/public_html';
+	$_SERVER['SERVER_NAME'] = basename(__DIR__);
+}
+
 define('TIMESTART', microtime(true));
 define('TIMENOW', time());
 
