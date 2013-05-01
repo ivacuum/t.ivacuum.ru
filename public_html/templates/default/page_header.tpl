@@ -501,6 +501,7 @@ var display_forecast = 'none';
 <!-- <p>Афиша временно недоступна</p> -->
 <ul>
 	<li><a href="http://cinema-starkaluga.ru/afisha/">Синема-стар</a></li>
+	<li><a href="http://www.msk-kaluga.ru/ent/arlekino/film/">Арлекино</a></li>
 </ul>
 <!-- ENDIF -->
 </div>
