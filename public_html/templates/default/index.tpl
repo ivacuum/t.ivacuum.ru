@@ -246,17 +246,17 @@ $(document).ready(function() {
   $('h3[rel="toggle_top_releasers"]').click(function() {
     if( top_releasers_loaded == false ) {
       ajax.view_top_releasers();
-    }
-    else
+    } else {
     $('#top_releasers').slideToggle('slow');
+    }
   });
 
   $('h3[rel="toggle_top_share"]').click(function() {
     if( top_share_loaded == false ) {
       ajax.view_top_share();
-    }
-    else
+    } else {
     $('#top_share').slideToggle('slow');
+    }
   });
   
   $('h3[rel="toggle_ratio"]').bind('click', function() {
