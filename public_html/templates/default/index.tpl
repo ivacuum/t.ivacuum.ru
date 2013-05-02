@@ -247,7 +247,7 @@ $(document).ready(function() {
     if( top_releasers_loaded == false ) {
       ajax.view_top_releasers();
     } else {
-    $('#top_releasers').slideToggle('slow');
+      $('#top_releasers').slideToggle('slow');
     }
   });
 
@@ -255,7 +255,7 @@ $(document).ready(function() {
     if( top_share_loaded == false ) {
       ajax.view_top_share();
     } else {
-    $('#top_share').slideToggle('slow');
+      $('#top_share').slideToggle('slow');
     }
   });
   
