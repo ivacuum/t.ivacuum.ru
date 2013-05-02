@@ -228,7 +228,7 @@ $(document).ready(function() {
   };
 
   ajax.callback.view_top_releasers = function(data) {
-    $('#top_releasers').append(data.html);
+    $('#top_releasers').append(data.html).slideToggle('slow');
     top_releasers_loaded = true;
   };
 
@@ -239,7 +239,7 @@ $(document).ready(function() {
   };
 
   ajax.callback.view_top_share = function(data) {
-    $('#top_share').append(data.html);
+    $('#top_share').append(data.html).slideToggle('slow');
     top_share_loaded = true;
   };
 
@@ -247,7 +247,7 @@ $(document).ready(function() {
     if( top_releasers_loaded == false ) {
       ajax.view_top_releasers();
     }
-
+    else
     $('#top_releasers').slideToggle('slow');
   });
 
@@ -255,7 +255,7 @@ $(document).ready(function() {
     if( top_share_loaded == false ) {
       ajax.view_top_share();
     }
-
+    else
     $('#top_share').slideToggle('slow');
   });
   
