@@ -11,7 +11,7 @@ if (PHP_SAPI == 'cli')
 	$_SERVER['SERVER_NAME'] = 't.ivacuum.ru';
 }
 
-require '../bootstrap.php';
+require '../fw.php';
 
 define('TIMESTART', microtime(true));
 define('TIMENOW', time());
