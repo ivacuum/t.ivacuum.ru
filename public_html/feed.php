@@ -33,12 +33,14 @@ switch ($feed)
 		$title = 'Последние новости интернет услуг Билайн';
 
 	break;
+	/*
 	case 'horoscope':
 
 		$data  = $app['cache']->get('rss_horoscope');
 		$title = 'Ежедневный гороскоп от Hyrax.ru';
 
 	break;
+	*/
 	case 'ithappens':
 
 		$data  = $app['cache']->get('rss_ithappens.ru');

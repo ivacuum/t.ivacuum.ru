@@ -17,9 +17,11 @@
 	<br />
 	<h3><a href="feed.php?feed=nefart">nefart.ru</a></h3>
 	<p>Короткие комичные истории о том, как кому-то в чем-то не повезло или не подфартило</p>
+	<!--
 	<br />
 	<h3><a href="feed.php?feed=horoscope">Гороскоп</a></h3>
 	<p>Ежедневный прогноз</p>
+	-->
 </div>
 </td>
 <td id="main_content"> 
