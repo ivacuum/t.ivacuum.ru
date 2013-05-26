@@ -648,24 +648,42 @@ if ( isset($_POST['submit']) )
 				$user_lang = '';
 			}
 			$avatar_type = USER_AVATAR_NONE;
-
-			// Insert new user data
-			$sql = "INSERT INTO bb_users
-			          (user_opt,                              username,         user_regdate,                               user_password,                                 user_email,                                 user_icq,                                user_website,                                    user_occ,                                     user_from,      user_from_flag,                           user_interests,                                   user_sig,           user_sig_bbcode_uid,  user_avatar, user_avatar_type,                                              user_aim,                                 user_yim,                   user_msnm,                 user_allow_viewonline, user_notify, user_notify_pm, user_timezone,                               user_dateformat,                                     user_lang,         user_level, user_allow_pm, user_active, user_actkey)
-				VALUES ($user_opt, '" . str_replace("\'", "''", $username) . "', " . time() . ", '" . str_replace("\'", "''", $new_password) . "', '" . str_replace("\'", "''", $email) . "', '" . str_replace("\'", "''", $icq) . "', '" . str_replace("\'", "''", $website) . "', '" . str_replace("\'", "''", $occupation) . "', '" . str_replace("\'", "''", $location) . "', '$user_flag', '" . str_replace("\'", "''", $interests) . "', '" . str_replace("\'", "''", $signature) . "', '$signature_bbcode_uid', '',          $avatar_type, '" . str_replace("\'", "''", str_replace(' ', '+', $aim)) . "', '" . str_replace("\'", "''", $yim) . "', '" . str_replace("\'", "''", $msn) . "', $allowviewonline,      $notifyreply, $notifypm,     '$user_timezone', '" . str_replace("\'", "''", $user_dateformat) . "', '" . str_replace("\'", "''", $user_lang) . "', 0,          1, ";
-
+			
+			$sql_ary = array_merge([
+				'user_regdate'          => time(),
+				'user_password'         => $new_password,
+				'user_email'            => $email,
+				'user_icq'              => $icq,
+				'user_website'          => $website,
+				'user_occ'              => $occupation,
+				'user_from'             => $location,
+				'user_from_flag'        => $user_flag,
+				'user_interests'        => $interests,
+				'user_sig'              => $signature,
+				'user_sig_bbcode_uid'   => $signature_bbcode_uid,
+				'user_avatar'           => '',
+				'user_avatar_type'      => $avatar_type,
+				'user_allow_viewonline' => $allowviewonline,
+				'user_notify'           => $notifyreply,
+				'user_notify_pm'        => $notifypm,
+				'user_level'            => 0,
+				'user_allow_pm'         => 1,
+			], compact('user_opt', 'username', 'user_timezone', 'user_dateformat', 'user_lang'));
+			
 			if ($bb_cfg['require_activation'] == USER_ACTIVATION_SELF || $bb_cfg['require_activation'] == USER_ACTIVATION_ADMIN || $coppa)
 			{
 				$user_actkey = make_rand_str(12);
-				$sql .= "0, '$user_actkey')";
+				$sql_ary['user_active'] = 0;
+				$sql_ary['user_actkey'] = $user_actkey;
 			}
 			else
 			{
-				$sql .= "1, '')";
+				$sql_ary['user_active'] = 1;
 			}
 
-			$db->query($sql);
-			$user_id = $db->sql_nextid();
+			$sql = 'INSERT INTO bb_users ' . $app['db']->build_array('INSERT', $sql_ary);
+			$app['db']->query($sql);
+			$user_id = $app['db']->insert_id();
 
 			require SITE_DIR . 'includes/functions_torrent.php';
 			generate_passkey($user_id, 1);
