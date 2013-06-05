@@ -122,6 +122,12 @@ class badges extends task
 
 		while ($row = $this->db->fetchrow($result))
 		{
+			/* Пропускаем пользователей, которые уже не проходят по требованиям */
+			if (!isset($top_keepers[$row['user_id']]))
+			{
+				continue;
+			}
+
 			$top_keepers[$row['user_id']]['group_id'] = $row['group_id'];
 		}
 
