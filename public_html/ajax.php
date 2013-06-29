@@ -52,7 +52,6 @@ class ajax_common
 		'chat_delete'         => array('mod'),
 		'chat_message'        => array('user'),
 		'edit_user_profile'   => array('admin'),
-		'get_last_login'      => array('guest'),
 		'get_peers_details'   => array('user'),
 		'get_torrent_dl_list' => array('user'),
 		'set_dl_status'       => array('user'),
@@ -522,37 +521,6 @@ class ajax_common
 		$this->response['query'] = "UPDATE $table SET $field = $value_sql WHERE user_id = " . $user_id . " LIMIT 1";
 
 		$this->response['edit_id'] = $this->request['edit_id'];
-	}
-
-	/**
-	* Логин, с которого заходили последний раз на этом IP
-	*/
-	function get_last_login()
-	{
-		if( substr($_SERVER['REMOTE_ADDR'], 0, 3) != '10.' )
-		{
-			$this->response['html'] = '';
-			$this->send();
-		}
-
-		global $db;
-
-		$sql = '
-			SELECT
-				username
-			FROM
-				bb_users
-			WHERE
-				user_ip = "' . $_SERVER['REMOTE_ADDR'] . '"
-			ORDER BY
-				user_session_time DESC
-			LIMIT
-				0, 1';
-		$result = $db->sql_query($sql);
-		$row = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
-
-		$this->response['html'] = $row['username'];
 	}
 
 	/**
