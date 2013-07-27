@@ -358,9 +358,10 @@ if ($title_match =& $_REQUEST[$title_match_key])
 	{
 		$search_bool_mode = ($bb_cfg['allow_search_in_bool_mode']) ? " IN BOOLEAN MODE" : '';
 		$search_text_sql = $db->escape($title_match);
-		$title_match_sql = "
-			AND MATCH (t.topic_title) AGAINST ('$search_text_sql'". $search_bool_mode .")
-		";
+		// $title_match_sql = "
+		// 	AND MATCH (t.topic_title) AGAINST ('$search_text_sql'". $search_bool_mode .")
+		// ";
+		$title_match_sql = " AND t.topic_title = '$search_text_sql' ";
 		$start = 0;
 		$forum_topics = $topics_per_page;
 	}

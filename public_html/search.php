@@ -461,7 +461,8 @@ if( $post_mode )
 		if ($text_match_sql)
 		{
 			$field_match = ($title_match) ? "t.topic_title" : "ps.search_words" ;
-			$SQL['WHERE'][] = "MATCH ($field_match) AGAINST ('$text_match_sql'". $search_bool_mode .")";
+			// $SQL['WHERE'][] = "MATCH ($field_match) AGAINST ('$text_match_sql'". $search_bool_mode .")";
+			$SQL['WHERE'][] = "$field_match = '$text_match_sql'";
 			prevent_huge_searches($SQL);
 		}
 
@@ -626,7 +627,8 @@ else
 		if( $text_match_sql )
 		{
 			$field_match = ($title_match) ? "t.topic_title" : "ps.search_words" ;
-			$SQL['WHERE'][] = "MATCH ($field_match) AGAINST ('$text_match_sql'". $search_bool_mode .")";
+			// $SQL['WHERE'][] = "MATCH ($field_match) AGAINST ('$text_match_sql'". $search_bool_mode .")";
+			$SQL['WHERE'][] = "$field_match = '$text_match_sql'";
 			prevent_huge_searches($SQL);
 		}
 
