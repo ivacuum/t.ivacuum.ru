@@ -73,8 +73,8 @@ $sql_ary = [
 	'search_suggest' => 1,
 ];
 
-$sql = 'INSERT INTO bb_search_queries ' . $app['db']->build_array('INSERT', $sql_ary);
-$app['db']->query($sql);
+// $sql = 'INSERT INTO bb_search_queries ' . $app['db']->build_array('INSERT', $sql_ary);
+// $app['db']->query($sql);
 
 $sql = '
 	SELECT
