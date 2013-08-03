@@ -31,41 +31,46 @@ $user->session_start();
 $posts_per_page = $bb_cfg['posts_per_page'];
 $select_ppp = '';
 
-if( $topic_id === 13253 )
+if ($topic_id === 13253)
 {
 	/* Лица torrent.ivacuum.ru */
 	redirect('viewtopic.php?t=13104');
 }
-if( $topic_id === 14592 )
+if ($topic_id === 14592)
 {
 	/* Торрентовка №4 (#12) */
 	redirect('viewtopic.php?t=14591');
 }
-if( $topic_id === 15433 )
+if ($topic_id === 15433)
 {
 	/* Новогодние раздачи */
 	redirect('viewtopic.php?t=6920');
 }
-if( $topic_id === 16691 )
+if ($topic_id === 16691)
 {
 	/* В раздел Аниме требуется модератор */
 	redirect('viewtopic.php?t=16681');
 }
-if( $topic_id === 17170 )
+if ($topic_id === 17170)
 {
 	/* Группа трекера ВКонтакте */
 	header('Location: http://vk.com/torrent.ivacuum');
 	exit;
 }
-if( $topic_id === 18105 )
+if ($topic_id === 18105)
 {
 	/* Торрентовка №5 (#13) */
 	redirect('viewtopic.php?t=18104');
 }
-if( $topic_id === 18345 )
+if ($topic_id === 18345)
 {
 	/* Презентация трекера */
 	redirect('viewtopic.php?t=18344');
+}
+if ($topic_id === 21454)
+{
+	/* Торрентовка №6 (#14) */
+	redirect('viewtopic.php?t=21453');
 }
 
 if ($userdata['session_admin'])
