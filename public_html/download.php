@@ -65,6 +65,11 @@ function send_file_to_browser($attachment, $upload_dir)
 
 	if (!(isset($_GET['original']) && !IS_USER))
 	{
+		if (isset($_SERVER['HTTP_PROVIDER']) && $_SERVER['HTTP_PROVIDER'] != 'local')
+		{
+			message_die(GENERAL_MESSAGE, 'Скачивание торрентов доступно только из локальной сети Билайн-Калуга.');
+		}
+		
 		require_once SITE_DIR . 'includes/functions_torrent.php';
 		send_torrent_with_passkey($filename);
 	}
