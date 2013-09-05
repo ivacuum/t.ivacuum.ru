@@ -67,7 +67,7 @@ function send_file_to_browser($attachment, $upload_dir)
 	{
 		if (isset($_SERVER['HTTP_PROVIDER']) && $_SERVER['HTTP_PROVIDER'] != 'local')
 		{
-			message_die(GENERAL_MESSAGE, 'Скачивание торрентов доступно только из локальной сети Билайн-Калуга.');
+			message_die(GENERAL_MESSAGE, 'Скачивание торрентов доступно только из локальной сети Билайн-Калуга. Для этого надо заходить на трекер по адресу <a href="http://t.ivacuum.ru/"><b>t.ivacuum.ru</b></a>');
 		}
 		
 		require_once SITE_DIR . 'includes/functions_torrent.php';
