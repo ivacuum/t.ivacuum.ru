@@ -560,23 +560,6 @@ var display_forecast = 'none';
 </tr>
 <!-- END news -->
 </table></td></tr></table></div><!--/latest_news-->
-<div id="latest_city_news">
-	<table cellspacing="0" cellpadding="0" width="100%">
-		<tr>
-			<td width="70%">
-				<h3>Новости Калуги</h3>
-				<table cellpadding="0">
-					<!-- BEGIN city_news -->
-					<tr>
-						<td><div class="news_date">{city_news.TIME}</div></td>
-						<td width="100%"><div class="news_title"><a href="{city_news.LINK}" title="{city_news.TEXT}">{city_news.TITLE}</a></div></td>
-					</tr>
-					<!-- END city_news -->
-				</table>
-			</td>
-		</tr>
-	</table>
-</div>
 <br style="clear: both;">
 <!-- ENDIF / SHOW_LATEST_NEWS -->
 <!-- ENDIF / COMMON_HEADER -->

@@ -409,21 +409,4 @@ $template->assign_vars(array(
 	'AFISHA_AVAILABLE' => !empty($afisha))
 );
 
-/**
-* Новости Калуги
-*/
-$city_news = $app['cache']->get('rss_gorodka.ru');
-
-if( !empty($city_news) )
-{
-	$template->assign_vars(array('SHOW_CITY_NEWS' => true));
-
-	foreach( $city_news as $entry )
-	{
-		$entry['time'] = create_date('d-M', $entry['time']);
-		
-		$template->assign_block_vars('city_news', array_change_key_case($entry, CASE_UPPER));
-	}
-}
-
 print_page('index.tpl');
