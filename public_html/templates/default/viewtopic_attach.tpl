@@ -251,7 +251,7 @@
 		<p class="pad_4">
 		<form method="POST" action="{TOR_STATUS}">
 			<input type="hidden" name="id" value="{postrow.attach.tor_reged.ATTACH_ID}" />
-			<select name="tor_status" id="tor-select-{postrow.attach.tor_reged.ATTACH_ID}" onchange="$('#tor-status_confirm-{postrow.attach.tor_reged.ATTACH_ID}').attr('checked', false); $('#tor-submit-{postrow.attach.tor_reged.ATTACH_ID}').attr('disabled', true)">
+			<select name="tor_status" id="tor-status-select-{postrow.attach.tor_reged.ATTACH_ID}" onchange="$('#tor-status-confirm-{postrow.attach.tor_reged.ATTACH_ID}').attr('checked', false); $('#tor-submit-{postrow.attach.tor_reged.ATTACH_ID}').attr('disabled', true)">
 				<option value="" selected="selected" class="select-action">&raquo; {L_TOR_STATUS_SELECT_ACTION}</option>
 				<option value="2">{L_TOR_STATUS_CHECKED}</option>
 				<option value="gy">{L_TOR_STATUS_NOT_CHECKED}</option>
@@ -263,7 +263,7 @@
 				<option value="7">{L_TOR_STATUS_COPY}</option>				
 			</select>
 			<label>
-				<input name="status_confirm" id="tor-status_confirm-{postrow.attach.tor_reged.ATTACH_ID}" type="checkbox" value="1" onclick="if( $('#tor-select-{postrow.attach.tor_reged.ATTACH_ID}')[0].selectedIndex != 0 ){ $('#tor-submit-{postrow.attach.tor_reged.ATTACH_ID}').attr('disabled', !this.checked); } else { return false; }" />&nbsp;{L_CONFIRM}&nbsp;
+				<input name="status_confirm" id="tor-status-confirm-{postrow.attach.tor_reged.ATTACH_ID}" type="checkbox" value="1" onclick="if( $('#tor-status-select-{postrow.attach.tor_reged.ATTACH_ID}')[0].selectedIndex != 0 ){ $('#tor-submit-{postrow.attach.tor_reged.ATTACH_ID}').attr('disabled', !this.checked); } else { return false; }" />&nbsp;{L_CONFIRM}&nbsp;
 			</label>
 			<input id="tor-submit-{postrow.attach.tor_reged.ATTACH_ID}" type="submit" value="{L_DO_SUBMIT}" class="btn btn-small" disabled="disabled" />&nbsp;
 
