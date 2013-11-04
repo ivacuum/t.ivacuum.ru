@@ -775,7 +775,9 @@ class ajax_common
 				WHERE
 					a.user_id = u.user_id
 				AND
-					a.attach_id = ' . $attach_id;
+					a.attach_id = ' . $attach_id . '
+				ORDER BY
+					a.thank_date ASC';
 			$result = $db->sql_query($sql);
 			$s = '';
 
