@@ -808,7 +808,7 @@ class ajax_common
 
 			if( $row && $row['poster_id'] != $userdata['user_id'] )
 			{
-				$sql = 'INSERT IGNORE INTO bb_attachments_thanks (attach_id, user_id) VALUES (' . $attach_id . ', ' . $userdata['user_id'] . ')';
+				$sql = 'INSERT IGNORE INTO bb_attachments_thanks (attach_id, user_id, thank_date) VALUES (' . $attach_id . ', ' . $userdata['user_id'] . ', ' . time() . ')';
 				$db->sql_query($sql);
 			}
 
