@@ -10,13 +10,11 @@
 <link rel="stylesheet" href="{STATIC_PATH}/i/bootstrap/2.3.1/css/expansion.css">
 <script src="{STATIC_PATH}/i/bootstrap/2.3.1/js/bootstrap.min.js"></script>
 <!-- ENDIF -->
-<link rel="stylesheet" href="{STATIC_PATH}/js/jqueryui/1.10.0/themes/smoothness/minified/jquery-ui.min.css?v={$bb_cfg['css_ver']}">
 <link rel="stylesheet" href="{STATIC_PATH}/i/t/css/style.css?v={$bb_cfg['css_ver']}">
 <script>var S_LOCAL = <!-- IF STATIC_PATH eq '//0.ivacuum.org' -->true<!-- ELSE -->false<!-- ENDIF -->;</script>
 <script src="{STATIC_PATH}/js/jquery/1.8.2/jquery.pack.js?v={$bb_cfg['js_ver']}"></script>
 <!-- IF INCLUDE_BBCODE_JS -->
 <script src="{STATIC_PATH}/js/hs.min.js"></script>
-<link rel="stylesheet" href="{STATIC_PATH}/i/highslide/highslide.css">
 <!-- ENDIF / INCLUDE_BBCODE_JS -->
 <script src="{STATIC_PATH}/i/t/js/main.js?v={$bb_cfg['js_ver']}"></script>
 <!-- IF INCLUDE_BBCODE_JS -->
