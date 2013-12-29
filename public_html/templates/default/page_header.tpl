@@ -305,7 +305,7 @@ body { background: #E3E3E3; min-width: 10px; }
 </div>
 <!--/main_nav-->
 
-<div id="logo" style="float: left;"><a href="{U_INDEX}" title="Перейти на главную страницу"><img src="{STATIC_PATH}/i/t/images/logo.png" alt="" width="690" height="100"><!--<img src="{STATIC_PATH}/i/t/images/logo_snow.png" alt="" width="689" height="100">--></a></div>
+<div id="logo" style="float: left;"><a href="{U_INDEX}" title="Перейти на главную страницу"><!--<img src="{STATIC_PATH}/i/t/images/logo.png" alt="" width="690" height="100">--><img src="{STATIC_PATH}/i/t/images/logo_snow.png" alt="" width="689" height="100"></a></div>
 <div style="float: right; margin-right: 0.3em;"><a href="https://lk.beeline.ru/"><img src="{STATIC_PATH}/i/t/images/beeline.png" alt="Трекер расположен в локальной сети Билайн-Калуга" title="Трекер расположен в локальной сети Билайн-Калуга" width="128" height="100"></a></div>
 
 <br clear="all">
