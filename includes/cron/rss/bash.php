@@ -15,15 +15,13 @@ class bash extends rss
 {
 	public function run()
 	{
-		if (false === $xml = $this->get_rss_xml_data('http://bash.im/rss/'))
-		{
+		if (false === $xml = $this->get_rss_xml_data('http://bash.im/rss/')) {
 			return false;
 		}
 		
 		$data = [];
 
-		foreach ($xml->channel->item as $entry)
-		{
+		foreach ($xml->channel->item as $entry) {
 			$data[] = [
 				'link'  => (string) $entry->link,
 				'text'  => (string) $entry->description,

@@ -15,18 +15,15 @@ class nefart extends rss
 {
 	public function run()
 	{
-		if (false === $xml = $this->get_rss_xml_data('http://feeds.feedburner.com/nefart/oanc?format=xml'))
-		{
+		if (false === $xml = $this->get_rss_xml_data('http://feeds.feedburner.com/nefart/oanc?format=xml')) {
 			return false;
 		}
 		
 		$data = [];
 		$n    = 0;
 
-		foreach ($xml->channel->item as $entry)
-		{
-			if ($n > 49)
-			{
+		foreach ($xml->channel->item as $entry) {
+			if ($n > 49) {
 				break;
 			}
 

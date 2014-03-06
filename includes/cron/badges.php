@@ -68,8 +68,7 @@ class badges extends task
 				group_id BETWEEN 37 AND 54';
 		$result = $this->db->query($sql);
 		
-		while ($row = $this->db->fetchrow($result))
-		{
+		while ($row = $this->db->fetchrow($result)) {
 			$groups[$row['group_id']] = $row['group_name'];
 		}
 		
@@ -120,11 +119,9 @@ class badges extends task
 				user_id > 0';
 		$result = $this->db->query($sql);
 
-		while ($row = $this->db->fetchrow($result))
-		{
+		while ($row = $this->db->fetchrow($result)) {
 			/* Пропускаем пользователей, которые уже не проходят по требованиям */
-			if (!isset($top_keepers[$row['user_id']]))
-			{
+			if (!isset($top_keepers[$row['user_id']])) {
 				continue;
 			}
 
@@ -133,18 +130,13 @@ class badges extends task
 
 		$this->db->freeresult($result);
 		
-		foreach ($top_keepers as $user_id => $row)
-		{
-			foreach (array_reverse($top_keeper) as $badge)
-			{
+		foreach ($top_keepers as $user_id => $row) {
+			foreach (array_reverse($top_keeper) as $badge) {
 				/* Проверка требований включения в группу */
-				if ($row['upload'] >= $badge['threshold'])
-				{
-					if (!empty($row['group_id']))
-					{
+				if ($row['upload'] >= $badge['threshold']) {
+					if (!empty($row['group_id'])) {
 						/* Пользователь уже с нужной лычкой */
-						if ($row['group_id'] == $badge['group'])
-						{
+						if ($row['group_id'] == $badge['group']) {
 							break;
 						}
 
@@ -163,14 +155,12 @@ class badges extends task
 			}
 			
 			/* Удаление из прежней группы */
-			if (!empty($row['delete_group_id']))
-			{
+			if (!empty($row['delete_group_id'])) {
 				$this->delete_from_group($row['delete_group_id'], $user_id);
 			}
 
 			/* Добавление в новую группу */
-			if (!empty($row['new_group_id']))
-			{
+			if (!empty($row['new_group_id'])) {
 				$this->add_to_group($row['new_group_id'], $user_id);
 			}
 		}
@@ -234,11 +224,9 @@ class badges extends task
 				user_id > 0';
 		$result = $this->db->query($sql);
 
-		while ($row = $this->db->fetchrow($result))
-		{
+		while ($row = $this->db->fetchrow($result)) {
 			/* Пропускаем пользователей, которые уже не проходят по требованиям */
-			if (!isset($top_releasers[$row['user_id']]))
-			{
+			if (!isset($top_releasers[$row['user_id']])) {
 				continue;
 			}
 			
@@ -247,18 +235,13 @@ class badges extends task
 
 		$this->db->freeresult($result);
 		
-		foreach ($top_releasers as $user_id => $row)
-		{
-			foreach (array_reverse($top_releaser) as $badge)
-			{
+		foreach ($top_releasers as $user_id => $row) {
+			foreach (array_reverse($top_releaser) as $badge) {
 				/* Проверка требований включения в группу */
-				if ($row['releases'] >= $badge['releases'] && $row['size'] >= $badge['size'])
-				{
-					if (!empty($row['group_id']))
-					{
+				if ($row['releases'] >= $badge['releases'] && $row['size'] >= $badge['size']) {
+					if (!empty($row['group_id'])) {
 						/* Пользователь уже с нужной лычкой */
-						if ($group_weights[$row['group_id']] >= $group_weights[$badge['group']])
-						{
+						if ($group_weights[$row['group_id']] >= $group_weights[$badge['group']]) {
 							break;
 						}
 
@@ -277,14 +260,12 @@ class badges extends task
 			}
 			
 			/* Добавление в новую группу */
-			if (!empty($row['new_group_id']))
-			{
+			if (!empty($row['new_group_id'])) {
 				$this->add_to_group($row['new_group_id'], $user_id);
 			}
 			
 			/* Удаление из прежней группы */
-			if (!empty($row['delete_group_id']))
-			{
+			if (!empty($row['delete_group_id'])) {
 				$this->delete_from_group($row['delete_group_id'], $user_id);
 			}
 		}
@@ -338,11 +319,9 @@ class badges extends task
 				user_id > 0';
 		$result = $this->db->query($sql);
 
-		while ($row = $this->db->fetchrow($result))
-		{
+		while ($row = $this->db->fetchrow($result)) {
 			/* Пропускаем пользователей, которые уже не проходят по требованиям */
-			if (!isset($top_users[$row['user_id']]))
-			{
+			if (!isset($top_users[$row['user_id']])) {
 				continue;
 			}
 			
@@ -351,18 +330,13 @@ class badges extends task
 
 		$this->db->freeresult($result);
 		
-		foreach ($top_users as $user_id => $row)
-		{
-			foreach (array_reverse($top_user) as $badge)
-			{
+		foreach ($top_users as $user_id => $row) {
+			foreach (array_reverse($top_user) as $badge) {
 				/* Проверка требований включения в группу */
-				if ($row['upload'] >= $badge['threshold'])
-				{
-					if (!empty($row['group_id']))
-					{
+				if ($row['upload'] >= $badge['threshold']) {
+					if (!empty($row['group_id'])) {
 						/* Пользователь уже с нужной лычкой */
-						if ($row['group_id'] == $badge['group'])
-						{
+						if ($row['group_id'] == $badge['group']) {
 							break;
 						}
 
@@ -381,14 +355,12 @@ class badges extends task
 			}
 			
 			/* Добавление в новую группу */
-			if (!empty($row['new_group_id']))
-			{
+			if (!empty($row['new_group_id'])) {
 				$this->add_to_group($row['new_group_id'], $user_id);
 			}
 			
 			/* Удаление из прежней группы */
-			if (!empty($row['delete_group_id']))
-			{
+			if (!empty($row['delete_group_id'])) {
 				$this->delete_from_group($row['delete_group_id'], $user_id);
 			}
 		}
