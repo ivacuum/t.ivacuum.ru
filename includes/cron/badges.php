@@ -1,10 +1,4 @@
-<?php
-/**
-* @package t.ivacuum.ru
-* @copyright (c) 2013
-*/
-
-namespace app\cron;
+<?php namespace app\cron;
 
 use fw\cron\task;
 

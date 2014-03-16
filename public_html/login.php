@@ -1,8 +1,4 @@
 <?php
-/**
-* @package t.ivacuum.ru
-* @copyright (c) 2011
-*/
 
 define('IN_LOGIN', true);
 require 'common.php';

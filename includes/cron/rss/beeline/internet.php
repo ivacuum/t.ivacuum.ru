@@ -1,10 +1,4 @@
-<?php
-/**
-* @package t.ivacuum.ru
-* @copyright (c) 2013
-*/
-
-namespace app\cron\rss;
+<?php namespace app\cron\rss;
 
 use fw\cron\tasks\rss;
 

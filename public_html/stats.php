@@ -1,8 +1,4 @@
 <?php
-/**
-* @package t.ivacuum.ru
-* @copyright (c) 2011
-*/
 
 define('BB_SCRIPT', 'stats');
 require 'common.php';

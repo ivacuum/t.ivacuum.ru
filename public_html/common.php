@@ -1,8 +1,4 @@
 <?php
-/**
-* @package t.ivacuum.ru
-* @copyright (c) 2013
-*/
 
 if (PHP_SAPI == 'cli')
 {

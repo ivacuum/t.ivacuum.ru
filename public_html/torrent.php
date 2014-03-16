@@ -1,8 +1,4 @@
 <?php
-/**
-* @package t.ivacuum.ru
-* @copyright (c) 2011
-*/
 
 require 'common.php';
 require SITE_DIR . 'attach_mod/attachment_mod.php';
