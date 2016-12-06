@@ -44,17 +44,6 @@ if( $mode )
 		require SITE_DIR . 'includes/ucp/usercp_register.php';
 		exit;
 	}
-	else if ( $mode == 'confirm' )
-	{
-		// Visual Confirmation
-		if ( $userdata['session_logged_in'] )
-		{
-			exit;
-		}
-
-		require SITE_DIR . 'includes/ucp/usercp_confirm.php';
-		exit;
-	}
 	else if ( $mode == 'sendpassword' )
 	{
 		require SITE_DIR . 'includes/ucp/usercp_sendpasswd.php';

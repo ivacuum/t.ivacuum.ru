@@ -228,18 +228,18 @@ if ($mode == 'editprofile' && $userdata['session_logged_in'])
 		AND
 			r.rank_image != ""';
 	$result = $db->sql_query($sql);
-	
+
 	while ($row = $db->sql_fetchrow($result))
 	{
 		$available_badges[$row['rank_id']] = 1;
-		
+
 		$template->assign_block_vars('available_badges', [
 			'ID'    => $row['rank_id'],
 			'TITLE' => $row['rank_title'],
 			'IMAGE' => $row['rank_image'],
 		]);
 	}
-	
+
 	$db->sql_freeresult($result);
 }
 
@@ -533,9 +533,9 @@ if ( isset($_POST['submit']) )
 			{
 				$user_lang = '';
 			}
-			
+
 			$user_rank = intval(trim(htmlspecialchars($_POST['badge'])));
-			
+
 			if ($user_rank > 0)
 			{
 				$user_rank = $user_rank != $userdata['user_rank'] && isset($available_badges[$user_rank]) ? $user_rank : $userdata['user_rank'];
@@ -648,7 +648,7 @@ if ( isset($_POST['submit']) )
 				$user_lang = '';
 			}
 			$avatar_type = USER_AVATAR_NONE;
-			
+
 			$sql_ary = array_merge([
 				'user_regdate'          => time(),
 				'user_password'         => $new_password,
@@ -669,7 +669,7 @@ if ( isset($_POST['submit']) )
 				'user_level'            => 0,
 				'user_allow_pm'         => 1,
 			], compact('user_opt', 'username', 'user_timezone', 'user_dateformat', 'user_lang'));
-			
+
 			if ($bb_cfg['require_activation'] == USER_ACTIVATION_SELF || $bb_cfg['require_activation'] == USER_ACTIVATION_ADMIN || $coppa)
 			{
 				$user_actkey = make_rand_str(12);
@@ -981,56 +981,6 @@ else
 	// Visual Confirmation
 	$confirm_image = '';
 
-	if (!empty($bb_cfg['enable_confirm']) && $mode == 'register')
-	{
-		$db->query("
-			DELETE cfm
-			FROM bb_confirm cfm
-			LEFT JOIN bb_sessions s USING(session_id)
-			WHERE s.session_id IS NULL
-		");
-
-		$row = $db->fetch_row("
-			SELECT COUNT(session_id) AS attempts
-			FROM bb_confirm
-			WHERE session_id = '{$userdata['session_id']}'
-		");
-
-		if (isset($row['attempts']) && $row['attempts'] > 20)
-		{
-			message_die(GENERAL_MESSAGE, $lang['Too_many_registers']);
-		}
-
-		$confirm_chars = array('1', '2', '3', '4', '5', '6', '7', '8', '9');
-
-		$max_chars = count($confirm_chars) - 1;
-		$confirm_code = '';
-		for ($i = 0; $i < 6; $i++)
-		{
-			$confirm_code .= $confirm_chars[mt_rand(0, $max_chars)];
-		}
-
-		$confirm_id = make_rand_str(12);
-
-		$db->query("
-			INSERT INTO bb_confirm (confirm_id, session_id, code)
-			VALUES ('$confirm_id', '{$userdata['session_id']}', '$confirm_code')
-		");
-
-		$confirm_image = (extension_loaded('zlib')) ? '
-			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id") .'" alt="" title="" />
-		' : '
-			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id&amp;c=1") .'" alt="" title="" />
-			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id&amp;c=2") .'" alt="" title="" />
-			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id&amp;c=3") .'" alt="" title="" />
-			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id&amp;c=4") .'" alt="" title="" />
-		';
-		$s_hidden_fields .= '<input type="hidden" name="confirm_id" value="'. $confirm_id .'" />';
-
-		$template->assign_block_vars('switch_confirm', array());
-	}
-
-
 	//
 	// Let's do an overall check for settings/versions which would prevent
 	// us from doing file uploads....
@@ -1196,7 +1146,7 @@ if ($mode == 'editprofile' && $userdata['session_logged_in'])
 		'L_CURR_PASSKEY'          => $lang['Curr_passkey'],
 		'CURR_PASSKEY'            => $curr_passkey,
 	));
-	
+
 	if ($userdata['user_rank'])
 	{
 		$sql = '
@@ -1211,7 +1161,7 @@ if ($mode == 'editprofile' && $userdata['session_logged_in'])
 		$db->sql_freeresult($result);
 		$template->assign_vars(['RANK_IMAGE' => $row ? '/' . $row['rank_image'] : '']);
 	}
-	
+
 	$template->assign_vars(['RANK_ID' => $userdata['user_rank']]);
 }
 //bt end
