@@ -292,7 +292,6 @@ body { background: #E3E3E3; min-width: 10px; }
 			<a href="viewforum.php?f=4"><img src="{STATIC_PATH}/i/_/question_balloon.png" alt=""> Помощь</a>
 			<a href="{U_GROUP_CP}"><img src="{STATIC_PATH}/i/_/users.png" alt=""> {L_USERGROUPS}</a>
 			<a href="{U_MEMBERLIST}"><img src="{STATIC_PATH}/i/_/cards_address.png" alt=""> {L_MEMBERLIST}</a>
-			<a href="feed.php"><img src="{STATIC_PATH}/i/_/feed.png" alt=""> Ленты</a>
 		</td>
 		<!-- IF LOGGED_IN -->
 		<td class="tRight">
