@@ -565,6 +565,10 @@ function send_torrent_with_passkey ($filename)
 
 	// Announce URL
 	$ann_url = $board_config['bt_announce_url'];
+	
+	if (isset($_SERVER['HTTP_PROVIDER']) && $_SERVER['HTTP_PROVIDER'] != 'local') {
+		$ann_url = 'http://btt.ivacuum.ru:2760/ann';
+	}
 
 	if (!$tor = bdecode_file($filename))
 	{
