@@ -93,7 +93,7 @@ else if (!empty($_GET['logout']))
 if (IS_GUEST || $mod_admin_login)
 {
 	$cookie_test_val = mt_rand();
-	bb_setcookie(COOKIE_TEST, $cookie_test_val, COOKIE_SESSION);
+	// bb_setcookie(COOKIE_TEST, $cookie_test_val, COOKIE_SESSION);
 
 	$template->assign_vars(array(
 		'USERNAME'         => ($mod_admin_login) ? $user->data['username'] : '',
