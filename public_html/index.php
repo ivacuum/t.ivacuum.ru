@@ -327,6 +327,12 @@ if( $bb_cfg['show_latest_news'] )
 			'NEWS_IS_NEW'   => $news['topic_time'] > $lastvisit,
 		));
 	}
+
+	/*
+	foreach ($app['cache']->get('kupislona_posts') as $entry) {
+		$template->assign_block_vars('kupislona_posts', array_change_key_case($entry, CASE_UPPER));
+	}
+	*/
 }
 
 // Display page
