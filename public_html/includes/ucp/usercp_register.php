@@ -10,6 +10,8 @@ if ($mode == 'register' && $bb_cfg['new_user_reg_disabled'])
 	message_die(GENERAL_MESSAGE, $lang['new_user_reg_disabled']);
 }
 
+message_die(GENERAL_MESSAGE, 'Регистрация новых пользователей закрыта');
+
 if( isset($_SERVER['HTTP_PROVIDER']) && $_SERVER['HTTP_PROVIDER'] != 'local' && $mode == 'register' )
 {
 	message_die(GENERAL_MESSAGE, 'Регистрация доступна только из локальной сети Билайн-Калуга.');
