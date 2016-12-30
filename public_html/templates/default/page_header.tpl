@@ -288,7 +288,6 @@ body { background: #E3E3E3; min-width: 10px; }
 		<td>
 			<a href="{U_INDEX}"><img src="{STATIC_PATH}/i/_/home.png" alt=""> {L_HOME}</a>
 			<a href="{U_TRACKER}"><img src="{STATIC_PATH}/i/_/table.png" alt=""> {L_TRACKER}</a>
-			<a href="{U_UPLOAD_IMAGE}"><img src="{STATIC_PATH}/i/_/image_plus.png" alt=""> Загрузка</a>
 			<a href="{U_SEARCH}"><img src="{STATIC_PATH}/i/_/magnifier.png" alt=""> {L_SEARCH}</a>
 			<a href="viewforum.php?f=4"><img src="{STATIC_PATH}/i/_/question_balloon.png" alt=""> Помощь</a>
 			<a href="{U_GROUP_CP}"><img src="{STATIC_PATH}/i/_/users.png" alt=""> {L_USERGROUPS}</a>
