@@ -58,7 +58,7 @@ else if (isset($_POST['login']))
 	{
 		redirect("/");
 	}
-
+	
 	if ($user->login($_POST, $mod_admin_login))
 	{
 		if ($bb_cfg['board_disable'] && $user->data['user_level'] != ADMIN)

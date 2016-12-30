@@ -210,7 +210,7 @@ if( $bb_cfg['t_last_added_num'] )
 		ORDER BY
 			tr.reg_time DESC';
 	$app['db']->query_limit($sql, [], 20);
-	
+
 	while ($row = $app['db']->fetchrow())
 	{
 		$template->assign_block_vars('t_last_added', [
@@ -230,7 +230,7 @@ if( $bb_cfg['t_last_added_num'] )
 			'U_DOWNLOAD' => append_sid('download.php?id=' . $row['attach_id']),
 		]);
 	}
-	
+
 	$app['db']->freeresult();
 	$template->assign_vars(['LAST_ADDED_ON' => true]);
 }

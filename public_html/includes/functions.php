@@ -1237,7 +1237,7 @@ function get_bt_ratio($btu, $raw = false)
 function show_bt_userdata($user_id, $grant_bonus = false)
 {
 	$btu = get_bt_userdata($user_id);
-	
+
 	if ($grant_bonus && !$btu['daily_bonus_granted'])
 	{
 		$sql = '

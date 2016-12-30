@@ -48,14 +48,14 @@ function initPostImages(context) {
   if( !S_LOCAL ) {
     $('img.smile').each(function() { $(this).attr('src', $(this).attr('src').replace('static.local.ivacuum.ru', 'ivacuum.org').replace('0.ivacuum.org', 'ivacuum.org')); });
   }
-  
+
   $('var.postImg', context).not($in_spoilers).each(function() {
     var $v = $(this);
-		
+
 		if (S_LOCAL) {
 			$v.attr('title', $v.attr('title').replace('//img.ivacuum.ru', '//img.local.ivacuum.ru').replace('//static.ivacuum.ru', '//0.ivacuum.org').replace('//ivacuum.org', '//0.ivacuum.org'));
 		}
-		
+
     var src = $v.attr('title');
     var $img = $('<img src="' + src + '" class="' + $v.attr('className') + '" alt="pic">');
     $img = fixPostImage($img);
@@ -146,7 +146,7 @@ $(document).ready(function() {
 	  $("img[src^='//0.ivacuum.org'], img[src^='http://t.ivacuum.ru']").each(function() {
 		  $(this).attr('src', $(this).attr('src').replace('//0.ivacuum.org', '//ivacuum.org').replace('http://t.ivacuum.ru', 'http://t.internet.ivacuum.ru'));
 	  });
-	  
+
 	  $("a[href^='http://t.ivacuum.ru']").each(function() {
 		  $(this).attr('href', $(this).attr('href').replace('http://t.ivacuum.ru', 'http://t.internet.ivacuum.ru'));
 	  })
@@ -496,7 +496,7 @@ var display_forecast = 'none';
 <!-- ELSE -->
 <!-- <p>Афиша временно недоступна</p> -->
 <ul>
-	<li><a href="http://cinema-starkaluga.ru/afisha/">Синема-стар</a></li>
+	<li><a href="http://www.cinemastar.ru/cinemas/5/93/">Синема-стар</a></li>
 	<li><a href="http://www.cinemastar.ru/cinemas/5/92/">Синема-стар РИО</a></li>
 	<li><a href="http://arlekino40.ru/">Арлекино</a></li>
 </ul>
@@ -547,7 +547,7 @@ var display_forecast = 'none';
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
 <td width="70%">
-<h3>Последние объявления</h3>
+<h3>Последние анонсы</h3>
 <table cellpadding="0">
 <!-- BEGIN news -->
 <tr>

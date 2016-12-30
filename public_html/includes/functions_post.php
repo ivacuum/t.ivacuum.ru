@@ -24,7 +24,7 @@ function prepare_message($message, $bbcode_on, $smile_on, $bbcode_uid = 0)
 	$message = preg_replace("#\n{3,}#", "\n\n", $message);
 
 	$message = preg_replace($html_entities_match, $html_entities_replace, $message);
-	
+
 	if ($bbcode_on && $bbcode_uid)
 	{
 		$message = bbencode_first_pass($message, $bbcode_uid);

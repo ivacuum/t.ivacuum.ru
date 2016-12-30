@@ -7,7 +7,7 @@ if (PHP_SAPI == 'cli')
 	$_SERVER['SERVER_NAME'] = 't.ivacuum.ru';
 }
 
-require '../fw.php';
+require __DIR__ . '/../fw.php';
 
 define('TIMESTART', microtime(true));
 define('TIMENOW', time());
@@ -152,7 +152,7 @@ function str_compact($str)
 
 function make_rand_str($length = 10)
 {
-	return substr(str_shuffle(preg_replace('#[^0-9a-zA-Z]#', '', crypt(uniqid(mt_rand(), true)))), 0, $length);
+	return substr(str_shuffle(preg_replace('#[^0-9a-zA-Z]#', '', password_hash(uniqid(mt_rand(), true), PASSWORD_DEFAULT))), 0, $length);
 }
 
 // bencode: based on OpenTracker [http://whitsoftdev.com/opentracker]

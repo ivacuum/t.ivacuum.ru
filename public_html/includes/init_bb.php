@@ -147,7 +147,7 @@ function bb_exit($output = '')
 		$app['template']->assign($app['profiler']->get_stats());
 		$app['template']->display('profiler.html');
 	}
-	
+
 	// $app['profiler']->send_stats($app['request']->hostname, $app['request']->url);
 
 	if ($output)
@@ -308,9 +308,9 @@ function set_constants($prefix, $constants)
 		{
 			define($key, $value);
 		}
-		
+
 		return;
 	}
-	
+
 	apc_define_constants("{$prefix}_constants", $constants);
 }
