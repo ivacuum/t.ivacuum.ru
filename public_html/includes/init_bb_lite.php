@@ -290,7 +290,7 @@ function make_url($path)
 require SITE_DIR . 'includes/functions.php';
 require SITE_DIR . 'includes/sessions.php';
 require SITE_DIR . 'includes/template.php';
-require SITE_DIR . 'includes/db/mysql.php';
+require SITE_DIR . 'includes/db/mysqli.php';
 
 // Make the database connection.
 $db = new sql_db(array(
