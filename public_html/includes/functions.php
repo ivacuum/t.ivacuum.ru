@@ -177,7 +177,7 @@ class datastore_common
 	/**
 	* Constructor
 	*/
-	function datastore_common()
+	function __construct()
 	{
 	}
 
@@ -311,7 +311,7 @@ class datastore_memcached extends datastore_common
 	var $memcache;
 	var $prefix = '';
 
-	function datastore_memcached($cfg)
+	function __construct($cfg)
 	{
 		if( !$this->is_installed() )
 		{
