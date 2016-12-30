@@ -324,17 +324,17 @@ class datastore_memcached extends datastore_common
 		}
 
 		$this->cfg = $cfg;
-		$this->memcache = new Memcache;
-		$this->memcache->pconnect($this->cfg['host'], $this->cfg['port']);
+		$this->memcache = new Memcached('tracker');
+        $this->memcache->addServer($this->cfg['host'], $this->cfg['port']);
 	}
 
 	function store($title, $var, $ttl = 2592000)
 	{
 		$this->data[$title] = $var;
 
-		if( !$this->memcache->replace($this->prefix . $title, $var, false, $ttl) )
+		if( !$this->memcache->replace($this->prefix . $title, $var, $ttl) )
 		{
-			return $this->memcache->set($this->prefix . $title, $var, false, $ttl);
+			return $this->memcache->set($this->prefix . $title, $var, $ttl);
 		}
 
 		return true;
@@ -364,7 +364,7 @@ class datastore_memcached extends datastore_common
 
 	function is_installed()
 	{
-		return class_exists('Memcache');
+		return class_exists('Memcached');
 	}
 }
 
