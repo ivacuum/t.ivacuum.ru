@@ -240,7 +240,7 @@ if( !IS_GUEST )
 		$previous_settings = $tmp;
 	}
 	// Touch "last_modified"
-	if( $bb_cfg['tr_settings_days_keep'] && ($row['last_modified'] + 86400) < TIMENOW )
+	if( $bb_cfg['tr_settings_days_keep'] && ($row['last_modified'] ?? 0 + 86400) < TIMENOW )
 	{
 		$db->query("UPDATE bb_bt_user_settings SET last_modified = ". TIMENOW ." WHERE user_id = $user_id LIMIT 1");
 	}
