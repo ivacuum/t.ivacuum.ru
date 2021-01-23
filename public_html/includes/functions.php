@@ -1441,7 +1441,7 @@ function phpbb_ltrim($str, $charlist = false)
 	// php version < 4.1.0
 	if ((int) $php_version[0] < 4 || ((int) $php_version[0] == 4 && (int) $php_version[1] < 1))
 	{
-		while ($str{0} == $charlist)
+		while ($str[0] == $charlist)
 		{
 			$str = substr($str, 1);
 		}
@@ -1467,7 +1467,7 @@ function phpbb_rtrim($str, $charlist = false)
 	// php version < 4.1.0
 	if ((int) $php_version[0] < 4 || ((int) $php_version[0] == 4 && (int) $php_version[1] < 1))
 	{
-		while ($str{strlen($str)-1} == $charlist)
+		while ($str[strlen($str)-1] == $charlist)
 		{
 			$str = substr($str, 0, strlen($str)-1);
 		}
