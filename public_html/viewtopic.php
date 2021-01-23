@@ -173,7 +173,7 @@ if ($t_data['topic_attachment'])
 }
 
 // Find newest post
-if (($next_topic_id || @$_GET['view'] === 'newest') && !IS_GUEST && $topic_id)
+if (($next_topic_id || (isset($_GET['view']) && $_GET['view'] === 'newest')) && !IS_GUEST && $topic_id)
 {
 	$post_time = 'post_time >= '. get_last_read($topic_id, $forum_id);
 	$post_id_altern = ($next_topic_id) ? '' : ' OR post_id = '. $t_data['topic_last_post_id'];
