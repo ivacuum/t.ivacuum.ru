@@ -17,12 +17,12 @@ $tracking_topics = get_tracks('topic');
 
 // Кол-во тем на странице
 $tor_topics_per_page = $bb_cfg['posts_per_page'];
-if( $req_tpp = abs(intval(@$_REQUEST['tpp'])) and in_array($req_tpp, $bb_cfg['allowed_posts_per_page']) )
+if( $req_tpp = abs(intval($_REQUEST['tpp'] ?? 0)) and in_array($req_tpp, $bb_cfg['allowed_posts_per_page']) )
 {
 	$tor_topics_per_page = $req_tpp;
 }
 
-$select_tpp = '';
+$select_tpp = [];
 foreach( $bb_cfg['allowed_posts_per_page'] as $tpp )
 {
 	$select_tpp[$tpp] = $tpp;
