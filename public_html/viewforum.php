@@ -237,7 +237,7 @@ $select_tpp = '';
 
 if ($is_auth['auth_mod'])
 {
-	if ($req_tpp = abs(intval(@$_REQUEST['tpp'])) AND in_array($req_tpp, $bb_cfg['allowed_topics_per_page']))
+	if ($req_tpp = abs(intval($_REQUEST['tpp'] ?? 0)) AND in_array($req_tpp, $bb_cfg['allowed_topics_per_page']))
 	{
 		$topics_per_page = $req_tpp;
 	}
