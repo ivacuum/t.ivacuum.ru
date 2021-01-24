@@ -834,14 +834,14 @@ function bdecode_r ($str, &$pos)
 	{
 		return null;
 	}
-	else if ($str{$pos} == 'i')
+	else if ($str[$pos] == 'i')
 	{
 		$pos++;
 		$numlen = strspn($str, '-0123456789', $pos);
 		$spos = $pos;
 		$pos += $numlen;
 
-		if (($pos >= $strlen) || ($str{$pos} != 'e'))
+		if (($pos >= $strlen) || ($str[$pos] != 'e'))
 		{
 			return null;
 		}
@@ -851,14 +851,14 @@ function bdecode_r ($str, &$pos)
 			return floatval(substr($str, $spos, $numlen));
 		}
 	}
-	else if ($str{$pos} == 'd')
+	else if ($str[$pos] == 'd')
 	{
 		$pos++;
 		$ret = array();
 
 		while ($pos < $strlen)
 		{
-			if ($str{$pos} == 'e')
+			if ($str[$pos] == 'e')
 			{
 				$pos++;
 				return $ret;
@@ -888,14 +888,14 @@ function bdecode_r ($str, &$pos)
 		}
 		return null;
 	}
-	else if ($str{$pos} == 'l')
+	else if ($str[$pos] == 'l')
 	{
 		$pos++;
 		$ret = array();
 
 		while ($pos < $strlen)
 		{
-			if ($str{$pos} == 'e')
+			if ($str[$pos] == 'e')
 			{
 				$pos++;
 				return $ret;
@@ -922,7 +922,7 @@ function bdecode_r ($str, &$pos)
 		$spos = $pos;
 		$pos += $numlen;
 
-		if (($pos >= $strlen) || ($str{$pos} != ':'))
+		if (($pos >= $strlen) || ($str[$pos] != ':'))
 		{
 			return null;
 		}
