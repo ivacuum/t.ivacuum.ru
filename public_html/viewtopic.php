@@ -71,7 +71,7 @@ if ($topic_id === 21454)
 
 if ($userdata['session_admin'])
 {
-	if ($req_ppp = abs(intval(@$_REQUEST['ppp'])) AND in_array($req_ppp, $bb_cfg['allowed_posts_per_page']))
+	if ($req_ppp = abs(intval($_REQUEST['ppp'] ?? 0)) AND in_array($req_ppp, $bb_cfg['allowed_posts_per_page']))
 	{
 		$posts_per_page = $req_ppp;
 	}
