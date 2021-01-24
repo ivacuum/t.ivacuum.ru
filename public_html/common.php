@@ -137,7 +137,7 @@ function encode_ip($ip)
 
 function decode_ip($ip)
 {
-	return long2ip("0x{$ip}");
+	return long2ip(hexdec("0x{$ip}"));
 }
 
 function verify_ip($ip)
