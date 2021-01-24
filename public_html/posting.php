@@ -9,19 +9,19 @@ $page_cfg['load_tpl_vars'] = array(
 	'post_icons',
 );
 
-$submit      = (bool) @$_REQUEST['post'];
-$preview     = (bool) @$_REQUEST['preview'];
-$delete      = (bool) @$_REQUEST['delete'];
-$poll_delete = (bool) @$_REQUEST['poll_delete'];
-$poll_add    = (bool) @$_REQUEST['add_poll_option'];
-$poll_edit   = (bool) @$_REQUEST['edit_poll_option'];
-$topic_tpl   = (bool) @$_REQUEST['tpl'];
+$submit      = (bool) ($_REQUEST['post'] ?? false);
+$preview     = (bool) ($_REQUEST['preview'] ?? false);
+$delete      = (bool) ($_REQUEST['delete'] ?? false);
+$poll_delete = (bool) ($_REQUEST['poll_delete'] ?? false);
+$poll_add    = (bool) ($_REQUEST['add_poll_option'] ?? false);
+$poll_edit   = (bool) ($_REQUEST['edit_poll_option'] ?? false);
+$topic_tpl   = (bool) ($_REQUEST['tpl'] ?? false);
 
-$forum_id = (int) @$_REQUEST[POST_FORUM_URL];
-$topic_id = (int) @$_REQUEST[POST_TOPIC_URL];
-$post_id  = (int) @$_REQUEST[POST_POST_URL];
+$forum_id = (int) ($_REQUEST[POST_FORUM_URL] ?? 0);
+$topic_id = (int) ($_REQUEST[POST_TOPIC_URL] ?? 0);
+$post_id  = (int) ($_REQUEST[POST_POST_URL] ?? 0);
 
-$mode = (string) @$_REQUEST['mode'];
+$mode = (string) ($_REQUEST['mode'] ?? '');
 
 $confirm = isset($_POST['confirm']);
 
@@ -31,7 +31,7 @@ $refresh = $preview || $poll_add || $poll_edit || $poll_delete;
 $orig_word = $replacement_word = array();
 
 // Set topic type
-$topic_type = (@$_POST['topictype']) ? (int) $_POST['topictype'] : POST_NORMAL;
+$topic_type = isset($_POST['topictype']) ? (int) $_POST['topictype'] : POST_NORMAL;
 $topic_type = in_array($topic_type, array(POST_NORMAL, POST_STICKY, POST_ANNOUNCE)) ? $topic_type : POST_NORMAL;
 
 if ($mode == 'smilies')
