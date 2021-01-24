@@ -125,7 +125,7 @@ $by_letter = 'all';
 $letters_range = 'a-zа-я';
 $select_letter = $letter_sql = '';
 
-$by_letter_req = (@$_REQUEST['letter']) ? strtolower(trim($_REQUEST['letter'])) : false;
+$by_letter_req = isset($_REQUEST['letter']) ? strtolower(trim($_REQUEST['letter'])) : false;
 
 if ($by_letter_req)
 {
