@@ -612,7 +612,7 @@ function send_torrent_with_passkey ($filename)
 	// Add comment
 	$comment = '';
 
-	$orig_com = (@$tor['comment']) ? $tor['comment'] : '';
+	$orig_com = $tor['comment'] ?? '';
 
 	if ($board_config['bt_add_comment'])
 	{
