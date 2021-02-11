@@ -89,7 +89,7 @@ define('COOKIE_PERSIST', TIMENOW + 31536000);
 define('PAGE_HEADER', SITE_DIR . 'includes/page_header.php');
 define('PAGE_FOOTER', SITE_DIR . 'includes/page_footer.php');
 
-define('USER_AGENT', @strtolower($_SERVER['HTTP_USER_AGENT']));
+define('USER_AGENT', strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''));
 define('UA_OPERA',   strpos(USER_AGENT, 'pera'));
 define('UA_IE',      strpos(USER_AGENT, 'msie'));
 
