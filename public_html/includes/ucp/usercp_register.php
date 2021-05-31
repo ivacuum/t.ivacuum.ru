@@ -102,7 +102,7 @@ if (
 
 	$trim_var_list = array('cur_password' => 'cur_password', 'new_password' => 'new_password', 'password_confirm' => 'password_confirm', 'signature' => 'signature');
 
-	while( list($var, $param) = @each($trim_var_list) )
+	foreach ($trim_var_list as $var => $param)
 	{
 		$$var = '';
 		if ( !empty($_POST[$param]) )
