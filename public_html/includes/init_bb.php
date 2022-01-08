@@ -135,21 +135,6 @@ function bb_exit($output = '')
 {
 	global $app;
 
-	if ($app['profiler']->is_enabled() && $app['profiler']->is_permitted() && !$app['request']->is_ajax && !defined('IN_SQL_ERROR'))
-	{
-		$app['template']->add_filter('declension', [$app['user'], 'plural'])
-			->add_filter('duration', [$app['user'], 'create_time'])
-			->add_filter('humn_size', [$app['user'], 'humn_size'])
-			->add_filter('i18n', [$app['user'], 'lang'])
-			->add_filter('number_format', [$app['user'], 'num_format']);
-
-		$app['user']->load_language('profiler');
-		$app['template']->assign($app['profiler']->get_stats());
-		$app['template']->display('profiler.html');
-	}
-
-	// $app['profiler']->send_stats($app['request']->hostname, $app['request']->url);
-
 	if ($output)
 	{
 		echo $output;
@@ -241,6 +226,11 @@ switch( $bb_cfg['datastore_type'] )
 		$datastore = new datastore_memcached($bb_cfg['memcached']);
 
 	break;
+	case 'redis':
+
+		$datastore = new datastore_redis($bb_cfg['redis']);
+
+	break;
 	case 'apc':
 
 		$datastore = new datastore_apc($bb_cfg['apc_prefix']);
@@ -253,7 +243,7 @@ switch( $bb_cfg['datastore_type'] )
 	break;
 	default:
 
-		$datastore = new datastore_mysql();
+		$datastore = new datastore_common();
 }
 
 // !!! Temporarily (??) 'cat_forums' always enqueued

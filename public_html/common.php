@@ -7,13 +7,14 @@ if (PHP_SAPI == 'cli')
 	$_SERVER['SERVER_NAME'] = 't.ivacuum.ru';
 }
 
+require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../fw.php';
 
 define('TIMESTART', microtime(true));
 define('TIMENOW', time());
 
 $s_provider  = isset($_SERVER['HTTP_PROVIDER']) ? $_SERVER['HTTP_PROVIDER'] : 'internet';
-$static_path = $s_provider == 'local' ? '//0.ivacuum.org' : '//ivacuum.org';
+$static_path = 'https://ivacuum.org';
 
 // Get initial config
 require SITE_DIR . '../config_tracker.php';
@@ -152,7 +153,7 @@ function str_compact($str)
 
 function make_rand_str($length = 10)
 {
-	return substr(str_shuffle(preg_replace('#[^0-9a-zA-Z]#', '', password_hash(uniqid(mt_rand(), true), PASSWORD_DEFAULT))), 0, $length);
+	return substr(str_shuffle(preg_replace('#[^0-9a-zA-Z]#', '', sha1(uniqid(mt_rand(), true)))), 0, $length);
 }
 
 // bencode: based on OpenTracker [http://whitsoftdev.com/opentracker]

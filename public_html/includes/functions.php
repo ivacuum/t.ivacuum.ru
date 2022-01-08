@@ -324,13 +324,17 @@ class datastore_memcached extends datastore_common
 		}
 
 		$this->cfg = $cfg;
-		$this->memcache = new Memcached('tracker');
-        $this->memcache->addServer($this->cfg['host'], $this->cfg['port']);
+		$this->memcache = new Memcached;
+		$this->memcache->addServer($this->cfg['host'], $this->cfg['port']);
 	}
 
 	function store($title, $var, $ttl = 2592000)
 	{
 		$this->data[$title] = $var;
+
+		if ($ttl > 0) {
+			$ttl += time();
+		}
 
 		if( !$this->memcache->replace($this->prefix . $title, $var, $ttl) )
 		{
@@ -366,6 +370,69 @@ class datastore_memcached extends datastore_common
 	{
 		return class_exists('Memcached');
 	}
+}
+
+class datastore_redis extends datastore_common
+{
+    var $redis;
+    var $prefix = '';
+
+    function __construct($cfg)
+    {
+        if( $cfg['prefix'] )
+        {
+            $this->prefix = $cfg['prefix'] . '_ds_';
+        }
+
+        $this->redis = new \Predis\Client($cfg);
+    }
+
+    function store($title, $var, $ttl = 2592000)
+    {
+        $this->data[$title] = $var;
+
+        return $this->redis->setex($this->prefix . $title, $ttl, $this->serialize($var));
+    }
+
+    function clean()
+    {
+        foreach( $this->known_items as $title => $script_name )
+        {
+            $this->redis->del($this->prefix . $title);
+        }
+    }
+
+    function _fetch_from_store()
+    {
+        if( !$items = $this->queued_items )
+        {
+            $src = $this->_debug_find_caller('enqueue');
+            trigger_error("Datastore: item already enqueued [$src]", E_USER_ERROR);
+        }
+
+        foreach( $items as $item )
+        {
+            $value = $this->redis->get($this->prefix . $item);
+
+            $this->data[$item] = ! is_null($value) ? $this->unserialize($value) : null;
+        }
+    }
+
+    private function serialize($value)
+    {
+        return is_numeric($value)
+            && ! in_array($value, [INF, -INF])
+            && ! is_nan($value)
+                ? $value
+                : serialize($value);
+    }
+
+    private function unserialize($value)
+    {
+        return is_numeric($value)
+            ? $value
+            : unserialize($value);
+    }
 }
 
 define('BF_AUTH_MOD', bit2dec(AUTH_MOD));
@@ -574,9 +641,9 @@ function auth($type, $forum_id, $ug_data, $f_access = array(), $group_perm = UG_
 		}
 		else
 		{
-			if( !$is_guest && !$is_admin )
+			if( !$is_guest && !$is_admin && $forum_match_sql )
 			{
-				$sql = "SELECT SQL_CACHE aa.forum_id, aa.forum_perm
+				$sql = "SELECT aa.forum_id, aa.forum_perm
 					FROM bb_auth_access_snap aa
 					WHERE aa.user_id = ". (int) $ug_data['user_id'] ."
 						$forum_match_sql";
@@ -678,7 +745,7 @@ class Date_Delta
 	var $format    = '';
 
 	// Creates new object.
-	function Date_Delta()
+	function __construct()
 	{
 		global $lang;
 
@@ -837,7 +904,7 @@ class html_common
 	var $rand_str   = '';
 	var $rand_num   = '';
 
-	function html_common()
+	function __construct()
 	{
 		$this->rand_str = make_rand_str(6);
 		$this->rand_num = mt_rand(100000, 10000000);
@@ -2536,7 +2603,7 @@ function num_format($value)
 *
 * @param	string			Фраза во множественном числе
 */
-function plural($n = 0, $forms)
+function plural($n, $forms)
 {
 	if( !$forms )
 	{

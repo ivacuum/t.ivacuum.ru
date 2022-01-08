@@ -328,9 +328,14 @@ switch( $bb_cfg['datastore_type'] )
 		$datastore = new datastore_memcached($bb_cfg['memcached']);
 
 	break;
+	case 'redis':
+
+		$datastore = new datastore_redis($bb_cfg['redis']);
+
+	break;
 	default:
 
-		$datastore = new datastore_mysql();
+		$datastore = new datastore_common();
 }
 
 // !!! Temporarily (??) 'cat_forums' always enqueued
