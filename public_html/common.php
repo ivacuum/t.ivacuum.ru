@@ -8,6 +8,10 @@ if (PHP_SAPI == 'cli')
 }
 
 require __DIR__ . '/../vendor/autoload.php';
+
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
+
 require __DIR__ . '/../fw.php';
 
 define('TIMESTART', microtime(true));

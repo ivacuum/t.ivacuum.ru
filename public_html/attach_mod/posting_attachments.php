@@ -36,7 +36,7 @@ class attach_parent
 	/**
 	* Constructor
 	*/
-	function attach_parent()
+	function __construct()
 	{
 		$this->add_attachment_body = get_var('add_attachment_body', 0);
 		$this->posted_attachments_body = get_var('posted_attachments_body', 0);
@@ -1347,9 +1347,9 @@ class attach_posting extends attach_parent
 	/**
 	* Constructor
 	*/
-	function attach_posting()
+	function __construct()
 	{
-		$this->attach_parent();
+		parent::__construct();
 		$this->page = 0;
 	}
 

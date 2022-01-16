@@ -144,7 +144,7 @@ function bb_exit($output = '')
 }
 
 // Exit if server overloaded
-if (!(defined('IN_PROFILE') || defined('IN_LOGIN') || defined('IN_ADMIN') || defined('IN_AJAX')) && SITE_DIR == '/srv/www/vhosts/t.ivacuum.ru/public_html/')
+if (!(defined('IN_PROFILE') || defined('IN_LOGIN') || defined('IN_ADMIN') || defined('IN_AJAX')))
 {
 	if( $bb_cfg['max_srv_load'] && empty($_POST['message']) && !empty($_COOKIE[COOKIE_LOAD]) && LOADAVG )
 	{
@@ -169,7 +169,11 @@ function prn_r($var, $title = '', $print = true)
 
 function htmlCHR($txt, $replace_space = false)
 {
-	return ($replace_space) ? str_replace(' ', '&nbsp;', htmlspecialchars($txt, ENT_QUOTES)) : htmlspecialchars($txt, ENT_QUOTES);
+    $txt ??= '';
+
+	return ($replace_space)
+        ? str_replace(' ', '&nbsp;', htmlspecialchars($txt, ENT_QUOTES))
+        : htmlspecialchars($txt, ENT_QUOTES);
 }
 
 function make_url($path)

@@ -273,6 +273,8 @@ function prn_r($var, $title = '', $print = true)
 
 function htmlCHR($txt, $replace_space = false)
 {
+    $txt ??= '';
+
 	return ($replace_space) ? str_replace(' ', '&nbsp;', htmlspecialchars($txt, ENT_QUOTES)) : htmlspecialchars($txt, ENT_QUOTES);
 }
 

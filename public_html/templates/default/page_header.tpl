@@ -143,7 +143,7 @@ $(document).ready(function() {
 		  $(this).attr('href', $(this).attr('href').replace('http://t.internet.ivacuum.ru', 'http://t.ivacuum.ru'));
 	  })
   } else {
-	  $("img[src^='//0.ivacuum.org'], img[src^='http://t.ivacuum.ru']").each(function() {
+	  $("img[src*='//0.ivacuum.org'], img[src^='http://t.ivacuum.ru']").each(function() {
 		  $(this).attr('src', $(this).attr('src').replace('//0.ivacuum.org', '//ivacuum.org').replace('http://t.ivacuum.ru', 'http://t.internet.ivacuum.ru'));
 	  });
 
@@ -282,6 +282,7 @@ body { background: #E3E3E3; min-width: 10px; }
 <div id="page_header">
 
 <!--main_nav-->
+<!-- IF LOGGED_IN -->
 <div class="top-bar shadow-light<!-- IF HAVE_NEW_PM or HAVE_UNREAD_PM --> new-pm<!-- ENDIF -->" id="main-nav">
 	<table width="100%" cellpadding="0" cellspacing="0">
 	<tr>
@@ -292,6 +293,7 @@ body { background: #E3E3E3; min-width: 10px; }
 			<a href="viewforum.php?f=4"><img src="{STATIC_PATH}/i/_/question_balloon.png" alt=""> Помощь</a>
 			<a href="{U_GROUP_CP}"><img src="{STATIC_PATH}/i/_/users.png" alt=""> {L_USERGROUPS}</a>
 			<a href="{U_MEMBERLIST}"><img src="{STATIC_PATH}/i/_/cards_address.png" alt=""> {L_MEMBERLIST}</a>
+			<a href="https://vacuum.name/torrents" style="color: #d60;"><img src="{STATIC_PATH}/i/_/new-text.png" alt="" width="16" height="16"> Новый трекер</a>
 		</td>
 		<!-- IF LOGGED_IN -->
 		<td class="tRight">
@@ -301,9 +303,10 @@ body { background: #E3E3E3; min-width: 10px; }
 	</tr>
 	</table>
 </div>
+<!-- ENDIF -->
 <!--/main_nav-->
 
-<div id="logo" style="float: left;"><a href="{U_INDEX}" title="Перейти на главную страницу"><!--<img src="{STATIC_PATH}/i/t/images/logo.png" alt="" width="690" height="100">--><img src="{STATIC_PATH}/i/t/images/logo_snow.png" alt="" width="689" height="100"></a></div>
+<div id="logo" style="float: left;"><a href="{U_INDEX}" title="Перейти на главную страницу"><img src="{STATIC_PATH}/i/t/images/logo.png" alt="" width="690" height="100"><!--<img src="{STATIC_PATH}/i/t/images/logo_snow.png" alt="" width="689" height="100">--></a></div>
 <!--
 <div style="float: right; margin-right: 0.3em;"><a href="https://kaluga.beeline.ru/login/"><img src="{STATIC_PATH}/i/t/images/beeline.png" alt="Трекер расположен в локальной сети Билайн-Калуга" title="Трекер расположен в локальной сети Билайн-Калуга" width="128" height="100"></a></div>
 -->
@@ -362,10 +365,10 @@ body { background: #E3E3E3; min-width: 10px; }
 <table width="100%" cellpadding="0" cellspacing="0">
 	<tr>
 		<td class="tCenter pad_2">
-			<a class="btn btn-orange btn-active" href="{U_REGISTER}" id="register_link"><b>{L_REGISTER}</b></a> &nbsp;
+			<!--<a class="btn btn-orange btn-active" href="{U_REGISTER}" id="register_link"><b>{L_REGISTER}</b></a> &nbsp;-->
 			<form action="{S_LOGIN_ACTION}" method="post">
-			{L_USERNAME}: <input type="text" name="login_username" size="12" tabindex="1" accesskey="l">
-			{L_PASSWORD}: <input type="password" name="login_password" size="12" tabindex="2">
+			<input type="text" name="login_username" size="12" tabindex="1" accesskey="l" placeholder="{L_USERNAME}">
+			<input type="password" name="login_password" size="12" tabindex="2" placeholder="{L_PASSWORD}">
 			<label title="{L_AUTO_LOGIN}"><input type="checkbox" name="autologin" value="1" tabindex="3"> {L_REMEMBER}</label>&nbsp;
 			<input class="btn btn-small" type="submit" name="login" value="{L_LOGIN}" tabindex="4">
 			</form>
@@ -448,12 +451,14 @@ var display_forecast = 'none';
 </div>
 <!-- ENDIF -->
 
+<!--
 <h3 rel="toggle_feedback" style="cursor: pointer;">Обратная связь</h3>
 <div id="feedback" class="med" style="line-height: 175%;">
 	<img src="{STATIC_PATH}/i/_/question_balloon.png" alt="" style="vertical-align: text-top;"> <a href="mailto:support@t.ivacuum.ru" title="Написать письмо"><b>Задать вопрос</b></a><br>
 	<img src="{STATIC_PATH}/i/_/light.png" alt="" style="vertical-align: text-top;"> <a href="mailto:dev@t.ivacuum.ru" title="Написать письмо"><b>Предложения</b></a><br>
 	<img src="{STATIC_PATH}/i/_/bug.png" alt="" style="vertical-align: text-top;"> <a href="mailto:bugs@t.ivacuum.ru" title="Написать письмо"><b>Сообщить об ошибке</b></a>
 </div>
+-->
 
 <h3 rel="toggle_forecast" style="cursor: pointer;">Прогноз погоды</h3>
 <div id="forecast" style="display: none;">
@@ -505,6 +510,7 @@ var display_forecast = 'none';
 <!-- ENDIF -->
 </div>
 
+<!-- IF LOGGED_IN -->
 <!-- IF TOP_RELEASERS -->
 <h3 rel="toggle_top_releasers" style="cursor: pointer;">Топ релизеров</h3>
 <table cellpadding="2" cellspacing="0" id="top_releasers" style="display: none;" width="100%">
@@ -517,13 +523,16 @@ var display_forecast = 'none';
 <table cellpadding="2" cellspacing="0" id="top_share" style="display: none;" width="100%">
 </table>
 <!-- ENDIF -->
+<!-- ENDIF -->
 
+<!-- IF LOGGED_IN -->
 <!-- IF LAST_ADDED_ON -->
 <h3>Новые раздачи</h3>
 <!-- BEGIN t_last_added -->
 <span class="med"><img src="{STATIC_PATH}/i/_/{t_last_added.IMAGE}.png" alt="" style="vertical-align: text-top;"> <a href="viewtopic.php?t={t_last_added.TOPIC_ID}" class="med" title="{t_last_added.TITLE}">{t_last_added.SHORT_TITLE}</a><br><img src="{STATIC_PATH}/i/_/folder_open.png" alt="" style="vertical-align: text-top;"> <a href="viewforum.php?f={t_last_added.FORUM_ID}">{t_last_added.FORUM}</a><br><img src="{STATIC_PATH}/i/_/card_address.png" alt="Автор" title="Автор" style="vertical-align: text-top;"> <a href="profile.php?mode=viewprofile&u={t_last_added.POSTER_ID}">{t_last_added.POSTER}</a><br><img src="{STATIC_PATH}/i/_/clock_select.png" alt="Релиз" title="Релиз" style="vertical-align: text-top;"> {t_last_added.TIME} назад<br><img src="{STATIC_PATH}/i/tracker/icon_up.gif" alt="Сиды" title="Сиды" style="vertical-align: text-top;"> {t_last_added.SEEDERS} &nbsp;<img src="{STATIC_PATH}/i/tracker/icon_down.gif" alt="Личи" title="Личи" style="vertical-align: text-top;"> {t_last_added.LEECHERS}<!-- IF t_last_added.SPEED gt 0 --> &nbsp;({t_last_added.SPEED})<!-- ENDIF --><!-- IF LOGGED_IN --> &nbsp;<a href="{t_last_added.U_DOWNLOAD}"><img src="{STATIC_PATH}/i/_/drive_download.png" alt="" style="vertical-align: text-top;"></a><!-- ENDIF --></span>
 <!-- IF t_last_added.S_ROW_COUNT ne ( t_last_added.S_NUM_ROWS - 1 ) --><hr class="dashed" style="width: 99%;"><!-- ENDIF -->
 <!-- END t_last_added -->
+<!-- ENDIF -->
 <!-- ENDIF -->
 
 <h3>BitTorrent клиенты</h3>
@@ -543,6 +552,7 @@ var display_forecast = 'none';
 <!--main_content-->
 <td id="main_content">
 <div id="main_content_wrap">
+<!-- IF LOGGED_IN -->
 <!-- IF SHOW_LATEST_NEWS -->
 <!--latest_news-->
 <div id="latest_news">
@@ -560,6 +570,7 @@ var display_forecast = 'none';
 </table></td></tr></table></div><!--/latest_news-->
 <br style="clear: both;">
 <!-- ENDIF / SHOW_LATEST_NEWS -->
+<!-- ENDIF -->
 <!-- ENDIF / COMMON_HEADER -->
 
 <!-- IF ERROR_MESSAGE -->

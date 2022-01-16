@@ -214,12 +214,14 @@ function set_hid_chbox (id)
 
 			<!-- IF postrow.MOD_CHECKBOX --><input type="checkbox" class="select_post" onclick="set_hid_chbox('{postrow.POST_ID}');"><!-- ENDIF -->
 
+      <!-- IF LOGGED_IN -->
 			<p style="float: right; padding: 3px 0;">
 				<!-- IF postrow.QUOTE --><a class="btn btn-icons" href="{QUOTE_URL}{postrow.POST_ID}"><img src="{STATIC_PATH}/i/_/quill.png" alt="" />Ответить</a><!-- ENDIF -->
 				<!-- IF postrow.EDIT --><a class="btn btn-orange btn-icons" href="{EDIT_POST_URL}{postrow.POST_ID}"><img src="{STATIC_PATH}/i/_/pencil.png" alt="" />Редактировать</a><!-- ENDIF -->
 				<!-- IF postrow.DELETE --><a class="btn btn-negative btn-icons" href="{DELETE_POST_URL}{postrow.POST_ID}"><img src="{STATIC_PATH}/i/_/cross_script.png" alt="" />Удалить</a><!-- ENDIF -->
 				<!-- IF postrow.IP --><a class="btn btn-icons" href="{IP_POST_URL}{postrow.POST_ID}&amp;t={TOPIC_ID}"><img src="{STATIC_PATH}/i/_/network.png" alt="" />IP</a><!-- ENDIF -->
 			</p>
+      <!-- ENDIF -->
 			<div class="clear"></div>
 		</div>
 

@@ -29,25 +29,38 @@ $online = $online_short = array('userlist' => '');
 
 $sql = '
 	SELECT
+		COUNT(DISTINCT session_ip) AS ips
+	FROM
+		bb_sessions
+	WHERE
+		session_time > ' . $time_online . '
+	AND
+	    session_logged_in = 0';
+$result = $db->sql_query($sql);
+
+while ($u = $db->sql_fetchrow($result)) {
+    $guests_online = $u['ips'];
+    $users_cnt['guest'] = $guests_online;
+}
+
+$sql = '
+	SELECT
 		u.username,
 		u.user_id,
 		u.user_allow_viewonline,
 		u.user_level,
 		u.ignore_srv_load,
 		s.session_logged_in,
-		s.session_ip,
-		(s.session_time - s.session_start) AS ses_len,
-		COUNT(s.session_id) AS sessions,
-		COUNT(DISTINCT s.session_ip) AS ips
+		s.session_ip
 	FROM
 		bb_sessions s,
 		bb_users u
 	WHERE
 		s.session_time > ' . $time_online . '
 	AND
+	    s.session_logged_in = 1
+	AND
 		u.user_id = s.session_user_id
-	GROUP BY
-		s.session_user_id
 	ORDER BY
 		u.username';
 $result = $db->sql_query($sql);

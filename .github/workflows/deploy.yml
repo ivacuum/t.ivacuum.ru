@@ -1,0 +1,38 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency: master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/checkout@v2
+        with:
+          path: .ansible
+          ssh-key: ${{ secrets.ANSIBLE_PRIVATE_KEY }}
+          repository: ivacuum/ansible
+
+      - name: Archive
+        run: |
+          tar --exclude ./.ansible \
+            --exclude ./.git \
+            --exclude ./.github \
+            --exclude ./vendor \
+            -cf deploy.tar .
+
+      - name: ansible
+        uses: dawidd6/action-ansible-playbook@3c534b3ba0bcbbee2b13fb45226f71acbaca2a76
+        with:
+          key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+          playbook: t.ivacuum.ru.yml
+          directory: .ansible
+          options: |
+            -e workspace=${{ github.workspace }}

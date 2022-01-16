@@ -64,7 +64,7 @@ class ajax_common
 	/**
 	*  Constructor
 	*/
-	function ajax_common()
+	function __construct()
 	{
 		ob_start(array(&$this, 'ob_handler'));
 		header('Content-Type: text/plain');

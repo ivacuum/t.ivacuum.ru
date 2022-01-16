@@ -1,16 +1,8 @@
 /.idea
 /node_modules
-/public/build
-/public_html/ajax/html
-/public_html/cache
-/public_html/images
-/public_html/log
-/resources/assets/bower
 /vendor
 /_ide_helper.php
 /.phpstorm.meta.php
-/config.php
-/config_tracker.php
 .DS_Store
 .env
 .tm_properties

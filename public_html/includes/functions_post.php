@@ -662,7 +662,7 @@ function generate_smilies($mode)
 		$user->session_start();
 	}
 
-	$sql = "SELECT SQL_CACHE emoticon, code, smile_url
+	$sql = "SELECT emoticon, code, smile_url
 		FROM bb_smilies
 		ORDER BY smilies_id";
 	if ($result = $db->sql_query($sql))

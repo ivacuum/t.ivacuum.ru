@@ -8,7 +8,7 @@ $template_name = basename(dirname(__FILE__));
 if( !$static_path )
 {
 	$s_provider  = isset($_SERVER['HTTP_PROVIDER']) ? $_SERVER['HTTP_PROVIDER'] : 'internet';
-	$static_path = $s_provider == 'local' ? '//0.ivacuum.org' : '//ivacuum.org';
+	$static_path = 'https://ivacuum.org';
 }
 
 //$_main = SITE_DIR . 'templates/'. $template_name .'/images/';

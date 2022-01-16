@@ -39,7 +39,7 @@ class sql_db
 	/**
 	* Constructor
 	*/
-	function sql_db ($cfg)
+	function __construct($cfg)
 	{
 		$this->dbg_enabled = false;
 		$this->do_explain  = ($this->dbg_enabled && !empty($_COOKIE['explain']));

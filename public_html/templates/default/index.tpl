@@ -118,6 +118,7 @@
 
 <br clear="all" />
 
+<!-- IF LOGGED_IN -->
 <div class="whosonline shadow-light">
 	<h2><a href="{U_VIEWONLINE}">{L_WHOSONLINE}</a></h2>
 	<table cellpadding="4" cellspacing="0" width="100%">
@@ -170,6 +171,7 @@
 </div>
 
 <br />
+<!-- ENDIF -->
 
 <div class="spacer_4"></div>
 
@@ -188,7 +190,16 @@
 
 </div><!--/bottom_info-->
 
+<br>
+
 </div><!--/forums_list_wrap-->
+
+<!-- IF LOGGED_IN -->
+<!-- ELSE -->
+<div style="text-align: center;">
+  <a class="btn btn-big btn-orange btn-active" href="https://vacuum.name/torrents">Перейти на новый трекер</a>
+</div>
+<!-- ENDIF -->
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -258,7 +269,7 @@ $(document).ready(function() {
       $('#top_share').slideToggle('slow');
     }
   });
-  
+
   $('h3[rel="toggle_ratio"]').bind('click', function() {
     $('#ratio').slideToggle('slow');
 
@@ -311,7 +322,7 @@ $(document).ready(function() {
       display_chat = ( display_chat == 'block' ) ? 'none' : 'block';
       localStorage.setItem('chat', display_chat);
     }
-	
+
 	if( display_chat == 'block' ) {
 		ajax.chat_message(2);
 	} else {
@@ -339,26 +350,26 @@ $(document).ready(function() {
 
     $('#users_today').slideToggle('slow');
   });
-  
+
 	<!-- IF CHAT_ALLOWED -->
 	<!-- IF SHOW_MODER_OPTIONS -->
 	ajax.chat_ban = function(id) {
 		ajax.exec({ action: 'chat_ban', id: id });
 	};
-	
+
 	ajax.callback.chat_ban = function(response) { };
-		
+
 	ajax.chat_delete = function(id) {
 		ajax.exec({ action: 'chat_delete', id: id });
 	};
-	
+
 	ajax.callback.chat_delete = function(response) {
 		if( response.html == 'OK' ) {
 			$('.chat-comment[data-id=' + response.id + '] .chat-text').html('<i>сообщение скрыто</i>');
 		}
 	};
 	<!-- ENDIF -->
-	
+
 	ajax.chat_message = function(mode) {
 		ajax.exec({ action: 'chat_message', message: ((mode == 1) ? $('#message').val() : '') });
 		clearInterval(chat_refresh);
@@ -367,13 +378,13 @@ $(document).ready(function() {
 
 	ajax.callback.chat_message = function(response) {
 		$('#chat_messages').show().html(response.html);
-		
+
 		$('.chat-text').each(function() {
 			if( $(this).text().match('{USERNAME_ESCAPED}') ) {
 				$(this).addClass('chat-mention');
 			}
 		});
-		
+
 	    if (!S_LOCAL) {
 	      $('img.smile', '#chat_messages').each(function() { $(this).attr('src', $(this).attr('src').replace('static.local.ivacuum.ru', 'ivacuum.org').replace('0.ivacuum.org', 'ivacuum.org')); });
 				$("a[href^='http://t.ivacuum.ru']", '#chat_messages').each(function() {
@@ -387,43 +398,43 @@ $(document).ready(function() {
 		$('#message').attr('value', '').focus();
 		return false;
 	});
-	
+
 	$('#chat_smilies').bind('click', function() {
 		window.open('/posting.php?mode=smilies', '_phpbbsmilies', 'height=540, resizable=yes, scrollbars=yes ,width=620');
 		return false;
 	});
-	
+
 	$('.chat-nickbuffer').live('click', function() {
 		$('#message').attr('value', $('.chat-nick', this).text() + ', ' + $('#message').val()).focus();
 		return false;
 	});
-	
+
 	<!-- IF SHOW_MODER_OPTIONS -->
 	$('.chat-ban').live('click', function() {
 		if( confirm('Действительно забанить участника?') ) {
 			ajax.chat_ban($(this).data('id'));
 		}
-		
+
 		return false;
 	});
-	
+
 	$('.chat-delete').live('click', function() {
 		if( confirm('Действительно скрыть сообщение?') ) {
 			ajax.chat_delete($(this).data('id'));
 		}
-		
+
 		return false;
 	});
-	
+
 	$('.chat-comment').live('mouseenter', function() {
 		$('.chat-ban, .chat-delete, .chat-profile', this).toggle();
 	});
-	
+
 	$('.chat-comment').live('mouseleave', function() {
 		$('.chat-ban, .chat-delete, .chat-profile', this).toggle();
 	});
 	<!-- ENDIF -->
-		
+
 	if( display_chat == 'block' ) {
 		$('#message').width($('#chat').width() - 255);
 		ajax.chat_message(2);

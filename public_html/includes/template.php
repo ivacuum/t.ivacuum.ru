@@ -94,6 +94,7 @@ class Template {
 
 	// php extension. will be replaced by $phpEx in Template() function unless you disable it there
 	var $php = 'php';
+    var $cached_tpl_ext = 'php';
 
 	// eXtreme Styles variables
 	var $xs_started = 0;
@@ -116,10 +117,10 @@ class Template {
 	/**
 	 * Constructor. Installs XS mod on first run or updates it and sets the root dir.
 	 */
-	function Template($root = '.')
+	function __construct($root = '.')
 	{
 		$this->cachedir = SITE_DIR . 'cache/';
-		
+
 		// setting pointer "vars"
 		$this->vars = &$this->_tpldata['.'][0];
 		// load configuration

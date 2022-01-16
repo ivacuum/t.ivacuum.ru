@@ -1865,7 +1865,7 @@ function obtain_word_list(&$orig_word, &$replacement_word)
 	//
 	// Define censored word matches
 	//
-	$sql = "SELECT SQL_CACHE word, replacement
+	$sql = "SELECT word, replacement
 		FROM bb_words";
 	if( !($result = $db->sql_query($sql)) )
 	{
