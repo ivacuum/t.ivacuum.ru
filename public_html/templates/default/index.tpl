@@ -197,7 +197,7 @@
 <!-- IF LOGGED_IN -->
 <!-- ELSE -->
 <div style="text-align: center;">
-  <a class="btn btn-big btn-orange btn-active" href="https://vacuum.name/torrents">Перейти на новый трекер</a>
+  <a class="btn btn-big btn-orange btn-active" href="https://vacuum.name/magnets">Перейти на новый трекер</a>
 </div>
 <!-- ENDIF -->
 

@@ -293,7 +293,7 @@ body { background: #E3E3E3; min-width: 10px; }
 			<a href="viewforum.php?f=4"><img src="{STATIC_PATH}/i/_/question_balloon.png" alt=""> Помощь</a>
 			<a href="{U_GROUP_CP}"><img src="{STATIC_PATH}/i/_/users.png" alt=""> {L_USERGROUPS}</a>
 			<a href="{U_MEMBERLIST}"><img src="{STATIC_PATH}/i/_/cards_address.png" alt=""> {L_MEMBERLIST}</a>
-			<a href="https://vacuum.name/torrents" style="color: #d60;"><img src="{STATIC_PATH}/i/_/new-text.png" alt="" width="16" height="16"> Новый трекер</a>
+			<a href="https://vacuum.name/magnets" style="color: #d60;"><img src="{STATIC_PATH}/i/_/new-text.png" alt="" width="16" height="16"> Новый трекер</a>
 		</td>
 		<!-- IF LOGGED_IN -->
 		<td class="tRight">

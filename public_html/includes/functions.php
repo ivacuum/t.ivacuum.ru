@@ -175,13 +175,6 @@ class datastore_common
 	);
 
 	/**
-	* Constructor
-	*/
-	function __construct()
-	{
-	}
-
-	/**
 	* @param  array(item1_title, item2_title...) or single item's title
 	* @param  bool
 	*/
