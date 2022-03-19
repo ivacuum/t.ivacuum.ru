@@ -10,7 +10,9 @@ if ($mode == 'register' && $bb_cfg['new_user_reg_disabled'])
 	message_die(GENERAL_MESSAGE, $lang['new_user_reg_disabled']);
 }
 
-message_die(GENERAL_MESSAGE, 'Регистрация новых пользователей закрыта');
+if ($mode == 'register') {
+    message_die(GENERAL_MESSAGE, 'Регистрация новых пользователей закрыта');
+}
 
 if( isset($_SERVER['HTTP_PROVIDER']) && $_SERVER['HTTP_PROVIDER'] != 'local' && $mode == 'register' )
 {
