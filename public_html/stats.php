@@ -4,7 +4,7 @@ define('BB_SCRIPT', 'stats');
 require 'common.php';
 
 // Session start
-$user->session_start();
+$user->session_start(array('req_login' => $bb_cfg['bt_tor_browse_only_reg']));
 
 $mode = $app['request']->variable('mode', 'peers');
 $time = $app['request']->variable('time', 'day');
