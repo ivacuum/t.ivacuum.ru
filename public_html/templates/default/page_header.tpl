@@ -377,6 +377,7 @@ body { background: #E3E3E3; min-width: 10px; }
 	</tr>
 </table>
 </div>
+<input hidden id="search-text" value="">
 <!-- ENDIF -->
 
 </div>
