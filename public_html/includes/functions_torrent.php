@@ -290,7 +290,7 @@ function tracker_register ($attach_id, $mode = '')
 	{
 		require_once SITE_DIR .'includes/torrent_announce_urls.php';
 
-		$ann = (@$tor['announce']) ? $tor['announce'] : '';
+		$ann = $tor['announce'] ?? '';
 		$announce_urls['main_url'] = $board_config['bt_announce_url'];
 
 		if (!$ann || !in_array($ann, $announce_urls))
@@ -500,7 +500,7 @@ function send_torrent_with_passkey ($filename)
 			}
 		}
 	}
-	
+
 	// Seeding torrents limit
 	if ($bb_cfg['max_seeding_torrents'] && IS_USER)
 	{
@@ -534,7 +534,7 @@ function send_torrent_with_passkey ($filename)
 	// {
 	// 	message_die(GENERAL_ERROR, 'Недостаточно таймбонусов для скачивания торрент-файла.');
 	// }
-	
+
 	$dl = $db->fetch_row("
 		SELECT dl.user_status
 		FROM bb_posts p
@@ -565,7 +565,7 @@ function send_torrent_with_passkey ($filename)
 
 	// Announce URL
 	$ann_url = $board_config['bt_announce_url'];
-	
+
 	if (isset($_SERVER['HTTP_PROVIDER']) && $_SERVER['HTTP_PROVIDER'] != 'local') {
 		$ann_url = 'http://btt.ivacuum.ru:2760/ann';
 	}
